@@ -43,11 +43,12 @@
     RECALL: 'Recall',
     SHARE: 'Share',
     'THEN → NOW': 'Then → Now',
+    WORDS: 'Words',
     TIMELINE: 'Timeline',
     MATCH: 'Match',
   };
 
-  function eyebrow(enc) {
+  function eyebrow(enc, world) {
     const bits = [];
     if (enc.boss) bits.push('Boss round');
     else bits.push(MODE_LABEL[enc.mode] || enc.mode);
@@ -59,7 +60,28 @@
       if (i) el.append(h('span', { class: 'sep', 'aria-hidden': 'true' }, '·'));
       el.append(b);
     });
+    if (world) {
+      el.append(h('span', { class: 'sep', 'aria-hidden': 'true' }, '·'), h('span', { class: 'world-tag', 'data-world': world }, world));
+    }
     return el;
+  }
+
+  // WORDS: an exact quotation, typographically distinct from our own prose.
+  // Wording is rendered untouched; the curly marks are typography only.
+  function quoteBlock(w, opts) {
+    opts = opts || {};
+    return h(
+      'figure',
+      { class: 'words' + (opts.large ? ' words--large' : '') },
+      h('blockquote', { class: 'words-text' }, '“' + w.text + '”'),
+      opts.hideSpeaker ? null : h('figcaption', { class: 'words-by' }, '— ' + (w.speaker || 'Unattributed'), w.source ? h('span', { class: 'words-src' }, ' · ' + w.source + (w.year ? ', ' + w.year : '')) : null)
+    );
+  }
+
+  // Quiet line shown the first time a quotation is found.
+  function wordsFoundLine(res, wid) {
+    if (!res || !res.wordsFound || !res.wordsFound.includes(wid)) return null;
+    return h('p', { class: 'words-found', role: 'status' }, h('span', {}, 'Words found'), h('span', { class: 'sep', 'aria-hidden': 'true' }, '·'), '+5');
   }
 
   function promptBlock(enc) {
@@ -101,14 +123,16 @@
     const actions = h('div', { class: 'actions' });
     const revealBtn = h('button', { class: 'btn btn--primary', onclick: doReveal }, 'Reveal');
     actions.append(revealBtn);
-    put(root, eyebrow(enc), h('p', { class: 'title-caps' }, enc.title), statement, hint(ctx.hint('DISCOVER')), actions);
+    put(root, eyebrow(enc, ctx.worldOf(enc)), h('p', { class: 'title-caps' }, enc.title), statement, hint(ctx.hint('DISCOVER')), actions);
 
     let revealed = false;
     function doReveal() {
       if (revealed) return;
       revealed = true;
-      ctx.answer({});
+      const res = ctx.answer({});
       const r = revealBlock(null, enc.reveal);
+      const w = item.quoteId && ctx.word(item.quoteId);
+      if (w) r.append(h('div', { class: 'words-wrap' }, wordsFoundLine(res, w.id) || h('p', { class: 'words-found' }, 'Words'), quoteBlock(w)));
       if (lens) {
         const lensWrap = h('div', { class: 'lens' });
         const lensBtn = h(
@@ -159,7 +183,14 @@
       return b;
     });
     const hintKey = enc.mode === 'SAME QUESTION' ? 'SAME QUESTION' : enc.mode === 'THEN → NOW' ? 'THEN → NOW' : 'CHOICE';
-    put(root, eyebrow(enc), promptBlock(enc), hint(ctx.hint(hintKey)), list);
+    const w = enc.quoteId && ctx.word(enc.quoteId);
+    if (w) {
+      // The quotation leads; the question sits beneath it, smaller.
+      put(root, eyebrow(enc), quoteBlock(w, { large: true, hideSpeaker: enc.hideSpeaker }),
+        h('h1', { class: 'prompt-under', tabindex: '-1' }, enc.prompt), list);
+    } else {
+      put(root, eyebrow(enc), promptBlock(enc), hint(ctx.hint(hintKey)), list);
+    }
 
     let done = false;
     function pick(text, btn) {
@@ -180,7 +211,13 @@
         }
       });
       const label = res.correct ? (enc.answerLabel === 'BEST FIT' ? 'Best fit' : 'Yes') : null;
-      put(root, revealBlock(label, enc.reveal), continueBtn(ctx));
+      const rb = revealBlock(label, enc.reveal);
+      if (w) {
+        if (enc.hideSpeaker) rb.append(h('p', { class: 'words-by', style: 'margin-top:.75rem' }, '— ' + w.speaker));
+        const f = wordsFoundLine(res, w.id);
+        if (f) rb.prepend(f);
+      }
+      put(root, rb, continueBtn(ctx));
       focusFirst(root, '.actions button');
     }
     root._onKey = (e) => {
@@ -225,6 +262,8 @@
       const timer = root.querySelector('.timer');
       if (timer) timer.remove();
       const r = revealBlock(isShare ? 'Model' : 'Answer', enc.reveal);
+      const qw = enc.quoteId && ctx.word(enc.quoteId);
+      if (qw) r.append(h('div', { class: 'words-wrap' }, h('p', { class: 'words-found' }, 'In their words'), quoteBlock(qw)));
       const ratings = h(
         'div',
         { class: 'ratings', role: 'group', 'aria-label': 'How did you do?' },
@@ -505,7 +544,32 @@
     return root;
   }
 
-  const RENDERERS = { discover, choice, recall: selfRated, share: selfRated, timeline, match };
+  // ---- WORDS card (no question) -----------------------------------------------------
+  function quoteCard(item, ctx) {
+    const enc = item.enc;
+    const w = ctx.word(enc.quoteId);
+    const root = h('section', { class: 'card' });
+    const res = ctx.answer({}); // the quotation has appeared: it is found now
+    put(
+      root,
+      eyebrow(enc, ctx.worldOf(enc)),
+      wordsFoundLine(res, w.id),
+      quoteBlock(w, { large: true }),
+      h('p', { class: 'words-link' }, 'Connected to ', h('strong', {}, enc.subject)),
+      continueBtn(ctx)
+    );
+    root._onKey = (e) => {
+      if (e.key === 'Enter' && document.activeElement.tagName !== 'BUTTON') {
+        ctx.next();
+        return true;
+      }
+      return false;
+    };
+    focusFirst(root, '.actions button');
+    return root;
+  }
+
+  const RENDERERS = { discover, choice, recall: selfRated, share: selfRated, timeline, match, quote: quoteCard };
 
   function render(item, ctx) {
     const fn = RENDERERS[item.enc.kind];
@@ -513,5 +577,5 @@
     return fn(item, ctx);
   }
 
-  BF.ui = { h, paras, render, MODE_LABEL };
+  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock };
 })((globalThis.BF = globalThis.BF || {}));

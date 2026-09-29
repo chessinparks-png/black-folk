@@ -83,20 +83,21 @@
       case 'summary':
         return state.summary ? mount(summaryScreen(state.summary)) : go('#/');
       case 'explore':
-        return mount(exploreScreen());
       case 'world':
-        return mount(worldScreen(r.arg));
       case 'idea':
-        return mount(ideaScreen(r.arg));
       case 'debate':
-        return mount(debateScreen(r.arg));
       case 'thread':
-        return mount(threadScreen(r.arg));
+      case 'words':
+        return mount(BF.explore.screen(r.name, r.arg, exploreCtx()));
       case 'settings':
         return mount(settingsScreen());
       default:
         return mount(homeScreen());
     }
+  }
+
+  function exploreCtx() {
+    return { C: state.C, G: state.G, player: state.player, go, backLink, save };
   }
 
   // ---- HOME ---------------------------------------------------------------------
@@ -107,6 +108,7 @@
       'main',
       { class: 'screen home' },
       h('h1', { class: 'wordmark' }, 'BLACK FOLK'),
+      h('div', { class: 'spectrum', 'aria-hidden': 'true' }, state.C.worlds.map((w) => h('span', { 'data-world': w.id }))),
       h(
         'div',
         { class: 'stats' },
@@ -141,7 +143,7 @@
   function sessionFrame(s, body) {
     const dots = h('ol', { class: 'dots', 'aria-label': 'Encounter ' + Math.min(s.index + 1, s.items.length) + ' of ' + s.items.length });
     s.items.forEach((_, i) =>
-      dots.append(h('li', { class: i < s.index ? 'done' : i === s.index ? 'now' : '' }))
+      dots.append(h('li', { class: i < s.index ? 'done' : i === s.index ? 'now' : '', 'data-world': i === s.index ? worldOfEnc(s.items[i].enc) : null }))
     );
     return h(
       'main',
@@ -155,6 +157,11 @@
       ),
       body
     );
+  }
+
+  function worldOfEnc(enc) {
+    const n = state.C.nodesById[enc.nodeIds[0]];
+    return n ? n.world : null;
   }
 
   function introScreen(s) {
@@ -209,7 +216,7 @@
       answer(response) {
         if (answered) return null;
         answered = true;
-        const result = S.evaluate(item.enc, response);
+        const result = S.evaluate(item.enc, response, state.player);
         S.applyResult(state.C, state.player, s, result);
         save();
         if (result.points) floatPoints(result.points);
@@ -222,6 +229,8 @@
         renderPlay();
       },
       hint: hintFor,
+      word: (id) => state.C.wordsById[id],
+      worldOf: worldOfEnc,
       lensFor(enc) {
         const n = state.C.nodesById[enc.nodeIds[0]];
         return enc.kind === 'discover' && n ? n.lens : null;
@@ -272,6 +281,7 @@
     const facts = [];
     facts.push(sum.strengthened + (sum.strengthened === 1 ? ' idea strengthened' : ' ideas strengthened'));
     if (sum.connections) facts.push(sum.connections + (sum.connections === 1 ? ' new connection' : ' new connections'));
+    if (sum.words && sum.words.length) facts.push('Words · ' + sum.words.length + ' found');
     for (const id of sum.threads) facts.push('Thread · ' + C.threadsById[id].title);
     for (const id of sum.debates) facts.push('Debate opened · ' + C.debatesById[id].title);
     if (sum.levelAfter > sum.levelBefore) facts.push('LVL ' + sum.levelAfter);
@@ -309,226 +319,9 @@
     return screen;
   }
 
-  // ---- EXPLORE ------------------------------------------------------------------
+  // ---- EXPLORE (Knowledge Map) lives in explore.js ---------------------------------
   function backLink(hash, label) {
     return h('button', { class: 'textlink back', onclick: () => (hash ? go(hash) : history.back()) }, '← ' + (label || 'Back'));
-  }
-
-  function row(opts) {
-    return h(
-      'li',
-      {},
-      h(
-        'button',
-        { class: 'row', onclick: () => go(opts.href) },
-        h('span', {}, h('span', { class: 'name' + (opts.plain ? ' plain' : '') }, opts.name), opts.sub ? h('span', { class: 'sub' }, opts.sub) : null),
-        opts.meta ? h('span', { class: 'meta ' + (opts.metaClass || '') }, opts.meta) : h('span')
-      )
-    );
-  }
-
-  const unlockedThreads = () => state.C.threads.filter((t) => state.player.threadsUnlocked[t.id]);
-  const unlockedDebates = () => state.C.debates.filter((d) => state.player.debatesUnlocked[d.id]);
-
-  function exploreScreen() {
-    const C = state.C;
-    const threads = unlockedThreads();
-    const debates = unlockedDebates();
-    return h(
-      'main',
-      { class: 'screen' },
-      backLink('#/', 'Home'),
-      h('p', { class: 'eyebrow' }, 'Explore'),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, 'Seven worlds. Seven questions.'),
-      h(
-        'ul',
-        { class: 'rows' },
-        C.worlds.map((w) => {
-          const count = C.nodes.filter((n) => n.world === w.id).length;
-          return row({ href: '#/world/' + w.id, name: w.id, sub: w.question, meta: count + ' ideas' });
-        })
-      ),
-      h(
-        'div',
-        { class: 'block' },
-        h('h2', {}, 'Threads'),
-        threads.length
-          ? h('ul', { class: 'rows', style: 'margin-top:0' }, threads.map((t) => row({ href: '#/thread/' + t.id, name: t.title, sub: t.question })))
-          : null,
-        h('p', { class: 'lede-note' }, lockedNote(C.threads.length - threads.length, 'thread', 'threads'))
-      ),
-      h(
-        'div',
-        { class: 'block' },
-        h('h2', {}, 'Debates'),
-        debates.length
-          ? h('ul', { class: 'rows', style: 'margin-top:0' }, debates.map((d) => row({ href: '#/debate/' + d.id, name: d.title, plain: true, sub: d.question })))
-          : null,
-        h('p', { class: 'lede-note' }, lockedNote(C.debates.length - debates.length, 'debate', 'debates'))
-      )
-    );
-  }
-
-  function lockedNote(n, one, many) {
-    if (!n) return '';
-    return n === 1 ? 'One more ' + one + ' surfaces as you play.' : n + ' more ' + many + ' surface as you play.';
-  }
-
-  function masteryMeta(id) {
-    const l = M.label(state.player, id);
-    return { meta: l, metaClass: l === 'STRONG' ? 'strong' : l === 'NEW' ? 'new' : '' };
-  }
-
-  function worldScreen(id) {
-    const C = state.C;
-    const w = C.worlds.find((x) => x.id === id);
-    if (!w) return exploreScreen();
-    const nodes = C.nodes.filter((n) => n.world === id);
-    const nodeIds = new Set(nodes.map((n) => n.id));
-    const threads = unlockedThreads().filter((t) => t.steps.some((s) => s.nodeIds.some((x) => nodeIds.has(x))));
-    const debates = unlockedDebates().filter((d) => d.prereq.some((x) => nodeIds.has(x)));
-    return h(
-      'main',
-      { class: 'screen' },
-      backLink('#/explore', 'Explore'),
-      h('p', { class: 'eyebrow' }, w.id),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, w.question),
-      h('ul', { class: 'rows' }, nodes.map((n) => row(Object.assign({ href: '#/idea/' + n.id, name: n.subject, plain: true }, masteryMeta(n.id))))),
-      threads.length
-        ? h('div', { class: 'block' }, h('h2', {}, 'Threads'), h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id }, t.title))))
-        : null,
-      debates.length
-        ? h('div', { class: 'block' }, h('h2', {}, 'Debates'), h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id }, d.title))))
-        : null
-    );
-  }
-
-  function relatedNodes(id) {
-    const C = state.C;
-    const out = new Set();
-    for (const e of C.encounters) if (e.nodeIds.includes(id)) e.nodeIds.forEach((x) => x !== id && out.add(x));
-    for (const t of unlockedThreads()) {
-      const on = t.steps.some((s) => s.nodeIds.includes(id));
-      if (on) t.steps.forEach((s) => s.nodeIds.forEach((x) => x !== id && M.isSeen(state.player, x) && out.add(x)));
-    }
-    return [...out].map((x) => C.nodesById[x]);
-  }
-
-  // Short name, unless two ideas share it (e.g. Du Bois, Wells).
-  function displayName(n) {
-    return state.C.nodes.some((o) => o.id !== n.id && o.name === n.name) ? n.subject : n.name;
-  }
-
-  function ideaScreen(id) {
-    const C = state.C;
-    const n = C.nodesById[id];
-    if (!n) return exploreScreen();
-    const label = M.label(state.player, id);
-    const why = C.whyThenByNode[id];
-    const debates = unlockedDebates().filter((d) => d.prereq.includes(id));
-    const threads = unlockedThreads().filter((t) => t.steps.some((s) => s.nodeIds.includes(id)));
-    const related = relatedNodes(id);
-    const lensWrap = h('div', { class: 'block' });
-    if (n.lens) {
-      const btn = h(
-        'button',
-        {
-          class: 'textlink',
-          onclick: () => lensWrap.replaceChildren(h('h2', {}, 'Lens'), h('p', { class: 'quote', style: 'font-size:1.5rem' }, n.lens)),
-        },
-        'Lens +'
-      );
-      lensWrap.append(btn);
-    }
-    return h(
-      'main',
-      { class: 'screen' },
-      backLink(null, 'Back'),
-      h('p', { class: 'eyebrow' }, h('a', { href: '#/world/' + n.world }, n.world), h('span', { class: 'sep' }, '·'), n.era),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, n.subject),
-      h('div', { style: 'margin-top:1rem' }, h('span', { class: 'pill' + (label === 'STRONG' ? ' strong' : '') }, label)),
-      h('div', { class: 'block' }, h('h2', {}, 'Core idea'), h('p', {}, n.coreIdea)),
-      why ? h('div', { class: 'block' }, h('h2', {}, 'Why then'), h('p', {}, why)) : null,
-      h('div', { class: 'block' }, h('h2', {}, 'Keep this'), h('p', { class: 'quote' }, '“' + n.share + '”')),
-      n.lens ? lensWrap : null,
-      related.length
-        ? h('div', { class: 'block' }, h('h2', {}, 'Connections'), h('div', { class: 'links' }, related.map((r) => h('a', { href: '#/idea/' + r.id }, displayName(r)))))
-        : null,
-      debates.length
-        ? h('div', { class: 'block' }, h('h2', {}, 'Debates'), h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id }, d.title))))
-        : null,
-      threads.length
-        ? h('div', { class: 'block' }, h('h2', {}, 'Threads'), h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id }, t.title))))
-        : null,
-      h('p', { class: 'source' }, h('b', {}, 'SOURCE'), n.source, h('br'), n.sourceSection)
-    );
-  }
-
-  function debateScreen(id) {
-    const C = state.C;
-    const d = C.debatesById[id];
-    if (!d) return exploreScreen();
-    if (!state.player.debatesUnlocked[id]) {
-      return h(
-        'main',
-        { class: 'screen' },
-        backLink('#/explore', 'Explore'),
-        h('p', { class: 'eyebrow' }, 'Debate'),
-        h('h1', { class: 'display display--md' }, 'This debate opens as you play.')
-      );
-    }
-    const contrasts = d.encounterIds.map((eid) => C.byId[eid]).filter((e) => state.player.encounters[e.id]);
-    return h(
-      'main',
-      { class: 'screen' },
-      backLink(null, 'Back'),
-      h('p', { class: 'eyebrow' }, 'Debate · ' + d.title),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, d.question),
-      h(
-        'div',
-        { class: 'sides' },
-        d.sides.map((side) =>
-          h(
-            'div',
-            { class: 'block', style: 'margin-top:0' },
-            h('h2', {}, side.label),
-            side.nodeIds.length
-              ? side.nodeIds.map((nid) => {
-                  const n = C.nodesById[nid];
-                  return h('div', { class: 'idea' }, h('a', { href: '#/idea/' + nid }, n.subject), h('p', {}, n.coreIdea));
-                })
-              : h('p', { class: 'muted' }, 'More material for this side will be added from the sources.')
-          )
-        )
-      ),
-      contrasts.length
-        ? h('div', { class: 'block' }, h('h2', {}, 'The contrast'), contrasts.map((e) => paras(e.reveal)))
-        : null,
-      h('p', { class: 'lede-note' }, 'Mastering a debate means understanding both answers, not choosing one.')
-    );
-  }
-
-  function threadScreen(id) {
-    const C = state.C;
-    const t = C.threadsById[id];
-    if (!t || !state.player.threadsUnlocked[id]) return exploreScreen();
-    const progress = M.threadProgress(C, state.player, t);
-    return h(
-      'main',
-      { class: 'screen' },
-      backLink(null, 'Back'),
-      h('p', { class: 'eyebrow' }, 'Thread · ' + t.title),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, t.question),
-      h(
-        'ul',
-        { class: 'rows' },
-        t.steps.map((st, i) => {
-          const nid = st.nodeIds.find((x) => M.isSeen(state.player, x)) || st.nodeIds[0];
-          if (!nid) return h('li', {}, h('div', { class: 'row', style: 'cursor:default' }, h('span', { class: 'name plain muted' }, st.label), h('span')));
-          return row({ href: '#/idea/' + nid, name: st.label, plain: true, meta: progress[i] ? M.label(state.player, nid) : 'NEW', metaClass: progress[i] ? '' : 'new' });
-        })
-      )
-    );
   }
 
   // ---- SETTINGS -------------------------------------------------------------------
@@ -578,7 +371,8 @@
         'div',
         { class: 'block' },
         h('h2', {}, 'About'),
-        h('p', { class: 'muted' }, 'BLACK FOLK · V1. Works offline. Content version: ' + state.C.version + '.')
+        h('p', { class: 'muted' }, 'BLACK FOLK · V1.2. Works offline. Content version: ' + state.C.version + '.'),
+        h('p', { class: 'muted', style: 'margin-top:.5rem' }, 'WORDS: ' + state.C.words.length + ' quotations from ' + state.C.wordsSource + '.')
       )
     );
   }
@@ -618,8 +412,16 @@
       throw err;
     }
     const player = await store.get('player');
-    state.player = player && player.version === 1 ? player : M.newPlayer();
-    state.player.level = M.levelFor(state.player.knowledge);
+    // Saved progress is upgraded in place, never discarded (see mastery.migrate).
+    const original = player ? JSON.parse(JSON.stringify(player)) : null;
+    const { player: upgraded, migrated } = M.migrate(player);
+    state.player = upgraded;
+    state.G = state.C.graph = BF.graph.build(state.C);
+    if (migrated || !Object.keys(state.player.map.nodes).length) BF.graph.backfill(state.C, state.G, state.player);
+    if (migrated) {
+      await store.set('player-backup-v' + upgraded.migratedFrom[upgraded.migratedFrom.length - 1].version, original);
+      await store.set('player', state.player);
+    }
     state.session = (await store.get('session')) || null;
     window.addEventListener('hashchange', render);
     render();

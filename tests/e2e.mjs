@@ -42,7 +42,10 @@ async function playEncounter({ miss = false, shotName } = {}) {
   if (shotName) await snap(shotName + '-' + enc.mode.replace(/\W+/g, ''));
   const text = await page.textContent('main');
   if (/\bnull\b|\bundefined\b|\[object /.test(text)) badText.push(enc.id + ': ' + text.slice(0, 120));
-  if (enc.kind === 'discover') {
+  if (enc.kind === 'quote') {
+    await btn('Continue').click();
+    return enc;
+  } else if (enc.kind === 'discover') {
     await btn('Reveal').click();
   } else if (enc.kind === 'choice') {
     const target = miss ? enc.choices.find((c) => c !== enc.correct) : enc.correct;
@@ -72,6 +75,8 @@ async function playEncounter({ miss = false, shotName } = {}) {
 }
 
 async function playSession({ tag, missFirstChoice = false, reloadAt = -1 } = {}) {
+  let knowledgeNeverDropped = true;
+  let missedPoints = null;
   await btn('Begin').click();
   const modes = [];
   for (let i = 0; i < 6; i++) {
@@ -87,18 +92,51 @@ async function playSession({ tag, missFirstChoice = false, reloadAt = -1 } = {})
     }
     const enc = await page.evaluate(() => { const s = BF.app.state.session; return s.items[s.index].enc; });
     const miss = missFirstChoice && enc.kind === 'choice' && !modes.some((m) => m.miss);
+    const before = (await st()).knowledge;
     await playEncounter({ miss, shotName: i < 6 ? `${tag}-${i + 1}` : null });
+    const after = (await st()).knowledge;
+    if (after < before) knowledgeNeverDropped = false;
+    if (miss) missedPoints = after - before;
     modes.push({ mode: enc.mode, id: enc.id, miss });
   }
   while (await has('text=Thread revealed')) { await snap(tag + '-thread'); await btn('Continue').click(); }
   await page.waitForSelector('text=Session complete');
   await snap(tag + '-summary');
   const summary = await page.evaluate(() => BF.app.state.summary);
-  return { modes, summary };
+  return { modes, summary, knowledgeNeverDropped, missedPoints };
 }
 
 console.log('BLACK FOLK e2e @ ' + APP_URL);
 await page.goto(APP_URL);
+await page.evaluate(async () => { await BF.store.clearAll(); });
+
+// Upgrade path: a V1 save (pre-map, pre-WORDS) must survive intact.
+await page.evaluate(async () => {
+  const node = (x) => Object.assign(BF.mastery.newPlayer() && {}, { seen: 1, correct: 1, introduced: true, firstSeen: Date.now(), lastSeen: Date.now(), lastResult: 'good', lapses: 0, recognition: 0.5, recall: 0, context: 0, connection: 0.5, share: 0, apply: 0, interval: 1, nextReview: Date.now() }, x || {});
+  const v1 = {
+    version: 1, createdAt: Date.now() - 86400000, knowledge: 480, level: 4, startersCompleted: 3,
+    encounters: { E006: { count: 2, successes: 2, lastSeen: Date.now(), lastResult: 'good' }, E034: { count: 1, successes: 1, lastSeen: Date.now(), lastResult: 'good' } },
+    nodes: { 'V1-010': node(), 'V1-030': node(), 'V1-031': node() },
+    ratings: [{ encounterId: 'E010', rating: 'knew', at: Date.now() }],
+    threadsUnlocked: {}, debatesUnlocked: {}, history: [{ id: 'old', knowledge: 70, encounterIds: [] }], hintsSeen: { DISCOVER: 'x' },
+  };
+  await BF.store.set('player', v1);
+});
+await page.reload();
+await page.waitForSelector('.stats');
+const mig = await page.evaluate(async () => {
+  const p = BF.app.state.player;
+  const saved = await BF.store.get('player');
+  const backup = await BF.store.get('player-backup-v1');
+  return { v: p.version, k: p.knowledge, starters: p.startersCompleted, hist: p.history.length, ratings: p.ratings.length,
+    node: !!p.nodes['V1-010'].introduced, mapNode: !!p.map.nodes['V1-010'], edge: !!p.map.edges['V1-030|V1-031'],
+    savedV: saved.version, backupK: backup && backup.knowledge, words: p.words };
+});
+check(mig.v === 2 && mig.savedV === 2, 'V1 save upgraded to schema v2 and re-saved');
+check(mig.k === 480 && mig.starters === 3 && mig.hist === 1 && mig.ratings === 1 && mig.node, 'Knowledge, starters, history, ratings and mastery preserved');
+check(mig.mapNode && mig.edge, 'map backfilled from past encounters (Bethune–Randolph link revealed)');
+check(mig.backupK === 480, 'untouched V1 backup kept');
+check((await page.textContent('.stats')).includes('480 KNOWLEDGE'), 'home shows preserved 480 KNOWLEDGE');
 await page.evaluate(async () => { await BF.store.clearAll(); });
 await page.reload();
 await page.waitForSelector('text=BLACK FOLK');
@@ -111,20 +149,42 @@ await page.waitForSelector('text=WHO DEFINES THE STORY?');
 await snap('s1-intro');
 const s1 = await playSession({ tag: 's1' });
 check(s1.modes.map((m) => m.id).join() === 'D001,D002,E002,D004,E006,E010', 'starter 1 plays the curated flow');
-check(s1.summary.knowledge === 70, 'starter 1 awards 70 Knowledge (' + s1.summary.knowledge + ')');
+check(s1.summary.knowledge === 65, 'starter 1 awards 55 for play + 10 for two WORDS found (' + s1.summary.knowledge + ')');
+check(s1.summary.words.join() === 'W-11,W-01', 'WORDS found in starter 1: ' + s1.summary.words.join());
 check((await page.textContent('.keep')).includes('History changes when you change who gets to define the story.'), 'KEEP THIS shows starter line');
 await btn('Done').click();
-check((await page.textContent('.stats')).includes('70 KNOWLEDGE'), 'home shows 70 KNOWLEDGE');
+check((await page.textContent('.stats')).includes('65 KNOWLEDGE'), 'home shows 65 KNOWLEDGE');
 
 // Persistence
 await page.reload();
-check((await page.textContent('.stats')).includes('70 KNOWLEDGE'), 'Knowledge survives reload');
+await page.waitForSelector('.stats');
+check((await page.textContent('.stats')).includes('65 KNOWLEDGE'), 'Knowledge survives reload');
+const persisted = await page.evaluate(() => ({ words: Object.keys(BF.app.state.player.words), map: Object.keys(BF.app.state.player.map.nodes) }));
+check(persisted.words.length === 2 && persisted.map.length >= 4, 'WORDS and map discoveries survive reload');
+
+// WORDS collection shows only what was found, verbatim
+await page.goto(APP_URL + '#/words');
+await snap('words-collection');
+const wtext = await page.textContent('main');
+check(wtext.includes('“We wish to plead our own cause”') && wtext.includes('Freedom’s Journal editors'), 'found quote shown verbatim with attribution');
+check(!wtext.includes('Cast down your bucket'), 'unfound quotes are not exposed');
+await page.goto(APP_URL + '#/idea/V1-019');
+check((await page.textContent('main')).includes('How does it feel to be a problem?'), 'quote joins its node page');
+await page.goto(APP_URL + '#/idea/V1-044');
+check((await page.textContent('main')).includes('Not yet discovered'), 'undiscovered node page stays locked');
+await page.goto(APP_URL + '#/explore');
+await snap('map-after-s1');
+const drawn = await page.locator('.kmap .medge').count();
+const locked = await page.locator('.kmap .is-locked').count();
+check(locked > 30 && drawn < 10, `map is sparse after one session (${drawn} links drawn, ${locked} ideas still locked)`);
+await page.goto(APP_URL + '#/');
 
 // Starter 2 (with one deliberate miss and a mid-session reload)
 await btn('Play').click();
 const s2 = await playSession({ tag: 's2', missFirstChoice: true, reloadAt: 3 });
 check(s2.modes.some((m) => m.mode === 'TIMELINE'), 'starter 2 includes TIMELINE');
-check(s2.summary.knowledge > 0, 'miss did not subtract (session +' + s2.summary.knowledge + ')');
+check(s2.missedPoints === 0, 'wrong answer earned 0 Knowledge');
+check(s2.knowledgeNeverDropped, 'Knowledge never went down during the session');
 await btn('Keep playing').click();
 
 // Starter 3
@@ -150,10 +210,21 @@ await btn('Not now').click();
 // Explore
 await btn('Explore').click();
 await snap('explore');
+const g = await page.evaluate(() => ({ total: BF.app.state.G.edges.size, shown: document.querySelectorAll('.kmap .medge').length }));
+check(g.shown > 0 && g.shown < g.total, `connections reveal gradually (${g.shown} of ${g.total} drawn)`);
+await page.locator('.kmap .mworld', { hasText: 'POWER' }).click();
+await snap('map-world');
+check(await has('.kmap--world'), 'world view shows its own map');
+await page.goto(APP_URL + '#/thread/T-02');
+await snap('thread');
+check((await page.textContent('main')).includes('Different moments. Same question.'), 'thread view works');
+await page.goto(APP_URL + '#/words');
+await snap('words');
+await page.goto(APP_URL + '#/explore');
 check(await has('text=FREEDOM'), 'EXPLORE lists worlds');
 await page.locator('.row', { hasText: 'POWER' }).first().click();
 await snap('explore-world');
-await page.locator('.row', { hasText: 'Ida B. Wells — evidence' }).first().click();
+await page.locator('.rows .row', { hasText: 'Ida B. Wells — evidence' }).first().click();
 await snap('explore-idea');
 check(await has('text=Keep this') && await has('text=SOURCE'), 'idea detail shows KEEP THIS and source');
 await page.goto(APP_URL + '#/thread/T-02');
@@ -165,6 +236,11 @@ if (state.debates.length) { await page.goto(APP_URL + '#/debate/' + state.debate
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto(APP_URL + '#/');
 await snap('mobile-home');
+await page.goto(APP_URL + '#/explore');
+await snap('mobile-map');
+await page.goto(APP_URL + '#/world/POWER');
+await snap('mobile-world');
+await page.goto(APP_URL + '#/');
 await page.getByRole('button', { name: /^(Play|Continue)$/ }).click();
 await btn('Begin').click();
 await snap('mobile-encounter');

@@ -28,7 +28,6 @@
     return a;
   }
   const isChoice = (e) => e.kind === 'choice';
-  const round5 = (n) => Math.round(n / 5) * 5;
 
   // ---- derived encounters (curriculum text only; no new claims) ---------------
   const derive = {
@@ -80,6 +79,123 @@
       };
     },
   };
+
+  // ---- WORDS encounters -------------------------------------------------------
+  // Quotations are shown exactly as supplied. Questions ask what the words
+  // connect to (ideas, threads), not who said them — WHO is used sparingly.
+  const wordsDerive = {
+    // A quiet card: the quote, its speaker, the idea it belongs to. No question.
+    card(C, w) {
+      const n = C.nodesById[w.nodeIds[0]];
+      return {
+        id: 'X-WC-' + w.id, mode: 'WORDS', kind: 'quote', derived: true, quoteId: w.id,
+        subject: n.name, points: 0, nodeIds: [n.id], mastery: [], difficulty: 'easy',
+        source: 'WORDS', answerLabel: 'ANSWER',
+      };
+    },
+    // "These words connect to which idea?" — options are curriculum share lines.
+    meaning(C, w, introduced, rng) {
+      const n = C.nodesById[w.nodeIds[0]];
+      const others = shuffle(
+        C.nodes.filter((o) => !w.nodeIds.includes(o.id) && introduced.has(o.id) && o.world !== n.world), rng
+      );
+      if (others.length < 3) return null;
+      const distract = [];
+      const worlds = new Set();
+      for (const o of others) {
+        if (worlds.has(o.world)) continue;
+        worlds.add(o.world);
+        distract.push(o.share);
+        if (distract.length === 3) break;
+      }
+      if (distract.length < 3) return null;
+      return {
+        id: 'X-WM-' + w.id, mode: 'WORDS', kind: 'choice', derived: true, quoteId: w.id, hideSpeaker: true,
+        eyebrow: 'What is this really saying?', prompt: 'These words connect to which idea?',
+        choices: [n.share].concat(distract), correct: n.share, reveal: n.coreIdea,
+        points: 15, nodeIds: [n.id], mastery: ['UNDERSTAND', 'CONNECT'], difficulty: 'medium',
+        source: 'WORDS', answerLabel: 'BEST FIT',
+      };
+    },
+    // "Which thread runs through these words?" — only for revealed threads.
+    thread(C, w, player, rng) {
+      const nid = w.nodeIds[0];
+      const on = C.threads.filter((t) => t.steps.some((s) => s.nodeIds.includes(nid)));
+      const mine = on.filter((t) => player.threadsUnlocked[t.id]);
+      if (!mine.length) return null;
+      const t = mine[Math.floor(rng() * mine.length)];
+      const off = shuffle(C.threads.filter((x) => !on.includes(x)), rng).slice(0, 3);
+      if (off.length < 3) return null;
+      return {
+        id: 'X-WT-' + w.id, mode: 'WORDS', kind: 'choice', derived: true, quoteId: w.id,
+        eyebrow: 'Which thread?', prompt: 'Which thread runs through these words?',
+        choices: [t.title].concat(off.map((x) => x.title)), correct: t.title, reveal: t.question,
+        points: 20, nodeIds: [nid], mastery: ['CONNECT'], difficulty: 'hard',
+        source: 'WORDS', answerLabel: 'BEST FIT',
+      };
+    },
+    // Recall the idea first; the words appear with the answer.
+    recall(C, w) {
+      const n = C.nodesById[w.nodeIds[0]];
+      return {
+        id: 'X-WR-' + w.id, mode: 'RECALL', kind: 'recall', derived: true, quoteId: w.id, quoteAfter: true,
+        eyebrow: 'Think before revealing', subject: n.name,
+        prompt: 'What was the core idea? Then read it in their own words.', reveal: n.coreIdea,
+        points: 20, nodeIds: [n.id], mastery: ['RECALL'], difficulty: 'medium',
+        source: 'WORDS', answerLabel: 'ANSWER',
+      };
+    },
+    // Occasional WHO: whose words are these?
+    who(C, w, rng) {
+      if (!w.speaker) return null;
+      const speakers = [...new Set(C.words.map((x) => x.speaker).filter((sp) => sp && sp !== w.speaker))];
+      if (speakers.length < 3) return null;
+      const n = C.nodesById[w.nodeIds[0]];
+      return {
+        id: 'X-WW-' + w.id, mode: 'WHO', kind: 'choice', derived: true, quoteId: w.id, hideSpeaker: true,
+        eyebrow: 'Words', prompt: 'Whose words are these?',
+        choices: [w.speaker].concat(shuffle(speakers, rng).slice(0, 3)), correct: w.speaker, reveal: n.coreIdea,
+        points: 10, nodeIds: [n.id], mastery: ['RECALL'], difficulty: 'easy',
+        source: 'WORDS', answerLabel: 'ANSWER',
+      };
+    },
+  };
+
+  function wordsPool(C, player, introduced, rng) {
+    const out = [];
+    for (const w of C.words) {
+      if (!introduced.has(w.nodeIds[0])) continue;
+      const found = !!(player.words && player.words[w.id]);
+      if (!found) out.push(wordsDerive.card(C, w));
+      const m = wordsDerive.meaning(C, w, introduced, rng);
+      if (m) out.push(m);
+      const t = wordsDerive.thread(C, w, player, rng);
+      if (t) out.push(t);
+      out.push(wordsDerive.recall(C, w));
+      if (found && rng() < 0.25) {
+        const who = wordsDerive.who(C, w, rng);
+        if (who) out.push(who);
+      }
+    }
+    return out;
+  }
+
+  // Attach one not-yet-found quotation to each DISCOVER card whose idea has one.
+  // It appears quietly under the reveal ("WORDS FOUND").
+  function attachWords(C, player, items) {
+    const taken = new Set();
+    for (const it of items) {
+      if (it.enc.kind !== 'discover') continue;
+      const nid = it.enc.nodeIds[0];
+      const w = C.words.find((x) => x.nodeIds.includes(nid) && !taken.has(x.id) && !(player.words && player.words[x.id]));
+      if (w) {
+        it.quoteId = w.id;
+        taken.add(w.id);
+      }
+    }
+    for (const it of items) if (it.enc.quoteId) taken.add(it.enc.quoteId);
+    return items;
+  }
 
   // Parse a curriculum era into a [start, end] year range, or null if unclear.
   function eraRange(era) {
@@ -264,7 +380,7 @@
     const s = C.starters[index];
     const rng = makeRng(seed || Date.now());
     const encs = repairPacing(s.encounterIds.map((id) => C.byId[id]));
-    return newSessionShell('starter', s.title, encs.map((e) => prepareItem(e, rng)), {
+    return newSessionShell('starter', s.title, attachWords(C, player, encs.map((e) => prepareItem(e, rng))), {
       starterIndex: index,
       starterId: s.id,
       keepThis: s.keepThis,
@@ -286,7 +402,10 @@
     const used = new Set();
     const usedNodes = new Set();
     const picks = [];
+    let wordsUsed = 0; // at most two WORDS encounters per session
+    const okWords = (e) => !e.quoteId || wordsUsed < 2;
     const add = (enc, slot) => {
+      if (enc.quoteId) wordsUsed++;
       const e = Object.assign({}, enc, { _slot: slot });
       used.add(enc.id);
       picks.push(e);
@@ -312,10 +431,19 @@
     }
     const introPlus = new Set([...introduced, ...discoveredHere]);
     const pool = encounterPool(C, player, introPlus);
+    // WORDS only draw on ideas met before this session.
+    const words = wordsPool(C, player, introduced, rng);
+    pool.push(...words.filter((e) => e.kind !== 'quote'));
 
     // If the curriculum has run out of new ideas, "new" means an unseen encounter.
     while (picks.filter((p) => p._slot === 'new').length < 2) {
       const unseen = pool.filter((e) => !used.has(e.id) && !e.derived && !seenCount(e.id) && e.kind !== 'match');
+      // When the curriculum has no new ideas left, an unfound quotation is "new" too.
+      const cards = words.filter((e) => e.kind === 'quote' && !used.has(e.id) && okWords(e));
+      if (cards.length && (!unseen.length || rng() < 0.4)) {
+        add(cards[Math.floor(rng() * cards.length)], 'new');
+        continue;
+      }
       if (!unseen.length) break;
       add(unseen[Math.floor(rng() * unseen.length)], 'new');
     }
@@ -334,7 +462,7 @@
       if (reviews >= 2) break;
       if (usedNodes.has(id)) continue;
       const cands = pool.filter(
-        (e) => !used.has(e.id) && e.nodeIds.includes(id) && e.nodeIds.length <= 2 && e.kind !== 'match' && e.kind !== 'timeline'
+        (e) => !used.has(e.id) && okWords(e) && e.nodeIds.includes(id) && e.nodeIds.length <= 2 && e.kind !== 'match' && e.kind !== 'timeline'
       );
       if (!cands.length) continue;
       const hasUnaided = Math.max(n.recall, n.share, n.apply) >= 0.5;
@@ -344,7 +472,8 @@
         if (!hasUnaided && ['recall', 'share', 'apply'].some((d) => dims.includes(d))) s += 0.5;
         if (recent.has(e.id)) s -= 1;
         if (e.nodeIds.length === 1) s += 0.3;
-        if (e.derived) s -= 0.2; // prefer authored encounters when they exist
+        if (e.derived && !e.quoteId) s -= 0.2; // prefer authored encounters when they exist
+        if (e.quoteId && !(player.words && player.words[e.quoteId])) s += 0.35; // unfound WORDS
         s -= 0.15 * seenCount(e.id);
         return { e, s: s + rng() * 0.3 };
       });
@@ -355,7 +484,7 @@
     }
 
     // 3) One connection or historical-context encounter.
-    const connectModes = ['CONNECT', 'WHY THEN', 'TIMELINE', 'SAME QUESTION'];
+    const connectModes = ['CONNECT', 'WHY THEN', 'TIMELINE', 'SAME QUESTION', 'WORDS'];
     // Derived timelines/matches get a fresh id every time, so they would always
     // look "unseen"; damp them, especially if the last session already had one.
     const recentDerivedModes = new Set([...recent].filter((id) => /^X-[TM]-/.test(id)).map((id) => id[2]));
@@ -367,7 +496,7 @@
         : 0);
     const pickBest = (cands) => cands.map((e) => ({ e, s: scoreFresh(e) })).sort((a, b) => b.s - a.s)[0];
     {
-      const cands = pool.filter((e) => !used.has(e.id) && connectModes.includes(e.mode) && e.difficulty !== 'hard');
+      const cands = pool.filter((e) => !used.has(e.id) && okWords(e) && connectModes.includes(e.mode) && e.difficulty !== 'hard');
       const tl = derivedTimeline(C, introPlus, rng, 4);
       if (tl && !recent.has(tl.id)) cands.push(tl);
       const best = pickBest(cands);
@@ -378,7 +507,7 @@
     {
       const higherModes = ['SAME QUESTION', 'THEN → NOW', 'SHARE', 'MATCH'];
       const cands = pool.filter(
-        (e) => !used.has(e.id) && (higherModes.includes(e.mode) || (e.mode === 'CONNECT' && e.difficulty === 'hard'))
+        (e) => !used.has(e.id) && okWords(e) && (higherModes.includes(e.mode) || (e.mode === 'CONNECT' && e.difficulty === 'hard'))
       );
       const m = derivedMatch(C, introPlus, rng);
       if (m) cands.push(m);
@@ -393,7 +522,7 @@
     // Fill any gaps so a session is always six encounters.
     let guard = 0;
     while (picks.length < SESSION_LENGTH && guard++ < 50) {
-      const cands = pool.filter((e) => !used.has(e.id) && e.kind !== 'match' && e.kind !== 'timeline');
+      const cands = pool.filter((e) => !used.has(e.id) && okWords(e) && e.kind !== 'match' && e.kind !== 'timeline');
       if (!cands.length) break;
       const best = pickBest(cands);
       add(best.e, 'fill');
@@ -421,7 +550,8 @@
     const topWorld = Object.keys(worldCount).sort((a, b) => worldCount[b] - worldCount[a])[0];
     const world = C.worlds.find((w) => w.id === topWorld);
 
-    return newSessionShell('adaptive', world ? world.question.toUpperCase() : 'SESSION', order.map((e) => prepareItem(e, rng)), {
+    const items = attachWords(C, player, order.map((e) => prepareItem(e, rng)));
+    return newSessionShell('adaptive', world ? world.question.toUpperCase() : 'SESSION', items, {
       world: topWorld,
       levelBefore: player.level,
     });
@@ -435,23 +565,32 @@
   }
 
   // ---- scoring ----------------------------------------------------------------
+  // Knowledge reflects successful learning: correct = full value, wrong = 0,
+  // ALMOST = half. Nothing is ever subtracted; misses only affect scheduling.
   const RATING_QUALITY = { knew: 1, clear: 1, almost: 0.5, missed: 0, needs: 0 };
 
   // response: choice → { choice }, recall/share → { rating }, timeline → { order: [itemIdx…] },
-  // match → { pairs: { leftIdx: rightIdx } }, discover → {}.
-  function evaluate(enc, response) {
-    const miss = M.CONFIG.missPoints;
+  // match → { pairs: { leftIdx: rightIdx } }, discover/quote → {}.
+  // `player` (optional) lets DISCOVER pay only the first time a card is seen.
+  function evaluate(enc, response, player) {
+    const cfg = M.CONFIG;
     switch (enc.kind) {
-      case 'discover':
-        return { quality: 1, points: enc.points };
+      case 'discover': {
+        const seenBefore = player && player.encounters[enc.id] && player.encounters[enc.id].count > 0;
+        return { quality: 1, points: seenBefore ? 0 : cfg.discoverPoints };
+      }
+      case 'quote':
+        return { quality: null, points: 0 };
       case 'choice': {
         const ok = response.choice === enc.correct;
-        return { quality: ok ? 1 : 0, points: ok ? enc.points : miss, correct: ok };
+        return { quality: ok ? 1 : 0, points: ok ? enc.points : 0, correct: ok };
       }
       case 'recall':
-      case 'share':
-        // Self-rating is honest reflection, so it never changes the points earned.
-        return { quality: RATING_QUALITY[response.rating], points: enc.points, rating: response.rating };
+      case 'share': {
+        const q = RATING_QUALITY[response.rating];
+        const points = q >= 1 ? enc.points : q > 0 ? Math.round(enc.points * cfg.halfCredit) : 0;
+        return { quality: q, points, rating: response.rating };
+      }
       case 'timeline': {
         const placed = response.order;
         const hits = placed.map((v, i) => v === i);
@@ -470,10 +609,11 @@
     }
     throw new Error('Cannot evaluate ' + enc.kind);
   }
+  // Multi-part answers: mastery credits each correct part; Knowledge is paid
+  // only for a fully correct answer (or proportionally, if partialCredit is on).
   function partial(enc, frac, perNode, extra) {
-    const miss = M.CONFIG.missPoints;
     const quality = frac === 1 ? 1 : frac >= 0.5 ? 0.5 : 0;
-    const points = frac === 1 ? enc.points : Math.max(miss, round5((enc.points * frac) / 2));
+    const points = frac === 1 ? enc.points : M.CONFIG.partialCredit ? Math.floor(enc.points * frac) : 0;
     return Object.assign({ quality, points, perNode, correct: frac === 1 }, extra);
   }
 
@@ -486,6 +626,20 @@
     const wasIntroduced = new Set(enc.nodeIds.filter((id) => M.isIntroduced(player, id)));
 
     M.recordEncounter(player, enc, result.quality, now, result.perNode);
+
+    // WORDS: a quotation shown for the first time is found (+5, once ever).
+    const wordsFound = [];
+    for (const wid of [item.quoteId, enc.quoteId]) {
+      if (!wid || !C.wordsById[wid]) continue;
+      player.words = player.words || {};
+      if (player.words[wid]) continue;
+      player.words[wid] = { at: now, encounterId: enc.id };
+      wordsFound.push(wid);
+    }
+    const wordsPoints = wordsFound.length * M.CONFIG.wordsPoints;
+    result.wordsFound = wordsFound;
+    result.encounterPoints = result.points;
+    result.points += wordsPoints;
     M.addKnowledge(player, result.points);
     if (result.rating) {
       player.ratings.push({ encounterId: enc.id, rating: result.rating, at: now });
@@ -501,9 +655,14 @@
       }
     }
     const newConnection = CONNECTION_MODES.includes(enc.mode) && result.quality >= 1 && prior === 0;
-    if (newConnection) session.connections++;
 
     const unlocks = M.updateUnlocks(C, player, now);
+    // Knowledge Map: reveal ideas and the links this encounter actually showed.
+    const G = C.graph || (C.graph = BF.graph.build(C));
+    const newEdges = BF.graph.update(C, G, player, enc, unlocks, now);
+    session.newEdges = (session.newEdges || []).concat(newEdges);
+    session.connections = session.newEdges.length;
+    session.wordsFound = (session.wordsFound || []).concat(wordsFound);
     session.newThreads.push(...unlocks.threads);
     session.newDebates.push(...unlocks.debates);
     session.pending.push(...unlocks.threads.map((id) => ({ type: 'thread', id })));
@@ -513,9 +672,10 @@
       quality: result.quality,
       points: result.points,
       rating: result.rating || null,
+      words: wordsFound,
       at: now,
     };
-    return { points: result.points, unlocks, newConnection };
+    return { points: result.points, unlocks, newConnection, wordsFound, newEdges };
   }
 
   function keepThisFor(C, session) {
@@ -538,6 +698,7 @@
       knowledge: session.knowledge,
       strengthened: session.strengthened.length,
       connections: session.connections,
+      words: (session.wordsFound || []).slice(),
       threads: session.newThreads.slice(),
       debates: session.newDebates.slice(),
       keepThis,
@@ -564,6 +725,8 @@
     buildStarter,
     buildAdaptive,
     buildNext,
+    wordsDerive,
+    attachWords,
     evaluate,
     applyResult,
     finish,

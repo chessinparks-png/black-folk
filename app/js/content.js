@@ -91,6 +91,34 @@
     return e;
   }
 
+  // WORDS: exact quotations. Tolerant of either {quotes:[…]} or a bare array and of
+  // a few field spellings, so the authoritative bank can be dropped in unchanged.
+  // Wording is never modified; entries missing text or a known node are skipped.
+  function normalizeWords(raw, nodesById) {
+    if (!raw) return [];
+    const list = Array.isArray(raw) ? raw : raw.quotes || raw.words || raw.items || [];
+    const pick = (o, keys) => keys.map((k) => o[k]).find((v) => v != null && v !== '');
+    const out = [];
+    list.forEach((q, i) => {
+      const text = pick(q, ['text', 'quote', 'quotation', 'words']);
+      let nodeIds = pick(q, ['node_ids', 'nodeIds', 'linked_nodes', 'nodes', 'node_id']) || [];
+      if (!Array.isArray(nodeIds)) nodeIds = [nodeIds];
+      nodeIds = nodeIds.filter((id) => nodesById[id]);
+      if (!text || !nodeIds.length) return;
+      out.push({
+        id: String(pick(q, ['id', 'quote_id']) || 'W-' + String(i + 1).padStart(2, '0')),
+        text: String(text),
+        speaker: pick(q, ['speaker', 'attribution', 'author', 'person', 'name']) || null,
+        nodeIds,
+        source: pick(q, ['source', 'source_work', 'work', 'citation']) || null,
+        year: pick(q, ['year', 'date']) || null,
+        sourceUrl: pick(q, ['source_url', 'url']) || null,
+        raw: q, // full record preserved (verification notes, etc.)
+      });
+    });
+    return out;
+  }
+
   function shortName(subject) {
     return subject.split(' — ')[0].replace(/\s*\(.*\)$/, '');
   }
@@ -169,7 +197,21 @@
     }));
     for (const s of starters) for (const id of s.encounterIds) if (!byId[id]) throw new Error(s.id + ' missing ' + id);
 
+    const words = normalizeWords(raw.words, nodesById);
+    const contextLinks = links.context || {};
+    const context = (cur.context_cards || []).map((c) => ({
+      id: c.id,
+      title: c.title,
+      purpose: c.purpose,
+      nodeIds: (contextLinks[c.id] || []).filter((id) => nodesById[id]),
+    }));
+
     return {
+      words,
+      wordsById: Object.fromEntries(words.map((w) => [w.id, w])),
+      wordsSource: raw.wordsSource || null,
+      context,
+      knowledgeMapRaw: raw.knowledgeMap || null,
       worlds,
       nodes,
       nodesById,

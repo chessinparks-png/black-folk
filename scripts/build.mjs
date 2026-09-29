@@ -12,7 +12,7 @@ rmSync(dist, { recursive: true, force: true });
 cpSync(join(root, 'app'), dist, { recursive: true });
 
 const hash = createHash('sha1');
-for (const f of ['data/content.js', 'js/content.js', 'js/mastery.js', 'js/session.js', 'js/store.js', 'js/encounters.js', 'js/app.js', 'styles.css', 'index.html']) {
+for (const f of ['data/content.js', 'js/content.js', 'js/mastery.js', 'js/graph.js', 'js/map.js', 'js/explore.js', 'js/session.js', 'js/store.js', 'js/encounters.js', 'js/app.js', 'styles.css', 'index.html']) {
   hash.update(readFileSync(join(dist, f)));
 }
 const version = hash.digest('hex').slice(0, 10);

@@ -5,8 +5,9 @@ const require = createRequire(import.meta.url);
 require('../app/data/content.js');
 require('../app/js/content.js');
 require('../app/js/mastery.js');
+require('../app/js/graph.js');
 require('../app/js/session.js');
-const { content, mastery: M, session: S } = globalThis.BF;
+const { content, mastery: M, session: S, graph: GR } = globalThis.BF;
 const C = content.load();
 
 let failures = 0;
@@ -26,7 +27,7 @@ function answerAll(player, session, mode, rng, now) {
     if (e.kind === 'share') resp = { rating: good ? 'clear' : rng() < 0.5 ? 'almost' : 'needs' };
     if (e.kind === 'timeline') resp = { order: good ? e.items.map((_, i) => i) : it.order };
     if (e.kind === 'match') resp = { pairs: Object.fromEntries(e.pairs.map((_, i) => [i, good ? i : (i + 1) % e.pairs.length])) };
-    S.applyResult(C, player, session, S.evaluate(e, resp), now);
+    S.applyResult(C, player, session, S.evaluate(e, resp, player), now);
     session.index++;
   }
   return S.finish(C, player, session, now);
@@ -61,20 +62,24 @@ test('starter sessions keep curated content and fix pacing', () => {
   const s3 = S.buildStarter(C, p, 2, 1);
   assert.deepEqual(s3.items.map((i) => i.enc.id), ['D006', 'E004', 'D003', 'E014', 'E034', 'E039']);
 });
-test('starter 1 awards 70 Knowledge when all correct', () => {
+test('starter 1 awards 55 Knowledge + WORDS when all correct', () => {
+  // 3 DISCOVER × 5 + WHO 10 + WHAT 10 + RECALL 20 = 55, plus 2 WORDS found × 5.
   const p = M.newPlayer();
   const sum = answerAll(p, S.buildNext(C, p, { seed: 1 }), 'good');
-  assert.equal(sum.knowledge, 70);
-  assert.equal(p.knowledge, 70);
+  assert.deepEqual(sum.words.sort(), ['W-01', 'W-11']);
+  assert.equal(sum.knowledge, 65);
+  assert.equal(p.knowledge, 65);
   assert.equal(p.startersCompleted, 1);
   assert.equal(sum.keepThis, 'History changes when you change who gets to define the story.');
 });
-test('misses never subtract Knowledge and return sooner', () => {
+test('misses earn 0, never subtract, and return sooner', () => {
   const p = M.newPlayer();
+  p.knowledge = 400;
   const s = S.buildStarter(C, p, 0, 1);
   const now = Date.now();
-  answerAll(p, s, 'bad', Math.random, now);
-  assert.ok(p.knowledge > 0);
+  answerAll(p, s, 'bad', () => 0.9, now); // every graded answer wrong / MISSED IT
+  // Only ungraded discovery (3 × 5) and WORDS found (2 × 5) pay.
+  assert.equal(p.knowledge, 400 + 15 + 10);
   const du = p.nodes['V1-019']; // missed WHO
   assert.equal(du.lastResult, 'miss');
   assert.ok(du.nextReview - now <= 15 * 60 * 1000);
@@ -90,6 +95,98 @@ test('recognition alone cannot push review far away', () => {
   for (let i = 0; i < 8; i++) { M.recordEncounter(p, C.byId.E007, 1, now); now += 10 * M.DAY; }
   assert.ok(p.nodes['V1-018'].interval <= M.CONFIG.recognitionOnlyCapDays);
   assert.notEqual(M.label(p, 'V1-018'), 'STRONG');
+});
+
+console.log('scoring');
+test('objective: correct = full, wrong = 0', () => {
+  assert.equal(S.evaluate(C.byId.E006, { choice: C.byId.E006.correct }).points, 10);
+  assert.equal(S.evaluate(C.byId.E006, { choice: 'the first federal voting law' }).points, 0);
+  assert.equal(S.evaluate(C.byId.E034, { choice: C.byId.E034.correct }).points, 25);
+});
+test('RECALL: KNEW IT full, ALMOST half, MISSED IT 0', () => {
+  const e = C.byId.E020; // 20 points
+  assert.equal(S.evaluate(e, { rating: 'knew' }).points, 20);
+  assert.equal(S.evaluate(e, { rating: 'almost' }).points, 10);
+  assert.equal(S.evaluate(e, { rating: 'missed' }).points, 0);
+});
+test('SHARE: CLEAR full, ALMOST half (rounded), NEEDS WORK 0', () => {
+  const e = C.byId.E031; // 25 points
+  assert.equal(S.evaluate(e, { rating: 'clear' }).points, 25);
+  assert.equal(S.evaluate(e, { rating: 'almost' }).points, 13);
+  assert.equal(S.evaluate(e, { rating: 'needs' }).points, 0);
+});
+test('DISCOVER pays +5 only the first time', () => {
+  const p = M.newPlayer();
+  assert.equal(S.evaluate(C.byId.D001, {}, p).points, 5);
+  M.recordEncounter(p, C.byId.D001, 1);
+  assert.equal(S.evaluate(C.byId.D001, {}, p).points, 0);
+});
+test('TIMELINE / MATCH: full points only when fully correct', () => {
+  const t = C.byId.E018;
+  assert.equal(S.evaluate(t, { order: [0, 1, 2, 3] }).points, 15);
+  assert.equal(S.evaluate(t, { order: [0, 1, 3, 2] }).points, 0);
+  const m = C.byId.E040;
+  assert.equal(S.evaluate(m, { pairs: { 0: 0, 1: 1, 2: 2, 3: 3 } }).points, 50);
+  assert.equal(S.evaluate(m, { pairs: { 0: 0, 1: 1, 2: 3, 3: 2 } }).points, 0);
+});
+
+console.log('words');
+test('WORDS bank loads verbatim (23 quotes, exact text + speaker)', () => {
+  assert.equal(C.words.length, 23);
+  const w = C.wordsById['W-01'];
+  assert.equal(w.text, 'We wish to plead our own cause');
+  assert.equal(w.speaker, 'Freedom’s Journal editors');
+  assert.equal(C.wordsById['W-21'].text, 'they would cease to measure others always in terms of their ‘differences in color,’');
+});
+test('a quotation pays +5 once, then never again', () => {
+  const p = M.newPlayer(); const rng = S.makeRng(2);
+  const s = S.buildStarter(C, p, 0, 1);
+  answerAll(p, s, 'good', rng);
+  const k = p.knowledge;
+  const again = S.buildStarter(C, p, 0, 1); // replay the same cards
+  again.items.forEach((it) => { if (it.enc.id === 'D004') it.quoteId = 'W-01'; });
+  const foundAt = p.words['W-01'].at;
+  const sum = answerAll(p, again, 'good', rng);
+  // Replay pays graded answers (10+10+20) and only quotations that are new (Du Bois's
+  // second quote attaches this time); DISCOVER and W-01 pay nothing again.
+  assert.ok(!sum.words.includes('W-01'));
+  assert.equal(p.words['W-01'].at, foundAt);
+  assert.equal(p.knowledge - k, 40 + 5 * sum.words.length);
+});
+
+console.log('map');
+test('graph is built from real relationships and starts hidden', () => {
+  const G = GR.build(C);
+  console.log('    edges in graph:', G.edges.size);
+  const p = M.newPlayer();
+  assert.equal(GR.visibleEdges(G, p).length, 0);
+  assert.equal(GR.nodeState(G, p, 'V1-010'), 'locked');
+});
+test('connections reveal gradually, never all at once', () => {
+  const G = GR.build(C);
+  const p = M.newPlayer(); const rng = S.makeRng(4); let now = Date.now();
+  const counts = [];
+  for (let i = 0; i < 3; i++) { answerAll(p, S.buildNext(C, p, { seed: i + 1 }), 'good', rng, now); counts.push(GR.visibleEdges(C.graph, p).length); }
+  for (let k = 0; k < 6; k++) { now += M.DAY; answerAll(p, S.buildNext(C, p, { seed: 20 + k, now }), 'good', rng, now); counts.push(GR.visibleEdges(C.graph, p).length); }
+  console.log('    visible links after each session:', counts.join(' → '), 'of', G.edges.size);
+  assert.ok(counts[0] < counts[counts.length - 1]);
+  assert.ok(counts[counts.length - 1] < G.edges.size);
+  assert.equal(GR.nodeState(G, p, 'V1-044') === 'locked' || M.isSeen(p, 'V1-044'), true);
+});
+test('v1 saves migrate without losing anything', () => {
+  const p = M.newPlayer(); const rng = S.makeRng(5);
+  answerAll(p, S.buildNext(C, p, { seed: 1 }), 'good', rng);
+  const v1 = JSON.parse(JSON.stringify(p));
+  v1.version = 1; delete v1.map; delete v1.words; v1.knowledge = 1234;
+  const { player, migrated } = M.migrate(JSON.parse(JSON.stringify(v1)));
+  GR.backfill(C, GR.build(C), player);
+  assert.ok(migrated);
+  assert.equal(player.version, 2);
+  assert.equal(player.knowledge, 1234);
+  assert.deepEqual(player.nodes, v1.nodes);
+  assert.deepEqual(player.history, v1.history);
+  assert.equal(player.startersCompleted, 1);
+  assert.ok(Object.keys(player.map.nodes).length >= 4);
 });
 
 console.log('adaptive');

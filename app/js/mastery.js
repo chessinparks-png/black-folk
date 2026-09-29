@@ -8,7 +8,11 @@
 
   // ---- Tunables (kept together so they are easy to adjust) ----------------
   const CONFIG = {
-    missPoints: 5, // participation points on a miss; Knowledge is never subtracted
+    // Knowledge = successful learning. Wrong answers earn nothing; nothing is ever subtracted.
+    discoverPoints: 5, // a new DISCOVER card (ungraded)
+    wordsPoints: 5, // first time a WORDS quotation is found
+    halfCredit: 0.5, // ALMOST on RECALL / SHARE
+    partialCredit: false, // TIMELINE / MATCH: full points only when fully correct
     // Level L starts at 100·(L−1) + 10·(L−1)² Knowledge (LVL 2 at 110, LVL 12 at 2,310).
     levelBase: 100,
     levelCurve: 10,
@@ -32,9 +36,10 @@
   }
 
   // ---- Player ---------------------------------------------------------------
+  const PLAYER_VERSION = 2;
   function newPlayer() {
     return {
-      version: 1,
+      version: PLAYER_VERSION,
       createdAt: Date.now(),
       knowledge: 0,
       level: 1,
@@ -45,7 +50,29 @@
       threadsUnlocked: {}, // id -> timestamp
       debatesUnlocked: {}, // id -> timestamp
       history: [], // finished session summaries
+      map: { nodes: {}, edges: {}, lastViewed: 0 }, // Knowledge Map: discovered nodes / revealed links
+      words: {}, // WORDS found: quoteId -> { at, encounterId }
     };
+  }
+
+  // Upgrade saved progress in place. Nothing is dropped: v1 fields are kept
+  // as-is and the v2 map/WORDS fields are added (the map is backfilled from
+  // encounter history by BF.graph.backfill).
+  function migrate(saved) {
+    if (!saved || typeof saved !== 'object' || !saved.version) return { player: newPlayer(), migrated: false };
+    const p = saved;
+    const from = p.version;
+    if (p.version < 2) {
+      p.map = p.map || { nodes: {}, edges: {}, lastViewed: 0 };
+      p.words = p.words || {};
+      p.migratedFrom = p.migratedFrom || [];
+      p.migratedFrom.push({ version: from, at: Date.now() });
+      p.version = 2;
+    }
+    const fresh = newPlayer();
+    for (const k of Object.keys(fresh)) if (p[k] === undefined) p[k] = fresh[k];
+    p.level = levelFor(p.knowledge);
+    return { player: p, migrated: from !== p.version };
   }
 
   function newNodeState() {
@@ -91,6 +118,7 @@
     RECALL: 'recall',
     SHARE: 'share',
     'THEN → NOW': 'apply',
+    WORDS: 'connection',
     TIMELINE: 'context',
     MATCH: 'connection',
   };
@@ -125,6 +153,18 @@
           n.recognition = Math.max(n.recognition, 0.15);
           n.nextReview = now; // freshly met ideas are ready to be tried
         }
+      }
+      return;
+    }
+
+    // A WORDS card with no question: exposure only, no mastery judgement.
+    if (quality == null) {
+      rec.lastResult = 'seen';
+      for (const id of enc.nodeIds) {
+        const n = node(player, id);
+        if (!n.firstSeen) n.firstSeen = now;
+        n.seen++;
+        n.lastSeen = now;
       }
       return;
     }
@@ -233,6 +273,8 @@
     DAY,
     MINUTE,
     newPlayer,
+    migrate,
+    PLAYER_VERSION,
     newNodeState,
     recordEncounter,
     addKnowledge,

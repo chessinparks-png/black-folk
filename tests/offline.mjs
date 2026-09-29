@@ -24,9 +24,24 @@ await page.waitForSelector('text=BLACK FOLK', { timeout: 5000 }).catch(() => {})
 ok(await page.locator('.wordmark').count() === 1, 'reloads with the network offline');
 await page.getByRole('button', { name: /^(Play|Continue)$/ }).click();
 ok(await page.getByRole('button', { name: 'Begin' }).count() === 1, 'PLAY works offline');
+await page.goto(APP_URL + '#/explore');
+await page.waitForSelector('.kmap', { timeout: 5000 }).catch(() => {});
+ok(await page.locator('.kmap').count() === 1, 'Knowledge Map renders offline');
 const fontsOk = await page.evaluate(async () => { await document.fonts.ready; return document.fonts.check('32px "Instrument Serif"'); });
 ok(fontsOk, 'local fonts load offline');
 await ctx.close();
+
+// Installability basics: manifest with PNG icons, standalone display, iOS touch icon.
+const p0 = await browser.newPage();
+await p0.goto(APP_URL);
+const pwa = await p0.evaluate(async () => {
+  const m = await (await fetch(document.querySelector('link[rel=manifest]').href)).json();
+  const touch = document.querySelector('link[rel=apple-touch-icon]');
+  const ok = touch && (await fetch(touch.href)).ok;
+  return { display: m.display, sizes: m.icons.map((i) => i.sizes), touch: ok };
+});
+ok(pwa.display === 'standalone' && pwa.sizes.includes('192x192') && pwa.sizes.includes('512x512') && pwa.touch, 'installable: standalone manifest, 192/512 icons, apple-touch-icon');
+await p0.close();
 
 const fileUrl = 'file://' + fileURLToPath(new URL('../app/index.html', import.meta.url));
 const p2 = await browser.newPage();
@@ -40,6 +55,6 @@ await p2.getByRole('button', { name: 'Reveal' }).click();
 await p2.waitForTimeout(300);
 await p2.reload();
 const k = await p2.evaluate(() => BF.app.state.player.knowledge);
-ok(k >= 10, 'runs from file:// and progress survives reload (' + k + ' Knowledge)');
+ok(k >= 5, 'runs from file:// and progress survives reload (' + k + ' Knowledge)');
 ok(errs.length === 0, 'no errors from file://' + (errs.length ? ': ' + errs.join(' | ') : ''));
 await browser.close();

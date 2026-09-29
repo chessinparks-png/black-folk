@@ -34,6 +34,16 @@
   --accent-ink: #0f0e0d;
   --focus: #e9cf9d;
 
+  /* World signatures: muted, one family. Used for small marks only. */
+  --w-freedom: #86a3cf;
+  --w-power: #c7767a;
+  --w-education: #d2a75c;
+  --w-economics: #86ad80;
+  --w-identity: #ae92bf;
+  --w-organizing: #d08658;
+  --w-culture: #69aca5;
+  --words: #e3c89a;
+
   --serif: 'Instrument Serif', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
@@ -54,6 +64,14 @@
   --accent: #8b6a2c;
   --accent-ink: #f3efe7;
   --focus: #8b6a2c;
+  --w-freedom: #2f5591;
+  --w-power: #8a2a32;
+  --w-education: #946810;
+  --w-economics: #3b6a3e;
+  --w-identity: #6b4a7d;
+  --w-organizing: #a04b22;
+  --w-culture: #1d6d68;
+  --words: #7a5a22;
   color-scheme: light;
 }
 
@@ -119,7 +137,10 @@ a {
   width: 100%;
   max-width: calc(var(--measure) + 2 * var(--gutter));
   margin: 0 auto;
-  padding: clamp(1.5rem, 5vh, 3.5rem) var(--gutter) clamp(2rem, 6vh, 4rem);
+  padding: calc(clamp(1.5rem, 5vh, 3.5rem) + env(safe-area-inset-top, 0px))
+    calc(var(--gutter) + env(safe-area-inset-right, 0px))
+    calc(clamp(2rem, 6vh, 4rem) + env(safe-area-inset-bottom, 0px))
+    calc(var(--gutter) + env(safe-area-inset-left, 0px));
   display: flex;
   flex-direction: column;
   animation: enter 420ms var(--ease) both;
@@ -1108,6 +1129,496 @@ a {
 }
 
 /* ---------- responsive ---------- */
+
+/* ---------- world colour ---------- */
+
+[data-world='FREEDOM'] { --w: var(--w-freedom); }
+[data-world='POWER'] { --w: var(--w-power); }
+[data-world='EDUCATION'] { --w: var(--w-education); }
+[data-world='ECONOMICS'] { --w: var(--w-economics); }
+[data-world='IDENTITY'] { --w: var(--w-identity); }
+[data-world='ORGANIZING'] { --w: var(--w-organizing); }
+[data-world='CULTURE'] { --w: var(--w-culture); }
+
+.world-tag {
+  color: var(--w, var(--muted));
+}
+
+a.world-tag:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.wdot {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--w, var(--muted));
+  margin-right: 0.7em;
+  vertical-align: 0.12em;
+  font-style: normal;
+}
+
+.row[data-world] .name .wdot {
+  margin-right: 0.8em;
+}
+
+.row[data-world]:hover .name,
+.row[data-world]:focus-visible .name {
+  color: var(--w);
+}
+
+.dots li.now[data-world] {
+  background: var(--w);
+}
+
+.spectrum {
+  display: flex;
+  gap: 4px;
+  width: min(18rem, 60%);
+  margin: -1.1rem 0 2.25rem;
+}
+
+.spectrum span {
+  flex: 1;
+  height: 2px;
+  background: var(--w);
+  opacity: 0.85;
+}
+
+.links a[data-world] .wdot {
+  margin-right: 0.55em;
+}
+
+.links a[data-world]:hover {
+  border-color: var(--w);
+}
+
+.links--plain span {
+  display: inline-block;
+  padding: 0.45rem 0.75rem;
+  border: 1px dashed var(--line-strong);
+  font-size: 0.88rem;
+  color: var(--fg-soft);
+}
+
+.links--small a {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.65rem;
+}
+
+.pill[data-world] {
+  border-color: color-mix(in srgb, var(--w) 60%, transparent);
+  color: var(--w);
+}
+
+.pill--discovered[data-world] {
+  border-style: dashed;
+}
+
+.idea[data-world] a {
+  border-bottom: 1px solid var(--w);
+}
+
+/* ---------- WORDS ---------- */
+
+.words {
+  margin: 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--words);
+}
+
+.words + .words {
+  margin-top: 1.4rem;
+}
+
+.words-found .sep {
+  margin: 0 0.6em;
+}
+
+.reveal .words-by {
+  font-size: 0.78rem;
+  color: var(--fg-soft);
+}
+
+.words-text {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.65rem);
+  line-height: 1.28;
+  color: var(--fg);
+  text-wrap: pretty;
+}
+
+.words--large .words-text {
+  font-size: clamp(1.75rem, 1.1rem + 2.4vw, 2.7rem);
+  line-height: 1.16;
+}
+
+.words-by {
+  margin: 0.6rem 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+
+.words-src {
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--muted);
+}
+
+.words-found,
+.reveal p.words-found {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--words);
+  margin: 0 0 0.8rem;
+  animation: enter 500ms var(--ease) both;
+}
+
+.words-wrap {
+  margin-top: 1.75rem;
+}
+
+.words-link {
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.words-link strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.prompt-under {
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--fg-soft);
+  margin: 1.75rem 0 0;
+}
+
+.words-list {
+  margin-top: 2rem;
+  display: grid;
+  gap: 2.25rem;
+}
+
+.words-item .links {
+  margin-top: 0.9rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.75rem;
+}
+
+.filter {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.filter select {
+  appearance: none;
+  font: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  padding: 0.6rem 2rem 0.6rem 0.8rem;
+  min-height: 2.75rem;
+  max-width: 16rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.filter select option {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.quote--sm {
+  font-size: 1.35rem !important;
+}
+
+.more {
+  margin-top: 2.5rem;
+}
+
+/* ---------- Knowledge Map ---------- */
+
+.screen--wide {
+  --measure: 56rem;
+}
+
+.map-frame {
+  margin: 1rem auto 0;
+  width: 100%;
+  max-width: 46rem;
+}
+
+.map-frame--world {
+  max-width: 54rem;
+}
+
+.kmap {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.kmap .territory {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 2 5;
+}
+
+.kmap .territory.is-lit {
+  stroke: color-mix(in srgb, var(--w) 35%, transparent);
+  stroke-dasharray: none;
+}
+
+.kmap .medge {
+  fill: none;
+  stroke: color-mix(in srgb, var(--w) 55%, transparent);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.kmap .medge.is-far {
+  stroke: color-mix(in srgb, var(--w) 26%, transparent);
+  stroke-width: 1;
+}
+
+.kmap .medge.is-new {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1400ms var(--ease) 300ms forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.kmap .mstub {
+  stroke: color-mix(in srgb, var(--w) 55%, transparent);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.kmap .mstub-dot {
+  fill: var(--w);
+  opacity: 0.8;
+}
+
+.kmap .mnode .dot {
+  transition: r 300ms var(--ease);
+}
+
+.kmap .is-locked .dot {
+  fill: var(--line-strong);
+  opacity: 0.55;
+}
+
+.kmap .is-discovered .dot {
+  fill: var(--bg);
+  stroke: var(--w);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.kmap .is-connected .dot {
+  fill: color-mix(in srgb, var(--w) 55%, var(--bg));
+  stroke: var(--w);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.kmap .is-familiar .dot,
+.kmap .is-strong .dot {
+  fill: var(--w);
+}
+
+.kmap .halo {
+  fill: none;
+  stroke: var(--w);
+  stroke-width: 1;
+  opacity: 0.55;
+  vector-effect: non-scaling-stroke;
+}
+
+.kmap .hit {
+  fill: transparent;
+}
+
+.kmap .mlabel {
+  fill: var(--fg-soft);
+  font-family: var(--sans);
+  font-size: 17px;
+  letter-spacing: 0.01em;
+}
+
+.kmap--world .mlabel {
+  font-size: 23px;
+}
+
+.kmap a:hover .mlabel,
+.kmap a:focus-visible .mlabel {
+  fill: var(--w);
+}
+
+.kmap a:focus-visible {
+  outline: none;
+}
+
+.kmap a:focus-visible .dot {
+  stroke: var(--focus);
+  stroke-width: 3;
+}
+
+.kmap .mworld text {
+  fill: var(--muted);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: 0.24em;
+  opacity: 0.6;
+}
+
+.kmap .mworld.is-lit text {
+  fill: var(--w);
+  opacity: 1;
+}
+
+.kmap .mworld:hover text,
+.kmap .mworld:focus-visible text {
+  text-decoration: underline;
+}
+
+.kmap .mworld-center {
+  fill: var(--w);
+  opacity: 0.5;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.3em;
+}
+
+.gaps {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.gap-dots {
+  letter-spacing: 0.1em;
+  color: var(--line-strong);
+}
+
+/* ---------- thread view ---------- */
+
+.thread-steps {
+  list-style: none;
+  margin: 2.25rem 0 0;
+  padding: 0 0 0 1.4rem;
+  border-left: 1px solid var(--line-strong);
+  display: grid;
+  gap: 1.6rem;
+}
+
+.thread-steps li {
+  position: relative;
+}
+
+.thread-steps li::before {
+  content: '';
+  position: absolute;
+  left: calc(-1.4rem - 5px);
+  top: 0.45rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--w, var(--bg));
+  border: 1px solid var(--w, var(--line-strong));
+}
+
+.thread-steps li.is-locked::before {
+  background: var(--bg);
+}
+
+.thread-steps a {
+  display: block;
+}
+
+.step-name {
+  display: block;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.thread-steps a:hover .step-name {
+  color: var(--w);
+}
+
+.step-sub {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  line-height: 1.3;
+  color: var(--fg-soft);
+  margin-top: 0.3rem;
+}
+
+@media (max-width: 700px) {
+  /* Small screens: the whole map shows territories and dots; labels live in each world. */
+  .kmap--overview .mlabel {
+    display: none;
+  }
+  .kmap--overview .mworld text {
+    font-size: 30px;
+    letter-spacing: 0.14em;
+  }
+  .kmap--world .mlabel {
+    font-size: 44px;
+  }
+  .kmap .mworld-center {
+    font-size: 34px;
+  }
+  .map-frame {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    width: calc(100% + 1rem);
+  }
+}
 
 @media (max-width: 640px) {
   body {
