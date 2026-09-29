@@ -1,0 +1,3320 @@
+{
+  "project": "BLACK FOLK",
+  "version": "V1.5 full encounter pack",
+  "status": "playable content pack for integration into the existing app",
+  "source_of_truth": "black_folk_v1_5_master_curriculum.json",
+  "item_counts": {
+    "discovery_cards": 50,
+    "active_encounters": 80,
+    "total_playable_items": 130
+  },
+  "session_design": {
+    "target_minutes": "5–8",
+    "default_encounters_per_session": 6,
+    "recommended_mix": "2 discovery/new + 2 retrieval/review + 1 connection/context + 1 higher-order encounter",
+    "points": {
+      "discover_or_easy_recognition": 10,
+      "context_or_basic_connection": 15,
+      "recall_or_application": 20,
+      "hard_connection_or_share": 25,
+      "advanced_debate": 30,
+      "boss_round": 50
+    },
+    "feedback": "Show +Knowledge briefly, then disappear. Do not add extra currencies.",
+    "mastery_logic": "Points reward play; mastery tracks what the player actually knows. Missed items return sooner. Recall-before-reveal and share cards use self-rating.",
+    "pacing_rules": [
+      "Never show more than two standard multiple-choice encounters in a row.",
+      "New concepts should usually appear first as a short DISCOVER card, then be tested later.",
+      "Keep ordinary prompt text under ~28 words when possible.",
+      "Keep ordinary reveals to 1–2 short sentences.",
+      "Use three answer choices when a fourth choice adds no useful discrimination.",
+      "Do not use a debate as the first exposure to either thinker.",
+      "End every session with KEEP THIS, not another quiz."
+    ],
+    "new_player_onboarding": "Use three curated starter sessions before fully adaptive play. Teach the interface without explaining the scheduling system."
+  },
+  "modes": {
+    "WHAT": "recognize an idea",
+    "WHO": "identify a thinker",
+    "CONNECT": "link thinkers, ideas, or strategies",
+    "SAME QUESTION": "compare historically grounded answers without choosing a political winner",
+    "RECALL": "think first, reveal, self-rate",
+    "SHARE": "explain aloud, reveal model, self-rate",
+    "THEN → NOW": "apply an old lens to a generic present-day scenario",
+    "TIMELINE": "place ideas/events in sequence",
+    "BOSS ROUND": "multi-node synthesis after prerequisites",
+    "WHY THEN": "connect idea to the historical circumstances that made it significant",
+    "DISCOVER": "brief first exposure to a strong idea; tap to continue",
+    "MATCH": "drag or tap to match thinkers with ideas; no typing"
+  },
+  "hidden_lens_rules": [
+    "Repeatedly surface questions of power, ownership, institutions, collective capacity, structure, and what happens after protest.",
+    "Use WHO IS “WE”? as a recurring question, not a scored doctrine or formal thread.",
+    "Distinguish access from control and individual mobility from structural change.",
+    "The hidden Black-radical lens shapes which questions recur; it does not predetermine the player’s political answers.",
+    "Debates present competing strategies sympathetically and never score a political winner."
+  ],
+  "content_rules": [
+    "A new idea should usually appear as DISCOVER before it is tested.",
+    "Never show more than two standard multiple-choice screens in a row.",
+    "Ordinary prompts should stay short enough to read comfortably on a phone.",
+    "Use BEST FIT for strategic or interpretive comparisons.",
+    "RECALL and SHARE use self-rating rather than AI grading.",
+    "Misses return sooner; never remove Knowledge.",
+    "WORDS remains reserved for verified literal quotations and is not expanded by this pack.",
+    "TODAY claims require fresh sourcing; generic transfer scenarios are allowed when they do not assert current facts."
+  ],
+  "discovery_cards": [
+    {
+      "id": "D001",
+      "mode": "DISCOVER",
+      "title": "START HERE",
+      "statement": "Black history doesn’t start in 1619. It starts in Africa.",
+      "reveal": "Enslavement is a rupture in a longer African history—not the beginning of Black existence.",
+      "points": 10,
+      "node_ids": [
+        "V1-001"
+      ],
+      "world": "IDENTITY",
+      "source": "Four Hundred Souls — Africa"
+    },
+    {
+      "id": "D002",
+      "mode": "DISCOVER",
+      "title": "DU BOIS",
+      "statement": "You can know yourself—and still feel yourself being measured through somebody else’s eyes.",
+      "reveal": "Du Bois called this tension double consciousness.",
+      "points": 10,
+      "node_ids": [
+        "V1-019"
+      ],
+      "world": "IDENTITY",
+      "source": "Black AF History — Introduction / The Souls of Black Folk"
+    },
+    {
+      "id": "D003",
+      "mode": "DISCOVER",
+      "title": "ELLA BAKER",
+      "statement": "Strong leadership should leave more people capable of leading.",
+      "reveal": "Baker favored participatory leadership over a movement dependent on one public figure.",
+      "points": 10,
+      "node_ids": [
+        "V1-034"
+      ],
+      "world": "ORGANIZING",
+      "source": "Black AF History + Four Hundred Souls — Ella Baker"
+    },
+    {
+      "id": "D004",
+      "mode": "DISCOVER",
+      "title": "FREEDOM’S JOURNAL",
+      "statement": "Owning the platform can be part of owning the story.",
+      "reveal": "Black-controlled media gave Black communities a way to define themselves publicly.",
+      "points": 10,
+      "node_ids": [
+        "V1-010"
+      ],
+      "world": "CULTURE",
+      "source": "Four Hundred Souls — Freedom’s Journal"
+    },
+    {
+      "id": "D005",
+      "mode": "DISCOVER",
+      "title": "RECONSTRUCTION",
+      "statement": "Ending slavery answered one question. Freedom created several more.",
+      "reveal": "Citizenship, voting, education, land, labor, and political power still had to be fought over.",
+      "points": 10,
+      "node_ids": [
+        "V1-015"
+      ],
+      "world": "POWER",
+      "source": "Four Hundred Souls + Black AF History — Reconstruction"
+    },
+    {
+      "id": "D006",
+      "mode": "DISCOVER",
+      "title": "IDA B. WELLS",
+      "statement": "Before accepting the story used to justify violence, check the evidence.",
+      "reveal": "Wells used reporting and statistics to challenge the myths used to defend lynching.",
+      "points": 10,
+      "node_ids": [
+        "V1-021"
+      ],
+      "world": "POWER",
+      "source": "Black AF History — Ida B. Wells"
+    },
+    {
+      "id": "D007",
+      "mode": "DISCOVER",
+      "title": "ZORA NEALE HURSTON",
+      "statement": "Black life did not need to become a protest message before it could become art.",
+      "reveal": "Hurston treated vernacular, folklore, humor, and ordinary life as worthy subjects themselves.",
+      "points": 10,
+      "node_ids": [
+        "V1-027"
+      ],
+      "world": "CULTURE",
+      "source": "Four Hundred Souls — Zora Neale Hurston"
+    },
+    {
+      "id": "D008",
+      "mode": "DISCOVER",
+      "title": "MALCOLM X",
+      "statement": "A struggle for citizenship can also be framed as a struggle for human rights.",
+      "reveal": "Malcolm increasingly placed Black freedom inside a global story of self-determination and anticolonial struggle.",
+      "points": 10,
+      "node_ids": [
+        "V1-036"
+      ],
+      "world": "FREEDOM",
+      "source": "Black AF History + Four Hundred Souls — Malcolm X"
+    },
+    {
+      "id": "D009",
+      "mode": "DISCOVER",
+      "title": "LAW HELPED CONSTRUCT RACE",
+      "statement": "Racist law didn’t just enforce race. It helped define what race meant.",
+      "reveal": "Colonial law did not merely reflect racial categories; it helped harden them by assigning unequal status, rights, and inheritance.",
+      "points": 10,
+      "node_ids": [
+        "V1-002"
+      ],
+      "world": "POWER",
+      "source": "Four Hundred Souls + Black AF History — 1664–1709 chapters; Black AF History 'How White People Were Invented'"
+    },
+    {
+      "id": "D010",
+      "mode": "DISCOVER",
+      "title": "BACON’S REBELLION AND DIVIDED INTERESTS",
+      "statement": "Race and class can divide people who share material problems.",
+      "reveal": "Colonial elites had incentives to sharpen racial divisions among laboring people who could otherwise share economic grievances.",
+      "points": 10,
+      "node_ids": [
+        "V1-003"
+      ],
+      "world": "ECONOMICS",
+      "source": "Four Hundred Souls — 1674–1679: Bacon’s Rebellion"
+    },
+    {
+      "id": "D011",
+      "mode": "DISCOVER",
+      "title": "MARRONAGE AND AUTONOMOUS COMMUNITIES",
+      "statement": "Sometimes freedom meant escaping the system and building somewhere else.",
+      "reveal": "Some enslaved people pursued freedom by leaving slave society and building alternative communities such as maroon settlements and Fort Mose.",
+      "points": 10,
+      "node_ids": [
+        "V1-004"
+      ],
+      "world": "FREEDOM",
+      "source": "Four Hundred Souls — 1719–1724: Maroons and Marronage; 1734–1739: From Fort Mose to Soul City"
+    },
+    {
+      "id": "D012",
+      "mode": "DISCOVER",
+      "title": "THE SPIRITUALS",
+      "statement": "A song can carry history, faith, and strategy at the same time.",
+      "reveal": "Spirituals could carry theology, memory, coded meaning, endurance, and visions of freedom simultaneously.",
+      "points": 10,
+      "node_ids": [
+        "V1-005"
+      ],
+      "world": "CULTURE",
+      "source": "Four Hundred Souls — 1724–1729: The Spirituals"
+    },
+    {
+      "id": "D013",
+      "mode": "DISCOVER",
+      "title": "FREEDOM CHURCH",
+      "statement": "The Black church became both a sanctuary and an organizing institution.",
+      "reveal": "Independent Black religious life became a place where faith, collective organization, mutual aid, and claims for freedom could meet.",
+      "points": 10,
+      "node_ids": [
+        "V1-006"
+      ],
+      "world": "CULTURE",
+      "source": "Four Hundred Souls — David George / freedom church; Savannah and early Black churches"
+    },
+    {
+      "id": "D014",
+      "mode": "DISCOVER",
+      "title": "PHILLIS WHEATLEY",
+      "statement": "Wheatley had to write poems—and prove Black people could think.",
+      "reveal": "Black literary achievement challenged claims of Black intellectual inferiority while exposing the burden of having to prove humanity to a hostile public.",
+      "points": 10,
+      "node_ids": [
+        "V1-007"
+      ],
+      "world": "EDUCATION",
+      "source": "Four Hundred Souls — 1764–1769: Phillis Wheatley"
+    },
+    {
+      "id": "D015",
+      "mode": "DISCOVER",
+      "title": "LIBERTY’S CONTRADICTION",
+      "statement": "America preached universal liberty while deciding who counted as universal.",
+      "reveal": "Enlightenment and Revolutionary language about universal liberty coexisted with racial hierarchy and slavery, giving Black people both a contradiction to expose and a language to claim.",
+      "points": 10,
+      "node_ids": [
+        "V1-008"
+      ],
+      "world": "FREEDOM",
+      "source": "Four Hundred Souls — 1749–1754: Race and the Enlightenment; 1774–1779: The American Revolution"
+    },
+    {
+      "id": "D016",
+      "mode": "DISCOVER",
+      "title": "DENMARK VESEY",
+      "statement": "Rebellion required organization long before it required action.",
+      "reveal": "Black resistance could require secret networks, trust, planning, and a willingness to pursue collective freedom under severe repression.",
+      "points": 10,
+      "node_ids": [
+        "V1-009"
+      ],
+      "world": "ORGANIZING",
+      "source": "Four Hundred Souls — 1819–1824: Denmark Vesey"
+    },
+    {
+      "id": "D017",
+      "mode": "DISCOVER",
+      "title": "MARIA STEWART",
+      "statement": "Stewart argued that Black freedom could not leave Black women behind.",
+      "reveal": "Stewart connected Black advancement to education, public voice, economic ambition, and the political agency of Black women.",
+      "points": 10,
+      "node_ids": [
+        "V1-011"
+      ],
+      "world": "EDUCATION",
+      "source": "Four Hundred Souls — 1829–1834: Maria Stewart"
+    },
+    {
+      "id": "D018",
+      "mode": "DISCOVER",
+      "title": "NATIONAL NEGRO CONVENTIONS",
+      "statement": "Movements need places to argue about strategy, not only places to protest.",
+      "reveal": "Black political thought developed through institutions where people debated abolition, education, migration, and strategy together.",
+      "points": 10,
+      "node_ids": [
+        "V1-012"
+      ],
+      "world": "ORGANIZING",
+      "source": "Four Hundred Souls — 1834–1839: The National Negro Conventions"
+    },
+    {
+      "id": "D019",
+      "mode": "DISCOVER",
+      "title": "JAMES MCCUNE SMITH",
+      "statement": "McCune Smith fought racist 'science' with evidence and expertise.",
+      "reveal": "Black intellectuals used scholarship and professional expertise to challenge racial pseudoscience and supposedly objective claims of inferiority.",
+      "points": 10,
+      "node_ids": [
+        "V1-013"
+      ],
+      "world": "EDUCATION",
+      "source": "Four Hundred Souls — 1844–1849: James McCune Smith, M.D."
+    },
+    {
+      "id": "D020",
+      "mode": "DISCOVER",
+      "title": "FREDERICK DOUGLASS",
+      "statement": "Douglass escaped slavery, then spent his life attacking the system itself.",
+      "reveal": "Douglass linked literacy, abolition, citizenship, political action, and the destruction of slavery; personal escape was not enough while the system remained.",
+      "points": 10,
+      "node_ids": [
+        "V1-014"
+      ],
+      "world": "FREEDOM",
+      "source": "Four Hundred Souls — 1859–1864: Frederick Douglass"
+    },
+    {
+      "id": "D021",
+      "mode": "DISCOVER",
+      "title": "ATLANTA WASHERWOMEN",
+      "statement": "Black washerwomen turned private labor into collective bargaining power.",
+      "reveal": "Black washerwomen used labor autonomy, common rates, mutual-aid traditions, and collective organization to increase control over their work.",
+      "points": 10,
+      "node_ids": [
+        "V1-016"
+      ],
+      "world": "ECONOMICS",
+      "source": "Four Hundred Souls — Atlanta / washerwomen and post-Reconstruction Black neighborhoods"
+    },
+    {
+      "id": "D022",
+      "mode": "DISCOVER",
+      "title": "PLESSY AND THE CITIZENS’ COMMITTEE",
+      "statement": "Plessy was a defeat in court—and the product of organized resistance.",
+      "reveal": "Plessy v. Ferguson legalized 'separate but equal,' but the case itself grew from organized Black resistance to segregation.",
+      "points": 10,
+      "node_ids": [
+        "V1-017"
+      ],
+      "world": "POWER",
+      "source": "Four Hundred Souls — 1894–1899: Plessy v. Ferguson"
+    },
+    {
+      "id": "D023",
+      "mode": "DISCOVER",
+      "title": "BOOKER T. WASHINGTON",
+      "statement": "Washington’s bet: build skills and wealth while navigating a hostile system.",
+      "reveal": "Washington emphasized industrial education, economic strength, and pragmatic advancement as a route toward Black progress in a hostile political environment.",
+      "points": 10,
+      "node_ids": [
+        "V1-018"
+      ],
+      "world": "EDUCATION",
+      "source": "Four Hundred Souls + Black AF History — 1899–1904: Booker T. Washington; Wells section"
+    },
+    {
+      "id": "D024",
+      "mode": "DISCOVER",
+      "title": "W.E.B. DU BOIS — BLACK RECONSTRUCTION",
+      "statement": "Du Bois made enslaved people actors in emancipation, not spectators to it.",
+      "reveal": "Du Bois reframed Reconstruction and emancipation around Black agency, arguing that enslaved people helped destroy slavery by withdrawing labor and joining the freedom struggle.",
+      "points": 10,
+      "node_ids": [
+        "V1-020"
+      ],
+      "world": "POWER",
+      "source": "Black AF History — Black Reconstruction / 'The General Strike' discussion"
+    },
+    {
+      "id": "D025",
+      "mode": "DISCOVER",
+      "title": "IDA B. WELLS — LEVERAGE AND SELF-PROTECTION",
+      "statement": "Wells paired truth-telling with economic pressure and self-protection.",
+      "reveal": "Wells treated migration, boycotts, public exposure, and self-defense as forms of leverage when authorities would not protect Black communities.",
+      "points": 10,
+      "node_ids": [
+        "V1-022"
+      ],
+      "world": "ORGANIZING",
+      "source": "Black AF History — Ida B. Wells section; Mob Rule discussion"
+    },
+    {
+      "id": "D026",
+      "mode": "DISCOVER",
+      "title": "MARY CHURCH TERRELL",
+      "statement": "Terrell turned education and status into tools for public action.",
+      "reveal": "Terrell used education, writing, club work, anti-lynching advocacy, women’s rights, and direct challenges to segregation as mutually reinforcing forms of public action.",
+      "points": 10,
+      "node_ids": [
+        "V1-023"
+      ],
+      "world": "EDUCATION",
+      "source": "Black AF History — Mary Church Terrell section"
+    },
+    {
+      "id": "D027",
+      "mode": "DISCOVER",
+      "title": "CALLIE HOUSE",
+      "statement": "The reparations movement had mass organizers more than a century ago.",
+      "reveal": "House helped build a mass reparations movement among formerly enslaved people through local chapters, churches, agents, and membership organization.",
+      "points": 10,
+      "node_ids": [
+        "V1-024"
+      ],
+      "world": "ECONOMICS",
+      "source": "Black AF History — Ex-slave pension / Callie House discussion"
+    },
+    {
+      "id": "D028",
+      "mode": "DISCOVER",
+      "title": "THE GREAT MIGRATION",
+      "statement": "Millions moved because geography itself could shape freedom.",
+      "reveal": "Migration became a strategy for pursuing safety, wages, political possibility, and autonomy, not simply a change of address.",
+      "points": 10,
+      "node_ids": [
+        "V1-025"
+      ],
+      "world": "FREEDOM",
+      "source": "Four Hundred Souls — 1914–1919: The Great Migration"
+    },
+    {
+      "id": "D029",
+      "mode": "DISCOVER",
+      "title": "HARLEM RENAISSANCE",
+      "statement": "The Harlem Renaissance was also a debate about who Black art was for.",
+      "reveal": "The Harlem Renaissance became an argument about who could define Black life and what Black art owed to politics, audiences, and white patronage.",
+      "points": 10,
+      "node_ids": [
+        "V1-026"
+      ],
+      "world": "CULTURE",
+      "source": "Four Hundred Souls — 1924–1929: The Harlem Renaissance"
+    },
+    {
+      "id": "D030",
+      "mode": "DISCOVER",
+      "title": "JAMES BALDWIN",
+      "statement": "Baldwin refused narrow stories about what Black life was allowed to be.",
+      "reveal": "Baldwin pushed against narrow depictions of Black life and used autobiography, criticism, and global perspective to insist on fuller Black humanity.",
+      "points": 10,
+      "node_ids": [
+        "V1-028"
+      ],
+      "world": "IDENTITY",
+      "source": "Four Hundred Souls — 1954–1959 cultural chapter / Notes of a Native Son discussion"
+    },
+    {
+      "id": "D031",
+      "mode": "DISCOVER",
+      "title": "THE BLACK LEFT",
+      "statement": "The Black Left tied race to who owned, worked, and profited.",
+      "reveal": "Black radicals linked racial hierarchy to labor, capitalism, imperialism, and class instead of treating racism only as prejudice.",
+      "points": 10,
+      "node_ids": [
+        "V1-029"
+      ],
+      "world": "ECONOMICS",
+      "source": "Four Hundred Souls — 1944–1949: The Black Left"
+    },
+    {
+      "id": "D032",
+      "mode": "DISCOVER",
+      "title": "MARY MCLEOD BETHUNE",
+      "statement": "Bethune built institutions outside government and leverage inside it.",
+      "reveal": "Bethune combined Black institution-building with access to federal decision-makers to pursue jobs, education, and policy opportunities.",
+      "points": 10,
+      "node_ids": [
+        "V1-030"
+      ],
+      "world": "POWER",
+      "source": "Black AF History — Mary McLeod Bethune section"
+    },
+    {
+      "id": "D033",
+      "mode": "DISCOVER",
+      "title": "A. PHILIP RANDOLPH",
+      "statement": "Randolph’s leverage came from people organized behind the threat.",
+      "reveal": "Randolph used the credible threat of mass protest to increase pressure on federal officials over employment discrimination.",
+      "points": 10,
+      "node_ids": [
+        "V1-031"
+      ],
+      "world": "ORGANIZING",
+      "source": "Black AF History — Bethune / Randolph / Executive Order 8802 discussion"
+    },
+    {
+      "id": "D034",
+      "mode": "DISCOVER",
+      "title": "BROWN V. BOARD",
+      "statement": "Brown changed the rule before it changed the reality.",
+      "reveal": "Brown overturned the constitutional basis for school segregation, while demonstrating that changing the legal rule and changing institutions are separate tasks.",
+      "points": 10,
+      "node_ids": [
+        "V1-032"
+      ],
+      "world": "POWER",
+      "source": "Four Hundred Souls — 1949–1954: The Road to Brown v. Board"
+    },
+    {
+      "id": "D035",
+      "mode": "DISCOVER",
+      "title": "MONTGOMERY 1955 — ORGANIZER, ACTION, SYMBOL",
+      "statement": "Parks became the symbol because organizers were already prepared to move.",
+      "reveal": "Claudette Colvin, Rosa Parks, Jo Ann Robinson, the Women’s Political Council, lawyers, and local networks show that the person who acts, the person who organizes, and the person who becomes the symbol may be different people.",
+      "points": 10,
+      "node_ids": [
+        "V1-033"
+      ],
+      "world": "ORGANIZING",
+      "source": "Black AF History — Women who desegregated Montgomery buses"
+    },
+    {
+      "id": "D036",
+      "mode": "DISCOVER",
+      "title": "MARTIN LUTHER KING JR. — NONVIOLENT RESISTANCE",
+      "statement": "King’s nonviolence was a method of resistance, not passive acceptance.",
+      "reveal": "King treated disciplined nonviolent resistance as an organizing strategy for confronting injustice publicly, mobilizing broad participation, and applying moral and political pressure.",
+      "points": 10,
+      "node_ids": [
+        "V1-035"
+      ],
+      "world": "POWER",
+      "source": "Black AF History + Four Hundred Souls — Civil Rights Movement / Black Power discussions"
+    },
+    {
+      "id": "D037",
+      "mode": "DISCOVER",
+      "title": "STOKELY CARMICHAEL / KWAME TURE",
+      "statement": "Carmichael shifted the question from inclusion to political control.",
+      "reveal": "Carmichael/Ture emphasized Black political self-determination and evolved from civil-rights organizing toward Black Power and Pan-Africanism.",
+      "points": 10,
+      "node_ids": [
+        "V1-037"
+      ],
+      "world": "POWER",
+      "source": "Black AF History + Four Hundred Souls — Black Power chapters"
+    },
+    {
+      "id": "D038",
+      "mode": "DISCOVER",
+      "title": "FRED HAMPTON",
+      "statement": "Hampton built coalition around concrete needs, not vague solidarity.",
+      "reveal": "Hampton linked political education, community programs, and coalition across racial and ethnic groups around shared material interests.",
+      "points": 10,
+      "node_ids": [
+        "V1-038"
+      ],
+      "world": "ORGANIZING",
+      "source": "Black AF History — Fred Hampton / COINTELPRO section"
+    },
+    {
+      "id": "D039",
+      "mode": "DISCOVER",
+      "title": "COMBAHEE RIVER COLLECTIVE",
+      "statement": "Combahee asked politics to see Black women whole, not one category at a time.",
+      "reveal": "Combahee argued that race, gender, class, and sexuality could operate simultaneously; Black women could build politics from their own position while still forming coalitions.",
+      "points": 10,
+      "node_ids": [
+        "V1-039"
+      ],
+      "world": "IDENTITY",
+      "source": "Four Hundred Souls — 1974–1979: Combahee River Collective"
+    },
+    {
+      "id": "D040",
+      "mode": "DISCOVER",
+      "title": "HIP-HOP GENERATION",
+      "statement": "Hip-hop became a political language without needing to look like a political meeting.",
+      "reveal": "Hip-hop became a space where a new generation narrated Black urban life, politics, creativity, alienation, and identity outside older movement forms.",
+      "points": 10,
+      "node_ids": [
+        "V1-040"
+      ],
+      "world": "CULTURE",
+      "source": "Four Hundred Souls — 1984–1989: The Hip-Hop Generation"
+    },
+    {
+      "id": "D041",
+      "mode": "DISCOVER",
+      "title": "ANITA HILL AND BLACK WOMEN’S PUBLIC VOICE",
+      "statement": "Anita Hill exposed what happens when race and gender demand different loyalties.",
+      "reveal": "The Anita Hill hearings forced public debate over race, gender, sexual harassment, credibility, and whether Black women’s experiences could be subordinated to other political loyalties.",
+      "points": 10,
+      "node_ids": [
+        "V1-041"
+      ],
+      "world": "IDENTITY",
+      "source": "Four Hundred Souls — 1989–1994: Anita Hill"
+    },
+    {
+      "id": "D042",
+      "mode": "DISCOVER",
+      "title": "BLACK IMMIGRANT IDENTITY",
+      "statement": "Black identity can unite people without erasing where they came from.",
+      "reveal": "Blackness in the United States includes immigrants whose national, ethnic, and racial identities interact with a U.S. racial system that may read them simply as Black.",
+      "points": 10,
+      "node_ids": [
+        "V1-042"
+      ],
+      "world": "IDENTITY",
+      "source": "Four Hundred Souls — 1999–2004: The Black Immigrant"
+    },
+    {
+      "id": "D043",
+      "mode": "DISCOVER",
+      "title": "VOTING RIGHTS AFTER SHELBY",
+      "statement": "Voting rights can expand, contract, and require protection again.",
+      "reveal": "The history of voting rights shows that legal protections can be weakened or reinterpreted after major victories, making political rights an ongoing institutional question.",
+      "points": 10,
+      "node_ids": [
+        "V1-043"
+      ],
+      "world": "POWER",
+      "source": "Four Hundred Souls — 2009–2014: The Shelby Ruling"
+    },
+    {
+      "id": "D044",
+      "mode": "DISCOVER",
+      "title": "BLACK LIVES MATTER — ORGANIZATIONAL FORM",
+      "statement": "Modern movements inherited old questions about leadership, power, and whose lives count.",
+      "reveal": "Black Lives Matter drew on Black feminist and grassroots traditions while using decentralized networks to organize in a media environment very different from mid-century movements.",
+      "points": 10,
+      "node_ids": [
+        "V1-044"
+      ],
+      "world": "ORGANIZING",
+      "source": "Four Hundred Souls — 2014–2019: Black Lives Matter"
+    },
+    {
+      "id": "D045",
+      "mode": "DISCOVER",
+      "title": "RESPECTABILITY",
+      "statement": "Respectability asks whether meeting dominant standards can buy protection, legitimacy, or opportunity.",
+      "reveal": "Respectability is the strategy or expectation that Black people can gain legitimacy, protection, opportunity, or acceptance by meeting dominant standards of behavior, appearance, morality, class, or public presentation.",
+      "points": 10,
+      "node_ids": [
+        "V1-045"
+      ],
+      "world": "IDENTITY",
+      "source": "Black Perspectives audit synthesis + existing BLACK FOLK historical nodes — Vengeance feminism / fury and disrepute cluster; Montgomery; Wells; Terrell; Washington"
+    },
+    {
+      "id": "D046",
+      "mode": "DISCOVER",
+      "title": "ABOLITION",
+      "statement": "Abolition asks what must end—and what must be built in its place.",
+      "reveal": "Abolition is a Black intellectual and political tradition that asks whether some systems must be ended rather than repaired—and what social institutions must exist so that the ending produces a durable form of freedom.",
+      "points": 10,
+      "node_ids": [
+        "V1-046"
+      ],
+      "world": "FREEDOM",
+      "source": "Keywords for African American Studies — Abolition — Sarah Haley"
+    },
+    {
+      "id": "D047",
+      "mode": "DISCOVER",
+      "title": "BLACK NATIONALISM",
+      "statement": "Black nationalism asks what Black self-determination requires in power, institutions, culture, and resources.",
+      "reveal": "Black nationalism is a varied tradition of Black self-determination. Different nationalists have emphasized territory, political unity, economic control, culture, independent institutions, or combinations of these.",
+      "points": 10,
+      "node_ids": [
+        "V1-047"
+      ],
+      "world": "POWER",
+      "source": "Keywords for African American Studies — Nationalism — Yohuru Williams"
+    },
+    {
+      "id": "D048",
+      "mode": "DISCOVER",
+      "title": "PAN-AFRICANISM",
+      "statement": "Pan-Africanism tries to turn global Black connection into organized solidarity.",
+      "reveal": "Pan-Africanism is a family of political and cultural projects that tries to turn connections among African-descended peoples into deliberate solidarity, organization, or cooperation across national borders.",
+      "points": 10,
+      "node_ids": [
+        "V1-048"
+      ],
+      "world": "ORGANIZING",
+      "source": "Keywords for African American Studies — Pan-Africanism — Tsitsi Jaji"
+    },
+    {
+      "id": "D049",
+      "mode": "DISCOVER",
+      "title": "CRIMINALIZATION",
+      "statement": "Criminalization asks who gets defined as dangerous—and who gains power from that label.",
+      "reveal": "Criminalization is the process through which laws, institutions, media, and social narratives define particular people, behaviors, or communities as dangerous and therefore more legitimately punishable or controllable.",
+      "points": 10,
+      "node_ids": [
+        "V1-049"
+      ],
+      "world": "POWER",
+      "source": "Keywords for African American Studies — Criminal — Dylan Rodríguez"
+    },
+    {
+      "id": "D050",
+      "mode": "DISCOVER",
+      "title": "PREDATORY INCLUSION",
+      "statement": "Predatory inclusion is access granted on unequal or exploitative terms.",
+      "reveal": "Predatory inclusion describes access granted to people previously excluded from a market or institution, but on unequal or exploitative terms that can reproduce extraction rather than equal power.",
+      "points": 10,
+      "node_ids": [
+        "V1-050"
+      ],
+      "world": "ECONOMICS",
+      "source": "Black Perspectives audit synthesis — Paige Glotzer on Keeanga-Yamahtta Taylor's Race for Profit — predatory inclusion"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "E001",
+      "mode": "WHAT",
+      "prompt": "Black history in America does not begin with enslavement. Which idea follows?",
+      "answers": [
+        "Black history begins with the Civil War.",
+        "Black American history sits inside a longer African history.",
+        "Black history begins with the Great Migration.",
+        "Black history is mainly a history of U.S. law."
+      ],
+      "correct_answer": "Black American history sits inside a longer African history.",
+      "reveal": "Enslavement is a rupture in a longer African history, not the beginning of Black existence.",
+      "points": 10,
+      "node_ids": [
+        "V1-001"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — 1624–1629: Africa",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E002",
+      "mode": "WHO",
+      "prompt": "Who described the strain of seeing yourself through your own eyes and through a society that devalues Blackness?",
+      "answers": [
+        "W.E.B. Du Bois",
+        "Booker T. Washington",
+        "Frederick Douglass",
+        "James Baldwin"
+      ],
+      "correct_answer": "W.E.B. Du Bois",
+      "reveal": "Du Bois called this tension double consciousness.",
+      "points": 10,
+      "node_ids": [
+        "V1-019"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "RECALL"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Introduction / The Souls of Black Folk",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E003",
+      "mode": "WHAT",
+      "prompt": "Ella Baker’s model of strong leadership was closest to…",
+      "answers": [
+        "create more leaders",
+        "protect one central spokesperson",
+        "avoid local organizations",
+        "focus on elections only"
+      ],
+      "correct_answer": "create more leaders",
+      "reveal": "Baker favored participatory leadership that increased ordinary people’s capacity to act.",
+      "points": 10,
+      "node_ids": [
+        "V1-034"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Black AF History + Four Hundred Souls — Ella Baker / Civil Rights Movement",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E004",
+      "mode": "CONNECT",
+      "prompt": "Which pair belongs together?",
+      "answers": [
+        "Ida B. Wells → investigative reporting and anti-lynching evidence",
+        "Zora Neale Hurston → federal employment policy",
+        "Mary McLeod Bethune → maroon settlements",
+        "Fred Hampton → the Harlem Renaissance"
+      ],
+      "correct_answer": "Ida B. Wells → investigative reporting and anti-lynching evidence",
+      "reveal": "Wells used reporting and statistics to challenge the stories used to justify lynching.",
+      "points": 15,
+      "node_ids": [
+        "V1-021"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Ida B. Wells section",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E005",
+      "mode": "WHY THEN",
+      "prompt": "Why does Reconstruction matter to the meaning of freedom?",
+      "answers": [
+        "It shows that ending slavery did not settle questions of citizenship and power.",
+        "It was the beginning of the Atlantic slave trade.",
+        "It created the Harlem Renaissance.",
+        "It ended all legal segregation immediately."
+      ],
+      "correct_answer": "It shows that ending slavery did not settle questions of citizenship and power.",
+      "reveal": "Emancipation answered whether slavery would continue. Reconstruction raised the harder question of what freedom would require next.",
+      "points": 15,
+      "node_ids": [
+        "V1-015"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls + Black AF History — Reconstruction",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E006",
+      "mode": "WHAT",
+      "prompt": "Freedom’s Journal mattered because it gave Black communities…",
+      "answers": [
+        "a Black-controlled platform for self-representation",
+        "the first federal voting law",
+        "a national labor union",
+        "the first integrated university"
+      ],
+      "correct_answer": "a Black-controlled platform for self-representation",
+      "reveal": "Black-controlled media meant Black people did not have to rely entirely on outside institutions to define Black life.",
+      "points": 10,
+      "node_ids": [
+        "V1-010"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — 1824–1829: Freedom’s Journal",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E007",
+      "mode": "WHAT",
+      "prompt": "Booker T. Washington’s strategy emphasized…",
+      "answers": [
+        "industrial education and economic strength",
+        "armed insurrection",
+        "decentralized student leadership",
+        "literary modernism"
+      ],
+      "correct_answer": "industrial education and economic strength",
+      "reveal": "Washington emphasized education, work, and economic advancement in a hostile political environment.",
+      "points": 10,
+      "node_ids": [
+        "V1-018"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls + Black AF History — Booker T. Washington",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E008",
+      "mode": "WHAT",
+      "prompt": "Which idea best fits Zora Neale Hurston?",
+      "answers": [
+        "Black life could be worthy of art without always becoming a protest message.",
+        "Black art should only address electoral politics.",
+        "Black culture should avoid folklore and vernacular.",
+        "Art should be replaced by political organizing."
+      ],
+      "correct_answer": "Black life could be worthy of art without always becoming a protest message.",
+      "reveal": "Hurston treated Black vernacular, folklore, humor, and ordinary life as worthy subjects on their own terms.",
+      "points": 10,
+      "node_ids": [
+        "V1-027"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Zora Neale Hurston",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E009",
+      "mode": "CONNECT",
+      "prompt": "Which connection is strongest?",
+      "answers": [
+        "James McCune Smith → evidence against racial pseudoscience",
+        "Fred Hampton → Plessy v. Ferguson",
+        "Malcolm X → Freedom’s Journal",
+        "Phillis Wheatley → Montgomery bus organizing"
+      ],
+      "correct_answer": "James McCune Smith → evidence against racial pseudoscience",
+      "reveal": "McCune Smith used scholarship and professional expertise to challenge supposedly scientific claims of Black inferiority.",
+      "points": 15,
+      "node_ids": [
+        "V1-013"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — James McCune Smith, M.D.",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E010",
+      "mode": "RECALL",
+      "prompt": "Think before revealing:\n\nWhat is the simplest difference between legal victory and lived reality?",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "A rule can change before institutions, resources, habits, or power change with it.\n\nSELF-RATE: KNEW IT / ALMOST / MISSED",
+      "points": 20,
+      "node_ids": [
+        "V1-032"
+      ],
+      "difficulty": "easy",
+      "mastery": [
+        "RECALL",
+        "SHARE"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Brown v. Board",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E011",
+      "mode": "SAME QUESTION",
+      "prompt": "Wells and Washington wanted Black advancement. Where did their diagnoses differ?",
+      "answers": [
+        "Wells emphasized racial power and terror; Washington emphasized education and economic advancement.",
+        "Wells rejected education; Washington rejected economics.",
+        "Wells opposed journalism; Washington supported it.",
+        "They had identical diagnoses."
+      ],
+      "correct_answer": "Wells emphasized racial power and terror; Washington emphasized education and economic advancement.",
+      "reveal": "The important point is not to crown a winner. Different diagnoses produce different strategies.",
+      "points": 25,
+      "node_ids": [
+        "V1-018",
+        "V1-021",
+        "V1-022"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONNECT",
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "Black AF History + Four Hundred Souls",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E012",
+      "mode": "CONNECT",
+      "prompt": "Which thread connects Freedom’s Journal and Ida B. Wells?",
+      "answers": [
+        "self-representation through Black-controlled media",
+        "industrial education",
+        "nonviolent resistance",
+        "migration to the North"
+      ],
+      "correct_answer": "self-representation through Black-controlled media",
+      "reveal": "Both show media as power: owning or controlling the means of telling the story changes who gets to define Black life.",
+      "points": 20,
+      "node_ids": [
+        "V1-010",
+        "V1-021"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls + Black AF History",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E013",
+      "mode": "WHY THEN",
+      "prompt": "What did the Atlanta washerwomen gain by organizing common rates and a protective association?",
+      "answers": [
+        "more collective control over their labor",
+        "automatic voting rights",
+        "federal government jobs",
+        "ownership of the railroads"
+      ],
+      "correct_answer": "more collective control over their labor",
+      "reveal": "Their organizing turned individually negotiated domestic labor into coordinated economic leverage.",
+      "points": 15,
+      "node_ids": [
+        "V1-016"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONTEXTUALIZE",
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Atlanta washerwomen",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E014",
+      "mode": "SAME QUESTION",
+      "prompt": "Baker and King emphasized different strengths in leadership. Which contrast is fairest?",
+      "answers": [
+        "grassroots leadership development vs. visible centralized leadership",
+        "education vs. no education",
+        "violence vs. no politics",
+        "culture vs. economics"
+      ],
+      "correct_answer": "grassroots leadership development vs. visible centralized leadership",
+      "reveal": "Baker stressed building leadership from below. King’s public leadership could concentrate attention, fundraising, and national pressure. The tradeoff matters more than picking a winner.",
+      "points": 25,
+      "node_ids": [
+        "V1-034",
+        "V1-035"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Black AF History + Four Hundred Souls",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E015",
+      "mode": "WHAT",
+      "prompt": "What made Mary McLeod Bethune’s strategy distinctive?",
+      "answers": [
+        "She combined Black institution-building with access to federal decision-makers.",
+        "She rejected institutions entirely.",
+        "She focused only on literature.",
+        "She opposed all work with government."
+      ],
+      "correct_answer": "She combined Black institution-building with access to federal decision-makers.",
+      "reveal": "Bethune shows that independent institutions and insider access can work together rather than cancel each other out.",
+      "points": 15,
+      "node_ids": [
+        "V1-030"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND",
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Mary McLeod Bethune",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E016",
+      "mode": "CONNECT",
+      "prompt": "Which pair best fits the thread EVIDENCE AS RESISTANCE?",
+      "answers": [
+        "James McCune Smith + Ida B. Wells",
+        "Fred Hampton + Zora Neale Hurston",
+        "Booker T. Washington + the spirituals",
+        "Malcolm X + Phillis Wheatley"
+      ],
+      "correct_answer": "James McCune Smith + Ida B. Wells",
+      "reveal": "Both used evidence to confront ideas that were presented as objective truth.",
+      "points": 20,
+      "node_ids": [
+        "V1-013",
+        "V1-021"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls + Black AF History",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E017",
+      "mode": "WHAT",
+      "prompt": "What did Malcolm X add to the freedom struggle in this curriculum?",
+      "answers": [
+        "a global human-rights and self-determination frame",
+        "a theory of industrial education",
+        "a legal defense of separate but equal",
+        "a rejection of Black political identity"
+      ],
+      "correct_answer": "a global human-rights and self-determination frame",
+      "reveal": "Malcolm increasingly situated Black struggle within international human rights, anticolonialism, and self-determination.",
+      "points": 15,
+      "node_ids": [
+        "V1-036"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Black AF History + Four Hundred Souls — Malcolm X / Black Power",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E018",
+      "mode": "TIMELINE",
+      "prompt": "Put these in chronological order.",
+      "answers": [
+        "Freedom’s Journal → Reconstruction → Harlem Renaissance → Black Power"
+      ],
+      "correct_answer": "Freedom’s Journal → Reconstruction → Harlem Renaissance → Black Power",
+      "reveal": "1820s → 1860s–70s → 1920s → 1960s.",
+      "points": 15,
+      "node_ids": [
+        "V1-010",
+        "V1-015",
+        "V1-026",
+        "V1-037"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "UI should render four draggable cards.",
+      "source": "Curriculum timeline",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E019",
+      "mode": "WHAT",
+      "prompt": "Why keep Plessy in the game even though the court challenge failed?",
+      "answers": [
+        "Because it shows organized Black resistance as well as the legal power of segregation.",
+        "Because Plessy ended segregation.",
+        "Because it founded the NAACP.",
+        "Because it created Black Power."
+      ],
+      "correct_answer": "Because it shows organized Black resistance as well as the legal power of segregation.",
+      "reveal": "The case matters both for the doctrine it produced and for the Black organizing that challenged segregation.",
+      "points": 15,
+      "node_ids": [
+        "V1-017"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Plessy v. Ferguson",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E020",
+      "mode": "RECALL",
+      "prompt": "Think before revealing:\n\nWhat was Callie House trying to turn reparations into?",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "A mass movement with chapters, members, agents, and community institutions—not just an elite policy demand.\n\nSELF-RATE: KNEW IT / ALMOST / MISSED",
+      "points": 20,
+      "node_ids": [
+        "V1-024"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "RECALL",
+        "SHARE"
+      ],
+      "design_note": "",
+      "source": "Black AF History — ex-slave pension movement",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E021",
+      "mode": "CONNECT",
+      "prompt": "Which sequence best illustrates the LEVERAGE thread?",
+      "answers": [
+        "Wells boycott → Randolph protest threat → Montgomery boycott",
+        "Hurston folklore → Brown v. Board → Wheatley poetry",
+        "Plessy → Du Bois double consciousness → hip-hop",
+        "Fort Mose → Booker T. Washington → Baldwin"
+      ],
+      "correct_answer": "Wells boycott → Randolph protest threat → Montgomery boycott",
+      "reveal": "Each case asks how people without formal authority can create costs or pressure that powerful institutions must answer.",
+      "points": 25,
+      "node_ids": [
+        "V1-022",
+        "V1-031",
+        "V1-033"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Cross-source curriculum thread",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E022",
+      "mode": "SAME QUESTION",
+      "prompt": "Integration and Black Power asked different questions. Which pairing is most accurate?",
+      "answers": [
+        "Integration: who can enter? Black Power: who can decide?",
+        "Integration: who can vote? Black Power: who can read?",
+        "Integration: who can sing? Black Power: who can migrate?",
+        "They asked exactly the same question."
+      ],
+      "correct_answer": "Integration: who can enter? Black Power: who can decide?",
+      "reveal": "Access and control are not identical. A person may gain entry into an institution without gaining much influence over its decisions.",
+      "points": 25,
+      "node_ids": [
+        "V1-032",
+        "V1-037"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls + Black AF History",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E023",
+      "mode": "WHAT",
+      "prompt": "Combahee’s key analytical move was to…",
+      "answers": [
+        "treat race, gender, class, and sexuality as potentially operating together",
+        "argue that only class mattered",
+        "reject coalition with everyone outside Black feminism",
+        "separate identity from politics entirely"
+      ],
+      "correct_answer": "treat race, gender, class, and sexuality as potentially operating together",
+      "reveal": "Combahee argued that Black women’s lives could not be understood by examining one form of domination at a time.",
+      "points": 15,
+      "node_ids": [
+        "V1-039"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Combahee River Collective",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E024",
+      "mode": "CONNECT",
+      "prompt": "Why does Claudette Colvin connect well to Combahee?",
+      "answers": [
+        "Her treatment shows how race, gender, age, class, and respectability could shape whose story became usable.",
+        "She founded the Combahee River Collective.",
+        "She opposed bus desegregation.",
+        "She was a Black Power theorist."
+      ],
+      "correct_answer": "Her treatment shows how race, gender, age, class, and respectability could shape whose story became usable.",
+      "reveal": "Colvin makes an abstract idea concrete: movements can treat people differently depending on several identities and social expectations at once.",
+      "points": 20,
+      "node_ids": [
+        "V1-033",
+        "V1-039"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Black AF History + Four Hundred Souls",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E025",
+      "mode": "WHAT",
+      "prompt": "Fred Hampton’s coalition politics depended most on…",
+      "answers": [
+        "shared concrete interests plus political education",
+        "celebrity leadership alone",
+        "avoiding economic issues",
+        "keeping racial groups permanently separate"
+      ],
+      "correct_answer": "shared concrete interests plus political education",
+      "reveal": "Hampton linked community programs, political education, and cross-racial coalition around material needs.",
+      "points": 15,
+      "node_ids": [
+        "V1-038"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Fred Hampton",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E026",
+      "mode": "CONNECT",
+      "prompt": "Which three nodes best fit the question: WHAT IS EDUCATION FOR?",
+      "answers": [
+        "Douglass, Washington, Baker",
+        "Hurston, Plessy, Fort Mose",
+        "Malcolm X, Freedom’s Journal, Katrina",
+        "Combahee, Great Migration, spirituals"
+      ],
+      "correct_answer": "Douglass, Washington, Baker",
+      "reveal": "Douglass links literacy to freedom; Washington emphasizes skills and economic advancement; Baker uses education to develop people capable of acting.",
+      "points": 20,
+      "node_ids": [
+        "V1-014",
+        "V1-018",
+        "V1-034"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Cross-source curriculum thread",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E027",
+      "mode": "RECALL",
+      "prompt": "Think before revealing:\n\nWhat is the core difference between individual mobility and collective freedom?",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "An individual can advance while the rules or conditions facing the wider group remain largely unchanged.\n\nSELF-RATE: KNEW IT / ALMOST / MISSED",
+      "points": 20,
+      "node_ids": [
+        "V1-014",
+        "V1-018"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "RECALL",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Curriculum lens",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E028",
+      "mode": "WHAT",
+      "prompt": "Why does hip-hop belong in an intellectual-history game?",
+      "answers": [
+        "Culture can carry social analysis, identity, politics, and generational argument.",
+        "Only written essays count as thought.",
+        "Hip-hop replaced all previous Black movements.",
+        "It belongs only as entertainment history."
+      ],
+      "correct_answer": "Culture can carry social analysis, identity, politics, and generational argument.",
+      "reveal": "The game treats culture as one place Black people think publicly—not merely as decoration around formal politics.",
+      "points": 15,
+      "node_ids": [
+        "V1-040"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — The Hip-Hop Generation",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E029",
+      "mode": "WHY THEN",
+      "prompt": "Why does the Anita Hill episode matter beyond one person’s biography?",
+      "answers": [
+        "It makes race-and-gender conflict inside political loyalty visible.",
+        "It explains the Great Migration.",
+        "It is mainly about industrial education.",
+        "It teaches the origins of Reconstruction."
+      ],
+      "correct_answer": "It makes race-and-gender conflict inside political loyalty visible.",
+      "reveal": "The episode forces a question central to Black feminist thought: what happens when a person belongs to more than one political category at once?",
+      "points": 15,
+      "node_ids": [
+        "V1-041"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONTEXTUALIZE",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Anita Hill",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E030",
+      "mode": "CONNECT",
+      "prompt": "Which pairing best illustrates WHO DEFINES BLACKNESS?",
+      "answers": [
+        "Du Bois + Hurston",
+        "Randolph + Plessy",
+        "Bethune + Brown",
+        "Vesey + washerwomen"
+      ],
+      "correct_answer": "Du Bois + Hurston",
+      "reveal": "Du Bois explored how Black people see themselves through a society that judges them; Hurston insisted Black life could be represented on its own terms.",
+      "points": 20,
+      "node_ids": [
+        "V1-019",
+        "V1-027"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Black AF History + Four Hundred Souls",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E031",
+      "mode": "SHARE",
+      "prompt": "30 SECONDS\n\nExplain this idea aloud:\n\n“Brown changed the rule before it changed the reality.”",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "MODEL: Brown made school segregation unconstitutional, but institutions and communities still had to implement desegregation against enormous resistance.\n\nSELF-RATE: CLEAR / ALMOST / NEEDS WORK",
+      "points": 25,
+      "node_ids": [
+        "V1-032"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "SHARE"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Brown v. Board",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after the linked idea has been answered/recalled correctly at least once."
+    },
+    {
+      "id": "E032",
+      "mode": "SHARE",
+      "prompt": "30 SECONDS\n\nExplain why Freedom’s Journal was a form of power.",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "MODEL: A Black-controlled newspaper let Black people describe their own lives, priorities, and arguments instead of depending on outsiders to define them.\n\nSELF-RATE: CLEAR / ALMOST / NEEDS WORK",
+      "points": 25,
+      "node_ids": [
+        "V1-010"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "SHARE"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Freedom’s Journal",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after the linked idea has been answered/recalled correctly at least once."
+    },
+    {
+      "id": "E033",
+      "mode": "SAME QUESTION",
+      "prompt": "King and Malcolm X both addressed Black freedom. Which introductory contrast is fairest?",
+      "answers": [
+        "King emphasized disciplined nonviolent resistance and U.S. citizenship; Malcolm increasingly framed the struggle through self-determination and international human rights.",
+        "King opposed all protest; Malcolm supported only elections.",
+        "King rejected citizenship; Malcolm rejected human rights.",
+        "They never differed strategically."
+      ],
+      "correct_answer": "King emphasized disciplined nonviolent resistance and U.S. citizenship; Malcolm increasingly framed the struggle through self-determination and international human rights.",
+      "reveal": "This is a starting comparison, not a permanent box. Both thinkers changed over time, so later encounters should show their evolution.",
+      "points": 30,
+      "node_ids": [
+        "V1-035",
+        "V1-036"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "Black AF History + Four Hundred Souls",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E034",
+      "mode": "CONNECT",
+      "prompt": "Which two figures best illustrate inside access and outside pressure working together?",
+      "answers": [
+        "Mary McLeod Bethune + A. Philip Randolph",
+        "Hurston + Wheatley",
+        "Baker + Baldwin",
+        "Vesey + Plessy"
+      ],
+      "correct_answer": "Mary McLeod Bethune + A. Philip Randolph",
+      "reveal": "Bethune had access to federal decision-makers. Randolph brought organized outside pressure. Different forms of leverage could reinforce each other.",
+      "points": 25,
+      "node_ids": [
+        "V1-030",
+        "V1-031"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Bethune / Randolph",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E035",
+      "mode": "THEN → NOW",
+      "prompt": "LENS\n\nA group is invited into an institution but has little influence over the rules.\n\nWhich older question does this most closely echo?",
+      "answers": [
+        "access vs. control",
+        "art vs. folklore",
+        "migration vs. literacy",
+        "faith vs. journalism"
+      ],
+      "correct_answer": "access vs. control",
+      "reveal": "This is the same distinction the curriculum uses to connect integration and Black Power: being present is not identical to setting the agenda.",
+      "points": 20,
+      "node_ids": [
+        "V1-037"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY"
+      ],
+      "design_note": "This is an abstract present-day transfer, not a claim about any specific current political institution.",
+      "source": "Curriculum lens",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E036",
+      "mode": "THEN → NOW",
+      "prompt": "LENS\n\nA public story blames a community for an outcome. Before accepting it, what would Ida B. Wells push you to ask first?",
+      "answers": [
+        "What do the facts and data actually show?",
+        "Who is the most famous spokesperson?",
+        "Which slogan sounds strongest?",
+        "Can the story be made shorter?"
+      ],
+      "correct_answer": "What do the facts and data actually show?",
+      "reveal": "Wells’s anti-lynching work repeatedly attacked the narratives used to justify violence by checking them against evidence.",
+      "points": 20,
+      "node_ids": [
+        "V1-021"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Ida B. Wells",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E037",
+      "mode": "CONNECT",
+      "prompt": "Which sequence best fits LEAVE · REFORM · BUILD?",
+      "answers": [
+        "Marronage → Brown v. Board → Bethune / Black institutions",
+        "Wells → Wheatley → Plessy",
+        "Baldwin → Vesey → Randolph",
+        "Hip-hop → Reconstruction → spirituals"
+      ],
+      "correct_answer": "Marronage → Brown v. Board → Bethune / Black institutions",
+      "reveal": "The thread asks whether freedom is pursued by leaving an oppressive structure, changing it, or creating institutions with more autonomy.",
+      "points": 25,
+      "node_ids": [
+        "V1-004",
+        "V1-032",
+        "V1-030"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Cross-source curriculum thread",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E038",
+      "mode": "RECALL",
+      "prompt": "Think before revealing:\n\nWhat did Du Bois’s Black Reconstruction change about the story of emancipation?",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "It centered Black agency—especially enslaved people withdrawing labor and joining the freedom struggle—rather than treating emancipation as something simply handed down from above.\n\nSELF-RATE: KNEW IT / ALMOST / MISSED",
+      "points": 25,
+      "node_ids": [
+        "V1-020"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "RECALL",
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Black Reconstruction / 'The General Strike'",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E039",
+      "mode": "SHARE",
+      "prompt": "30 SECONDS\n\nExplain this line:\n\n“Protest creates attention. Organization creates continuity.”",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "MODEL: A protest can make an issue visible, but durable change usually requires people, relationships, institutions, and routines that still exist after the event ends.\n\nSELF-RATE: CLEAR / ALMOST / NEEDS WORK",
+      "points": 30,
+      "node_ids": [
+        "V1-012",
+        "V1-024",
+        "V1-034",
+        "V1-038"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "SHARE",
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Cross-source organizing thread",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after the linked idea has been answered/recalled correctly at least once."
+    },
+    {
+      "id": "E040",
+      "mode": "MATCH",
+      "prompt": "BOSS ROUND · WHAT IS EDUCATION FOR?\n\nMatch each thinker to the emphasis this curriculum has introduced.",
+      "answers": [
+        "Douglass → literacy and citizenship",
+        "Washington → practical skills and economic strength",
+        "Bethune → durable institutions and access",
+        "Baker / Hampton → people prepared to organize and act"
+      ],
+      "correct_answer": "All four matches",
+      "reveal": "Different eras produced different answers to the same question. Mastery here means holding several answers at once—not choosing a winner.",
+      "points": 50,
+      "node_ids": [
+        "V1-014",
+        "V1-018",
+        "V1-030",
+        "V1-034",
+        "V1-038"
+      ],
+      "difficulty": "boss",
+      "mastery": [
+        "UNDERSTAND",
+        "CONNECT",
+        "CONTEXTUALIZE",
+        "APPLY"
+      ],
+      "design_note": "Render as four draggable thinker chips and four idea targets. Unlock after at least four linked nodes have been encountered.",
+      "source": "Cross-source EDUCATION thread",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "MATCH",
+      "unlock_rule": "Only after all linked nodes have been introduced at least once."
+    },
+    {
+      "id": "E041",
+      "mode": "WHAT",
+      "prompt": "Colonial law assigned unequal status, rights, and inheritance by race. What should you notice?",
+      "answers": [
+        "Law helped construct racial categories.",
+        "Law only recorded categories that already had fixed meanings.",
+        "Race was created by migration alone.",
+        "The law had no role in racial hierarchy."
+      ],
+      "correct_answer": "Law helped construct racial categories.",
+      "reveal": "Law did not merely reflect racial categories. It helped harden and define them.",
+      "points": 15,
+      "node_ids": [
+        "V1-002"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls + Black AF History — colonial law / race construction",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E042",
+      "mode": "APPLY",
+      "prompt": "Laboring people share economic grievances. An elite benefits when they split along racial lines. What is the key mechanism?",
+      "answers": [
+        "Divided interests",
+        "Double consciousness",
+        "Predatory inclusion",
+        "Pan-Africanism"
+      ],
+      "correct_answer": "Divided interests",
+      "reveal": "Bacon’s Rebellion is useful here because it shows how race and class can divide people who might otherwise share material interests.",
+      "points": 20,
+      "node_ids": [
+        "V1-003"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY",
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Bacon’s Rebellion",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E043",
+      "mode": "WHAT",
+      "prompt": "Why do spirituals belong in an intellectual-history game?",
+      "answers": [
+        "Culture can carry ideas even when it is not an essay.",
+        "Songs matter only as entertainment.",
+        "Spirituals were mainly federal policy arguments.",
+        "Music cannot preserve collective memory."
+      ],
+      "correct_answer": "Culture can carry ideas even when it is not an essay.",
+      "reveal": "Spirituals could carry theology, memory, coded meaning, endurance, and visions of freedom at the same time.",
+      "points": 15,
+      "node_ids": [
+        "V1-005"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — The Spirituals",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E044",
+      "mode": "WHAT",
+      "prompt": "What made the freedom church more than a place of worship?",
+      "answers": [
+        "It could also function as a durable community institution.",
+        "It replaced every other Black institution.",
+        "It mattered only because of famous preachers.",
+        "It had no organizing role."
+      ],
+      "correct_answer": "It could also function as a durable community institution.",
+      "reveal": "Independent Black religious life could combine faith, mutual aid, repeated organization, and claims for freedom.",
+      "points": 15,
+      "node_ids": [
+        "V1-006"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — freedom church / early Black churches",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E045",
+      "mode": "WHY THEN",
+      "prompt": "Why does Phillis Wheatley’s achievement carry a second burden in this curriculum?",
+      "answers": [
+        "She had to create while also being treated as evidence that Black people could create.",
+        "She was asked to organize a labor union.",
+        "Her work was mainly about federal voting law.",
+        "She wrote after Reconstruction."
+      ],
+      "correct_answer": "She had to create while also being treated as evidence that Black people could create.",
+      "reveal": "Her writing challenged claims of Black intellectual inferiority while she also faced the burden of proving Black intellectual humanity to a hostile public.",
+      "points": 15,
+      "node_ids": [
+        "V1-007"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONTEXTUALIZE",
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Phillis Wheatley",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E046",
+      "mode": "SAME QUESTION",
+      "prompt": "Revolutionary America praised universal liberty while maintaining slavery. What did that contradiction give Black thinkers?",
+      "answers": [
+        "A contradiction to expose and a language to claim",
+        "Proof that liberty had already become universal",
+        "A reason to avoid political language",
+        "A purely cultural disagreement"
+      ],
+      "correct_answer": "A contradiction to expose and a language to claim",
+      "reveal": "It exposed a gap between declared principles and lived reality while also providing a language of liberty that Black people could claim.",
+      "points": 20,
+      "node_ids": [
+        "V1-008"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONTEXTUALIZE",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Race and the Enlightenment / American Revolution",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E047",
+      "mode": "WHY THEN",
+      "prompt": "Under severe repression, why do trust and information control become part of organizing?",
+      "answers": [
+        "Because organization can be destroyed if plans and networks are exposed.",
+        "Because public celebrity is always the safest strategy.",
+        "Because movements do not need relationships.",
+        "Because repression makes planning irrelevant."
+      ],
+      "correct_answer": "Because organization can be destroyed if plans and networks are exposed.",
+      "reveal": "Denmark Vesey’s context shows that clandestine resistance depended on networks, planning, secrecy, and trust before action could occur.",
+      "points": 15,
+      "node_ids": [
+        "V1-009"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Denmark Vesey",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E048",
+      "mode": "WHAT",
+      "prompt": "Maria Stewart’s argument widened Black advancement by insisting on what?",
+      "answers": [
+        "Black women’s intellectual and political agency",
+        "A politics centered only on Black men",
+        "An end to public speaking",
+        "The rejection of education"
+      ],
+      "correct_answer": "Black women’s intellectual and political agency",
+      "reveal": "Stewart connected Black advancement to education, public voice, economic ambition, and the political agency of Black women.",
+      "points": 15,
+      "node_ids": [
+        "V1-011"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Maria Stewart",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E049",
+      "mode": "CONNECT",
+      "prompt": "What connects Mary Church Terrell’s education, writing, club work, and anti-segregation action?",
+      "answers": [
+        "Turning personal achievement into civic power",
+        "Keeping education separate from politics",
+        "Rejecting organization in favor of individual success",
+        "Avoiding public institutions"
+      ],
+      "correct_answer": "Turning personal achievement into civic power",
+      "reveal": "She converted private achievement and social position into public action, institutions, and organizing.",
+      "points": 20,
+      "node_ids": [
+        "V1-023"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "Black AF History — Mary Church Terrell",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E050",
+      "mode": "APPLY",
+      "prompt": "If where you live determines safety, wages, and political possibility, moving can become what kind of strategy?",
+      "answers": [
+        "A strategy for pursuing greater autonomy and opportunity",
+        "Only a cultural preference",
+        "Proof that law no longer matters",
+        "A rejection of collective action"
+      ],
+      "correct_answer": "A strategy for pursuing greater autonomy and opportunity",
+      "reveal": "The Great Migration shows that geography itself can shape freedom, making departure a political as well as personal strategy.",
+      "points": 20,
+      "node_ids": [
+        "V1-025"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — The Great Migration",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E051",
+      "mode": "WHAT",
+      "prompt": "Baldwin could challenge stereotypes without simply rebutting each one. How?",
+      "answers": [
+        "By insisting on fuller Black humanity",
+        "By narrowing Black life to one respectable image",
+        "By avoiding autobiography and criticism",
+        "By treating identity as fixed"
+      ],
+      "correct_answer": "By insisting on fuller Black humanity",
+      "reveal": "He expanded the range of Black lives, identities, contradictions, and experiences that could be represented.",
+      "points": 15,
+      "node_ids": [
+        "V1-028"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — James Baldwin / Notes of a Native Son discussion",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E052",
+      "mode": "WHAT",
+      "prompt": "What distinguished the Black Left’s analysis of racism?",
+      "answers": [
+        "It connected racial hierarchy to economic and political structures.",
+        "It treated racism only as bad manners.",
+        "It rejected economic questions.",
+        "It focused only on cultural representation."
+      ],
+      "correct_answer": "It connected racial hierarchy to economic and political structures.",
+      "reveal": "Black radicals linked racial hierarchy to labor, capitalism, imperialism, and class instead of treating racism only as prejudice.",
+      "points": 15,
+      "node_ids": [
+        "V1-029"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — The Black Left",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E053",
+      "mode": "WHAT",
+      "prompt": "What is the most useful way to think about Black immigrant identity here?",
+      "answers": [
+        "Black identity can unite without making everyone’s history identical.",
+        "Immigration erases racial identity completely.",
+        "All Black immigrants share one national culture.",
+        "Solidarity requires giving up prior identities."
+      ],
+      "correct_answer": "Black identity can unite without making everyone’s history identical.",
+      "reveal": "A broad Black identity can create solidarity while still containing different national, ethnic, and migration histories.",
+      "points": 15,
+      "node_ids": [
+        "V1-042"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — The Black Immigrant",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E054",
+      "mode": "RECALL",
+      "prompt": "Think before revealing:\n\nWhat is the difference between having a right and having institutions that reliably protect it?",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "A right can exist formally while the laws, procedures, enforcement, or institutions that make it usable weaken or change.\n\nSELF-RATE: KNEW IT / ALMOST / MISSED",
+      "points": 20,
+      "node_ids": [
+        "V1-043"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "RECALL",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Shelby ruling",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E055",
+      "mode": "WHAT",
+      "prompt": "What organizational question does Black Lives Matter add to the older freedom-movement story?",
+      "answers": [
+        "How decentralized networks organize without one central public leader",
+        "Whether movements should avoid media entirely",
+        "Whether local organizing was invented in the 2010s",
+        "Whether protest can exist without ideas"
+      ],
+      "correct_answer": "How decentralized networks organize without one central public leader",
+      "reveal": "It renews older questions about leadership, accountability, visibility, and continuity through decentralized networks shaped by Black feminist and grassroots traditions.",
+      "points": 15,
+      "node_ids": [
+        "V1-044"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Four Hundred Souls — Black Lives Matter",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E056",
+      "mode": "WHAT",
+      "prompt": "Respectability is best understood as what kind of strategy?",
+      "answers": [
+        "A bet that meeting dominant standards can produce legitimacy or protection",
+        "A claim that laws never matter",
+        "A synonym for Black nationalism",
+        "A refusal of all public strategy"
+      ],
+      "correct_answer": "A bet that meeting dominant standards can produce legitimacy or protection",
+      "reveal": "It is the strategy or expectation that meeting dominant standards of behavior, appearance, morality, class, or presentation can produce legitimacy, protection, opportunity, or acceptance.",
+      "points": 15,
+      "node_ids": [
+        "V1-045"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Respectability synthesis",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E057",
+      "mode": "SAME QUESTION",
+      "prompt": "A movement chooses the publicly 'safer' symbol for a test case. What is the fairest reading?",
+      "answers": [
+        "It can be strategically useful and still impose costs on people judged less acceptable.",
+        "It proves respectable people deserve more rights.",
+        "It means symbolism never matters.",
+        "It shows refusal is always the better strategy."
+      ],
+      "correct_answer": "It can be strategically useful and still impose costs on people judged less acceptable.",
+      "reveal": "Respectability can be a strategic choice with real advantages, while the choice can also leave harmed people outside the public story.",
+      "points": 25,
+      "node_ids": [
+        "V1-045",
+        "V1-033"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Respectability + Montgomery",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT",
+      "unlock_rule": "Only after Respectability and Montgomery have both been introduced."
+    },
+    {
+      "id": "E058",
+      "mode": "CONNECT",
+      "prompt": "Criminalization and Respectability sit beside each other. Which distinction is cleanest?",
+      "answers": [
+        "Criminalization is the charge; Respectability is one possible answer.",
+        "They are the same concept.",
+        "Respectability creates every criminal law.",
+        "Criminalization is only about personal manners."
+      ],
+      "correct_answer": "Criminalization is the charge; Respectability is one possible answer.",
+      "reveal": "Criminalization is the process of defining someone as dangerous; respectability is one possible strategy for answering judgments about worthiness or legitimacy.",
+      "points": 25,
+      "node_ids": [
+        "V1-045",
+        "V1-049"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Respectability / Criminalization",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E059",
+      "mode": "WHAT",
+      "prompt": "What makes abolition more than simply ending something?",
+      "answers": [
+        "It asks what must be built after an oppressive system ends.",
+        "It assumes every institution can be repaired.",
+        "It means leaving all institutions unchanged.",
+        "It is only a synonym for protest."
+      ],
+      "correct_answer": "It asks what must be built after an oppressive system ends.",
+      "reveal": "Abolition also asks what institutions, resources, or relationships must be built so the ending produces durable freedom.",
+      "points": 15,
+      "node_ids": [
+        "V1-046"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Keywords for African American Studies — Abolition",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E060",
+      "mode": "SAME QUESTION",
+      "prompt": "Two groups agree an institution causes serious harm. One says FIX IT; the other says END IT AND BUILD AN ALTERNATIVE. What is the disagreement?",
+      "answers": [
+        "Whether repair can solve the problem or replacement is necessary",
+        "Whether harm exists at all",
+        "Whether history matters",
+        "Whether organization is useful"
+      ],
+      "correct_answer": "Whether repair can solve the problem or replacement is necessary",
+      "reveal": "They disagree about whether the institution’s failures are repairable or structural enough to require replacement.",
+      "points": 30,
+      "node_ids": [
+        "V1-046",
+        "V1-049"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY",
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — FIX IT OR END IT?",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT",
+      "unlock_rule": "Only after Abolition and Criminalization have both been introduced."
+    },
+    {
+      "id": "E061",
+      "mode": "CONNECT",
+      "prompt": "Why does Reconstruction belong next to abolition?",
+      "answers": [
+        "It shows that ending a system and building freedom are different jobs.",
+        "It shows emancipation settled every political question.",
+        "It made institution-building unnecessary.",
+        "It proves legal change never matters."
+      ],
+      "correct_answer": "It shows that ending a system and building freedom are different jobs.",
+      "reveal": "Ending slavery did not itself determine citizenship, schools, land, labor, voting, or political power. Abolition raises the constructive question of what freedom requires afterward.",
+      "points": 25,
+      "node_ids": [
+        "V1-046",
+        "V1-015",
+        "V1-020"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Abolition / Reconstruction",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E062",
+      "mode": "WHAT",
+      "prompt": "Black nationalism is best treated here as…",
+      "answers": [
+        "A family of self-determination strategies, not one single program",
+        "A synonym for Pan-Africanism",
+        "Only a cultural style",
+        "A single fixed doctrine shared by every nationalist"
+      ],
+      "correct_answer": "A family of self-determination strategies, not one single program",
+      "reveal": "A varied tradition of Black self-determination whose advocates have emphasized different combinations of political power, economic control, culture, territory, and independent institutions.",
+      "points": 15,
+      "node_ids": [
+        "V1-047"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Keywords for African American Studies — Nationalism",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E063",
+      "mode": "CONNECT",
+      "prompt": "Which contrast best separates representation from Black self-determination?",
+      "answers": [
+        "Who is present? vs. Who can decide?",
+        "Who can read? vs. Who can sing?",
+        "Who can migrate? vs. Who can vote?",
+        "They are identical questions."
+      ],
+      "correct_answer": "Who is present? vs. Who can decide?",
+      "reveal": "Representation asks who is present. Self-determination asks who can set priorities, control resources, and make decisions.",
+      "points": 25,
+      "node_ids": [
+        "V1-047",
+        "V1-037"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Black Nationalism / Black Power",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E064",
+      "mode": "RECALL",
+      "prompt": "Think before revealing:\n\nWHO IS “WE”? What is this question trying to catch?",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "It asks whether collective language about 'Black people' actually includes the different people, interests, and experiences inside the group.\n\nSELF-RATE: KNEW IT / ALMOST / MISSED",
+      "points": 20,
+      "node_ids": [
+        "V1-047",
+        "V1-039",
+        "V1-042"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "RECALL",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 recurring question",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E065",
+      "mode": "WHAT",
+      "prompt": "What turns diaspora connection into Pan-Africanism?",
+      "answers": [
+        "An attempt to organize solidarity across borders",
+        "The existence of Black populations in more than one country",
+        "A requirement that every Black person share one culture",
+        "A rejection of all national identities"
+      ],
+      "correct_answer": "An attempt to organize solidarity across borders",
+      "reveal": "Pan-Africanism deliberately tries to organize political, cultural, economic, or institutional solidarity across national borders.",
+      "points": 15,
+      "node_ids": [
+        "V1-048"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Keywords for African American Studies — Pan-Africanism",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E066",
+      "mode": "CONNECT",
+      "prompt": "Which distinction is strongest?",
+      "answers": [
+        "Diaspora describes connection; Pan-Africanism tries to organize it.",
+        "Diaspora and Pan-Africanism are identical.",
+        "Diaspora is a voting strategy; Pan-Africanism is a music genre.",
+        "Pan-Africanism describes migration only."
+      ],
+      "correct_answer": "Diaspora describes connection; Pan-Africanism tries to organize it.",
+      "reveal": "Diaspora describes connection across distance. Pan-Africanism tries to organize that connection.",
+      "points": 20,
+      "node_ids": [
+        "V1-048"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Diaspora deepening card / Pan-Africanism",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E067",
+      "mode": "SAME QUESTION",
+      "prompt": "Two Black populations share ancestry but sharply disagree about a government or movement. What does Pan-Africanism force into view?",
+      "answers": [
+        "What solidarity actually requires across difference",
+        "Why every Black population must agree",
+        "Why nationality never matters",
+        "Why global politics should be ignored"
+      ],
+      "correct_answer": "What solidarity actually requires across difference",
+      "reveal": "It raises a real question about whether solidarity follows identity automatically or depends on political principles, institutions, and concrete relationships.",
+      "points": 25,
+      "node_ids": [
+        "V1-048"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — BLACKNESS ACROSS BORDERS",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT"
+    },
+    {
+      "id": "E068",
+      "mode": "WHAT",
+      "prompt": "Criminalization is primarily a process of…",
+      "answers": [
+        "Producing categories of danger and punishability",
+        "Proving that crime is imaginary",
+        "Measuring individual morality",
+        "Explaining every law through prejudice alone"
+      ],
+      "correct_answer": "Producing categories of danger and punishability",
+      "reveal": "Defining particular people, behaviors, or communities as dangerous and therefore more legitimately punishable or controllable.",
+      "points": 15,
+      "node_ids": [
+        "V1-049"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Keywords for African American Studies — Criminal",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E069",
+      "mode": "CONNECT",
+      "prompt": "Law helped construct race and Criminalization are close. What is the cleanest split?",
+      "answers": [
+        "Category-making vs. danger-making",
+        "Culture vs. economics",
+        "Migration vs. education",
+        "They should be one node."
+      ],
+      "correct_answer": "Category-making vs. danger-making",
+      "reveal": "The first asks how law helped make racial categories. The second asks how people or behavior are made legible as dangerous and punishable.",
+      "points": 25,
+      "node_ids": [
+        "V1-002",
+        "V1-049"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 integration rule",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E070",
+      "mode": "THEN → NOW",
+      "prompt": "Two groups do the same thing. One is described as 'troubled'; the other as 'dangerous.' What should you investigate first?",
+      "answers": [
+        "Who applied the label and what consequences it creates",
+        "Which group has better public relations",
+        "Whether labels are always accurate",
+        "Whether law is irrelevant"
+      ],
+      "correct_answer": "Who applied the label and what consequences it creates",
+      "reveal": "Ask who applied the label, what institutions repeat it, what evidence supports it, and what consequences follow.",
+      "points": 20,
+      "node_ids": [
+        "V1-049"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Criminalization lens",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E071",
+      "mode": "WHAT",
+      "prompt": "What is predatory inclusion?",
+      "answers": [
+        "Access on unequal or exploitative terms",
+        "Any form of inclusion",
+        "A policy of total exclusion",
+        "A synonym for segregation"
+      ],
+      "correct_answer": "Access on unequal or exploitative terms",
+      "reveal": "It is access granted to people previously excluded, but on unequal or exploitative terms that can reproduce extraction instead of equal power.",
+      "points": 15,
+      "node_ids": [
+        "V1-050"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "design_note": "",
+      "source": "Black Perspectives synthesis — predatory inclusion",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E072",
+      "mode": "CONNECT",
+      "prompt": "LEGAL VICTORY · LIVED REALITY says a gap exists. What does Predatory Inclusion add?",
+      "answers": [
+        "It explains one way inclusion itself can remain unequal.",
+        "It says legal victories never matter.",
+        "It means exclusion and inclusion are identical.",
+        "It replaces every other explanation for inequality."
+      ],
+      "correct_answer": "It explains one way inclusion itself can remain unequal.",
+      "reveal": "It names one mechanism that can produce the gap: the door opens, but access itself can be structured on unequal terms.",
+      "points": 25,
+      "node_ids": [
+        "V1-050",
+        "V1-032"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Predatory Inclusion / LEGAL VICTORY · LIVED REALITY",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E073",
+      "mode": "APPLY",
+      "prompt": "A housing program finally permits entry, but the price is inflated, the property is poor, and the financing is costly. Best fit?",
+      "answers": [
+        "Predatory inclusion",
+        "Marronage",
+        "Double consciousness",
+        "Operational unity"
+      ],
+      "correct_answer": "Predatory inclusion",
+      "reveal": "The family has been included, but on terms structured to extract from them. That is the point of predatory inclusion.",
+      "points": 20,
+      "node_ids": [
+        "V1-050"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "Black Perspectives synthesis — Race for Profit / predatory inclusion",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E074",
+      "mode": "CONNECT",
+      "prompt": "A Nigerian American, a Jamaican Londoner, and an Afro-Brazilian meet. What does BLACKNESS ACROSS BORDERS ask you to find?",
+      "answers": [
+        "What history connects them and what national histories divide them",
+        "A single culture they must all share",
+        "Which person is most authentically Black",
+        "Why borders erase Black identity"
+      ],
+      "correct_answer": "What history connects them and what national histories divide them",
+      "reveal": "Find both the connection and the break: shared histories or racial formations can connect people without making nationality, culture, or politics identical.",
+      "points": 25,
+      "node_ids": [
+        "V1-001",
+        "V1-042",
+        "V1-048"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — BLACKNESS ACROSS BORDERS",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E075",
+      "mode": "SAME QUESTION",
+      "prompt": "A Black artist is told their work should present an uplifting image of Black life. What thread has appeared?",
+      "answers": [
+        "RESPECTABILITY ↔ REFUSAL",
+        "EVIDENCE AS RESISTANCE",
+        "LEGAL VICTORY · LIVED REALITY",
+        "BLACKNESS ACROSS BORDERS"
+      ],
+      "correct_answer": "RESPECTABILITY ↔ REFUSAL",
+      "reveal": "This is a Respectability ↔ Refusal question: should art meet standards meant to win recognition, or refuse the demand to represent Black life acceptably?",
+      "points": 25,
+      "node_ids": [
+        "V1-026",
+        "V1-027",
+        "V1-045"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — Harlem Renaissance / Respectability thread",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "BEST FIT"
+    },
+    {
+      "id": "E076",
+      "mode": "RECALL",
+      "prompt": "Think before revealing:\n\nWhen BLACK FOLK asks WHO IS “WE”?, what should your next question be?",
+      "answers": [],
+      "correct_answer": null,
+      "reveal": "Ask whose experience is being treated as representative of the whole group—and who may be outside that definition.\n\nSELF-RATE: KNEW IT / ALMOST / MISSED",
+      "points": 20,
+      "node_ids": [
+        "V1-011",
+        "V1-039",
+        "V1-047"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "RECALL",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 recurring question",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E077",
+      "mode": "MATCH",
+      "prompt": "Match each strategy to the best example:\n\nLEAVE · REFORM · BUILD · END-AND-BUILD",
+      "answers": [
+        "Marronage → LEAVE",
+        "Brown/legal reform → REFORM",
+        "Black-controlled institutions → BUILD",
+        "Abolition → END-AND-BUILD"
+      ],
+      "correct_answer": "all matches correct",
+      "reveal": "Marronage → LEAVE. Brown/legal reform → REFORM. Black-controlled institutions → BUILD. Abolition → END-AND-BUILD. The categories can overlap; the match teaches the strategic questions.",
+      "points": 30,
+      "node_ids": [
+        "V1-004",
+        "V1-032",
+        "V1-047",
+        "V1-046"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — LEAVE · REFORM · BUILD",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all four linked concepts have been introduced."
+    },
+    {
+      "id": "E078",
+      "mode": "APPLY",
+      "prompt": "Three groups disagree on ideology but agree on one concrete goal. They coordinate on that goal without pretending they agree on everything. Best fit?",
+      "answers": [
+        "Operational unity",
+        "Double consciousness",
+        "Predatory inclusion",
+        "Respectability"
+      ],
+      "correct_answer": "Operational unity",
+      "reveal": "This is operational unity: a coalition method in which groups cooperate around a concrete shared problem without requiring total ideological agreement.",
+      "points": 20,
+      "node_ids": [
+        "V1-038"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 deepening card — Coalition / Operational Unity",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E079",
+      "mode": "CONNECT",
+      "prompt": "Black educators create counter-curricula and teach around an oppressive school system. Which thread does this deepen?",
+      "answers": [
+        "WHAT IS EDUCATION FOR?",
+        "LEVERAGE",
+        "BLACKNESS ACROSS BORDERS",
+        "LEGAL VICTORY · LIVED REALITY"
+      ],
+      "correct_answer": "WHAT IS EDUCATION FOR?",
+      "reveal": "Fugitive pedagogy deepens WHAT IS EDUCATION FOR? by showing education as a site where people can preserve knowledge, develop agency, and work around hostile institutions.",
+      "points": 20,
+      "node_ids": [
+        "V1-007",
+        "V1-018",
+        "V1-034"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "CONNECT",
+        "CONTEXTUALIZE"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 deepening card — Fugitive Pedagogy",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E080",
+      "mode": "BOSS ROUND",
+      "prompt": "Match the six new core ideas to their sharpest question.",
+      "answers": [
+        "Respectability → Must I meet their standards?",
+        "Abolition → Repair or replace, and what comes next?",
+        "Black Nationalism → Who can decide for ourselves?",
+        "Pan-Africanism → How do connections become organized solidarity?",
+        "Criminalization → Who gets made dangerous?",
+        "Predatory Inclusion → What are the terms of entry?"
+      ],
+      "correct_answer": "all matches correct",
+      "reveal": "Respectability → Must I meet their standards? Abolition → Repair or replace, and what comes next? Black Nationalism → Who can decide for ourselves? Pan-Africanism → How do connections become organized solidarity? Criminalization → Who gets made dangerous? Predatory Inclusion → What are the terms of entry?",
+      "points": 50,
+      "node_ids": [
+        "V1-045",
+        "V1-046",
+        "V1-047",
+        "V1-048",
+        "V1-049",
+        "V1-050"
+      ],
+      "difficulty": "hard",
+      "mastery": [
+        "UNDERSTAND",
+        "CONNECT",
+        "APPLY"
+      ],
+      "design_note": "",
+      "source": "BLACK FOLK V1.5 — six-node synthesis",
+      "ui_feedback": {
+        "success": "brief +KNOWLEDGE animation",
+        "miss": "show answer/reveal calmly; no red punishment screen",
+        "next": "one tap"
+      },
+      "answer_label": "ANSWER",
+      "unlock_rule": "Only after all six V1.5 core additions have been introduced."
+    }
+  ],
+  "starter_sessions": [
+    {
+      "id": "S01",
+      "title": "WHO DEFINES THE STORY?",
+      "encounters": [
+        "D001",
+        "D002",
+        "E002",
+        "D004",
+        "E006",
+        "E010"
+      ],
+      "keep_this": "History changes when you change who gets to define the story.",
+      "purpose": "Introduce DISCOVER, multiple choice, and RECALL without exceeding two quiz screens in a row."
+    },
+    {
+      "id": "S02",
+      "title": "WHAT DOES FREEDOM REQUIRE?",
+      "encounters": [
+        "D005",
+        "E005",
+        "E014",
+        "E007",
+        "E027",
+        "E018"
+      ],
+      "keep_this": "Ending a barrier and building freedom are not the same job.",
+      "purpose": "Introduce context, strategy comparison, recall, and timeline."
+    },
+    {
+      "id": "S03",
+      "title": "HOW DOES POWER MOVE?",
+      "encounters": [
+        "D006",
+        "E004",
+        "D003",
+        "E014",
+        "E034",
+        "E039"
+      ],
+      "keep_this": "Attention matters. Organization, leverage, and leadership determine what happens next.",
+      "purpose": "Introduce evidence, organizing, fair comparison, connection, and SHARE."
+    }
+  ],
+  "v1_5_bridge_sessions": [
+    {
+      "id": "S04",
+      "title": "WHO GETS CALLED DANGEROUS?",
+      "encounters": [
+        "D049",
+        "E068",
+        "D045",
+        "E058",
+        "E057",
+        "E076"
+      ],
+      "keep_this": "Before punishment or protection, ask who was defined as dangerous—or worthy.",
+      "purpose": "Introduce Criminalization and Respectability together without making refusal the automatic correct answer.",
+      "status": "recommended_early_not_mandatory"
+    },
+    {
+      "id": "S05",
+      "title": "ACCESS OR CONTROL?",
+      "encounters": [
+        "D050",
+        "E071",
+        "D047",
+        "E063",
+        "E072",
+        "E064"
+      ],
+      "keep_this": "Getting in and having control are different questions.",
+      "purpose": "Introduce Predatory Inclusion and Black Nationalism through access, terms, ownership, and decision-making.",
+      "status": "recommended_early_not_mandatory"
+    },
+    {
+      "id": "S06",
+      "title": "BLACKNESS ACROSS BORDERS",
+      "encounters": [
+        "D042",
+        "D048",
+        "E053",
+        "E065",
+        "E066",
+        "E074"
+      ],
+      "keep_this": "Connection across borders is real without becoming sameness across borders.",
+      "purpose": "Introduce Black immigrant identity, Diaspora as a concept, and Pan-Africanism as an organizing project.",
+      "status": "recommended_early_not_mandatory"
+    },
+    {
+      "id": "S07",
+      "title": "WHO IS “WE”?",
+      "encounters": [
+        "D017",
+        "E048",
+        "D039",
+        "E023",
+        "E076",
+        "E064"
+      ],
+      "keep_this": "When politics says “we,” ask whose life is being treated as the norm.",
+      "purpose": "Turn WHO IS “WE”? into a recurring reflex through Stewart, Combahee, and collective politics.",
+      "status": "recommended_early_not_mandatory"
+    },
+    {
+      "id": "S08",
+      "title": "WHAT HAPPENS AFTER THE END?",
+      "encounters": [
+        "D046",
+        "E059",
+        "D011",
+        "E061",
+        "E060",
+        "E077"
+      ],
+      "keep_this": "Ending a system and building freedom are different jobs.",
+      "purpose": "Introduce Abolition inside LEAVE · REFORM · BUILD without making it the app’s predetermined political answer.",
+      "status": "recommended_early_not_mandatory"
+    }
+  ],
+  "session_end": {
+    "layout": [
+      "+KNOWLEDGE total",
+      "ideas strengthened",
+      "new connections discovered",
+      "KEEP THIS",
+      "DONE / KEEP PLAYING"
+    ],
+    "rule": "KEEP THIS is one short idea from the session, never a paragraph.",
+    "avoid": [
+      "accuracy percentage",
+      "streak-loss warning",
+      "leaderboard pressure",
+      "multiple currencies"
+    ]
+  },
+  "coverage_audit": {
+    "all_50_nodes_have_discover_card": true,
+    "all_50_nodes_have_at_least_one_active_encounter": true,
+    "active_encounter_node_touch_counts": {
+      "V1-001": 2,
+      "V1-002": 2,
+      "V1-003": 1,
+      "V1-004": 2,
+      "V1-005": 1,
+      "V1-006": 1,
+      "V1-007": 2,
+      "V1-008": 1,
+      "V1-009": 1,
+      "V1-010": 4,
+      "V1-011": 2,
+      "V1-012": 1,
+      "V1-013": 2,
+      "V1-014": 3,
+      "V1-015": 3,
+      "V1-016": 1,
+      "V1-017": 1,
+      "V1-018": 6,
+      "V1-019": 2,
+      "V1-020": 2,
+      "V1-021": 5,
+      "V1-022": 2,
+      "V1-023": 1,
+      "V1-024": 2,
+      "V1-025": 1,
+      "V1-026": 2,
+      "V1-027": 3,
+      "V1-028": 1,
+      "V1-029": 1,
+      "V1-030": 4,
+      "V1-031": 2,
+      "V1-032": 6,
+      "V1-033": 3,
+      "V1-034": 6,
+      "V1-035": 2,
+      "V1-036": 2,
+      "V1-037": 4,
+      "V1-038": 4,
+      "V1-039": 4,
+      "V1-040": 1,
+      "V1-041": 1,
+      "V1-042": 3,
+      "V1-043": 1,
+      "V1-044": 1,
+      "V1-045": 5,
+      "V1-046": 5,
+      "V1-047": 6,
+      "V1-048": 5,
+      "V1-049": 6,
+      "V1-050": 4
+    },
+    "mode_counts": {
+      "APPLY": 4,
+      "BOSS ROUND": 1,
+      "CONNECT": 19,
+      "MATCH": 2,
+      "RECALL": 7,
+      "SAME QUESTION": 9,
+      "SHARE": 3,
+      "THEN → NOW": 3,
+      "TIMELINE": 1,
+      "WHAT": 25,
+      "WHO": 1,
+      "WHY THEN": 5
+    },
+    "world_active_touch_counts": {
+      "CULTURE": 12,
+      "ECONOMICS": 9,
+      "EDUCATION": 13,
+      "FREEDOM": 14,
+      "IDENTITY": 18,
+      "ORGANIZING": 25,
+      "POWER": 42
+    },
+    "new_core_node_active_touch_counts": {
+      "V1-045": 5,
+      "V1-046": 5,
+      "V1-047": 6,
+      "V1-048": 5,
+      "V1-049": 6,
+      "V1-050": 4
+    }
+  }
+}
