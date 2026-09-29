@@ -6,6 +6,7 @@ require('../app/data/content.js');
 require('../app/js/content.js');
 require('../app/js/mastery.js');
 require('../app/js/graph.js');
+require('../app/js/notes.js');
 require('../app/js/session.js');
 const { content, mastery: M, session: S, graph: GR } = globalThis.BF;
 const C = content.load();
@@ -181,12 +182,46 @@ test('v1 saves migrate without losing anything', () => {
   const { player, migrated } = M.migrate(JSON.parse(JSON.stringify(v1)));
   GR.backfill(C, GR.build(C), player);
   assert.ok(migrated);
-  assert.equal(player.version, 2);
+  assert.equal(player.version, 3);
+  assert.deepEqual(player.yourWords, []);
   assert.equal(player.knowledge, 1234);
   assert.deepEqual(player.nodes, v1.nodes);
   assert.deepEqual(player.history, v1.history);
   assert.equal(player.startersCompleted, 1);
   assert.ok(Object.keys(player.map.nodes).length >= 4);
+});
+
+console.log('your words');
+test('notes save, edit, delete; newest first; earn no Knowledge', () => {
+  const N = globalThis.BF.notes;
+  const p = M.newPlayer();
+  const k = p.knowledge;
+  const a = N.add(p, { nodeIds: ['V1-019'], encounterId: 'X-R-V1-019', text: '  Seeing yourself twice. ', prompt: 'Explain it', model: 'Du Bois…' }, 1000);
+  const b = N.add(p, { nodeIds: ['V1-019'], text: 'Later, a fuller view.' }, 2000);
+  assert.equal(N.add(p, { nodeIds: ['V1-019'], text: '   ' }), null, 'empty notes are not saved');
+  for (const f of ['response_id', 'node_id', 'encounter_id', 'text', 'created_at', 'prompt', 'model_answer_snapshot']) assert.ok(f in a, f);
+  assert.equal(a.text, 'Seeing yourself twice.');
+  assert.deepEqual(N.forNode(p, 'V1-019').map((r) => r.response_id), [b.response_id, a.response_id]);
+  N.update(p, a.response_id, 'Revised.', 3000);
+  assert.equal(a.text, 'Revised.');
+  assert.equal(a.updated_at, 3000);
+  assert.ok(N.remove(p, b.response_id));
+  assert.equal(N.forNode(p, 'V1-019').length, 1);
+  assert.equal(p.knowledge, k);
+});
+test('v2 saves gain YOUR WORDS without losing map, WORDS or history', () => {
+  const p = M.newPlayer(); const rng = S.makeRng(8);
+  answerAll(p, S.buildNext(C, p, { seed: 1 }), 'good', rng);
+  const v2 = JSON.parse(JSON.stringify(p));
+  v2.version = 2; delete v2.yourWords;
+  const { player } = M.migrate(JSON.parse(JSON.stringify(v2)));
+  assert.equal(player.version, 3);
+  assert.deepEqual(player.yourWords, []);
+  assert.equal(player.knowledge, v2.knowledge);
+  assert.deepEqual(player.nodes, v2.nodes);
+  assert.deepEqual(player.map, v2.map);
+  assert.deepEqual(player.words, v2.words);
+  assert.deepEqual(player.history, v2.history);
 });
 
 console.log('adaptive');

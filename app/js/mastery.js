@@ -36,7 +36,7 @@
   }
 
   // ---- Player ---------------------------------------------------------------
-  const PLAYER_VERSION = 2;
+  const PLAYER_VERSION = 3;
   function newPlayer() {
     return {
       version: PLAYER_VERSION,
@@ -52,6 +52,7 @@
       history: [], // finished session summaries
       map: { nodes: {}, edges: {}, lastViewed: 0 }, // Knowledge Map: discovered nodes / revealed links
       words: {}, // WORDS found: quoteId -> { at, encounterId }
+      yourWords: [], // YOUR WORDS: the player's own dated explanations (see notes.js)
     };
   }
 
@@ -68,6 +69,12 @@
       p.migratedFrom = p.migratedFrom || [];
       p.migratedFrom.push({ version: from, at: Date.now() });
       p.version = 2;
+    }
+    if (p.version < 3) {
+      p.yourWords = p.yourWords || [];
+      p.migratedFrom = p.migratedFrom || [];
+      p.migratedFrom.push({ version: p.version, at: Date.now() });
+      p.version = 3;
     }
     const fresh = newPlayer();
     for (const k of Object.keys(fresh)) if (p[k] === undefined) p[k] = fresh[k];

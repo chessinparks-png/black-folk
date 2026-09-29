@@ -241,9 +241,11 @@
     const enc = item.enc;
     const isShare = enc.kind === 'share';
     const root = h('section', { class: 'card' });
-    const actions = h('div', { class: 'actions' });
+    let actions = h('div', { class: 'actions' });
     const revealBtn = h('button', { class: 'btn btn--primary', onclick: doReveal }, isShare ? 'Reveal model' : 'Reveal');
-    actions.append(revealBtn);
+    // YOUR WORDS: optional. Writing never changes the score; the self-rating does.
+    const writeBtn = ctx.canWrite && ctx.canWrite(enc) ? h('button', { class: 'btn btn--quiet', onclick: openWriting }, 'Write yours') : null;
+    put(actions, revealBtn, writeBtn);
     put(root, 
       eyebrow(enc),
       promptBlock(enc),
@@ -251,6 +253,39 @@
       hint(ctx.hint(isShare ? 'SHARE' : 'RECALL')),
       actions
     );
+
+    let yours = null; // the note saved on this card, if any
+    function openWriting() {
+      if (stage !== 'think') return;
+      const area = h('textarea', {
+        class: 'yw-input',
+        rows: '4',
+        'aria-label': 'Your words',
+        placeholder: 'In your own words, in 1–3 sentences…',
+      });
+      const pad = h(
+        'div',
+        { class: 'yw-pad' },
+        h('p', { class: 'yw-label' }, 'Your words'),
+        h('p', { class: 'yw-ask' }, ctx.writePrompt(enc)),
+        area,
+        h(
+          'div',
+          { class: 'actions', style: 'padding-top:1.25rem' },
+          h('button', {
+            class: 'btn btn--primary',
+            onclick: () => {
+              yours = ctx.saveNote(enc, area.value);
+              doReveal();
+            },
+          }, 'Save & reveal'),
+          h('button', { class: 'btn btn--quiet', onclick: doReveal }, 'Skip')
+        )
+      );
+      actions.replaceWith(pad);
+      actions = pad; // doReveal replaces whatever holds the actions
+      requestAnimationFrame(() => area.focus());
+    }
 
     const options = isShare
       ? [['clear', 'Clear'], ['almost', 'Almost'], ['needs', 'Needs work']]
@@ -262,6 +297,8 @@
       const timer = root.querySelector('.timer');
       if (timer) timer.remove();
       const r = revealBlock(isShare ? 'Model' : 'Answer', enc.reveal);
+      // Your note sits beside the model so you can compare for yourself. No grading.
+      if (yours) r.prepend(h('div', { class: 'yw-compare' }, h('span', { class: 'label' }, 'Your words · saved'), h('p', { class: 'yw-text' }, yours.text)));
       const qw = enc.quoteId && ctx.word(enc.quoteId);
       if (qw) r.append(h('div', { class: 'words-wrap' }, h('p', { class: 'words-found' }, 'In their words'), quoteBlock(qw)));
       const ratings = h(
@@ -283,7 +320,7 @@
       setTimeout(() => ctx.next(), 650);
     }
     root._onKey = (e) => {
-      if (stage === 'think' && (e.key === 'Enter' || e.key === ' ') && document.activeElement.tagName !== 'BUTTON') {
+      if (stage === 'think' && (e.key === 'Enter' || e.key === ' ') && !['BUTTON', 'TEXTAREA'].includes(document.activeElement.tagName)) {
         doReveal();
         return true;
       }

@@ -97,7 +97,7 @@
   }
 
   function exploreCtx() {
-    return { C: state.C, G: state.G, player: state.player, go, backLink, save };
+    return { C: state.C, G: state.G, player: state.player, go, backLink, save, render };
   }
 
   // ---- HOME ---------------------------------------------------------------------
@@ -230,6 +230,24 @@
       },
       hint: hintFor,
       word: (id) => state.C.wordsById[id],
+      // YOUR WORDS on RECALL / SHARE. Saving a note earns no Knowledge.
+      canWrite: (enc) => enc.nodeIds.length > 0,
+      writePrompt: (enc) => {
+        const n = state.C.nodesById[enc.nodeIds[0]];
+        if (enc.derived && n) return 'Explain ' + n.name + ' in 1–3 sentences.';
+        return 'In 1–3 sentences.'; // the question is already on screen above
+      },
+      saveNote(enc, text) {
+        const rec = BF.notes.add(state.player, {
+          nodeIds: enc.nodeIds,
+          encounterId: enc.id,
+          text,
+          prompt: (enc.lead ? enc.lead + ' ' : '') + enc.prompt,
+          model: enc.reveal,
+        });
+        save();
+        return rec;
+      },
       worldOf: worldOfEnc,
       lensFor(enc) {
         const n = state.C.nodesById[enc.nodeIds[0]];
@@ -394,6 +412,9 @@
   // ---- keyboard -------------------------------------------------------------------
   document.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
+    // Typing (YOUR WORDS, filters) never triggers game shortcuts.
+    const tag = e.target && e.target.tagName;
+    if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT') return;
     if (e.key === 'Escape' && route().name !== 'home') {
       go('#/');
       return;
@@ -419,7 +440,7 @@
     state.G = state.C.graph = BF.graph.build(state.C);
     if (migrated || !Object.keys(state.player.map.nodes).length) BF.graph.backfill(state.C, state.G, state.player);
     if (migrated) {
-      await store.set('player-backup-v' + upgraded.migratedFrom[upgraded.migratedFrom.length - 1].version, original);
+      await store.set('player-backup-v' + original.version, original);
       await store.set('player', state.player);
     }
     state.session = (await store.get('session')) || null;

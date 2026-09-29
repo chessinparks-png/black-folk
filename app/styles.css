@@ -1367,6 +1367,117 @@ a.world-tag:hover {
   margin-top: 2.5rem;
 }
 
+/* ---------- YOUR WORDS: a quiet notebook margin ---------- */
+
+.yw-pad {
+  margin-top: 1.75rem;
+  animation: enter 320ms var(--ease) both;
+}
+
+.yw-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+
+.yw-ask,
+.block .yw-ask {
+  margin: 0 0 0.75rem;
+  color: var(--fg-soft);
+  font-size: 0.98rem;
+}
+
+.yw-input {
+  display: block;
+  width: 100%;
+  max-width: 38rem;
+  min-height: 7rem;
+  resize: vertical;
+  padding: 0.6rem 0 0.6rem 1rem;
+  border: 0;
+  border-left: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 200ms var(--ease);
+}
+
+.yw-input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.yw-input:focus {
+  border-left-color: var(--accent);
+}
+
+.yw-compare {
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--line-strong);
+}
+
+.yw-text,
+.reveal .yw-text,
+.block .yw-text {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--fg);
+  white-space: pre-wrap;
+  max-width: 38rem;
+}
+
+.yw-list {
+  list-style: none;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.yw-entry {
+  padding-left: 1rem;
+  border-left: 1px solid var(--line-strong);
+}
+
+.yw-date {
+  margin: 0 0 0.35rem !important;
+  font-size: 0.68rem !important;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--muted) !important;
+}
+
+.yw-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.25rem;
+  margin-top: 0.4rem;
+}
+
+.yw-actions .textlink {
+  font-size: 0.68rem;
+  min-height: 2.75rem;
+}
+
+.yw-strong {
+  color: var(--fg) !important;
+}
+
+.yw-confirm {
+  font-size: 0.9rem;
+  color: var(--fg-soft);
+}
+
 /* ---------- Knowledge Map ---------- */
 
 .screen--wide {

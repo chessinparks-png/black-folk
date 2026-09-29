@@ -149,15 +149,35 @@ curly quote marks are typography only.
 - **After that:** the quote stays on its idea page and in the WORDS collection, which can
   be filtered by thinker, world and thread. Quotes you haven't found are never shown.
 
+## YOUR WORDS
+
+YOUR WORDS is an optional, private notebook for explaining ideas in your own words.
+
+- **In PLAY:** RECALL and SHARE cards offer **Write yours**. Save & reveal puts your note
+  beside the model answer so you can compare for yourself. Skip reveals the model as
+  usual.
+- **Scoring:** there is no grading and no AI. Knowledge still comes only from your
+  self-rating; a note earns 0.
+- **In EXPLORE:** every idea page has a quiet YOUR WORDS section.
+  - Notes are dated, newest first, and older ones are folded away.
+  - You can edit a note, delete it (with confirmation), or add a new one.
+  - With no notes, it reads "No notes yet."
+- **Stored fields:** each note is kept in `player.yourWords` with `response_id`,
+  `node_id`/`node_ids`, `encounter_id`, `text`, `created_at`, `updated_at`, `prompt` and
+  `model_answer_snapshot`.
+- **Privacy:** notes live only on this device. Nothing is sent anywhere.
+
 ## Saved progress and migration
 
-Progress is stored in IndexedDB (`black-folk` → `state` → `player`). Schema v2 adds
-`map.nodes`, `map.edges` and `words`.
+Progress is stored in IndexedDB (`black-folk` → `state` → `player`).
 
-A v1 save is upgraded in place when the app loads:
+- Schema v2 adds `map.nodes`, `map.edges` and `words`.
+- Schema v3 adds `yourWords`.
+
+Older saves are upgraded in place when the app loads:
 - every existing field is kept;
 - the map is backfilled from your past encounters;
-- the untouched original is kept as `player-backup-v1`.
+- the untouched original is kept as `player-backup-v<old version>`.
 
 Knowledge already earned under the old rules is not recalculated.
 

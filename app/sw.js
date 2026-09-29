@@ -15,6 +15,7 @@ const ASSETS = [
   'js/content.js',
   'js/mastery.js',
   'js/graph.js',
+  'js/notes.js',
   'js/session.js',
   'js/store.js',
   'js/encounters.js',

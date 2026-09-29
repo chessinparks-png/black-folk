@@ -37,7 +37,7 @@ const has = async (sel) => (await page.locator(sel).count()) > 0;
 function check(cond, msg) { if (!cond) { console.log('  ✗ ' + msg); process.exitCode = 1; } else console.log('  ✓ ' + msg); }
 
 // Play the current encounter. `miss` answers wrongly where possible.
-async function playEncounter({ miss = false, shotName } = {}) {
+async function playEncounter({ miss = false, shotName, write = null } = {}) {
   const enc = await page.evaluate(() => { const s = BF.app.state.session; return s.items[s.index].enc; });
   if (shotName) await snap(shotName + '-' + enc.mode.replace(/\W+/g, ''));
   const text = await page.textContent('main');
@@ -51,7 +51,17 @@ async function playEncounter({ miss = false, shotName } = {}) {
     const target = miss ? enc.choices.find((c) => c !== enc.correct) : enc.correct;
     await page.locator('.choice', { hasText: target }).first().click();
   } else if (enc.kind === 'recall' || enc.kind === 'share') {
-    await page.getByRole('button', { name: /^Reveal/ }).click();
+    if (write) {
+      await btn('Write yours').click();
+      await page.locator('.yw-input').fill(write);
+      await page.keyboard.press('Enter'); // typing must not trigger the reveal shortcut
+      check(await page.locator('.yw-input').count() === 1, 'Enter inside YOUR WORDS does not skip ahead');
+      if (shotName) await snap(shotName + '-writing');
+      await btn('Save & reveal').click();
+      check((await page.textContent('.yw-compare')).includes(write), 'saved note shown beside the model answer');
+    } else {
+      await page.getByRole('button', { name: /^Reveal/ }).click();
+    }
     const label = miss ? (enc.kind === 'share' ? 'Needs work' : 'Missed it') : enc.kind === 'share' ? 'Clear' : 'Knew it';
     if (shotName) await snap(shotName + '-revealed');
     await btn(label).click();
@@ -74,7 +84,7 @@ async function playEncounter({ miss = false, shotName } = {}) {
   return enc;
 }
 
-async function playSession({ tag, missFirstChoice = false, reloadAt = -1 } = {}) {
+async function playSession({ tag, missFirstChoice = false, reloadAt = -1, writeOnRecall = null } = {}) {
   let knowledgeNeverDropped = true;
   let missedPoints = null;
   await btn('Begin').click();
@@ -93,7 +103,7 @@ async function playSession({ tag, missFirstChoice = false, reloadAt = -1 } = {})
     const enc = await page.evaluate(() => { const s = BF.app.state.session; return s.items[s.index].enc; });
     const miss = missFirstChoice && enc.kind === 'choice' && !modes.some((m) => m.miss);
     const before = (await st()).knowledge;
-    await playEncounter({ miss, shotName: i < 6 ? `${tag}-${i + 1}` : null });
+    await playEncounter({ miss, shotName: i < 6 ? `${tag}-${i + 1}` : null, write: enc.kind === 'recall' ? writeOnRecall : null });
     const after = (await st()).knowledge;
     if (after < before) knowledgeNeverDropped = false;
     if (miss) missedPoints = after - before;
@@ -132,7 +142,7 @@ const mig = await page.evaluate(async () => {
     node: !!p.nodes['V1-010'].introduced, mapNode: !!p.map.nodes['V1-010'], edge: !!p.map.edges['V1-030|V1-031'],
     savedV: saved.version, backupK: backup && backup.knowledge, words: p.words };
 });
-check(mig.v === 2 && mig.savedV === 2, 'V1 save upgraded to schema v2 and re-saved');
+check(mig.v === 3 && mig.savedV === 3, 'V1 save upgraded to the current schema (v3) and re-saved');
 check(mig.k === 480 && mig.starters === 3 && mig.hist === 1 && mig.ratings === 1 && mig.node, 'Knowledge, starters, history, ratings and mastery preserved');
 check(mig.mapNode && mig.edge, 'map backfilled from past encounters (Bethune–Randolph link revealed)');
 check(mig.backupK === 480, 'untouched V1 backup kept');
@@ -147,8 +157,10 @@ check((await page.textContent('.stats')).includes('0 KNOWLEDGE'), 'home shows 0 
 await btn('Play').click();
 await page.waitForSelector('text=WHO DEFINES THE STORY?');
 await snap('s1-intro');
-const s1 = await playSession({ tag: 's1' });
+const NOTE = 'A law can change on paper while schools, money, and habits stay the same.';
+const s1 = await playSession({ tag: 's1', writeOnRecall: NOTE });
 check(s1.modes.map((m) => m.id).join() === 'D001,D002,E002,D004,E006,E010', 'starter 1 plays the curated flow');
+check(s1.summary.knowledge === 65 && s1.knowledgeNeverDropped, 'writing a note earns no extra Knowledge (recall still pays by self-rating)');
 check(s1.summary.knowledge === 65, 'starter 1 awards 55 for play + 10 for two WORDS found (' + s1.summary.knowledge + ')');
 check(s1.summary.words.join() === 'W-11,W-01', 'WORDS found in starter 1: ' + s1.summary.words.join());
 check((await page.textContent('.keep')).includes('History changes when you change who gets to define the story.'), 'KEEP THIS shows starter line');
@@ -170,6 +182,34 @@ check(wtext.includes('“We wish to plead our own cause”') && wtext.includes('
 check(!wtext.includes('Cast down your bucket'), 'unfound quotes are not exposed');
 await page.goto(APP_URL + '#/idea/V1-019');
 check((await page.textContent('main')).includes('How does it feel to be a problem?'), 'quote joins its node page');
+// YOUR WORDS on the idea page: view, add, expand, edit, delete (with confirm), persist
+await page.goto(APP_URL + '#/idea/V1-032');
+await page.waitForSelector('.yw');
+check((await page.textContent('.yw')).includes(NOTE) && (await page.textContent('.yw')).includes('Your words · 1'), 'note from play appears on its idea page');
+await page.getByRole('button', { name: 'Add a new note +' }).click();
+await page.locator('.yw .yw-input').fill('Second pass: rules and reality move at different speeds.');
+await page.locator('.yw').getByRole('button', { name: 'Save', exact: true }).click();
+check((await page.textContent('.yw')).includes('Your words · 2') && (await page.textContent('.yw')).includes('Show 1 earlier +'), 'new note added; older one folded away');
+await page.getByRole('button', { name: 'Show 1 earlier +' }).click();
+await snap('yourwords-idea');
+await page.locator('.yw-entry').first().getByRole('button', { name: /^Edit/ }).click();
+await page.locator('.yw .yw-input').fill('Second pass, edited.');
+await page.locator('.yw').getByRole('button', { name: 'Save', exact: true }).click();
+check((await page.textContent('.yw')).includes('Second pass, edited.') && (await page.textContent('.yw')).includes('EDITED'), 'note edited');
+await page.locator('.yw-entry').first().getByRole('button', { name: /^Delete/ }).click();
+check((await page.textContent('.yw')).includes('Delete this note?'), 'delete asks for confirmation');
+await page.locator('.yw').getByRole('button', { name: 'Keep' }).click();
+check((await page.textContent('.yw')).includes('Second pass, edited.'), 'cancelling keeps the note');
+await page.locator('.yw-entry').first().getByRole('button', { name: /^Delete/ }).click();
+await page.locator('.yw').getByRole('button', { name: 'Delete', exact: true }).click();
+await page.reload();
+await page.waitForSelector('.yw');
+const ywText = await page.textContent('.yw');
+check(ywText.includes('Your words · 1') && ywText.includes(NOTE) && !ywText.includes('Second pass'), 'notes survive reload; deletion persisted');
+const kNow = await page.evaluate(() => BF.app.state.player.knowledge);
+check(kNow === 65, 'notes never change Knowledge (' + kNow + ')');
+await page.goto(APP_URL + '#/idea/V1-019');
+check((await page.textContent('.yw')).includes('No notes yet.'), 'empty state reads "No notes yet."');
 await page.goto(APP_URL + '#/idea/V1-044');
 check((await page.textContent('main')).includes('Not yet discovered'), 'undiscovered node page stays locked');
 await page.goto(APP_URL + '#/explore');
