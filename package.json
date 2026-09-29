@@ -1,0 +1,19 @@
+{
+  "name": "black-folk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BLACK FOLK — a minimalist, offline-first learning game for Black intellectual history.",
+  "type": "module",
+  "scripts": {
+    "data": "node scripts/build-data.mjs",
+    "dev": "node scripts/build-data.mjs && node scripts/serve.mjs app",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs dist 4173",
+    "test": "node tests/engine.test.mjs",
+    "test:e2e": "node tests/e2e.mjs",
+    "test:offline": "node tests/offline.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

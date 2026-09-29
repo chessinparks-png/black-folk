@@ -1,0 +1,32 @@
+{
+  "_about": "Editorial wiring between the two authoritative content files. It adds NO historical claims: it only maps existing debates and threads onto existing curriculum node ids so the game can decide when they unlock. Edit freely; run `npm run data` afterwards.",
+
+  "debates": {
+    "D-01": { "sides": [["V1-018"], ["V1-019", "V1-020"]], "side_labels": ["Washington", "Du Bois"], "encounters": [] },
+    "D-02": { "sides": [["V1-018"], ["V1-021", "V1-022"]], "side_labels": ["Washington", "Wells"], "encounters": ["E011"] },
+    "D-03": { "sides": [["V1-034"], ["V1-035"]], "side_labels": ["Baker", "King"], "encounters": ["E014"] },
+    "D-04": { "sides": [["V1-035"], ["V1-036"]], "side_labels": ["King", "Malcolm X"], "encounters": ["E033"] },
+    "D-05": { "sides": [["V1-032"], ["V1-037"]], "side_labels": ["Integration", "Black Power"], "encounters": ["E022"] },
+    "D-06": { "sides": [["V1-027"], ["V1-026"]], "side_labels": ["Hurston", "Protest-art tradition"], "encounters": [] },
+    "D-07": { "sides": [["V1-039"], []], "side_labels": ["Combahee", "Male-centered liberation politics"], "encounters": [] }
+  },
+
+  "threads": {
+    "T-01": [["V1-004"], ["V1-025"], ["V1-032", "V1-015"], ["V1-030"], ["V1-037"]],
+    "T-02": [["V1-022", "V1-021"], ["V1-031"], ["V1-033"], ["V1-038"]],
+    "T-03": [["V1-013"], ["V1-021"], ["V1-019", "V1-020"]],
+    "T-04": [["V1-007"], ["V1-014"], ["V1-018"], ["V1-030"], ["V1-034"], ["V1-038"]],
+    "T-05": [["V1-012"], ["V1-033"], ["V1-034"], [], ["V1-044"]],
+    "T-06": [["V1-001"], ["V1-019"], ["V1-026"], ["V1-027"], ["V1-028"], ["V1-040"], ["V1-042"]],
+    "T-07": [["V1-015"], ["V1-017"], ["V1-032"], [], ["V1-043"]]
+  },
+
+  "thread_unlock_steps": 3,
+
+  "_threads_note": "Each thread entry lists, per step of the curriculum's `path`, the node ids that satisfy that step (any one of them). An empty list means the step has no playable node yet (e.g. 'Boynton/context', 'Voting Rights').",
+
+  "boss_min_nodes": {
+    "E040": 4
+  },
+  "_boss_note": "E040's design_note says it unlocks after at least four linked nodes have been encountered; this overrides the generic 'all linked nodes' unlock rule for that one encounter."
+}

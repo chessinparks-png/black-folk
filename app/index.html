@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>BLACK FOLK</title>
+    <meta name="description" content="A minimalist learning game for Black intellectual history." />
+    <meta name="theme-color" content="#0f0e0d" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      try {
+        var s = JSON.parse(localStorage.getItem('black-folk:settings') || '{}');
+        if (s.theme) document.documentElement.setAttribute('data-theme', s.theme);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="floats" aria-hidden="true"></div>
+    <div id="live" class="sr-only" aria-live="polite"></div>
+    <noscript><p style="padding:2rem">BLACK FOLK needs JavaScript enabled.</p></noscript>
+
+    <!-- Classic scripts (no modules) so the app also runs straight from file:// -->
+    <script src="data/content.js"></script>
+    <script src="js/content.js"></script>
+    <script src="js/mastery.js"></script>
+    <script src="js/session.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/encounters.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

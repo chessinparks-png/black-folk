@@ -1,0 +1,762 @@
+{
+  "project": "Black Thought",
+  "version": "V1 revised after independent audit",
+  "status": "curriculum structure locked for encounter design",
+  "learning_goals": [
+    "UNDERSTAND",
+    "CONNECT",
+    "CONTEXTUALIZE",
+    "SHARE",
+    "APPLY"
+  ],
+  "worlds": {
+    "FREEDOM": "What does freedom actually require?",
+    "POWER": "Who gets to decide, and how is power exercised?",
+    "EDUCATION": "What is learning for?",
+    "ECONOMICS": "Who controls work, wealth, and resources?",
+    "IDENTITY": "Who defines Blackness and the self?",
+    "ORGANIZING": "How do people act together?",
+    "CULTURE": "What can art, faith, media, and language do?"
+  },
+  "rules": [
+    "Thinkers and ideas drive play; history mostly provides context.",
+    "No source-author trivia.",
+    "Debates must present both sides fairly and never score a political winner.",
+    "Typing stays minimal; active recall can use think-before-reveal.",
+    "LENS is optional and replaces the old mandatory modern_bridge field.",
+    "TODAY examples are added only when concrete, sourced, neutral, and useful.",
+    "Share lines should usually be 15 words or fewer.",
+    "Connections used in gameplay should resolve to playable nodes, context cards, debates, or threads."
+  ],
+  "playable_nodes": [
+    {
+      "id": "V1-001",
+      "subject": "Africa before enslavement",
+      "kind": "historical_idea",
+      "world": "IDENTITY",
+      "era": "pre-1619",
+      "core_idea": "Black American history sits inside a longer African history; enslavement is a rupture, not the beginning of Black existence.",
+      "share": "Black history doesn’t start in 1619. It starts in Africa.",
+      "lens": "Ask what changes when a people’s story begins before their oppression.",
+      "source": "Four Hundred Souls",
+      "source_section": "1624–1629: Africa"
+    },
+    {
+      "id": "V1-002",
+      "subject": "Law helped construct race",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1600s",
+      "core_idea": "Colonial law did not merely reflect racial categories; it helped harden them by assigning unequal status, rights, and inheritance.",
+      "share": "Racist law didn’t just enforce race. It helped define what race meant.",
+      "lens": "Legal categories can shape social categories, not just record them.",
+      "source": "Four Hundred Souls + Black AF History",
+      "source_section": "1664–1709 chapters; Black AF History 'How White People Were Invented'"
+    },
+    {
+      "id": "V1-003",
+      "subject": "Bacon’s Rebellion and divided interests",
+      "kind": "historical_idea",
+      "world": "ECONOMICS",
+      "era": "1670s",
+      "core_idea": "Colonial elites had incentives to sharpen racial divisions among laboring people who could otherwise share economic grievances.",
+      "share": "Race and class can divide people who share material problems.",
+      "lens": "When a coalition breaks, ask what interests or identities are pulling people apart.",
+      "source": "Four Hundred Souls",
+      "source_section": "1674–1679: Bacon’s Rebellion"
+    },
+    {
+      "id": "V1-004",
+      "subject": "Marronage and autonomous communities",
+      "kind": "movement_idea",
+      "world": "FREEDOM",
+      "era": "1700s",
+      "core_idea": "Some enslaved people pursued freedom by leaving slave society and building alternative communities such as maroon settlements and Fort Mose.",
+      "share": "Sometimes freedom meant escaping the system and building somewhere else.",
+      "lens": "Leave, reform, or build: different strategies begin with different ideas of what is possible.",
+      "source": "Four Hundred Souls",
+      "source_section": "1719–1724: Maroons and Marronage; 1734–1739: From Fort Mose to Soul City"
+    },
+    {
+      "id": "V1-005",
+      "subject": "The spirituals",
+      "kind": "cultural_idea",
+      "world": "CULTURE",
+      "era": "1700s",
+      "core_idea": "Spirituals could carry theology, memory, coded meaning, endurance, and visions of freedom simultaneously.",
+      "share": "A song can carry history, faith, and strategy at the same time.",
+      "lens": "Culture can do intellectual work even when it does not look like an essay.",
+      "source": "Four Hundred Souls",
+      "source_section": "1724–1729: The Spirituals"
+    },
+    {
+      "id": "V1-006",
+      "subject": "Freedom church",
+      "kind": "institution_idea",
+      "world": "CULTURE",
+      "era": "1700s",
+      "core_idea": "Independent Black religious life became a place where faith, collective organization, mutual aid, and claims for freedom could meet.",
+      "share": "The Black church became both a sanctuary and an organizing institution.",
+      "lens": "Institutions can preserve ideas because people meet there repeatedly, not just because leaders speak there.",
+      "source": "Four Hundred Souls",
+      "source_section": "David George / freedom church; Savannah and early Black churches"
+    },
+    {
+      "id": "V1-007",
+      "subject": "Phillis Wheatley",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1760s",
+      "core_idea": "Black literary achievement challenged claims of Black intellectual inferiority while exposing the burden of having to prove humanity to a hostile public.",
+      "share": "Wheatley had to write poems—and prove Black people could think.",
+      "lens": "Marginalized people are often asked to create and justify their right to create at once.",
+      "source": "Four Hundred Souls",
+      "source_section": "1764–1769: Phillis Wheatley"
+    },
+    {
+      "id": "V1-008",
+      "subject": "Liberty’s contradiction",
+      "kind": "historical_idea",
+      "world": "FREEDOM",
+      "era": "1700s",
+      "core_idea": "Enlightenment and Revolutionary language about universal liberty coexisted with racial hierarchy and slavery, giving Black people both a contradiction to expose and a language to claim.",
+      "share": "America preached universal liberty while deciding who counted as universal.",
+      "lens": "Compare a society’s principles with who actually receives the rights those principles promise.",
+      "source": "Four Hundred Souls",
+      "source_section": "1749–1754: Race and the Enlightenment; 1774–1779: The American Revolution"
+    },
+    {
+      "id": "V1-009",
+      "subject": "Denmark Vesey",
+      "kind": "thinker_organizer",
+      "world": "ORGANIZING",
+      "era": "1820s",
+      "core_idea": "Black resistance could require secret networks, trust, planning, and a willingness to pursue collective freedom under severe repression.",
+      "share": "Rebellion required organization long before it required action.",
+      "lens": "Under repression, trust and information control become part of strategy.",
+      "source": "Four Hundred Souls",
+      "source_section": "1819–1824: Denmark Vesey"
+    },
+    {
+      "id": "V1-010",
+      "subject": "Freedom’s Journal",
+      "kind": "institution_idea",
+      "world": "CULTURE",
+      "era": "1820s",
+      "core_idea": "Black-controlled media let Black communities speak for themselves rather than depend on white institutions to define Black life.",
+      "share": "Owning the platform can be part of owning the story.",
+      "lens": "Ask who controls the channel through which a community is described.",
+      "source": "Four Hundred Souls",
+      "source_section": "1824–1829: Freedom’s Journal"
+    },
+    {
+      "id": "V1-011",
+      "subject": "Maria Stewart",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1830s",
+      "core_idea": "Stewart connected Black advancement to education, public voice, economic ambition, and the political agency of Black women.",
+      "share": "Stewart argued that Black freedom could not leave Black women behind.",
+      "lens": "When a movement says 'the people,' ask who is actually included in that phrase.",
+      "source": "Four Hundred Souls",
+      "source_section": "1829–1834: Maria Stewart"
+    },
+    {
+      "id": "V1-012",
+      "subject": "National Negro Conventions",
+      "kind": "institution_idea",
+      "world": "ORGANIZING",
+      "era": "1830s",
+      "core_idea": "Black political thought developed through institutions where people debated abolition, education, migration, and strategy together.",
+      "share": "Movements need places to argue about strategy, not only places to protest.",
+      "lens": "Deliberation is movement infrastructure too.",
+      "source": "Four Hundred Souls",
+      "source_section": "1834–1839: The National Negro Conventions"
+    },
+    {
+      "id": "V1-013",
+      "subject": "James McCune Smith",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1840s",
+      "core_idea": "Black intellectuals used scholarship and professional expertise to challenge racial pseudoscience and supposedly objective claims of inferiority.",
+      "share": "McCune Smith fought racist 'science' with evidence and expertise.",
+      "lens": "When prejudice dresses itself as fact, ask what the evidence actually shows.",
+      "source": "Four Hundred Souls",
+      "source_section": "1844–1849: James McCune Smith, M.D."
+    },
+    {
+      "id": "V1-014",
+      "subject": "Frederick Douglass",
+      "kind": "thinker",
+      "world": "FREEDOM",
+      "era": "1850s–1860s",
+      "core_idea": "Douglass linked literacy, abolition, citizenship, political action, and the destruction of slavery; personal escape was not enough while the system remained.",
+      "share": "Douglass escaped slavery, then spent his life attacking the system itself.",
+      "lens": "Individual mobility and collective freedom are different measurements.",
+      "source": "Four Hundred Souls",
+      "source_section": "1859–1864: Frederick Douglass"
+    },
+    {
+      "id": "V1-015",
+      "subject": "Reconstruction",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1865–1877",
+      "core_idea": "Emancipation opened a second struggle over citizenship, voting, education, labor, land, and political power.",
+      "share": "Ending slavery answered one question. Reconstruction asked what freedom required next.",
+      "lens": "After a formal barrier falls, ask who controls institutions and resources afterward.",
+      "source": "Four Hundred Souls + Black AF History",
+      "source_section": "1869–1874: Reconstruction; Black AF History Reconstruction discussion"
+    },
+    {
+      "id": "V1-016",
+      "subject": "Atlanta washerwomen",
+      "kind": "movement_idea",
+      "world": "ECONOMICS",
+      "era": "1870s–1880s",
+      "core_idea": "Black washerwomen used labor autonomy, common rates, mutual-aid traditions, and collective organization to increase control over their work.",
+      "share": "Black washerwomen turned private labor into collective bargaining power.",
+      "lens": "Economic power can begin with workers coordinating rules they previously faced alone.",
+      "source": "Four Hundred Souls",
+      "source_section": "Atlanta / washerwomen and post-Reconstruction Black neighborhoods"
+    },
+    {
+      "id": "V1-017",
+      "subject": "Plessy and the Citizens’ Committee",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1890s",
+      "core_idea": "Plessy v. Ferguson legalized 'separate but equal,' but the case itself grew from organized Black resistance to segregation.",
+      "share": "Plessy was a defeat in court—and the product of organized resistance.",
+      "lens": "A failed legal challenge can still reveal how a community understood the injustice it faced.",
+      "source": "Four Hundred Souls",
+      "source_section": "1894–1899: Plessy v. Ferguson"
+    },
+    {
+      "id": "V1-018",
+      "subject": "Booker T. Washington",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1890s–1900s",
+      "core_idea": "Washington emphasized industrial education, economic strength, and pragmatic advancement as a route toward Black progress in a hostile political environment.",
+      "share": "Washington’s bet: build skills and wealth while navigating a hostile system.",
+      "lens": "A strategy can be judged partly by what risks its author believed were realistic at the time.",
+      "source": "Four Hundred Souls + Black AF History",
+      "source_section": "1899–1904: Booker T. Washington; Wells section"
+    },
+    {
+      "id": "V1-019",
+      "subject": "W.E.B. Du Bois — double consciousness",
+      "kind": "thinker_idea",
+      "world": "IDENTITY",
+      "era": "1900s",
+      "core_idea": "Du Bois described the strain of knowing oneself while also seeing oneself through a society that devalues Blackness.",
+      "share": "Du Bois named the strain of seeing yourself through hostile eyes.",
+      "lens": "Ask how much self-image comes from one’s own values versus other people’s expectations.",
+      "source": "Black AF History",
+      "source_section": "Introduction / The Souls of Black Folk"
+    },
+    {
+      "id": "V1-020",
+      "subject": "W.E.B. Du Bois — Black Reconstruction",
+      "kind": "thinker_idea",
+      "world": "POWER",
+      "era": "1930s interpreting 1860s",
+      "core_idea": "Du Bois reframed Reconstruction and emancipation around Black agency, arguing that enslaved people helped destroy slavery by withdrawing labor and joining the freedom struggle.",
+      "share": "Du Bois made enslaved people actors in emancipation, not spectators to it.",
+      "lens": "Ask who disappears when history is told only through presidents, generals, and laws.",
+      "source": "Black AF History",
+      "source_section": "Black Reconstruction / 'The General Strike' discussion"
+    },
+    {
+      "id": "V1-021",
+      "subject": "Ida B. Wells — evidence against racial mythology",
+      "kind": "thinker_idea",
+      "world": "POWER",
+      "era": "1890s",
+      "core_idea": "Wells used investigative reporting and statistics to challenge the claim that lynching was a neutral response to crime.",
+      "share": "Wells attacked lynching by attacking the lie used to justify it.",
+      "lens": "When violence is justified by a story about its victims, check the evidence behind the story.",
+      "source": "Black AF History",
+      "source_section": "Ida B. Wells section"
+    },
+    {
+      "id": "V1-022",
+      "subject": "Ida B. Wells — leverage and self-protection",
+      "kind": "thinker_idea",
+      "world": "ORGANIZING",
+      "era": "1890s",
+      "core_idea": "Wells treated migration, boycotts, public exposure, and self-defense as forms of leverage when authorities would not protect Black communities.",
+      "share": "Wells paired truth-telling with economic pressure and self-protection.",
+      "lens": "Moral argument and leverage are different tools; movements may use both.",
+      "source": "Black AF History",
+      "source_section": "Ida B. Wells section; Mob Rule discussion"
+    },
+    {
+      "id": "V1-023",
+      "subject": "Mary Church Terrell",
+      "kind": "thinker_organizer",
+      "world": "EDUCATION",
+      "era": "1890s–1950s",
+      "core_idea": "Terrell used education, writing, club work, anti-lynching advocacy, women’s rights, and direct challenges to segregation as mutually reinforcing forms of public action.",
+      "share": "Terrell turned education and status into tools for public action.",
+      "lens": "Private achievement can become civic power when it is converted into institutions and organizing.",
+      "source": "Black AF History",
+      "source_section": "Mary Church Terrell section"
+    },
+    {
+      "id": "V1-024",
+      "subject": "Callie House",
+      "kind": "thinker_organizer",
+      "world": "ECONOMICS",
+      "era": "1890s–1910s",
+      "core_idea": "House helped build a mass reparations movement among formerly enslaved people through local chapters, churches, agents, and membership organization.",
+      "share": "The reparations movement had mass organizers more than a century ago.",
+      "lens": "A demand becomes a movement when ordinary people have a structure for participating in it.",
+      "source": "Black AF History",
+      "source_section": "Ex-slave pension / Callie House discussion"
+    },
+    {
+      "id": "V1-025",
+      "subject": "The Great Migration",
+      "kind": "historical_idea",
+      "world": "FREEDOM",
+      "era": "1910s–1970s",
+      "core_idea": "Migration became a strategy for pursuing safety, wages, political possibility, and autonomy, not simply a change of address.",
+      "share": "Millions moved because geography itself could shape freedom.",
+      "lens": "Leaving can be a political strategy when place determines opportunity and safety.",
+      "source": "Four Hundred Souls",
+      "source_section": "1914–1919: The Great Migration"
+    },
+    {
+      "id": "V1-026",
+      "subject": "Harlem Renaissance",
+      "kind": "cultural_idea",
+      "world": "CULTURE",
+      "era": "1920s",
+      "core_idea": "The Harlem Renaissance became an argument about who could define Black life and what Black art owed to politics, audiences, and white patronage.",
+      "share": "The Harlem Renaissance was also a debate about who Black art was for.",
+      "lens": "Art can seek recognition, protest, autonomy, or several goals at once.",
+      "source": "Four Hundred Souls",
+      "source_section": "1924–1929: The Harlem Renaissance"
+    },
+    {
+      "id": "V1-027",
+      "subject": "Zora Neale Hurston",
+      "kind": "thinker_artist",
+      "world": "CULTURE",
+      "era": "1920s–1930s",
+      "core_idea": "Hurston treated Black vernacular, folklore, humor, and ordinary life as worthy subjects without requiring them to function only as protest.",
+      "share": "Hurston let Black life be more than an argument about racism.",
+      "lens": "Creators from marginalized groups may resist being asked to represent the whole group.",
+      "source": "Four Hundred Souls",
+      "source_section": "1934–1939: Zora Neale Hurston"
+    },
+    {
+      "id": "V1-028",
+      "subject": "James Baldwin",
+      "kind": "thinker_artist",
+      "world": "IDENTITY",
+      "era": "1950s",
+      "core_idea": "Baldwin pushed against narrow depictions of Black life and used autobiography, criticism, and global perspective to insist on fuller Black humanity.",
+      "share": "Baldwin refused narrow stories about what Black life was allowed to be.",
+      "lens": "A stereotype can be challenged not only by rebutting it, but by expanding the range of lives shown.",
+      "source": "Four Hundred Souls",
+      "source_section": "1954–1959 cultural chapter / Notes of a Native Son discussion"
+    },
+    {
+      "id": "V1-029",
+      "subject": "The Black Left",
+      "kind": "intellectual_tradition",
+      "world": "ECONOMICS",
+      "era": "1930s–1940s",
+      "core_idea": "Black radicals linked racial hierarchy to labor, capitalism, imperialism, and class instead of treating racism only as prejudice.",
+      "share": "The Black Left tied race to who owned, worked, and profited.",
+      "lens": "Ask whether an inequality is about attitudes, institutions, economic structure, or several at once.",
+      "source": "Four Hundred Souls",
+      "source_section": "1944–1949: The Black Left"
+    },
+    {
+      "id": "V1-030",
+      "subject": "Mary McLeod Bethune",
+      "kind": "thinker_organizer",
+      "world": "POWER",
+      "era": "1930s–1940s",
+      "core_idea": "Bethune combined Black institution-building with access to federal decision-makers to pursue jobs, education, and policy opportunities.",
+      "share": "Bethune built institutions outside government and leverage inside it.",
+      "lens": "Access and independence can be complementary forms of power.",
+      "source": "Black AF History",
+      "source_section": "Mary McLeod Bethune section"
+    },
+    {
+      "id": "V1-031",
+      "subject": "A. Philip Randolph",
+      "kind": "thinker_organizer",
+      "world": "ORGANIZING",
+      "era": "1940s",
+      "core_idea": "Randolph used the credible threat of mass protest to increase pressure on federal officials over employment discrimination.",
+      "share": "Randolph’s leverage came from people organized behind the threat.",
+      "lens": "Access matters differently when an organizer also has an independent base of support.",
+      "source": "Black AF History",
+      "source_section": "Bethune / Randolph / Executive Order 8802 discussion"
+    },
+    {
+      "id": "V1-032",
+      "subject": "Brown v. Board",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1950s",
+      "core_idea": "Brown overturned the constitutional basis for school segregation, while demonstrating that changing the legal rule and changing institutions are separate tasks.",
+      "share": "Brown changed the rule before it changed the reality.",
+      "lens": "After any reform, ask separately what changed in law and what changed in practice.",
+      "source": "Four Hundred Souls",
+      "source_section": "1949–1954: The Road to Brown v. Board"
+    },
+    {
+      "id": "V1-033",
+      "subject": "Montgomery 1955 — organizer, action, symbol",
+      "kind": "case",
+      "world": "ORGANIZING",
+      "era": "1955",
+      "core_idea": "Claudette Colvin, Rosa Parks, Jo Ann Robinson, the Women’s Political Council, lawyers, and local networks show that the person who acts, the person who organizes, and the person who becomes the symbol may be different people.",
+      "share": "Parks became the symbol because organizers were already prepared to move.",
+      "lens": "When a movement looks spontaneous, ask who had the network ready beforehand.",
+      "source": "Black AF History",
+      "source_section": "Women who desegregated Montgomery buses"
+    },
+    {
+      "id": "V1-034",
+      "subject": "Ella Baker",
+      "kind": "thinker",
+      "world": "ORGANIZING",
+      "era": "1950s–1960s",
+      "core_idea": "Baker favored participatory leadership that increased ordinary people’s capacity to act rather than concentrating a movement around a single public figure.",
+      "share": "Baker thought strong leadership should create more leaders.",
+      "lens": "If the visible leader vanished, would the organization still know how to act?",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Ella Baker / Civil Rights Movement chapters"
+    },
+    {
+      "id": "V1-035",
+      "subject": "Martin Luther King Jr. — nonviolent resistance",
+      "kind": "thinker",
+      "world": "POWER",
+      "era": "1950s–1960s",
+      "core_idea": "King treated disciplined nonviolent resistance as an organizing strategy for confronting injustice publicly, mobilizing broad participation, and applying moral and political pressure.",
+      "share": "King’s nonviolence was a method of resistance, not passive acceptance.",
+      "lens": "A tactic can reject violence while still being confrontational.",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Civil Rights Movement / Black Power discussions"
+    },
+    {
+      "id": "V1-036",
+      "subject": "Malcolm X",
+      "kind": "thinker",
+      "world": "FREEDOM",
+      "era": "1950s–1960s",
+      "core_idea": "Malcolm X emphasized Black dignity, self-determination, international human rights, and an analysis of Black struggle that extended beyond U.S. citizenship alone.",
+      "share": "Malcolm moved the freedom struggle onto a global human-rights map.",
+      "lens": "A thinker can change strategy while keeping the underlying problem in view.",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Malcolm X / Black Power chapters"
+    },
+    {
+      "id": "V1-037",
+      "subject": "Stokely Carmichael / Kwame Ture",
+      "kind": "thinker",
+      "world": "POWER",
+      "era": "1960s",
+      "core_idea": "Carmichael/Ture emphasized Black political self-determination and evolved from civil-rights organizing toward Black Power and Pan-Africanism.",
+      "share": "Carmichael shifted the question from inclusion to political control.",
+      "lens": "Representation and agenda-setting power are not the same thing.",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Black Power chapters"
+    },
+    {
+      "id": "V1-038",
+      "subject": "Fred Hampton",
+      "kind": "thinker_organizer",
+      "world": "ORGANIZING",
+      "era": "1960s",
+      "core_idea": "Hampton linked political education, community programs, and coalition across racial and ethnic groups around shared material interests.",
+      "share": "Hampton built coalition around concrete needs, not vague solidarity.",
+      "lens": "Coalitions are easier to sustain when groups know what they are trying to win together.",
+      "source": "Black AF History",
+      "source_section": "Fred Hampton / COINTELPRO section"
+    },
+    {
+      "id": "V1-039",
+      "subject": "Combahee River Collective",
+      "kind": "collective_thought",
+      "world": "IDENTITY",
+      "era": "1970s",
+      "core_idea": "Combahee argued that race, gender, class, and sexuality could operate simultaneously; Black women could build politics from their own position while still forming coalitions.",
+      "share": "Combahee asked politics to see Black women whole, not one category at a time.",
+      "lens": "If a movement helps one part of a group, ask whose experience its analysis may still miss.",
+      "source": "Four Hundred Souls",
+      "source_section": "1974–1979: Combahee River Collective"
+    },
+    {
+      "id": "V1-040",
+      "subject": "Hip-hop generation",
+      "kind": "cultural_idea",
+      "world": "CULTURE",
+      "era": "1980s",
+      "core_idea": "Hip-hop became a space where a new generation narrated Black urban life, politics, creativity, alienation, and identity outside older movement forms.",
+      "share": "Hip-hop became a political language without needing to look like a political meeting.",
+      "lens": "A generation may build its intellectual vocabulary through culture before institutions recognize it as thought.",
+      "source": "Four Hundred Souls",
+      "source_section": "1984–1989: The Hip-Hop Generation"
+    },
+    {
+      "id": "V1-041",
+      "subject": "Anita Hill and Black women’s public voice",
+      "kind": "historical_idea",
+      "world": "IDENTITY",
+      "era": "1990s",
+      "core_idea": "The Anita Hill hearings forced public debate over race, gender, sexual harassment, credibility, and whether Black women’s experiences could be subordinated to other political loyalties.",
+      "share": "Anita Hill exposed what happens when race and gender demand different loyalties.",
+      "lens": "When two forms of injustice intersect, single-issue politics can leave people without a full language for their experience.",
+      "source": "Four Hundred Souls",
+      "source_section": "1989–1994: Anita Hill"
+    },
+    {
+      "id": "V1-042",
+      "subject": "Black immigrant identity",
+      "kind": "historical_idea",
+      "world": "IDENTITY",
+      "era": "1990s–2000s",
+      "core_idea": "Blackness in the United States includes immigrants whose national, ethnic, and racial identities interact with a U.S. racial system that may read them simply as Black.",
+      "share": "Black identity can unite people without erasing where they came from.",
+      "lens": "A broad identity can create solidarity while still containing many histories inside it.",
+      "source": "Four Hundred Souls",
+      "source_section": "1999–2004: The Black Immigrant"
+    },
+    {
+      "id": "V1-043",
+      "subject": "Voting rights after Shelby",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "2000s–2010s",
+      "core_idea": "The history of voting rights shows that legal protections can be weakened or reinterpreted after major victories, making political rights an ongoing institutional question.",
+      "share": "Voting rights can expand, contract, and require protection again.",
+      "lens": "A right’s existence and the durability of the institutions protecting it are different questions.",
+      "source": "Four Hundred Souls",
+      "source_section": "2009–2014: The Shelby Ruling"
+    },
+    {
+      "id": "V1-044",
+      "subject": "Black Lives Matter — organizational form",
+      "kind": "movement_idea",
+      "world": "ORGANIZING",
+      "era": "2010s",
+      "core_idea": "Black Lives Matter drew on Black feminist and grassroots traditions while using decentralized networks to organize in a media environment very different from mid-century movements.",
+      "share": "Modern movements inherited old questions about leadership, power, and whose lives count.",
+      "lens": "Compare how decentralized and leader-centered organizations handle speed, accountability, visibility, and continuity.",
+      "source": "Four Hundred Souls",
+      "source_section": "2014–2019: Black Lives Matter"
+    }
+  ],
+  "context_cards": [
+    {
+      "id": "CTX-01",
+      "title": "The Constitution and slavery",
+      "purpose": "Background for founding-era freedom and later citizenship debates."
+    },
+    {
+      "id": "CTX-02",
+      "title": "Lynching and racial terror",
+      "purpose": "Background for Wells, Washington, migration, and Black political strategy."
+    },
+    {
+      "id": "CTX-03",
+      "title": "COINTELPRO",
+      "purpose": "Background for King, Malcolm X, Hampton, Carmichael/Ture, and Black Power."
+    },
+    {
+      "id": "CTX-04",
+      "title": "Jim Crow",
+      "purpose": "Background for Plessy, Washington, Wells, Great Migration, and civil-rights strategy."
+    },
+    {
+      "id": "CTX-05",
+      "title": "The War on Drugs and mass incarceration",
+      "purpose": "Late-twentieth-century background without turning policy history into a thinker node."
+    },
+    {
+      "id": "CTX-06",
+      "title": "Hurricane Katrina",
+      "purpose": "Modern context for state capacity, race, place, inequality, and public institutions."
+    },
+    {
+      "id": "CTX-07",
+      "title": "Civil Rights Act / Voting Rights Act",
+      "purpose": "Legal context for civil-rights victories and later debates about implementation and durability."
+    }
+  ],
+  "debates": [
+    {
+      "id": "D-01",
+      "title": "Washington ↔ Du Bois",
+      "question": "What should education and Black advancement prioritize?",
+      "rule": "Present both strategies in their historical setting; do not designate a winner."
+    },
+    {
+      "id": "D-02",
+      "title": "Washington ↔ Wells",
+      "question": "What strategy makes sense when racial terror is the immediate threat?",
+      "rule": "Compare diagnoses and available leverage; do not caricature Washington."
+    },
+    {
+      "id": "D-03",
+      "title": "Baker ↔ King",
+      "question": "How should movement leadership work?",
+      "rule": "Compare grassroots leadership development with the advantages of visible centralized leadership."
+    },
+    {
+      "id": "D-04",
+      "title": "King ↔ Malcolm X",
+      "question": "How should resistance relate to nonviolence, self-defense, citizenship, and human rights?",
+      "rule": "Use dated positions because both thinkers evolved."
+    },
+    {
+      "id": "D-05",
+      "title": "Integration ↔ Black Power",
+      "question": "Is access to institutions enough, or is control over decisions the deeper goal?",
+      "rule": "Treat this as a strategic distinction, not a moral scorecard."
+    },
+    {
+      "id": "D-06",
+      "title": "Hurston ↔ protest-art tradition",
+      "question": "What does Black art owe to political struggle?",
+      "rule": "Do not invent a single opponent; use the Harlem Renaissance/Black Arts context until a source-supported thinker pair is added."
+    },
+    {
+      "id": "D-07",
+      "title": "Combahee ↔ male-centered liberation politics",
+      "question": "What gets missed when race politics treats men’s experience as the default?",
+      "rule": "Use the source’s documented critique; do not reduce all Black nationalism to one position."
+    }
+  ],
+  "threads": [
+    {
+      "id": "T-01",
+      "title": "LEAVE · REFORM · BUILD",
+      "path": [
+        "Marronage/Fort Mose",
+        "Great Migration",
+        "Brown/Reconstruction",
+        "Bethune",
+        "Black Power"
+      ],
+      "question": "Do you leave an oppressive institution, reform it, or build another one?"
+    },
+    {
+      "id": "T-02",
+      "title": "LEVERAGE",
+      "path": [
+        "Wells boycotts",
+        "Randolph protest threat",
+        "Montgomery boycott",
+        "Hampton coalition"
+      ],
+      "question": "How do people without formal authority make powerful institutions respond?"
+    },
+    {
+      "id": "T-03",
+      "title": "EVIDENCE AS RESISTANCE",
+      "path": [
+        "McCune Smith",
+        "Ida B. Wells",
+        "Du Bois"
+      ],
+      "question": "How can research challenge ideas presented as objective truth?"
+    },
+    {
+      "id": "T-04",
+      "title": "WHAT IS EDUCATION FOR?",
+      "path": [
+        "Wheatley",
+        "Douglass",
+        "Washington",
+        "Bethune",
+        "Baker",
+        "Hampton"
+      ],
+      "question": "Is education for literacy, livelihood, leadership, institutions, political consciousness—or several at once?"
+    },
+    {
+      "id": "T-05",
+      "title": "WHO BUILT IT?",
+      "path": [
+        "National Negro Conventions",
+        "Montgomery",
+        "Baker",
+        "Boynton/context",
+        "BLM"
+      ],
+      "question": "What invisible infrastructure sits underneath the famous event or leader?"
+    },
+    {
+      "id": "T-06",
+      "title": "WHO DEFINES BLACKNESS?",
+      "path": [
+        "African identities",
+        "Du Bois",
+        "Harlem Renaissance",
+        "Hurston",
+        "Baldwin",
+        "Hip-hop",
+        "Black immigrant identity"
+      ],
+      "question": "Who gets to define what Black life means?"
+    },
+    {
+      "id": "T-07",
+      "title": "LEGAL VICTORY · LIVED REALITY",
+      "path": [
+        "Reconstruction",
+        "Plessy",
+        "Brown",
+        "Voting Rights",
+        "Shelby"
+      ],
+      "question": "What changes when the law changes—and what does not?"
+    }
+  ],
+  "framing": [
+    {
+      "id": "F-01",
+      "title": "The books teach the game; the game does not quiz the books.",
+      "text": "Source authors remain backstage unless deliberately selected as thinkers."
+    },
+    {
+      "id": "F-02",
+      "title": "History has a point of view.",
+      "text": "Use this as an onboarding premise, not a mastery node."
+    }
+  ],
+  "future_source_check_candidates": [
+    "Anna Julia Cooper as a full thinker node — current source supports her importance but not enough of her ideas for a strong standalone card.",
+    "Marcus and Amy Jacques Garvey / UNIA — current source confirms presence and influence but a fuller idea node needs deeper source extraction or outside supplementation.",
+    "Audre Lorde — named in Combahee context but requires more direct idea material.",
+    "Richard Wright / Langston Hughes as a named art-debate counterpart — verify enough direct source material before adding.",
+    "Pauli Murray — appears as an earlier sit-in organizer but needs a fuller source-supported idea before becoming a thinker node."
+  ],
+  "counts": {
+    "playable_nodes": 44,
+    "context_cards": 7,
+    "debates": 7,
+    "threads": 7,
+    "world_distribution": {
+      "IDENTITY": 6,
+      "POWER": 10,
+      "ECONOMICS": 4,
+      "FREEDOM": 5,
+      "CULTURE": 6,
+      "EDUCATION": 5,
+      "ORGANIZING": 8
+    }
+  }
+}
