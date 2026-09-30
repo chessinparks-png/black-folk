@@ -46,18 +46,18 @@ the app, which is useful for replaying onboarding.
 ## Project layout
 
 ```
-content/                          authoritative content (edit these)
-  black_folk_v1_1_tuned_playtest.json      encounters, discovery cards, starter sessions, points
-  black_thought_v1_revised_curriculum.json nodes, worlds, debates, threads
-  links.json                               wiring only: debate/thread/context → node ids
-  words_from_brief.json                    WORDS fallback: 23 quotes transcribed verbatim from the brief
-  (black_folk_words_quote_bank_v1.json)    authoritative WORDS bank — used automatically when present
-  (black_folk_knowledge_map_v1.json)       authoritative map edges — merged automatically when present
-docs/                             design decisions + first-three-sessions reference
+content/                          V1.5 source of truth (edit these; run `npm run data`)
+  black_folk_v1_5_master_curriculum.json   50 nodes, 7 worlds, 9 threads, 8 debates, context, deepening cards
+  black_folk_v1_5_encounter_pack.json      50 DISCOVER + 80 encounters, 3 starter + 5 bridge sessions
+  black_folk_v1_5_knowledge_map.json       graph edges, memberships, and the verified WORDS quote bank
+  links.json                               wiring only: thread steps / debate sides → node ids
+  v1_5_interactions.json                   HOW each encounter is played (binary, sort, pick, recall…)
+docs/                             design briefs, V1.5 build brief and encounter-pack QA
 app/                              the web app (static)
   index.html, styles.css, sw.js, fonts/
   data/content.js                 GENERATED from /content by `npm run data`
   js/content.js                   normalizes raw JSON into engine structures
+  js/notes.js                     YOUR WORDS (private notes)
   js/mastery.js                   player model (+ schema migration), Knowledge/levels, mastery, scheduling, unlocks
   js/graph.js                     Knowledge Map data: graph, reveal rules, node states, layout
   js/map.js                       Knowledge Map rendering (inline SVG, no library)
@@ -107,6 +107,28 @@ and `npm run build` do this for you). The UI contains no curriculum text.
   encountered. **Debates** open once each side's idea has been introduced. Debate
   encounters (SAME QUESTION) never appear in adaptive play before then.
 
+## V1.5: how encounters are played
+
+The encounter pack says **what** is learned; `content/v1_5_interactions.json` says **how**.
+Most four-option questions are re-expressed as lighter forms, built from each encounter's
+own correct answer, distractors and reveal. The pack's reveal always follows the action.
+
+| Form | What the player does | Count (of 130) |
+|---|---|---|
+| DISCOVER | read one line, tap to reveal | 50 |
+| Binary | SAME THING? / THIS · THAT: two short answers | 33 |
+| Short pick | a small scenario or stage, three short options | 18 |
+| Think-first recall | answer in your head, reveal, self-rate | 12 |
+| Sort | place short items into 2–3 bins (LEAVE · REFORM · BUILD…) | 5 |
+| Share / Match / Timeline | explain aloud, match pairs, order | 3 / 3 / 1 |
+| Conventional four-option | kept on purpose (onboarding + nuanced debates) | 5 |
+
+- **Recurring questions:** WHO IS “WE”?, WHO DECIDES? and similar appear as a quiet tag on
+  a few cards. They are not threads, nodes or navigation.
+- **Sessions:** after the three onboarding sessions, the five V1.5 bridge sessions
+  (S04–S08) alternate with adaptive review. Adaptive sessions leave each bridge's new ideas
+  for that bridge.
+
 ## Knowledge Map
 
 EXPLORE opens on a map of the seven worlds. Each idea sits in its world's territory,
@@ -115,18 +137,26 @@ ordered by era.
 - **Node states:** an idea is LOCKED (a faint unlabeled point) until it is met in PLAY.
   After that it moves through DISCOVERED, CONNECTED, FAMILIAR and STRONG. The state
   shows through the dot's fill, size and halo, never as a percentage.
-- **The graph:** 62 relationships, drawn from:
+- **The graph:** 121 idea-to-idea links:
+  - the V1.5 knowledge map's 61 connections,
   - encounters that link several ideas,
   - neighbouring steps of each thread,
   - the two sides of each debate.
-
-  If `black_folk_knowledge_map_v1.json` is added, its edges are merged in.
 - **When links appear:**
   - when an encounter shows the relationship;
+  - map links with no encounter reveal once both ideas are discovered;
   - when a thread or debate unlocks (only between ideas already met);
   - on their own, once both ideas are FAMILIAR or better.
 
-  Links revealed since your last visit draw themselves in once.
+  Links revealed since your last visit draw themselves in once. The overview draws only
+  links met in PLAY. Cross-world links stay faint until you hover or focus an idea, and
+  thread chains live in each thread's view.
+- **Threads (9):** a thread unlocks after 2 of its ideas are introduced and one encounter
+  linking two of them is played, or once 3 of its ideas are introduced. Deepening cards
+  (Diaspora, Coalition, Operational Unity, Fugitive Pedagogy) appear in the thread and
+  world views. They are not core nodes.
+- **Debates (8):** a debate opens once each side's idea has been introduced. FIX IT OR
+  END IT? also needs Criminalization.
 - **Views:**
   - World: its own labeled map, a list of discovered ideas, undiscovered gaps, and links
     to other worlds. This is also how the map works on phones: the overview shows
@@ -169,10 +199,14 @@ YOUR WORDS is an optional, private notebook for explaining ideas in your own wor
 
 ## Saved progress and migration
 
-Progress is stored in IndexedDB (`black-folk` → `state` → `player`).
+Progress is stored in IndexedDB (`black-folk` → `state` → `player`). The current schema is
+**v4**.
 
 - Schema v2 adds `map.nodes`, `map.edges` and `words`.
 - Schema v3 adds `yourWords`.
+- Schema v4 (V1.5) remaps found WORDS ids from `W-01…` to the knowledge map's `W001…`
+  (the wording is identical) and adds `bridgesCompleted`. `yourWords` and every other field
+  are carried over untouched. A saved in-progress session is remapped too.
 
 Older saves are upgraded in place when the app loads:
 - every existing field is kept;
@@ -181,14 +215,27 @@ Older saves are upgraded in place when the app loads:
 
 Knowledge already earned under the old rules is not recalculated.
 
-## Data notes (conflicts and gaps, and how they were resolved)
+## Data notes (V1.5)
 
-0. **The knowledge-map and quote-bank JSON files were not supplied.** WORDS uses the 23
-   quotations from `docs/black_folk_knowledge_map_words_v1_brief.md`: wording, speaker
-   and node links are copied verbatim, and source citations are left empty rather than
-   guessed. The map is built from relationships already in the data (62, not 182). Drop
-   either authoritative file into `/content` and run `npm run data`; field names are read
-   tolerantly.
+1. **Source consolidation.** The V1.5 curriculum, encounter pack and knowledge map replace
+   the earlier V1 files (still in git history). The WORDS quote bank now comes from the
+   knowledge map, with verified source metadata; the old brief-based fallback was removed.
+2. **Onboarding is unchanged.** S01–S03 play their curated flows. S02 keeps its pacing
+   repair: E007 and E027 swap so three list-choice screens never run together.
+3. **Bridges are not tutorials.** S04–S08 each run once after onboarding, alternating
+   with adaptive review.
+4. **Threads with deepening cards.** T-08's Diaspora and Amefricanidade steps are cards,
+   not nodes. Map members missing from a thread's path (Abolition and Black Nationalism
+   on T-01, Predatory Inclusion on T-07) are added as extra steps.
+5. **D-08 has no reform node.** Its "Fix it" side shows a neutral one-line summary
+   restating the E060 reveal. It opens when Abolition and Criminalization are introduced.
+6. **Deepening cards without player-facing text** (Amefricanidade, Colonialism) stay in
+   the data layer. Holds (Black Ecologies, New Jim Code) and cuts (Post-Race, Linked
+   Fate) are kept as data and never shown.
+7. **Hidden lenses** (*What Now?*, *The End of Running*) are data only. They shape which
+   questions recur, with no visible section.
+
+### Earlier notes (V1)
 
 1. **Starter session 2 pacing.** The curated flow D005 → E005 → E014 → E007 → E027 → E018
    has three multiple-choice screens in a row, which breaks the tuned pacing rule. A

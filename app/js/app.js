@@ -182,6 +182,9 @@
       } else {
         notes.push('Six short moments.');
       }
+    } else if (s.kind === 'bridge') {
+      eyebrowText = 'Theme';
+      notes.push('Six short moments.');
     } else {
       notes.push('Six short moments.');
     }
@@ -389,7 +392,7 @@
         'div',
         { class: 'block' },
         h('h2', {}, 'About'),
-        h('p', { class: 'muted' }, 'BLACK FOLK · V1.2. Works offline. Content version: ' + state.C.version + '.'),
+        h('p', { class: 'muted' }, 'BLACK FOLK · V1.5. Works offline. Content: ' + state.C.version + '.'),
         h('p', { class: 'muted', style: 'margin-top:.5rem' }, 'WORDS: ' + state.C.words.length + ' quotations from ' + state.C.wordsSource + '.')
       )
     );
@@ -443,7 +446,7 @@
       await store.set('player-backup-v' + original.version, original);
       await store.set('player', state.player);
     }
-    state.session = (await store.get('session')) || null;
+    state.session = M.migrateSession((await store.get('session')) || null);
     window.addEventListener('hashchange', render);
     render();
 

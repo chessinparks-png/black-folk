@@ -18,6 +18,7 @@ const browser = await chromium.launch(launch);
 const page = await browser.newPage({ viewport: { width: 1280, height: 820 } });
 const errors = [];
 const badText = [];
+const formsSeen = new Set();
 page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
 
@@ -50,6 +51,20 @@ async function playEncounter({ miss = false, shotName, write = null } = {}) {
   } else if (enc.kind === 'choice') {
     const target = miss ? enc.choices.find((c) => c !== enc.correct) : enc.correct;
     await page.locator('.choice', { hasText: target }).first().click();
+  } else if (enc.kind === 'binary') {
+    const target = miss ? enc.choices.find((c) => c !== enc.correct) : enc.correct;
+    await page.locator('.bin-opt', { hasText: target }).first().click();
+    formsSeen.add('binary');
+  } else if (enc.kind === 'sort') {
+    const items = await page.locator('.sort-item').all();
+    for (const row of items) {
+      const text = await row.locator('.sort-text').textContent();
+      const it = enc.items.find((x) => x.text === text);
+      const bin = miss ? enc.bins.find((b) => b !== it.bin) : it.bin;
+      await row.locator('.sort-bin', { hasText: new RegExp('^' + bin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$') }).click();
+    }
+    await btn('Check').click();
+    formsSeen.add('sort');
   } else if (enc.kind === 'recall' || enc.kind === 'share') {
     if (write) {
       await btn('Write yours').click();
@@ -101,7 +116,9 @@ async function playSession({ tag, missFirstChoice = false, reloadAt = -1, writeO
       check(after.session && after.session.index === before.session.index, `session restored after reload at encounter ${i + 1}`);
     }
     const enc = await page.evaluate(() => { const s = BF.app.state.session; return s.items[s.index].enc; });
-    const miss = missFirstChoice && enc.kind === 'choice' && !modes.some((m) => m.miss);
+    const hasQuote = await page.evaluate(() => { const s = BF.app.state.session; const it = s.items[s.index]; return !!(it.quoteId || it.enc.quoteId); });
+    // A first-found quotation pays +5 on its own, so test misses on quote-free cards.
+    const miss = missFirstChoice && !hasQuote && (enc.kind === 'choice' || enc.kind === 'binary') && !modes.some((m) => m.miss);
     const before = (await st()).knowledge;
     await playEncounter({ miss, shotName: i < 6 ? `${tag}-${i + 1}` : null, write: enc.kind === 'recall' ? writeOnRecall : null });
     const after = (await st()).knowledge;
@@ -142,11 +159,44 @@ const mig = await page.evaluate(async () => {
     node: !!p.nodes['V1-010'].introduced, mapNode: !!p.map.nodes['V1-010'], edge: !!p.map.edges['V1-030|V1-031'],
     savedV: saved.version, backupK: backup && backup.knowledge, words: p.words };
 });
-check(mig.v === 3 && mig.savedV === 3, 'V1 save upgraded to the current schema (v3) and re-saved');
+check(mig.v === 4 && mig.savedV === 4, 'V1 save upgraded to the current schema (v4) and re-saved');
 check(mig.k === 480 && mig.starters === 3 && mig.hist === 1 && mig.ratings === 1 && mig.node, 'Knowledge, starters, history, ratings and mastery preserved');
 check(mig.mapNode && mig.edge, 'map backfilled from past encounters (Bethune–Randolph link revealed)');
 check(mig.backupK === 480, 'untouched V1 backup kept');
 check((await page.textContent('.stats')).includes('480 KNOWLEDGE'), 'home shows preserved 480 KNOWLEDGE');
+
+// Upgrade path: a populated schema-v3 save with YOUR WORDS notes and WORDS found.
+await page.evaluate(async () => {
+  const p = JSON.parse(JSON.stringify(BF.app.state.player));
+  p.version = 3; delete p.bridgesCompleted;
+  p.knowledge = 912;
+  p.words = { 'W-01': { at: 111, encounterId: 'D004' }, 'W-13': { at: 222, encounterId: 'D006' } };
+  p.yourWords = [
+    { response_id: 'YW-a', node_id: 'V1-010', node_ids: ['V1-010'], encounter_id: 'E032', text: 'Owning the paper meant owning the story.', created_at: 1700000000000, updated_at: 1700000500000, prompt: 'Explain why Freedom’s Journal was a form of power.', model_answer_snapshot: 'A Black-controlled newspaper…' },
+    { response_id: 'YW-b', node_id: 'V1-032', node_ids: ['V1-032', 'V1-015'], encounter_id: null, text: 'Law first, reality later.', created_at: 1710000000000, updated_at: null, prompt: 'Explain Brown v. Board in your own words.', model_answer_snapshot: null },
+  ];
+  window.__v3 = JSON.parse(JSON.stringify(p));
+  await BF.store.set('player', p);
+  await BF.store.set('v3-snapshot', p);
+});
+await page.reload();
+await page.waitForSelector('.stats');
+const m3 = await page.evaluate(async () => {
+  const p = BF.app.state.player;
+  const snap = await BF.store.get('v3-snapshot');
+  const backup = await BF.store.get('player-backup-v3');
+  return { v: p.version, k: p.knowledge, yw: JSON.stringify(p.yourWords) === JSON.stringify(snap.yourWords), words: Object.keys(p.words).sort().join(), backup: backup && backup.version === 3 && backup.yourWords.length === 2 };
+});
+check(m3.v === 4 && m3.k === 912, 'populated v3 save upgraded to v4 with Knowledge intact');
+check(m3.yw, 'every YOUR WORDS field preserved exactly through the v3→v4 migration');
+check(m3.words === 'W001,W013', 'found WORDS remapped to the V1.5 quote ids (' + m3.words + ')');
+check(m3.backup, 'untouched v3 backup kept');
+await page.goto(APP_URL + '#/idea/V1-010');
+const ywMigrated = await page.textContent('.yw');
+check(ywMigrated.includes('Owning the paper meant owning the story.') && ywMigrated.includes('EDITED'), 'migrated note (with its edit date) shows on its idea page');
+await page.goto(APP_URL + '#/words');
+check((await page.textContent('main')).includes('lynching is not invoked to punish crime but color'), 'migrated WORDS still in the collection');
+await page.goto(APP_URL + '#/');
 await page.evaluate(async () => { await BF.store.clearAll(); });
 await page.reload();
 await page.waitForSelector('text=BLACK FOLK');
@@ -162,7 +212,7 @@ const s1 = await playSession({ tag: 's1', writeOnRecall: NOTE });
 check(s1.modes.map((m) => m.id).join() === 'D001,D002,E002,D004,E006,E010', 'starter 1 plays the curated flow');
 check(s1.summary.knowledge === 65 && s1.knowledgeNeverDropped, 'writing a note earns no extra Knowledge (recall still pays by self-rating)');
 check(s1.summary.knowledge === 65, 'starter 1 awards 55 for play + 10 for two WORDS found (' + s1.summary.knowledge + ')');
-check(s1.summary.words.join() === 'W-11,W-01', 'WORDS found in starter 1: ' + s1.summary.words.join());
+check(s1.summary.words.join() === 'W011,W001', 'WORDS found in starter 1: ' + s1.summary.words.join());
 check((await page.textContent('.keep')).includes('History changes when you change who gets to define the story.'), 'KEEP THIS shows starter line');
 await btn('Done').click();
 check((await page.textContent('.stats')).includes('65 KNOWLEDGE'), 'home shows 65 KNOWLEDGE');
@@ -202,6 +252,7 @@ await page.locator('.yw').getByRole('button', { name: 'Keep' }).click();
 check((await page.textContent('.yw')).includes('Second pass, edited.'), 'cancelling keeps the note');
 await page.locator('.yw-entry').first().getByRole('button', { name: /^Delete/ }).click();
 await page.locator('.yw').getByRole('button', { name: 'Delete', exact: true }).click();
+await page.waitForFunction(async () => ((await BF.store.get('player')).yourWords || []).length === 1);
 await page.reload();
 await page.waitForSelector('.yw');
 const ywText = await page.textContent('.yw');
@@ -230,26 +281,38 @@ await btn('Keep playing').click();
 // Starter 3
 const s3 = await playSession({ tag: 's3' });
 check(s3.modes.some((m) => m.mode === 'SHARE'), 'starter 3 includes SHARE');
-check(s3.summary.threads.includes('T-02'), 'LEVERAGE thread revealed in starter 3');
 let state = await st();
 check(state.starters === 3, 'three starter sessions complete');
 await btn('Keep playing').click();
 
-// Adaptive sessions
+// After onboarding: V1.5 bridge sessions alternate with adaptive review
 const seen = new Set();
-for (let k = 0; k < 4; k++) {
+const kinds = [];
+const missChecks = [];
+for (let k = 0; k < 6; k++) {
   const intro = await page.textContent('main');
-  const res = await playSession({ tag: 'a' + (k + 1), missFirstChoice: k === 0 });
+  const sessKind = (await st()).session.kind;
+  kinds.push(sessKind + ':' + (await page.textContent('h1')));
+  const res = await playSession({ tag: 'a' + (k + 1), missFirstChoice: true });
   res.modes.forEach((m) => seen.add(m.mode));
-  check(res.modes.length === 6, `adaptive session ${k + 1}: ${res.modes.map((m) => m.mode).join(' / ')}`);
+  check(res.modes.length === 6, `${sessKind} session ${k + 1}: ${res.modes.map((m) => m.mode).join(' / ')}`);
+  if (res.missedPoints !== null) missChecks.push(res.missedPoints === 0 && res.knowledgeNeverDropped);
   await btn('Keep playing').click();
 }
-console.log('    modes across adaptive play:', [...seen].join(', '));
+console.log('    sessions:', kinds.join(' → '));
+check(missChecks.length > 0 && missChecks.every(Boolean), `misses after onboarding earn 0 and never subtract (${missChecks.length} checked)`);
+check(kinds[0] === 'bridge:WHO GETS CALLED DANGEROUS?' && kinds[1].startsWith('adaptive') && kinds[2] === 'bridge:ACCESS OR CONTROL?', 'bridges surface after onboarding and alternate with review');
+check(formsSeen.has('binary') && formsSeen.has('sort'), 'binary and sort interactions played: ' + [...formsSeen].join(','));
+state = await st();
+check(state.threads.includes('T-09'), 'RESPECTABILITY ↔ REFUSAL thread unlocked through play');
+console.log('    modes across post-onboarding play:', [...seen].join(', '));
 await btn('Not now').click();
 
 // Explore
 await btn('Explore').click();
 await snap('explore');
+const exploreText = await page.textContent('main');
+check(!/\b44\b|What Now|End of Running|Black Radicalism|Linked Fate|Post-Race/i.test(exploreText), 'no obsolete counts or hidden-foundation sections visible');
 const g = await page.evaluate(() => ({ total: BF.app.state.G.edges.size, shown: document.querySelectorAll('.kmap .medge').length }));
 check(g.shown > 0 && g.shown < g.total, `connections reveal gradually (${g.shown} of ${g.total} drawn)`);
 await page.locator('.kmap .mworld', { hasText: 'POWER' }).click();

@@ -1367,6 +1367,228 @@ a.world-tag:hover {
   margin-top: 2.5rem;
 }
 
+/* ---------- V1.5 light forms: stage, binary, pick, sort ---------- */
+
+.lens-tag {
+  margin: 0 0 0.9rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin: 0.25rem 0 1.75rem;
+}
+
+.stage-line {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 0.95rem + 1.4vw, 1.9rem);
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.stage-note {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 1rem + 1.2vw, 1.8rem);
+  line-height: 1.2;
+  color: var(--fg-soft);
+}
+
+.stage-join {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  padding: 0.1rem 0;
+  text-transform: uppercase;
+}
+
+.question {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.3rem);
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.ask {
+  margin: 1.25rem 0 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--fg-soft);
+}
+
+.verdict {
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 1.1rem + 1.4vw, 2rem) !important;
+  line-height: 1.2 !important;
+  color: var(--fg) !important;
+  margin: 0 0 0.75rem !important;
+}
+
+.binary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  max-width: 40rem;
+}
+
+.bin-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 5.5rem;
+  padding: 1.1rem 1.2rem;
+  text-align: left;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color 180ms var(--ease), background 180ms var(--ease), opacity 250ms var(--ease);
+}
+
+.bin-text {
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.bin-opt .tag {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-height: 1em;
+}
+
+.bin-opt:hover:not([disabled]) {
+  border-color: var(--fg);
+  background: var(--bg-raise);
+}
+
+.binary.is-answered .bin-opt {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.binary.is-answered .bin-opt.is-correct {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+.bin-opt.is-correct .tag {
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.binary.is-answered .bin-opt.is-chosen {
+  opacity: 0.75;
+  border-style: dashed;
+}
+
+.choices--short {
+  margin-top: 1.75rem;
+  max-width: 34rem;
+}
+
+.choices--short .choice {
+  padding: 0.95rem 1.1rem;
+  font-weight: 500;
+}
+
+.sort {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.sort-item {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem 0 0.2rem;
+  border-top: 1px solid var(--line);
+}
+
+.sort-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.sort-bins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sort-bin {
+  min-height: 2.75rem;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--fg-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 160ms var(--ease), color 160ms var(--ease), border-color 160ms var(--ease);
+}
+
+.sort-bin:hover:not([disabled]) {
+  border-color: var(--fg);
+  color: var(--fg);
+}
+
+.sort-bin.is-on {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+.sort-bin[disabled] {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.sort-bin.is-correct {
+  opacity: 1;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: transparent;
+}
+
+.sort-bin.is-chosen {
+  opacity: 0.8;
+  border-style: dashed;
+  background: transparent;
+  color: var(--fg-soft);
+}
+
+@media (max-width: 640px) {
+  .binary {
+    grid-template-columns: 1fr;
+  }
+  .bin-opt {
+    min-height: 3.6rem;
+  }
+}
+
 /* ---------- YOUR WORDS: a quiet notebook margin ---------- */
 
 .yw-pad {
@@ -1522,8 +1744,22 @@ a.world-tag:hover {
 }
 
 .kmap .medge.is-far {
-  stroke: color-mix(in srgb, var(--w) 26%, transparent);
+  stroke: color-mix(in srgb, var(--w) 9%, transparent);
   stroke-width: 1;
+}
+
+.kmap .medge {
+  transition: stroke 200ms var(--ease), opacity 200ms var(--ease);
+}
+
+.kmap.has-focus .medge {
+  opacity: 0.35;
+}
+
+.kmap.has-focus .medge.is-focus {
+  opacity: 1;
+  stroke: var(--w);
+  stroke-width: 1.6;
 }
 
 .kmap .medge.is-new {
@@ -1651,6 +1887,41 @@ a.world-tag:hover {
 .gap-dots {
   letter-spacing: 0.1em;
   color: var(--line-strong);
+}
+
+/* ---------- deepening cards ---------- */
+
+.deep-card {
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 1px dashed var(--line-strong);
+}
+
+.deep-card + .deep-card {
+  margin-top: 1.1rem;
+}
+
+.block .deep-title,
+.deep-title {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: var(--fg);
+}
+
+.block .deep-text,
+.deep-text {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.3;
+  color: var(--fg-soft);
+}
+
+.thread-steps li.is-card::before {
+  background: var(--bg);
+  border-style: dashed;
 }
 
 /* ---------- thread view ---------- */

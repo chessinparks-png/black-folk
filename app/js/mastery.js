@@ -36,7 +36,7 @@
   }
 
   // ---- Player ---------------------------------------------------------------
-  const PLAYER_VERSION = 3;
+  const PLAYER_VERSION = 4;
   function newPlayer() {
     return {
       version: PLAYER_VERSION,
@@ -53,12 +53,41 @@
       map: { nodes: {}, edges: {}, lastViewed: 0 }, // Knowledge Map: discovered nodes / revealed links
       words: {}, // WORDS found: quoteId -> { at, encounterId }
       yourWords: [], // YOUR WORDS: the player's own dated explanations (see notes.js)
+      bridgesCompleted: [], // V1.5 bridge sessions played (S04–S08)
     };
   }
 
   // Upgrade saved progress in place. Nothing is dropped: v1 fields are kept
   // as-is and the v2 map/WORDS fields are added (the map is backfilled from
   // encounter history by BF.graph.backfill).
+  // Old WORDS id (W-01) → V1.5 id (W001). Unknown ids are left untouched.
+  function legacyWordId(id) {
+    const m = /^W-(\d{2})$/.exec(id);
+    return m ? 'W0' + m[1] : id;
+  }
+  function remapWords(p) {
+    if (p.words) {
+      const next = {};
+      for (const [id, v] of Object.entries(p.words)) next[legacyWordId(id)] = v;
+      p.words = next;
+    }
+    for (const h of p.history || []) if (Array.isArray(h.words)) h.words = h.words.map(legacyWordId);
+  }
+  // An in-progress session saved before the upgrade keeps working.
+  function migrateSession(s) {
+    if (!s || !Array.isArray(s.items)) return s;
+    for (const it of s.items) {
+      if (it.quoteId) it.quoteId = legacyWordId(it.quoteId);
+      if (it.enc && it.enc.quoteId) {
+        it.enc.quoteId = legacyWordId(it.enc.quoteId);
+        it.enc.id = it.enc.id.replace(/W-(\d{2})$/, 'W0$1');
+      }
+    }
+    if (Array.isArray(s.wordsFound)) s.wordsFound = s.wordsFound.map(legacyWordId);
+    for (const r of s.results || []) if (r && Array.isArray(r.words)) r.words = r.words.map(legacyWordId);
+    return s;
+  }
+
   function migrate(saved) {
     if (!saved || typeof saved !== 'object' || !saved.version) return { player: newPlayer(), migrated: false };
     const p = saved;
@@ -75,6 +104,15 @@
       p.migratedFrom = p.migratedFrom || [];
       p.migratedFrom.push({ version: p.version, at: Date.now() });
       p.version = 3;
+    }
+    if (p.version < 4) {
+      // V1.5: the verified quote bank now uses the knowledge map's ids (W001…);
+      // wording, speakers and links are identical to the old W-01… entries.
+      remapWords(p);
+      p.bridgesCompleted = p.bridgesCompleted || [];
+      p.migratedFrom = p.migratedFrom || [];
+      p.migratedFrom.push({ version: p.version, at: Date.now() });
+      p.version = 4;
     }
     const fresh = newPlayer();
     for (const k of Object.keys(fresh)) if (p[k] === undefined) p[k] = fresh[k];
@@ -125,6 +163,8 @@
     RECALL: 'recall',
     SHARE: 'share',
     'THEN → NOW': 'apply',
+    APPLY: 'apply',
+    'BOSS ROUND': 'connection',
     WORDS: 'connection',
     TIMELINE: 'context',
     MATCH: 'connection',
@@ -250,14 +290,30 @@
     return thread.steps.map((s) => s.nodeIds.some((id) => isSeen(player, id)));
   }
 
+  // A thread counts as "encountered" once an encounter linking two of its
+  // members has been played.
+  function threadConnectionPlayed(C, player, thread) {
+    const mem = new Set(thread.members || thread.steps.flatMap((s) => s.nodeIds));
+    return Object.keys(player.encounters).some((eid) => {
+      const e = C.byId[eid];
+      return e && e.nodeIds.filter((id) => mem.has(id)).length >= 2;
+    });
+  }
+
   // Returns ids newly unlocked by the current state (and records them).
+  // Thread: ≥2 members introduced + one linking encounter played (knowledge-map
+  // rule), or ≥3 members introduced. Debate: every side has an introduced idea
+  // and any extra prerequisite is introduced.
   function updateUnlocks(C, player, now) {
     now = now || Date.now();
+    const rule = C.threadUnlock || { min_members: 2, min_members_without_connection: 3 };
     const threads = [];
     for (const t of C.threads) {
       if (player.threadsUnlocked[t.id]) continue;
-      const done = threadProgress(C, player, t).filter(Boolean).length;
-      if (done >= C.threadUnlockSteps) {
+      // Count ideas actually introduced (DISCOVER or a single-idea encounter), not
+      // ones glimpsed inside a multi-idea card, so threads surface gradually.
+      const done = t.steps.filter((st) => st.nodeIds.some((id) => isIntroduced(player, id))).length;
+      if (done >= rule.min_members_without_connection || (done >= rule.min_members && threadConnectionPlayed(C, player, t))) {
         player.threadsUnlocked[t.id] = now;
         threads.push(t.id);
       }
@@ -265,9 +321,9 @@
     const debates = [];
     for (const d of C.debates) {
       if (player.debatesUnlocked[d.id] || !d.prereq.length) continue;
-      // Each side must have at least one introduced idea.
-      const ready = d.sides.every((s) => !s.nodeIds.length || s.nodeIds.some((id) => isIntroduced(player, id)));
-      if (ready) {
+      const sidesReady = d.sides.every((s) => !s.nodeIds.length || s.nodeIds.some((id) => isIntroduced(player, id)));
+      const extraReady = (d.prereqExtra || []).every((id) => isIntroduced(player, id));
+      if (sidesReady && extraReady) {
         player.debatesUnlocked[d.id] = now;
         debates.push(d.id);
       }
@@ -281,6 +337,8 @@
     MINUTE,
     newPlayer,
     migrate,
+    migrateSession,
+    legacyWordId,
     PLAYER_VERSION,
     newNodeState,
     recordEncounter,

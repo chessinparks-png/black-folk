@@ -23,7 +23,8 @@ function answerAll(player, session, mode, rng, now) {
     const e = it.enc;
     const good = mode === 'good' || (mode === 'random' && rng() < 0.7);
     let resp = {};
-    if (e.kind === 'choice') resp = { choice: good ? e.correct : e.choices.find((c) => c !== e.correct) };
+    if (e.kind === 'choice' || e.kind === 'binary') resp = { choice: good ? e.correct : e.choices.find((c) => c !== e.correct) };
+    if (e.kind === 'sort') resp = { bins: Object.fromEntries(e.items.map((it, i) => [i, good ? it.bin : e.bins.find((b) => b !== it.bin)])) };
     if (e.kind === 'recall') resp = { rating: good ? 'knew' : rng() < 0.5 ? 'almost' : 'missed' };
     if (e.kind === 'share') resp = { rating: good ? 'clear' : rng() < 0.5 ? 'almost' : 'needs' };
     if (e.kind === 'timeline') resp = { order: good ? e.items.map((_, i) => i) : it.order };
@@ -41,11 +42,38 @@ function maxChoiceRun(items) {
 }
 
 console.log('content');
-test('44 nodes, 40 encounters, 8 discovery cards, 3 starters', () => {
-  assert.equal(C.nodes.length, 44);
-  assert.equal(C.encounters.length, 40);
-  assert.equal(C.discovery.length, 8);
+test('V1.5: 50 nodes, 80 encounters + 50 DISCOVER = 130, 9 threads, 8 debates, 5 bridges', () => {
+  assert.equal(C.nodes.length, 50);
+  assert.equal(C.encounters.length, 80);
+  assert.equal(C.discovery.length, 50);
+  assert.equal(C.encounters.length + C.discovery.length, 130);
+  assert.equal(C.threads.length, 9);
+  assert.equal(C.debates.length, 8);
   assert.equal(C.starters.length, 3);
+  assert.equal(C.bridges.length, 5);
+  assert.deepEqual(C.threads.map((t) => t.title), ['LEAVE · REFORM · BUILD', 'LEVERAGE', 'EVIDENCE AS RESISTANCE', 'WHAT IS EDUCATION FOR?', 'WHO BUILT IT?', 'WHO DEFINES BLACKNESS?', 'LEGAL VICTORY · LIVED REALITY', 'BLACKNESS ACROSS BORDERS', 'RESPECTABILITY ↔ REFUSAL']);
+  for (const id of ['V1-045', 'V1-046', 'V1-047', 'V1-048', 'V1-049', 'V1-050']) assert.ok(C.nodesById[id], id);
+  assert.equal(new Set(C.discovery.map((d) => d.nodeIds[0])).size, 50, 'every node has a DISCOVER card');
+});
+test('Linked Fate, Post-Race and Diaspora are not core nodes; WHO IS “WE”? is not a thread/node', () => {
+  const names = C.nodes.map((n) => n.subject.toLowerCase());
+  for (const bad of ['linked fate', 'post-race', 'diaspora']) assert.ok(!names.some((x) => x.includes(bad)), bad);
+  assert.ok(!C.threads.some((t) => /WHO IS/.test(t.title)));
+  assert.ok(!C.nodes.some((n) => /WHO IS/.test(n.subject)));
+  assert.ok(C.deepening.some((c) => c.title === 'Diaspora' && c.home === 'T-08'));
+});
+test('interaction balance: conventional four-option screens are the exception', () => {
+  const forms = {};
+  for (const e of C.encounters.concat(C.discovery)) { const f = e.form || e.kind; forms[f] = (forms[f] || 0) + 1; }
+  const conventional = forms.conventional || 0;
+  console.log('    forms:', JSON.stringify(forms));
+  assert.ok(conventional / 130 <= 0.3, 'too many conventional screens');
+  assert.ok((conventional + (forms.pick || 0)) / 130 <= 0.3, 'too many choice-list screens');
+  for (const e of C.encounters) if (e.kind === 'binary' || e.form === 'pick') assert.ok(e.choices.includes(e.correct), e.id);
+});
+test('every node is discoverable and has an active encounter', () => {
+  const active = new Set(C.encounters.flatMap((e) => e.nodeIds));
+  for (const n of C.nodes) assert.ok(active.has(n.id), n.id + ' has no active encounter');
 });
 test('timeline and match are split into items/pairs', () => {
   assert.deepEqual(C.byId.E018.items.length, 4);
@@ -67,7 +95,7 @@ test('starter 1 awards 55 Knowledge + WORDS when all correct', () => {
   // 3 DISCOVER × 5 + WHO 10 + WHAT 10 + RECALL 20 = 55, plus 2 WORDS found × 5.
   const p = M.newPlayer();
   const sum = answerAll(p, S.buildNext(C, p, { seed: 1 }), 'good');
-  assert.deepEqual(sum.words.sort(), ['W-01', 'W-11']);
+  assert.deepEqual(sum.words.sort(), ['W001', 'W011']);
   assert.equal(sum.knowledge, 65);
   assert.equal(p.knowledge, 65);
   assert.equal(p.startersCompleted, 1);
@@ -134,10 +162,11 @@ test('TIMELINE / MATCH: full points only when fully correct', () => {
 console.log('words');
 test('WORDS bank loads verbatim (23 quotes, exact text + speaker)', () => {
   assert.equal(C.words.length, 23);
-  const w = C.wordsById['W-01'];
+  assert.equal(C.wordsById['W001'].source, 'Four Hundred Souls');
+  const w = C.wordsById['W001'];
   assert.equal(w.text, 'We wish to plead our own cause');
   assert.equal(w.speaker, 'Freedom’s Journal editors');
-  assert.equal(C.wordsById['W-21'].text, 'they would cease to measure others always in terms of their ‘differences in color,’');
+  assert.equal(C.wordsById['W021'].text, 'they would cease to measure others always in terms of their ‘differences in color,’');
 });
 test('a quotation pays +5 once, then never again', () => {
   const p = M.newPlayer(); const rng = S.makeRng(2);
@@ -145,13 +174,13 @@ test('a quotation pays +5 once, then never again', () => {
   answerAll(p, s, 'good', rng);
   const k = p.knowledge;
   const again = S.buildStarter(C, p, 0, 1); // replay the same cards
-  again.items.forEach((it) => { if (it.enc.id === 'D004') it.quoteId = 'W-01'; });
-  const foundAt = p.words['W-01'].at;
+  again.items.forEach((it) => { if (it.enc.id === 'D004') it.quoteId = 'W001'; });
+  const foundAt = p.words['W001'].at;
   const sum = answerAll(p, again, 'good', rng);
   // Replay pays graded answers (10+10+20) and only quotations that are new (Du Bois's
   // second quote attaches this time); DISCOVER and W-01 pay nothing again.
-  assert.ok(!sum.words.includes('W-01'));
-  assert.equal(p.words['W-01'].at, foundAt);
+  assert.ok(!sum.words.includes('W001'));
+  assert.equal(p.words['W001'].at, foundAt);
   assert.equal(p.knowledge - k, 40 + 5 * sum.words.length);
 });
 
@@ -182,7 +211,7 @@ test('v1 saves migrate without losing anything', () => {
   const { player, migrated } = M.migrate(JSON.parse(JSON.stringify(v1)));
   GR.backfill(C, GR.build(C), player);
   assert.ok(migrated);
-  assert.equal(player.version, 3);
+  assert.equal(player.version, 4);
   assert.deepEqual(player.yourWords, []);
   assert.equal(player.knowledge, 1234);
   assert.deepEqual(player.nodes, v1.nodes);
@@ -209,13 +238,37 @@ test('notes save, edit, delete; newest first; earn no Knowledge', () => {
   assert.equal(N.forNode(p, 'V1-019').length, 1);
   assert.equal(p.knowledge, k);
 });
+test('v3 saves (with YOUR WORDS) upgrade to v4 losslessly; quote ids remapped', () => {
+  const N = globalThis.BF.notes;
+  const p = M.newPlayer(); const rng = S.makeRng(12);
+  answerAll(p, S.buildNext(C, p, { seed: 1 }), 'good', rng);
+  N.add(p, { nodeIds: ['V1-032', 'V1-015'], encounterId: 'E010', text: 'Rules move faster than reality.', prompt: 'p', model: 'm' }, 1111);
+  N.update(p, p.yourWords[0].response_id, 'Rules move faster than reality, edited.', 2222);
+  const v3 = JSON.parse(JSON.stringify(p));
+  v3.version = 3; delete v3.bridgesCompleted;
+  v3.words = { 'W-01': { at: 5, encounterId: 'D004' }, 'W-11': { at: 6, encounterId: 'D002' } };
+  v3.history[0].words = ['W-11', 'W-01'];
+  const snapshot = JSON.parse(JSON.stringify(v3));
+  const { player, migrated } = M.migrate(JSON.parse(JSON.stringify(v3)));
+  assert.ok(migrated);
+  assert.equal(player.version, 4);
+  assert.deepEqual(player.yourWords, snapshot.yourWords, 'YOUR WORDS preserved exactly');
+  assert.deepEqual(Object.keys(player.words).sort(), ['W001', 'W011']);
+  assert.equal(player.words.W001.at, 5);
+  assert.deepEqual(player.history[0].words, ['W011', 'W001']);
+  for (const k of ['knowledge', 'nodes', 'map', 'encounters', 'threadsUnlocked', 'debatesUnlocked', 'ratings', 'startersCompleted']) assert.deepEqual(player[k], snapshot[k], k);
+  assert.deepEqual(player.bridgesCompleted, []);
+  const sess = M.migrateSession({ items: [{ quoteId: 'W-12', enc: { id: 'X-WM-W-12', quoteId: 'W-12' } }], wordsFound: ['W-12'], results: [] });
+  assert.equal(sess.items[0].quoteId, 'W012');
+  assert.equal(sess.items[0].enc.id, 'X-WM-W012');
+});
 test('v2 saves gain YOUR WORDS without losing map, WORDS or history', () => {
   const p = M.newPlayer(); const rng = S.makeRng(8);
   answerAll(p, S.buildNext(C, p, { seed: 1 }), 'good', rng);
   const v2 = JSON.parse(JSON.stringify(p));
   v2.version = 2; delete v2.yourWords;
   const { player } = M.migrate(JSON.parse(JSON.stringify(v2)));
-  assert.equal(player.version, 3);
+  assert.equal(player.version, 4);
   assert.deepEqual(player.yourWords, []);
   assert.equal(player.knowledge, v2.knowledge);
   assert.deepEqual(player.nodes, v2.nodes);
@@ -232,10 +285,13 @@ test('after onboarding, 40 simulated sessions obey the rules', () => {
   for (let i = 0; i < 3; i++) answerAll(p, S.buildNext(C, p, { seed: i + 1 }), 'good', rng, now);
   assert.equal(p.startersCompleted, 3);
   const kinds = new Set();
-  for (let k = 0; k < 40; k++) {
+  const kindsSeen = [];
+  for (let k = 0; k < 50; k++) {
     now += 0.4 * M.DAY;
     const introducedBefore = new Set(Object.keys(p.nodes).filter((id) => p.nodes[id].introduced));
     const s = S.buildNext(C, p, { seed: 100 + k, now });
+    kindsSeen.push(s.kind === 'bridge' ? s.bridgeId : s.kind);
+    if (s.kind === 'bridge') { answerAll(p, s, 'random', rng, now); continue; }
     assert.equal(s.kind, 'adaptive');
     assert.equal(s.items.length, 6, 'session ' + k + ' has ' + s.items.length + ' items');
     assert.equal(new Set(s.items.map((i) => i.enc.id)).size, 6, 'duplicate encounter');
@@ -253,9 +309,15 @@ test('after onboarding, 40 simulated sessions obey the rules', () => {
     answerAll(p, s, 'random', rng, now);
   }
   console.log('    modes seen:', [...kinds].join(', '));
-  console.log('    introduced:', Object.values(p.nodes).filter((n) => n.introduced).length, '/ 44 · threads:',
+  console.log('    first sessions after onboarding:', kindsSeen.slice(0, 10).join(' → '));
+  assert.deepEqual(kindsSeen.filter((k) => /^S0/.test(k)), ['S04', 'S05', 'S06', 'S07', 'S08'], 'all five bridges surface, in order');
+  assert.equal(kindsSeen[1], 'adaptive', 'bridges alternate with review sessions');
+  console.log('    introduced:', Object.values(p.nodes).filter((n) => n.introduced).length, '/ 50 · threads:',
     Object.keys(p.threadsUnlocked).length, '· debates:', Object.keys(p.debatesUnlocked).length, '· LVL', p.level, p.knowledge);
-  for (const m of ['DISCOVER', 'RECALL', 'SHARE', 'TIMELINE', 'MATCH', 'SAME QUESTION', 'THEN → NOW', 'WHY THEN', 'CONNECT'])
+  assert.equal(Object.values(p.nodes).filter((n) => n.introduced).length, 50, 'all 50 nodes discovered through play');
+  assert.equal(Object.keys(p.threadsUnlocked).length, 9);
+  assert.equal(Object.keys(p.debatesUnlocked).length, 8);
+  for (const m of ['DISCOVER', 'RECALL', 'SHARE', 'TIMELINE', 'MATCH', 'SAME QUESTION', 'THEN → NOW', 'CONNECT', 'WORDS'])
     assert.ok(kinds.has(m), 'never saw ' + m);
 });
 test('missed idea shows up in the next adaptive session', () => {
@@ -263,16 +325,45 @@ test('missed idea shows up in the next adaptive session', () => {
   for (let i = 0; i < 3; i++) answerAll(p, S.buildNext(C, p, { seed: i + 1 }), 'good', rng, now);
   now += 5 * M.DAY;
   M.recordEncounter(p, C.byId.E006, 0, now); // miss Freedom's Journal
-  const s = S.buildNext(C, p, { seed: 9, now: now + 20 * 60 * 1000 });
+  const s = S.buildAdaptive(C, p, { seed: 9, now: now + 20 * 60 * 1000 });
   assert.ok(s.items.some((i) => i.enc.nodeIds.includes('V1-010')), 'missed idea not reviewed');
 });
-test('threads unlock gradually; LEVERAGE opens during starter 3', () => {
-  const p = M.newPlayer(); const rng = S.makeRng(3);
-  answerAll(p, S.buildNext(C, p, { seed: 1 }), 'good', rng);
-  assert.equal(Object.keys(p.threadsUnlocked).length, 0);
-  answerAll(p, S.buildNext(C, p, { seed: 2 }), 'good', rng);
-  const s3 = answerAll(p, S.buildNext(C, p, { seed: 3 }), 'good', rng);
-  assert.ok(s3.threads.includes('T-02'), 'LEVERAGE not revealed: ' + s3.threads);
+test('threads unlock gradually (never more than two per session)', () => {
+  const p = M.newPlayer(); const rng = S.makeRng(3); let now = Date.now();
+  const perSession = [];
+  for (let i = 0; i < 12; i++) { now += M.DAY; perSession.push(answerAll(p, S.buildNext(C, p, { seed: i + 1, now }), 'good', rng, now).threads.length); }
+  assert.equal(perSession[0], 0, 'no thread in the first session');
+  assert.ok(perSession.every((n) => n <= 2), 'too many at once: ' + perSession);
+  assert.ok(perSession.reduce((a, b) => a + b, 0) >= 5, 'threads should be appearing');
+});
+test('bridge sessions follow onboarding and keep their curated flow', () => {
+  const p = M.newPlayer(); const rng = S.makeRng(21);
+  for (let i = 0; i < 3; i++) answerAll(p, S.buildNext(C, p, { seed: i + 1 }), 'good', rng);
+  const b = S.buildNext(C, p, { seed: 9 });
+  assert.equal(b.kind, 'bridge');
+  assert.equal(b.title, 'WHO GETS CALLED DANGEROUS?');
+  assert.deepEqual(b.items.map((i) => i.enc.id).sort(), ['D049', 'E068', 'D045', 'E058', 'E057', 'E076'].sort());
+  const sum = answerAll(p, b, 'good', rng);
+  assert.equal(sum.keepThis, 'Before punishment or protection, ask who was defined as dangerous—or worthy.');
+  assert.ok(p.threadsUnlocked['T-09'], 'RESPECTABILITY ↔ REFUSAL surfaces with the bridge');
+  assert.ok(sum.threads.includes('T-09'));
+  assert.equal(S.buildNext(C, p, { seed: 10 }).kind, 'adaptive');
+});
+test('D-08 FIX IT OR END IT? needs Abolition and Criminalization introduced', () => {
+  const p = M.newPlayer();
+  M.recordEncounter(p, C.byId.D046, 1);
+  assert.ok(!M.updateUnlocks(C, p).debates.includes('D-08'));
+  M.recordEncounter(p, C.byId.D049, 1);
+  assert.ok(M.updateUnlocks(C, p).debates.includes('D-08'));
+});
+test('binary and sort score like any objective question', () => {
+  const b = C.byId.E063;
+  assert.equal(S.evaluate(b, { choice: 'No' }).points, b.points);
+  assert.equal(S.evaluate(b, { choice: 'Yes' }).points, 0);
+  const so = C.byId.E069;
+  const right = Object.fromEntries(so.items.map((it, i) => [i, it.bin]));
+  assert.equal(S.evaluate(so, { bins: right }).points, so.points);
+  assert.equal(S.evaluate(so, { bins: Object.assign({}, right, { 0: so.bins[1] }) }).points, 0);
 });
 test('debates stay locked until both sides are introduced', () => {
   const p = M.newPlayer();

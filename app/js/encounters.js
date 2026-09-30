@@ -13,7 +13,7 @@
       else if (k === 'html') el.innerHTML = v;
       else el.setAttribute(k, v === true ? '' : v);
     }
-    for (const kid of kids.flat()) {
+    for (const kid of kids.flat(Infinity)) {
       if (kid == null || kid === false) continue;
       el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
     }
@@ -22,7 +22,7 @@
 
   // Append children, skipping null/false (native append would print "null").
   function put(el, ...kids) {
-    for (const k of kids.flat()) if (k != null && k !== false) el.append(k);
+    for (const k of kids.flat(Infinity)) if (k != null && k !== false) el.append(k);
     return el;
   }
 
@@ -44,6 +44,8 @@
     SHARE: 'Share',
     'THEN → NOW': 'Then → Now',
     WORDS: 'Words',
+    APPLY: 'Apply',
+    'BOSS ROUND': 'Boss round',
     TIMELINE: 'Timeline',
     MATCH: 'Match',
   };
@@ -51,6 +53,7 @@
   function eyebrow(enc, world) {
     const bits = [];
     if (enc.boss) bits.push('Boss round');
+    else if (enc.kind === 'sort') bits.push('Sort');
     else bits.push(MODE_LABEL[enc.mode] || enc.mode);
     let extra = enc.eyebrow;
     if (extra && /^BOSS ROUND\s*·\s*/.test(extra)) extra = extra.replace(/^BOSS ROUND\s*·\s*/, '');
@@ -66,6 +69,23 @@
     return el;
   }
 
+  // A recurring question (WHO IS “WE”?, WHO DECIDES?, …) shown quietly above a card.
+  function lensTag(enc) {
+    return enc.lens ? h('p', { class: 'lens-tag' }, enc.lens) : null;
+  }
+
+  // A small visual stage: short lines, with ↓ / vs. / + / → as quiet connectors.
+  function stageBlock(lines) {
+    if (!lines || !lines.length) return null;
+    const el = h('div', { class: 'stage' });
+    for (const line of lines) {
+      if (/^(↓|vs\.|\+|→ \?)$/.test(line)) el.append(h('span', { class: 'stage-join', 'aria-hidden': line === '↓' ? 'true' : null }, line));
+      else if (/^[^a-z]*[A-Z][^a-z]*$/.test(line)) el.append(h('span', { class: 'stage-line' }, line));
+      else el.append(h('span', { class: 'stage-note' }, line));
+    }
+    return el;
+  }
+
   // WORDS: an exact quotation, typographically distinct from our own prose.
   // Wording is rendered untouched; the curly marks are typography only.
   function quoteBlock(w, opts) {
@@ -74,7 +94,7 @@
       'figure',
       { class: 'words' + (opts.large ? ' words--large' : '') },
       h('blockquote', { class: 'words-text' }, '“' + w.text + '”'),
-      opts.hideSpeaker ? null : h('figcaption', { class: 'words-by' }, '— ' + (w.speaker || 'Unattributed'), w.source ? h('span', { class: 'words-src' }, ' · ' + w.source + (w.year ? ', ' + w.year : '')) : null)
+      opts.hideSpeaker ? null : h('figcaption', { class: 'words-by' }, '— ' + (w.speaker || 'Unattributed'), opts.cite && w.source ? h('span', { class: 'words-src' }, ' · ' + w.source + (w.sourceSection ? ', ' + w.sourceSection : '')) : null)
     );
   }
 
@@ -123,7 +143,8 @@
     const actions = h('div', { class: 'actions' });
     const revealBtn = h('button', { class: 'btn btn--primary', onclick: doReveal }, 'Reveal');
     actions.append(revealBtn);
-    put(root, eyebrow(enc, ctx.worldOf(enc)), h('p', { class: 'title-caps' }, enc.title), statement, hint(ctx.hint('DISCOVER')), actions);
+    put(root, lensTag(enc), eyebrow(enc, ctx.worldOf(enc)), h('p', { class: 'title-caps' }, enc.title), statement,
+      enc.ask ? h('p', { class: 'ask' }, enc.ask) : null, hint(ctx.hint('DISCOVER')), actions);
 
     let revealed = false;
     function doReveal() {
@@ -186,10 +207,14 @@
     const w = enc.quoteId && ctx.word(enc.quoteId);
     if (w) {
       // The quotation leads; the question sits beneath it, smaller.
-      put(root, eyebrow(enc), quoteBlock(w, { large: true, hideSpeaker: enc.hideSpeaker }),
+      put(root, lensTag(enc), eyebrow(enc), quoteBlock(w, { large: true, hideSpeaker: enc.hideSpeaker }),
         h('h1', { class: 'prompt-under', tabindex: '-1' }, enc.prompt), list);
+    } else if (enc.form === 'pick') {
+      // Short scenario → pick: a small stage, one short question, three short options.
+      list.classList.add('choices--short');
+      put(root, lensTag(enc), eyebrow(enc), stageBlock(enc.stage), h('h1', { class: 'question', tabindex: '-1' }, enc.prompt), list);
     } else {
-      put(root, eyebrow(enc), promptBlock(enc), hint(ctx.hint(hintKey)), list);
+      put(root, lensTag(enc), eyebrow(enc), promptBlock(enc), hint(ctx.hint(hintKey)), list);
     }
 
     let done = false;
@@ -247,6 +272,7 @@
     const writeBtn = ctx.canWrite && ctx.canWrite(enc) ? h('button', { class: 'btn btn--quiet', onclick: openWriting }, 'Write yours') : null;
     put(actions, revealBtn, writeBtn);
     put(root, 
+      lensTag(enc),
       eyebrow(enc),
       promptBlock(enc),
       isShare ? h('div', { class: 'timer', 'aria-hidden': 'true' }, h('span')) : null,
@@ -581,6 +607,120 @@
     return root;
   }
 
+  // ---- BINARY: SAME THING? / THIS · THAT / PICK ONE OF TWO ---------------------------
+  function binary(item, ctx) {
+    const enc = item.enc;
+    const root = h('section', { class: 'card card--binary' });
+    const w = enc.quoteId && ctx.word(enc.quoteId);
+    const row = h('div', { class: 'binary', role: 'group', 'aria-label': enc.prompt });
+    const buttons = item.order.map((text, i) => {
+      const b = h('button', { class: 'bin-opt', onclick: () => pick(text, b) }, h('span', { class: 'bin-text' }, text), h('span', { class: 'tag' }));
+      row.append(b);
+      return b;
+    });
+    put(
+      root,
+      lensTag(enc),
+      eyebrow(enc),
+      w ? quoteBlock(w, { large: true, hideSpeaker: enc.hideSpeaker }) : stageBlock(enc.stage),
+      h('h1', { class: 'question', tabindex: '-1' }, enc.prompt),
+      row
+    );
+    let done = false;
+    function pick(text, btn) {
+      if (done) return;
+      done = true;
+      const res = ctx.answer({ choice: text });
+      row.classList.add('is-answered');
+      buttons.forEach((b, i) => {
+        b.disabled = true;
+        const isCorrect = item.order[i] === enc.correct;
+        if (isCorrect) {
+          b.classList.add('is-correct');
+          b.querySelector('.tag').textContent = '✓';
+        }
+        if (b === btn && !isCorrect) {
+          b.classList.add('is-chosen');
+          b.querySelector('.tag').textContent = 'Your choice';
+        }
+      });
+      const rb = h('div', { class: 'reveal', role: 'status' });
+      if (enc.verdict) rb.append(h('p', { class: 'verdict' }, enc.verdict));
+      else if (res.correct && enc.answerLabel === 'BEST FIT') rb.append(h('span', { class: 'label' }, 'Best fit'));
+      rb.append(...paras(enc.reveal));
+      if (w) {
+        if (enc.hideSpeaker) rb.append(h('p', { class: 'words-by', style: 'margin-top:.75rem' }, '— ' + w.speaker));
+        const f = wordsFoundLine(res, w.id);
+        if (f) rb.prepend(f);
+      }
+      put(root, rb, continueBtn(ctx));
+      focusFirst(root, '.actions button');
+    }
+    root._onKey = (e) => {
+      const n = parseInt(e.key, 10);
+      if (!done && (n === 1 || n === 2)) {
+        buttons[n - 1].click();
+        return true;
+      }
+      if (done && e.key === 'Enter' && document.activeElement.tagName !== 'BUTTON') {
+        ctx.next();
+        return true;
+      }
+      return false;
+    };
+    focusFirst(root, 'h1');
+    return root;
+  }
+
+  // ---- SORT: place short items into two or three bins ----------------------------------
+  function sort(item, ctx) {
+    const enc = item.enc;
+    const root = h('section', { class: 'card' });
+    const placed = {}; // itemIndex -> bin
+    let done = false;
+    const list = h('ul', { class: 'sort' });
+    const checkBtn = h('button', { class: 'btn btn--primary', disabled: true, onclick: check }, 'Check');
+    const actions = h('div', { class: 'actions' }, checkBtn);
+    put(root, lensTag(enc), eyebrow(enc), h('h1', { class: 'question', tabindex: '-1' }, enc.prompt), list, actions);
+
+    function draw() {
+      list.replaceChildren();
+      for (const i of item.order) {
+        const it = enc.items[i];
+        const group = h('div', { class: 'sort-bins', role: 'group', 'aria-label': it.text });
+        for (const bin of enc.bins) {
+          const on = placed[i] === bin;
+          const cls = 'sort-bin' + (on ? ' is-on' : '') + (done && bin === it.bin ? ' is-correct' : '') + (done && on && bin !== it.bin ? ' is-chosen' : '');
+          group.append(
+            h('button', {
+              class: cls,
+              'aria-pressed': on ? 'true' : 'false',
+              disabled: done ? true : null,
+              onclick: () => {
+                placed[i] = bin;
+                draw();
+              },
+            }, done && bin === it.bin ? '✓ ' + bin : bin)
+          );
+        }
+        list.append(h('li', { class: 'sort-item' + (done ? (placed[i] === it.bin ? ' is-right' : ' is-moved') : '') }, h('span', { class: 'sort-text' }, it.text), group));
+      }
+      checkBtn.disabled = Object.keys(placed).length !== enc.items.length;
+    }
+    function check() {
+      if (done || Object.keys(placed).length !== enc.items.length) return;
+      done = true;
+      const res = ctx.answer({ bins: placed });
+      draw();
+      actions.before(h('div', { class: 'reveal', role: 'status' }, res.correct ? h('span', { class: 'label' }, 'All placed') : null, paras(enc.reveal)));
+      actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'));
+      focusFirst(actions, 'button');
+    }
+    draw();
+    focusFirst(root, 'h1');
+    return root;
+  }
+
   // ---- WORDS card (no question) -----------------------------------------------------
   function quoteCard(item, ctx) {
     const enc = item.enc;
@@ -606,7 +746,7 @@
     return root;
   }
 
-  const RENDERERS = { discover, choice, recall: selfRated, share: selfRated, timeline, match, quote: quoteCard };
+  const RENDERERS = { discover, choice, binary, sort, recall: selfRated, share: selfRated, timeline, match, quote: quoteCard };
 
   function render(item, ctx) {
     const fn = RENDERERS[item.enc.kind];

@@ -93,26 +93,17 @@
         source: 'WORDS', answerLabel: 'ANSWER',
       };
     },
-    // "These words connect to which idea?" — options are curriculum share lines.
+    // "These words connect to which idea?" — pick one of two curriculum share lines.
     meaning(C, w, introduced, rng) {
       const n = C.nodesById[w.nodeIds[0]];
-      const others = shuffle(
+      const other = shuffle(
         C.nodes.filter((o) => !w.nodeIds.includes(o.id) && introduced.has(o.id) && o.world !== n.world), rng
-      );
-      if (others.length < 3) return null;
-      const distract = [];
-      const worlds = new Set();
-      for (const o of others) {
-        if (worlds.has(o.world)) continue;
-        worlds.add(o.world);
-        distract.push(o.share);
-        if (distract.length === 3) break;
-      }
-      if (distract.length < 3) return null;
+      )[0];
+      if (!other) return null;
       return {
-        id: 'X-WM-' + w.id, mode: 'WORDS', kind: 'choice', derived: true, quoteId: w.id, hideSpeaker: true,
+        id: 'X-WM-' + w.id, mode: 'WORDS', kind: 'binary', form: 'binary', derived: true, quoteId: w.id, hideSpeaker: true,
         eyebrow: 'What is this really saying?', prompt: 'These words connect to which idea?',
-        choices: [n.share].concat(distract), correct: n.share, reveal: n.coreIdea,
+        choices: rng() < 0.5 ? [n.share, other.share] : [other.share, n.share], correct: n.share, reveal: n.coreIdea,
         points: 15, nodeIds: [n.id], mastery: ['UNDERSTAND', 'CONNECT'], difficulty: 'medium',
         source: 'WORDS', answerLabel: 'BEST FIT',
       };
@@ -124,10 +115,10 @@
       const mine = on.filter((t) => player.threadsUnlocked[t.id]);
       if (!mine.length) return null;
       const t = mine[Math.floor(rng() * mine.length)];
-      const off = shuffle(C.threads.filter((x) => !on.includes(x)), rng).slice(0, 3);
-      if (off.length < 3) return null;
+      const off = shuffle(C.threads.filter((x) => !on.includes(x)), rng).slice(0, 2);
+      if (off.length < 2) return null;
       return {
-        id: 'X-WT-' + w.id, mode: 'WORDS', kind: 'choice', derived: true, quoteId: w.id,
+        id: 'X-WT-' + w.id, mode: 'WORDS', kind: 'choice', form: 'pick', derived: true, quoteId: w.id,
         eyebrow: 'Which thread?', prompt: 'Which thread runs through these words?',
         choices: [t.title].concat(off.map((x) => x.title)), correct: t.title, reveal: t.question,
         points: 20, nodeIds: [nid], mastery: ['CONNECT'], difficulty: 'hard',
@@ -152,9 +143,9 @@
       if (speakers.length < 3) return null;
       const n = C.nodesById[w.nodeIds[0]];
       return {
-        id: 'X-WW-' + w.id, mode: 'WHO', kind: 'choice', derived: true, quoteId: w.id, hideSpeaker: true,
+        id: 'X-WW-' + w.id, mode: 'WHO', kind: 'choice', form: 'pick', derived: true, quoteId: w.id, hideSpeaker: true,
         eyebrow: 'Words', prompt: 'Whose words are these?',
-        choices: [w.speaker].concat(shuffle(speakers, rng).slice(0, 3)), correct: w.speaker, reveal: n.coreIdea,
+        choices: [w.speaker].concat(shuffle(speakers, rng).slice(0, 2)), correct: w.speaker, reveal: n.coreIdea,
         points: 10, nodeIds: [n.id], mastery: ['RECALL'], difficulty: 'easy',
         source: 'WORDS', answerLabel: 'ANSWER',
       };
@@ -350,6 +341,8 @@
       item.order = order;
     }
     if (enc.kind === 'match') item.order = shuffle(enc.pairs.map((_, i) => i), rng);
+    if (enc.kind === 'binary') item.order = enc.choices.slice(); // authored order (Yes / No …)
+    if (enc.kind === 'sort') item.order = shuffle(enc.items.map((_, i) => i), rng);
     return item;
   }
 
@@ -388,6 +381,23 @@
     });
   }
 
+  // V1.5 bridge sessions (S04–S08): curated theme bundles that surface after
+  // onboarding, alternating with adaptive review sessions. Not mandatory tutorials.
+  function pendingBridges(C, player) {
+    const done = new Set(player.bridgesCompleted || []);
+    return C.bridges.filter((b) => !done.has(b.id));
+  }
+
+  function buildBridge(C, player, bridge, seed) {
+    const rng = makeRng(seed || Date.now());
+    const encs = repairPacing(bridge.encounterIds.map((id) => C.byId[id]));
+    return newSessionShell('bridge', bridge.title, attachWords(C, player, encs.map((e) => prepareItem(e, rng))), {
+      bridgeId: bridge.id,
+      keepThis: bridge.keepThis,
+      levelBefore: player.level,
+    });
+  }
+
   function lastSessionEncounterIds(player) {
     const h = player.history[player.history.length - 1];
     return new Set(h ? h.encounterIds : []);
@@ -417,8 +427,10 @@
     const curatedDiscover = Object.fromEntries(C.discovery.map((d) => [d.nodeIds[0], d]));
     const unlockValue = (id) =>
       C.encounters.filter((e) => e.nodeIds.includes(id)).length + (curatedDiscover[id] ? 3 : 0);
-    const fresh = C.nodes
-      .filter((n) => !introduced.has(n.id))
+    // Ideas a pending bridge session introduces are left for that session.
+    const reserved = new Set(pendingBridges(C, player).flatMap((b) => b.encounterIds.filter((id) => /^D/.test(id)).flatMap((id) => C.byId[id].nodeIds)));
+    const unmet = C.nodes.filter((n) => !introduced.has(n.id));
+    const fresh = (unmet.some((n) => !reserved.has(n.id)) ? unmet.filter((n) => !reserved.has(n.id)) : unmet)
       .map((n) => ({ n, score: unlockValue(n.id) + rng() * 2 + (M.isSeen(player, n.id) ? 1 : 0) }))
       .sort((a, b) => b.score - a.score);
     const newWorlds = new Set();
@@ -484,7 +496,7 @@
     }
 
     // 3) One connection or historical-context encounter.
-    const connectModes = ['CONNECT', 'WHY THEN', 'TIMELINE', 'SAME QUESTION', 'WORDS'];
+    const connectModes = ['CONNECT', 'WHY THEN', 'TIMELINE', 'SAME QUESTION', 'WORDS', 'APPLY'];
     // Derived timelines/matches get a fresh id every time, so they would always
     // look "unseen"; damp them, especially if the last session already had one.
     const recentDerivedModes = new Set([...recent].filter((id) => /^X-[TM]-/.test(id)).map((id) => id[2]));
@@ -505,7 +517,7 @@
 
     // 4) One higher-order encounter (comparison, transfer, share, synthesis).
     {
-      const higherModes = ['SAME QUESTION', 'THEN → NOW', 'SHARE', 'MATCH'];
+      const higherModes = ['SAME QUESTION', 'THEN → NOW', 'SHARE', 'MATCH', 'BOSS ROUND', 'APPLY'];
       const cands = pool.filter(
         (e) => !used.has(e.id) && okWords(e) && (higherModes.includes(e.mode) || (e.mode === 'CONNECT' && e.difficulty === 'hard'))
       );
@@ -513,7 +525,7 @@
       if (m) cands.push(m);
       const scored = cands.map((e) => ({
         e,
-        s: scoreFresh(e) + (e.difficulty === 'boss' && !seenCount(e.id) ? 2 : 0) + (e.derived ? -0.3 : 0),
+        s: scoreFresh(e) + ((e.boss || e.difficulty === 'boss') && !seenCount(e.id) ? 2 : 0) + (e.derived ? -0.3 : 0),
       }));
       scored.sort((a, b) => b.s - a.s);
       if (scored[0]) add(scored[0].e, 'higher');
@@ -561,6 +573,9 @@
     if (player.startersCompleted < C.starters.length) {
       return buildStarter(C, player, player.startersCompleted, opts && opts.seed);
     }
+    const last = player.history[player.history.length - 1];
+    const pending = pendingBridges(C, player);
+    if (pending.length && (!last || last.kind !== 'bridge')) return buildBridge(C, player, pending[0], opts && opts.seed);
     return buildAdaptive(C, player, opts);
   }
 
@@ -581,9 +596,15 @@
       }
       case 'quote':
         return { quality: null, points: 0 };
-      case 'choice': {
+      case 'choice':
+      case 'binary': {
         const ok = response.choice === enc.correct;
         return { quality: ok ? 1 : 0, points: ok ? enc.points : 0, correct: ok };
+      }
+      case 'sort': {
+        // response.bins: { itemIndex: binName }. Full points only when all are placed right.
+        const hits = enc.items.map((it, i) => response.bins[i] === it.bin);
+        return partial(enc, hits.filter(Boolean).length / hits.length, null, { hits });
       }
       case 'recall':
       case 'share': {
@@ -683,7 +704,7 @@
     const pickFrom = session.discovered.length ? session.discovered : session.strengthened;
     const singles = session.items.filter((i) => i.enc.nodeIds.length === 1).map((i) => i.enc.nodeIds[0]);
     const id = pickFrom.find((x) => singles.includes(x)) || pickFrom[0] || singles[0];
-    return id ? C.nodesById[id].share : null;
+    return id ? C.nodesById[id].keepThis || C.nodesById[id].share : null;
   }
 
   function finish(C, player, session, now) {
@@ -711,6 +732,10 @@
     if (session.kind === 'starter' && session.starterIndex === player.startersCompleted) {
       player.startersCompleted++;
     }
+    if (session.kind === 'bridge') {
+      player.bridgesCompleted = player.bridgesCompleted || [];
+      if (!player.bridgesCompleted.includes(session.bridgeId)) player.bridgesCompleted.push(session.bridgeId);
+    }
     return summary;
   }
 
@@ -723,6 +748,8 @@
     repairPacing,
     orderCost,
     buildStarter,
+    buildBridge,
+    pendingBridges,
     buildAdaptive,
     buildNext,
     wordsDerive,

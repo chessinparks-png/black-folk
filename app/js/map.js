@@ -14,7 +14,7 @@
       if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
       else el.setAttribute(k, v);
     }
-    for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+    for (const kid of kids.flat(Infinity)) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
     return el;
   }
 
@@ -74,7 +74,11 @@
 
     // Revealed links only.
     const edges = s('g', { class: 'medges' });
+    // The overview draws only links met in PLAY (encounters / both ideas met).
+    // Thread chains live in each thread's own view, keeping the map from
+    // becoming a spiderweb as threads unlock.
     for (const e of GR.visibleEdges(G, player)) {
+      if (!e.kinds.has('encounter') && !e.kinds.has('discovered')) continue;
       const a = L.nodes[e.a];
       const b = L.nodes[e.b];
       const fresh = map.edges[e.id] > lastViewed && lastViewed > 0;
@@ -82,12 +86,27 @@
       const far = wa !== C.nodesById[e.b].world;
       // Links inside a world stay close to it; links between worlds bow gently and recede.
       const d = far ? curve(a, b, L.center, 0.18) : curve(a, b, L.worlds[wa], 0.45);
-      edges.append(s('path', { class: 'medge' + (far ? ' is-far' : '') + (fresh ? ' is-new' : ''), 'data-world': wa, d, pathLength: 1 }));
+      edges.append(s('path', { class: 'medge' + (far ? ' is-far' : '') + (fresh ? ' is-new' : ''), 'data-world': wa, 'data-a': e.a, 'data-b': e.b, d, pathLength: 1 }));
     }
     svg.append(edges);
 
     const nodes = s('g', { class: 'mnodes' });
-    for (const n of C.nodes) nodes.append(nodeMark(ctx, n, L.nodes[n.id], GR.nodeState(G, player, n.id), {}));
+    for (const n of C.nodes) {
+      const mark = nodeMark(ctx, n, L.nodes[n.id], GR.nodeState(G, player, n.id), {});
+      // Focus: hovering or tabbing to an idea lights up its links, including
+      // the faint links that cross into other worlds.
+      if (mark.tagName === 'a') {
+        const on = (v) => () => {
+          svg.classList.toggle('has-focus', v);
+          edges.querySelectorAll('[data-a="' + n.id + '"],[data-b="' + n.id + '"]').forEach((p) => p.classList.toggle('is-focus', v));
+        };
+        mark.addEventListener('mouseenter', on(true));
+        mark.addEventListener('mouseleave', on(false));
+        mark.addEventListener('focus', on(true));
+        mark.addEventListener('blur', on(false));
+      }
+      nodes.append(mark);
+    }
     svg.append(nodes);
 
     // World names sit at the centre of their territory and open that world.

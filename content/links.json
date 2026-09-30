@@ -1,5 +1,5 @@
 {
-  "_about": "Editorial wiring between the two authoritative content files. It adds NO historical claims: it only maps existing debates and threads onto existing curriculum node ids so the game can decide when they unlock. Edit freely; run `npm run data` afterwards.",
+  "_about": "Editorial wiring for V1.5. It adds NO historical claims: it maps existing curriculum debates and thread paths onto existing node ids so the game can decide when they unlock. Thread members added by the knowledge map but missing from a path are appended automatically. Edit freely; run `npm run data` afterwards.",
   "debates": {
     "D-01": {
       "sides": [
@@ -112,7 +112,30 @@
         "Combahee",
         "Male-centered liberation politics"
       ],
-      "encounters": []
+      "encounters": [],
+      "prereq_extra": []
+    },
+    "D-08": {
+      "sides": [
+        [
+          "V1-046"
+        ],
+        []
+      ],
+      "side_labels": [
+        "End it and build",
+        "Fix it"
+      ],
+      "side_summaries": [
+        "The institution's failures are structural enough to require replacement—and something must be built in its place.",
+        "The institution's failures can be repaired from within."
+      ],
+      "prereq_extra": [
+        "V1-049"
+      ],
+      "encounters": [
+        "E060"
+      ]
     }
   },
   "threads": {
@@ -233,42 +256,73 @@
       [
         "V1-043"
       ]
+    ],
+    "T-08": [
+      [
+        "V1-001"
+      ],
+      [],
+      [
+        "V1-047"
+      ],
+      [
+        "V1-048"
+      ],
+      [
+        "V1-036"
+      ],
+      [
+        "V1-042"
+      ],
+      [
+        "V1-040"
+      ],
+      []
+    ],
+    "T-09": [
+      [
+        "V1-018"
+      ],
+      [
+        "V1-021"
+      ],
+      [
+        "V1-023"
+      ],
+      [
+        "V1-045"
+      ],
+      [
+        "V1-033"
+      ],
+      [
+        "V1-037"
+      ],
+      [
+        "V1-039"
+      ],
+      [
+        "V1-040"
+      ],
+      [
+        "V1-049"
+      ]
     ]
   },
-  "thread_unlock_steps": 3,
-  "_threads_note": "Each thread entry lists, per step of the curriculum's `path`, the node ids that satisfy that step (any one of them). An empty list means the step has no playable node yet (e.g. 'Boynton/context', 'Voting Rights').",
+  "_threads_note": "Per step of each curriculum thread `path`, the node ids that satisfy it (any one). Empty = no playable node (e.g. 'Boynton/context', 'Voting Rights', and the Diaspora / Amefricanidade deepening cards in T-08, which EXPLORE shows as cards).",
   "boss_min_nodes": {
     "E040": 4
   },
   "_boss_note": "E040's design_note says it unlocks after at least four linked nodes have been encountered; this overrides the generic 'all linked nodes' unlock rule for that one encounter.",
-  "context": {
-    "CTX-01": [
-      "V1-008",
-      "V1-015"
-    ],
-    "CTX-02": [
-      "V1-021",
-      "V1-022",
-      "V1-018",
-      "V1-025"
-    ],
-    "CTX-03": [
-      "V1-035",
-      "V1-036",
-      "V1-038",
-      "V1-037"
-    ],
-    "CTX-04": [
-      "V1-017",
-      "V1-018",
-      "V1-021",
-      "V1-025"
-    ],
-    "CTX-05": [],
-    "CTX-06": [],
-    "CTX-07": [
-      "V1-043"
-    ]
+  "_debate_note": "D-08 has no reform node; its side summaries restate the E060 / E15-046-03 reveals (repairable vs. structural). prereq_extra mirrors E060's unlock rule (Abolition and Criminalization introduced).",
+  "thread_unlock": {
+    "min_members": 2,
+    "min_members_without_connection": 3
   },
-  "_context_note": "Context cards are linked only to the nodes their curriculum `purpose` text names. CTX-05 and CTX-06 name no playable node yet, so they stay unavailable."
+  "_thread_unlock_note": "Knowledge map rule: a thread unlocks after ≥2 member ideas are introduced AND one encounter linking two members has been played; ≥3 introduced members also unlocks it. 'Introduced' = met through DISCOVER or a single-idea encounter, not glimpsed inside a multi-idea card.",
+  "deepening_display": {
+    "CARD-03": "Black educators creating counter-curricula and teaching around oppressive systems.",
+    "CARD-05": "Cooperate on concrete shared goals without requiring total ideological agreement."
+  },
+  "_deepening_note": "Player-facing lines for deepening cards that have no core_idea, taken verbatim from each card's `role`. Cards with neither (Amefricanidade, Colonialism) stay in the data layer only."
 }

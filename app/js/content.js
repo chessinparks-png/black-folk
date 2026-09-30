@@ -1,10 +1,16 @@
-// Content layer: turns the raw authoritative JSON (BF_CONTENT) into the
-// normalized structures the engine uses. No UI code lives here.
+// Content layer: turns the raw V1.5 JSON (BF_CONTENT) into the normalized
+// structures the engine uses. No UI code lives here.
+//
+// WHAT is learned comes from the curriculum + encounter pack + knowledge map.
+// HOW an encounter is played comes from v1_5_interactions.json, which can
+// re-express a four-option question as a lighter form (binary, sort, pick,
+// think-first recall). The pack's reveal is always kept.
 (function (BF) {
   'use strict';
 
-  const CHOICE_MODES = ['WHAT', 'WHO', 'WHY THEN', 'CONNECT', 'SAME QUESTION', 'THEN → NOW'];
+  const CHOICE_MODES = ['WHAT', 'WHO', 'WHY THEN', 'CONNECT', 'SAME QUESTION', 'THEN → NOW', 'APPLY'];
   const SELF_RATED_MODES = ['RECALL', 'SHARE'];
+  const MATCH_MODES = ['MATCH', 'BOSS ROUND'];
 
   // Strip trailing "SELF-RATE: …" lines and a leading "MODEL:" from reveal text.
   function cleanReveal(text) {
@@ -28,7 +34,6 @@
       }
     }
     let lead = null;
-    // "Explain this line:" / "Explain this idea aloud:" followed by a quote.
     if (parts.length > 1 && /:$/.test(parts[0].trim())) lead = parts.shift().trim();
     return { eyebrow, lead, body: parts.join('\n\n').trim() };
   }
@@ -67,6 +72,7 @@
 
     if (CHOICE_MODES.includes(raw.mode)) {
       e.kind = 'choice';
+      e.form = 'conventional';
       e.choices = raw.answers.slice();
       e.correct = raw.correct_answer;
       if (!e.choices.includes(e.correct)) throw new Error(raw.id + ': correct answer not among choices');
@@ -78,45 +84,96 @@
       e.items = String(raw.correct_answer).split(ARROW);
       const dates = e.reveal.replace(/\.$/, '').split(ARROW);
       e.dates = dates.length === e.items.length ? dates : null;
-    } else if (raw.mode === 'MATCH') {
+    } else if (MATCH_MODES.includes(raw.mode)) {
       e.kind = 'match';
-      e.boss = raw.difficulty === 'boss' || /BOSS/.test(raw.prompt);
+      e.boss = raw.mode === 'BOSS ROUND' || raw.difficulty === 'boss' || /BOSS/.test(raw.prompt);
       e.pairs = raw.answers.map((a) => {
         const [left, right] = a.split(ARROW);
         return { left: left.trim(), right: right.trim() };
       });
+      if (raw.mode === 'BOSS ROUND' && !e.eyebrow) e.eyebrow = 'The six V1.5 ideas';
     } else {
       throw new Error('Unknown mode ' + raw.mode + ' in ' + raw.id);
     }
     return e;
   }
 
-  // WORDS: exact quotations. Tolerant of either {quotes:[…]} or a bare array and of
-  // a few field spellings, so the authoritative bank can be dropped in unchanged.
-  // Wording is never modified; entries missing text or a known node are skipped.
-  function normalizeWords(raw, nodesById) {
-    if (!raw) return [];
-    const list = Array.isArray(raw) ? raw : raw.quotes || raw.words || raw.items || [];
-    const pick = (o, keys) => keys.map((k) => o[k]).find((v) => v != null && v !== '');
-    const out = [];
-    list.forEach((q, i) => {
-      const text = pick(q, ['text', 'quote', 'quotation', 'words']);
-      let nodeIds = pick(q, ['node_ids', 'nodeIds', 'linked_nodes', 'nodes', 'node_id']) || [];
-      if (!Array.isArray(nodeIds)) nodeIds = [nodeIds];
-      nodeIds = nodeIds.filter((id) => nodesById[id]);
-      if (!text || !nodeIds.length) return;
-      out.push({
-        id: String(pick(q, ['id', 'quote_id']) || 'W-' + String(i + 1).padStart(2, '0')),
-        text: String(text),
-        speaker: pick(q, ['speaker', 'attribution', 'author', 'person', 'name']) || null,
-        nodeIds,
-        source: pick(q, ['source', 'source_work', 'work', 'citation']) || null,
-        year: pick(q, ['year', 'date']) || null,
-        sourceUrl: pick(q, ['source_url', 'url']) || null,
-        raw: q, // full record preserved (verification notes, etc.)
-      });
-    });
-    return out;
+  // Re-express an encounter in a lighter form. The original is kept on
+  // `e.original` so nothing from the pack is lost.
+  function applyInteraction(e, spec) {
+    if (!spec) return e;
+    if (spec.lens) e.lens = spec.lens;
+    if (spec.prompt && !spec.form) e.prompt = spec.prompt;
+    if (!spec.form) return e;
+    e.original = { kind: e.kind, prompt: e.prompt, choices: e.choices, correct: e.correct };
+    const need = (cond, msg) => {
+      if (!cond) throw new Error(e.id + ' interaction: ' + msg);
+    };
+    switch (spec.form) {
+      case 'binary':
+      case 'pick':
+        need(spec.options && spec.options.includes(spec.correct), 'correct option missing');
+        need(spec.form !== 'binary' || spec.options.length === 2, 'binary needs two options');
+        e.kind = spec.form === 'binary' ? 'binary' : 'choice';
+        e.form = spec.form;
+        e.stage = spec.stage || [];
+        e.prompt = spec.question;
+        e.choices = spec.options.slice();
+        e.correct = spec.correct;
+        e.verdict = spec.verdict || null;
+        e.lead = null;
+        e.eyebrow = null;
+        break;
+      case 'sort':
+        need(spec.bins && spec.items && spec.items.every((it) => spec.bins.includes(it.bin)), 'sort item in unknown bin');
+        e.kind = 'sort';
+        e.form = 'sort';
+        e.prompt = spec.prompt;
+        e.bins = spec.bins.slice();
+        e.items = spec.items.map((it) => ({ text: it.text, bin: it.bin }));
+        e.lead = null;
+        e.eyebrow = null;
+        delete e.choices;
+        delete e.correct;
+        break;
+      case 'recall':
+        // Think first; the pack's correct answer becomes the revealed answer.
+        e.kind = 'recall';
+        e.form = 'recall';
+        e.mode = 'RECALL';
+        e.eyebrow = 'Think before revealing';
+        e.lead = null;
+        e.prompt = spec.prompt || e.prompt;
+        e.reveal = (e.correct ? e.correct.replace(/\.?$/, '.') + '\n\n' : '') + e.reveal;
+        delete e.choices;
+        delete e.correct;
+        if (!e.mastery.includes('RECALL')) e.mastery.push('RECALL');
+        break;
+      default:
+        throw new Error(e.id + ': unknown interaction form ' + spec.form);
+    }
+    return e;
+  }
+
+  // WORDS: exact quotations from the knowledge map's verified bank. Wording is
+  // never modified. Linked nodes come from its words_attached_to edges.
+  function normalizeWords(mapRaw, nodesById) {
+    if (!mapRaw) return [];
+    const attach = {};
+    for (const ed of mapRaw.edges || []) {
+      if (ed.type === 'words_attached_to' && nodesById[ed.to]) (attach[ed.from] = attach[ed.from] || []).push(ed.to);
+    }
+    return (mapRaw.nodes || [])
+      .filter((n) => n.type === 'words' && n.text && (attach[n.id] || []).length)
+      .map((n) => ({
+        id: n.id,
+        text: String(n.text),
+        speaker: n.speaker || n.label || null,
+        nodeIds: attach[n.id],
+        source: n.source_book || null,
+        sourceSection: n.source_section || null,
+        raw: n,
+      }));
   }
 
   function shortName(subject) {
@@ -128,6 +185,8 @@
     const cur = raw.curriculum;
     const play = raw.playtest;
     const links = raw.links || {};
+    const mapRaw = raw.knowledgeMap || null;
+    const inter = raw.interactions || { encounters: {}, discover: {} };
 
     const worlds = Object.keys(cur.worlds).map((id) => ({ id, question: cur.worlds[id] }));
 
@@ -140,33 +199,65 @@
       era: n.era,
       coreIdea: n.core_idea,
       share: n.share,
+      keepThis: n.keep_this || n.share,
+      whyThen: n.why_then || null,
       lens: n.lens || null,
+      yourWordsPrompt: n.your_words_prompt || null,
       source: n.source,
       sourceSection: n.source_section,
     }));
     const nodesById = Object.fromEntries(nodes.map((n) => [n.id, n]));
 
-    const encounters = play.encounters.map((r) => normalizeEncounter(r, nodesById));
-    const discovery = play.discovery_cards.map((r) => normalizeEncounter(r, nodesById));
+    const encounters = play.encounters.map((r) => applyInteraction(normalizeEncounter(r, nodesById), (inter.encounters || {})[r.id]));
+    const discovery = play.discovery_cards.map((r) => {
+      const d = normalizeEncounter(r, nodesById);
+      const o = (inter.discover || {})[r.id];
+      if (o) {
+        d.original = { statement: d.statement, reveal: d.reveal };
+        if (o.statement) d.statement = o.statement;
+        if (o.reveal) d.reveal = o.reveal;
+        if (o.ask) d.ask = o.ask;
+        if (o.lens) d.lens = o.lens;
+      }
+      return d;
+    });
     const all = encounters.concat(discovery);
     const byId = Object.fromEntries(all.map((e) => [e.id, e]));
-
     for (const e of all) {
       for (const id of e.nodeIds) if (!nodesById[id]) throw new Error(e.id + ' references unknown node ' + id);
     }
+    for (const id of Object.keys(inter.encounters || {})) if (!byId[id]) throw new Error('interaction for unknown encounter ' + id);
 
-    // Debate wiring (links.json) — prerequisites are the nodes on each side.
+    // Knowledge-map memberships (thread_member / debate_member / context_for).
+    const members = { thread: {}, debate: {}, context: {} };
+    for (const ed of (mapRaw && mapRaw.edges) || []) {
+      if (ed.type === 'thread_member') (members.thread[ed.to] = members.thread[ed.to] || []).push(ed.from);
+      if (ed.type === 'debate_member') (members.debate[ed.to] = members.debate[ed.to] || []).push(ed.from);
+      if (ed.type === 'context_for') (members.context[ed.from] = members.context[ed.from] || []).push(ed.to);
+    }
+
+    const deepening = (cur.deepening_cards || []).map((c) => ({
+      id: c.id,
+      title: c.title,
+      home: c.home,
+      role: c.role,
+      text: c.core_idea || (links.deepening_display || {})[c.id] || null,
+      source: c.source || null,
+    }));
+    const deepeningById = Object.fromEntries(deepening.map((c) => [c.id, c]));
+
+    // Debates: sides from links.json; prerequisites = both sides (+ any extra).
     const debateLinks = links.debates || {};
     const debates = cur.debates.map((d) => {
-      const l = debateLinks[d.id] || { sides: [[], []], side_labels: d.title.split(' ↔ '), encounters: [] };
-      const prereq = [...new Set(l.sides.flat())];
+      const l = debateLinks[d.id] || { sides: [members.debate[d.id] || [], []], side_labels: d.title.split(' ↔ '), encounters: [] };
       return {
         id: d.id,
         title: d.title,
         question: d.question,
         rule: d.rule,
-        sides: l.sides.map((ids, i) => ({ label: l.side_labels[i], nodeIds: ids })),
-        prereq,
+        sides: l.sides.map((ids, i) => ({ label: l.side_labels[i], nodeIds: ids, summary: (l.side_summaries || [])[i] || null })),
+        prereq: [...new Set(l.sides.flat().concat(l.prereq_extra || []))],
+        prereqExtra: l.prereq_extra || [],
         encounterIds: l.encounters || [],
       };
     });
@@ -174,44 +265,66 @@
     for (const d of debates) for (const eid of d.encounterIds) debateByEncounter[eid] = d.id;
     for (const e of encounters) if (debateByEncounter[e.id]) e.debateId = debateByEncounter[e.id];
 
+    // Threads: path steps from links.json; map members missing from the path are
+    // appended as their own steps; deepening-card steps (Diaspora…) keep their card.
     const threadLinks = links.threads || {};
-    const threads = cur.threads.map((t) => ({
-      id: t.id,
-      title: t.title,
-      question: t.question,
-      steps: t.path.map((label, i) => ({ label, nodeIds: (threadLinks[t.id] || [])[i] || [] })),
-    }));
+    const threads = cur.threads.map((t) => {
+      const steps = t.path.map((label, i) => {
+        const step = { label: label.replace(/\s*\((intro concept|deepening) card\)$/, ''), nodeIds: (threadLinks[t.id] || [])[i] || [] };
+        if (/card\)$/.test(label)) {
+          const card = deepening.find((c) => label.startsWith(c.title));
+          if (card) step.cardId = card.id;
+        }
+        return step;
+      });
+      const covered = new Set(steps.flatMap((s) => s.nodeIds));
+      for (const id of members.thread[t.id] || []) {
+        if (!covered.has(id) && nodesById[id]) steps.push({ label: nodesById[id].name, nodeIds: [id] });
+      }
+      return {
+        id: t.id,
+        title: t.title,
+        question: t.question,
+        rule: t.rule || null,
+        steps,
+        members: [...new Set(steps.flatMap((s) => s.nodeIds))],
+        cards: deepening.filter((c) => c.home === t.id).map((c) => c.id),
+      };
+    });
 
-    // WHY THEN reveals give the historical-context line shown in EXPLORE.
+    // WHY THEN: the node's own why_then, else a single-node WHY THEN reveal.
     const whyThenByNode = {};
     for (const e of encounters) {
-      if (e.mode === 'WHY THEN' && e.nodeIds.length === 1) whyThenByNode[e.nodeIds[0]] = e.reveal;
+      if (e.mode === 'WHY THEN' && e.nodeIds.length === 1) whyThenByNode[e.nodeIds[0]] = (e.original && e.kind === 'recall') ? e.reveal.split('\n\n').pop() : e.reveal;
     }
+    for (const n of nodes) if (n.whyThen) whyThenByNode[n.id] = n.whyThen;
 
-    const starters = play.starter_sessions.map((s) => ({
-      id: s.id,
-      title: s.title,
-      encounterIds: s.encounters.slice(),
-      keepThis: s.keep_this,
-      purpose: s.purpose,
-    }));
-    for (const s of starters) for (const id of s.encounterIds) if (!byId[id]) throw new Error(s.id + ' missing ' + id);
-
-    const words = normalizeWords(raw.words, nodesById);
-    const contextLinks = links.context || {};
     const context = (cur.context_cards || []).map((c) => ({
       id: c.id,
       title: c.title,
       purpose: c.purpose,
-      nodeIds: (contextLinks[c.id] || []).filter((id) => nodesById[id]),
+      nodeIds: (members.context[c.id] || []).filter((id) => nodesById[id]),
     }));
 
+    const sessionOf = (s) => ({ id: s.id, title: s.title, encounterIds: s.encounters.slice(), keepThis: s.keep_this, purpose: s.purpose });
+    const starters = play.starter_sessions.map(sessionOf);
+    const bridges = (play.v1_5_bridge_sessions || []).map(sessionOf);
+    for (const s of starters.concat(bridges)) for (const id of s.encounterIds) if (!byId[id]) throw new Error(s.id + ' missing ' + id);
+
+    const words = normalizeWords(mapRaw, nodesById);
+
     return {
+      version: play.version,
       words,
       wordsById: Object.fromEntries(words.map((w) => [w.id, w])),
       wordsSource: raw.wordsSource || null,
       context,
-      knowledgeMapRaw: raw.knowledgeMap || null,
+      deepening,
+      deepeningById,
+      recurringQuestions: cur.recurring_questions || [],
+      holds: cur.holds || [],
+      cuts: cur.cuts || [],
+      knowledgeMapRaw: mapRaw,
       worlds,
       nodes,
       nodesById,
@@ -222,12 +335,12 @@
       debatesById: Object.fromEntries(debates.map((d) => [d.id, d])),
       threads,
       threadsById: Object.fromEntries(threads.map((t) => [t.id, t])),
-      threadUnlockSteps: links.thread_unlock_steps || 3,
+      threadUnlock: links.thread_unlock || { min_members: 2, min_members_without_connection: 3 },
       bossMinNodes: links.boss_min_nodes || {},
-      contextCards: cur.context_cards,
       framing: cur.framing,
       whyThenByNode,
       starters,
+      bridges,
       sessionDesign: play.session_design,
       pointsScale: play.session_design.points,
     };

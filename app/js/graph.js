@@ -44,15 +44,14 @@
       const [s1, s2] = d.sides;
       if (s1 && s2) for (const a of s1.nodeIds) for (const b of s2.nodeIds) add(a, b, 'debate', d.id);
     }
-    // Optional authoritative map file: node↔node relationships only.
+    // V1.5 knowledge map: idea↔idea connections. Those tied to an encounter reveal
+    // when it is played (or both ideas are familiar); the rest reveal once both
+    // ideas have been discovered.
     const raw = C.knowledgeMapRaw;
-    if (raw) {
-      const list = raw.edges || raw.relationships || raw.links || (raw.graph && (raw.graph.edges || raw.graph.links)) || [];
-      for (const r of list) {
-        const a = r.source || r.from || r.a;
-        const b = r.target || r.to || r.b;
-        add(a, b, 'map', r.type || r.relation || null);
-      }
+    for (const r of (raw && raw.edges) || []) {
+      if (r.type !== 'encounter_connection') continue;
+      if (r.encounter_id) add(r.from, r.to, 'encounter', r.encounter_id);
+      else add(r.from, r.to, 'discovered', null);
     }
 
     const byNode = {};
@@ -124,13 +123,15 @@
     return added;
   }
 
-  // Links between two ideas the player knows well become visible on their own.
+  // Links between two ideas the player knows well become visible on their own;
+  // map links marked "discovered" need only both ideas to have been met.
   function revealFromFamiliarity(G, player, now) {
     const map = ensure(player);
     const added = [];
     for (const e of G.edges.values()) {
       if (map.edges[e.id]) continue;
-      if (FAMILIARISH.includes(M.label(player, e.a)) && FAMILIARISH.includes(M.label(player, e.b))) {
+      const bothMet = e.kinds.has('discovered') && M.isSeen(player, e.a) && M.isSeen(player, e.b);
+      if (bothMet || (FAMILIARISH.includes(M.label(player, e.a)) && FAMILIARISH.includes(M.label(player, e.b)))) {
         map.edges[e.id] = now;
         added.push(e.id);
       }

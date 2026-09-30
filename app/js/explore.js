@@ -44,6 +44,11 @@
     return h('a', { href: '#/idea/' + n.id, 'data-world': n.world }, h('i', { class: 'wdot', 'aria-hidden': 'true' }), displayName(ctx, n));
   }
 
+  // Deepening cards (Diaspora, Coalition, …): supporting ideas, never core nodes.
+  function deepCard(c) {
+    return h('div', { class: 'deep-card' }, h('p', { class: 'deep-title' }, c.title), c.text ? h('p', { class: 'deep-text' }, c.text) : null);
+  }
+
   function block(title, ...kids) {
     return h('section', { class: 'block' }, h('h2', {}, title), ...kids);
   }
@@ -129,8 +134,15 @@
       locked ? h('p', { class: 'lede-note gaps' }, h('span', { class: 'gap-dots', 'aria-hidden': 'true' }, '· '.repeat(Math.min(locked, 10)).trim()), ' ' + locked + ' still undiscovered') : null,
       beyond.size ? block('Connected beyond ' + w.id.toLowerCase(), h('div', { class: 'links' }, [...beyond.values()].map((n) => chip(ctx, n)))) : null,
       threads.length ? block('Threads', h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id }, t.title)))) : null,
-      debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id }, d.title)))) : null
+      debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id }, d.title)))) : null,
+      open.length && worldCards(C, id).length ? block('Deepen', worldCards(C, id).map(deepCard)) : null
     );
+  }
+
+  function worldCards(C, worldId) {
+    const home = C.deepening.filter((c) => c.home === worldId);
+    const children = C.deepening.filter((c) => home.some((p) => p.id === c.home));
+    return home.concat(children).filter((c) => c.text);
   }
 
   // ---- YOUR WORDS (private notes on an idea) -----------------------------------------
@@ -139,6 +151,7 @@
 
   function yourWords(ctx, n) {
     const wrap = h('section', { class: 'block yw' });
+    const ask = n.yourWordsPrompt || 'Explain ' + n.name + ' in your own words.';
     let showAll = false;
 
     const editor = (initial, onSave, onCancel, ask) => {
@@ -214,9 +227,9 @@
         onclick: () =>
           addArea.replaceChildren(
             editor('', (t) => {
-              if (BF.notes.add(ctx.player, { nodeIds: [n.id], text: t, prompt: 'Explain ' + n.name + ' in your own words.' })) ctx.save();
+              if (BF.notes.add(ctx.player, { nodeIds: [n.id], text: t, prompt: ask })) ctx.save();
               draw();
-            }, draw, 'Explain ' + n.name + ' in your own words.')
+            }, draw, ask)
           ),
       }, 'Add a new note +');
       addArea.append(addBtn);
@@ -296,14 +309,14 @@
       words.length || unfound
         ? block(
             'Words',
-            words.map((w) => quoteBlock(w)),
+            words.map((w) => quoteBlock(w, { cite: true })),
             unfound ? h('p', { class: 'lede-note' }, words.length ? 'More words wait in play.' : 'Words wait in play.') : null
           )
         : null,
       connected.length ? block('Connected to', h('div', { class: 'links' }, connected.map((c) => chip(ctx, c)))) : null,
       threads.length ? block('Threads', h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id }, t.title)))) : null,
       debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id }, d.title)))) : null,
-      block('Keep this', h('p', { class: 'quote' }, n.share)),
+      block('Keep this', h('p', { class: 'quote' }, n.keepThis || n.share)),
       yourWords(ctx, n),
       more
     );
@@ -321,10 +334,17 @@
       h('p', { class: 'eyebrow' }, 'Thread', h('span', { class: 'sep' }, '·'), t.title),
       h('h1', { class: 'display display--md', tabindex: '-1' }, t.question),
       h('p', { class: 'lede-note' }, 'Different moments. Same question.'),
+      t.cards.filter((cid) => C.deepeningById[cid].text && !t.steps.some((s) => s.cardId === cid)).length
+        ? block('Deepen', t.cards.map((cid) => C.deepeningById[cid]).filter((c) => c.text && !t.steps.some((s) => s.cardId === c.id)).map(deepCard))
+        : null,
       h(
         'ol',
         { class: 'thread-steps' },
         t.steps.map((st) => {
+          if (st.cardId) {
+            const c = C.deepeningById[st.cardId];
+            return c && c.text ? h('li', { class: 'is-card' }, h('span', { class: 'step-name' }, c.title), h('span', { class: 'step-sub' }, c.text)) : null;
+          }
           const nid = st.nodeIds.find((x) => GR.nodeState(G, player, x) !== 'locked');
           if (!nid) return h('li', { class: 'is-locked' }, h('span', { class: 'muted' }, 'Not yet discovered'));
           const n = C.nodesById[nid];
@@ -373,7 +393,7 @@
                   const n = C.nodesById[nid];
                   return h('div', { class: 'idea', 'data-world': n.world }, h('a', { href: '#/idea/' + nid }, n.subject), h('p', {}, n.coreIdea));
                 })
-              : h('p', { class: 'muted' }, 'Material for this side will be added from the sources.')
+              : h('p', {}, side.summary || 'Material for this side will be added from the sources.')
           )
         )
       ),
@@ -406,7 +426,7 @@
           h(
             'article',
             { class: 'words-item', 'data-world': C.nodesById[w.nodeIds[0]].world },
-            quoteBlock(w),
+            quoteBlock(w, { cite: true }),
             h('div', { class: 'links links--small' }, w.nodeIds.filter((x) => GR.nodeState(G, player, x) !== 'locked').map((x) => chip(ctx, C.nodesById[x])))
           )
         )
