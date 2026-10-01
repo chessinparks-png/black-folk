@@ -1,6 +1,6 @@
 {
   "version": "V1.0",
-  "status": "approved contemporary layer (partial: FREEDOM complete; all other worlds SOURCE BLOCKED pending verification)",
+  "status": "approved contemporary layer",
   "triage": {
     "approved": "final",
     "counts": {
@@ -75,22 +75,21 @@
         }
       ],
       "verification": "Facts verified externally by the project owner; source could not be opened from the build environment."
-    }
-  ],
-  "sourceBlocked": [
+    },
     {
       "id": "V1-002",
       "item": "Law helped construct race",
       "type": "CORE",
       "world": "POWER",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2024 federal revision of race and ethnicity standards (combined question, MENA category)",
-      "candidateSourcesUnopened": [
-        "https://www.federalregister.gov/documents/2024/03/29/2024-06469/revisions-to-ombs-statistical-policy-directive-no-15-standards-for-maintaining-collecting-and"
-      ]
+      "text": "In March 2024, the federal government revised how it collects race and ethnicity data, combining them into one question and adding Middle Eastern or North African as a minimum reporting category.",
+      "bridge": "Official racial categories are still administrative choices the state redefines; in colonial law the stakes were far higher, because the categories it hardened decided status, rights, and inheritance.",
+      "sourceTitle": "2024 Statistical Policy Directive No. 15 Standards",
+      "sourcePublisher": "U.S. Office of Management and Budget (SPD 15 revision site)",
+      "sourceURL": "https://spd15revision.gov/content/spd15revision/en/history/2024-standards.html",
+      "sourceDate": "2024-03",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-017",
@@ -98,14 +97,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2022 posthumous pardon of Homer Plessy",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/2022/01/05/1070700642/homer-plessy-has-been-pardoned-for-arrest-that-led-to-separate-but-equal-ruling",
-        "https://blogs.loc.gov/law/2022/01/the-posthumous-pardon-of-homer-plessy/"
-      ]
+      "text": "In January 2022, Louisiana Gov. John Bel Edwards issued a posthumous pardon to Homer Plessy, whose 1892 arrest had been part of the Citizens' Committee's organized test case against the state's segregation law.",
+      "bridge": "The pardon cannot undo Plessy v. Ferguson, but it reads the arrest the way this lesson does: as an organized Black legal challenge, not a lone passenger's misfortune.",
+      "sourceTitle": "The Posthumous Pardon of Homer Plessy",
+      "sourcePublisher": "Library of Congress (In Custodia Legis blog)",
+      "sourceURL": "https://blogs.loc.gov/law/2022/01/the-posthumous-pardon-of-homer-plessy/",
+      "sourceDate": "2022-01",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-020",
@@ -113,13 +112,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Florida's 2023 African American history standards dispute over enslaved people's agency",
-      "candidateSourcesUnopened": [
-        "https://time.com/6296413/florida-board-of-education-black-history/"
-      ]
+      "text": "Florida's 2023 African American history standards included a benchmark on how enslaved people developed skills that, in some instances, could be applied for their personal benefit. The language drew national criticism and became part of a wider dispute over how slavery and Black agency should be taught.",
+      "bridge": "Du Bois's Black Reconstruction fought over the same ground—how the story of slavery and emancipation describes what enslaved people did and chose—though the benchmark and Du Bois make very different claims.",
+      "sourceTitle": "Florida State Academic Standards — African American History benchmark",
+      "sourcePublisher": "Florida Department of Education",
+      "sourceURL": "https://www.fldoe.org/file/20885/7-3.pdf",
+      "sourceDate": "2023-07",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-021",
@@ -127,13 +127,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Emmett Till Antilynching Act (2022) after 200+ failed bills",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/2022/03/08/1085094040/senate-passes-anti-lynching-bill-and-sends-federal-hate-crimes-legislation-to-bi"
-      ]
+      "text": "In March 2022, the Emmett Till Antilynching Act made lynching a federal hate crime, after Congress had considered anti-lynching bills again and again for more than a century.",
+      "bridge": "In the 1890s Ida B. Wells had to build the case herself, using investigation and statistics to expose the stories told to excuse lynching long before Congress named it a federal crime.",
+      "sourceTitle": "Emmett Till Antilynching Act (Public Law 117-107)",
+      "sourcePublisher": "U.S. Government Publishing Office",
+      "sourceURL": "https://www.govinfo.gov/app/details/PLAW-117publ107",
+      "sourceDate": "2022-03-29",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-030",
@@ -141,14 +142,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "FUTURE Act (2019) permanent HBCU / MSI funding; credit claims disputed",
-      "candidateSourcesUnopened": [
-        "https://www.jones.senate.gov/newsroom/press-releases/senator-doug-jones-future-act-signed-into-law-by-president-trump",
-        "https://politifact.com/factchecks/2020/oct/27/donald-trump/trumps-exaggerated-claim-he-saved-hbcus-2019-fundi/"
-      ]
+      "text": "The FUTURE Act, signed in December 2019, made permanent $255 million a year in mandatory federal funding for Historically Black Colleges and Universities and other minority-serving institutions.",
+      "bridge": "Bethune worked both sides of that equation in the 1930s and 1940s, building Black institutions while pressing federal decision-makers for jobs, education, and policy.",
+      "sourceTitle": "Bill Announcement: FUTURE Act",
+      "sourcePublisher": "The White House (archived)",
+      "sourceURL": "https://trumpwhitehouse.archives.gov/briefings-statements/bill-announcement-69/",
+      "sourceDate": "2019-12",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-032",
@@ -156,13 +157,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "GAO-22-104737 (2022) on schools divided by race and income; district secession",
-      "candidateSourcesUnopened": [
-        "https://www.gao.gov/products/gao-22-104737"
-      ]
+      "text": "A 2022 Government Accountability Office report found that more than a third of U.S. public-school students attended schools where at least 75% of students were of a single race or ethnicity. It also found that district secessions often created new districts with different racial and economic makeups from the ones they left.",
+      "bridge": "Brown changed the constitutional rule in the 1950s; the GAO findings show why this lesson treats changing the rule and changing the institutions as two separate tasks.",
+      "sourceTitle": "K-12 Education: Student Population Has Significantly Diversified, but Many Schools Remain Divided Along Racial, Ethnic, and Economic Lines (GAO-22-104737)",
+      "sourcePublisher": "U.S. Government Accountability Office",
+      "sourceURL": "https://www.gao.gov/products/gao-22-104737",
+      "sourceDate": "2022-06",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-043",
@@ -170,13 +172,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Louisiana v. Callais (2026) after Allen v. Milligan (2023)",
-      "candidateSourcesUnopened": [
-        "https://supreme.justia.com/cases/federal/us/608/24-109/"
-      ]
+      "text": "In April 2026, the U.S. Supreme Court decided Louisiana v. Callais, a redistricting case over Louisiana's second majority-Black congressional district that further shaped how Section 2 of the Voting Rights Act can be used.",
+      "bridge": "After Shelby County, this lesson traced voting protections being narrowed and reinterpreted after landmark victories, and Callais is a later turn in that same litigation.",
+      "sourceTitle": "Louisiana v. Callais",
+      "sourcePublisher": "Cornell Law School, Legal Information Institute",
+      "sourceURL": "https://www.law.cornell.edu/supremecourt/text/24-109_2026-04-29",
+      "sourceDate": "2026-04-29",
+      "refreshBy": "2027-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-047",
@@ -184,14 +187,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Freedom Georgia Initiative (2020) land purchase; outcome unproven",
-      "candidateSourcesUnopened": [
-        "https://www.cnn.com/2020/09/12/us/freedom-black-cooperative-toomsboro",
-        "https://modernfarmer.com/2022/02/19-families-freedom-georgia-initiative/"
-      ]
+      "text": "In 2020, Black families linked to the Freedom Georgia Initiative bought about 97 acres in Toomsboro, Georgia, describing a plan built on safety, cooperative economics, and a self-sufficient pro-Black community. Its long-term outcome remains uncertain.",
+      "bridge": "The purchase is a small-scale echo of Black nationalist arguments about land and institutions under Black control, not proof that any one version of self-determination works.",
+      "sourceTitle": "Freedom Georgia Initiative Buys 97 Acres to Build New Community",
+      "sourcePublisher": "Planetizen",
+      "sourceURL": "https://www.planetizen.com/news/2020/09/110443-freedom-georgia-initiative-buys-97-acres-build-new-community",
+      "sourceDate": "2020-09",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-049",
@@ -199,14 +202,14 @@
       "type": "CORE",
       "world": "POWER",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Detroit facial-recognition wrongful arrests (2020, 2023); 2024 settlement",
-      "candidateSourcesUnopened": [
-        "https://www.aclu.org/cases/williams-v-city-of-detroit-face-recognition-false-arrest",
-        "https://www.michiganpublic.org/criminal-justice-legal-system/2024-06-28/it-didnt-make-sense-at-all-wrongful-facial-recognition-arrest-leads-to-landmark-settlement"
-      ]
+      "text": "In 2020, Detroit police wrongfully arrested Robert Williams after facial-recognition technology incorrectly matched him to surveillance footage. His lawsuit, and challenges by other Black Detroit residents such as Porcha Woodruff, focused attention on safeguards for police use of the technology.",
+      "bridge": "Criminalization is the process by which institutions decide who is read as suspicious or dangerous; in these Detroit cases, a software match became part of that decision.",
+      "sourceTitle": "Williams v. City of Detroit: Face Recognition False Arrest",
+      "sourcePublisher": "American Civil Liberties Union",
+      "sourceURL": "https://www.aclu.org/cases/williams-v-city-of-detroit-face-recognition-false-arrest",
+      "sourceDate": "current case page",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-013",
@@ -214,14 +217,14 @@
       "type": "CORE",
       "world": "EDUCATION",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2021 NKF–ASN recommendation removing race from eGFR",
-      "candidateSourcesUnopened": [
-        "https://www.ajkd.org/article/S0272-6386(22)00859-9/fulltext",
-        "https://www.kidneyfund.org/all-about-kidneys/tests/egfr/egfr-test-change-removal-race-calculation"
-      ]
+      "text": "In September 2021, a National Kidney Foundation and American Society of Nephrology task force recommended a new equation for estimating kidney function that does not include race, and urged U.S. clinical labs to adopt it immediately.",
+      "bridge": "James McCune Smith brought scholarship and professional expertise against racial claims presented as objective science in the 1840s; an evidence review later took race out of a routine medical calculation.",
+      "sourceTitle": "NKF and ASN Release New Way to Diagnose Kidney Diseases",
+      "sourcePublisher": "National Kidney Foundation / American Society of Nephrology",
+      "sourceURL": "https://www.kidney.org/press-room/nkf-and-asn-release-new-way-to-diagnose-kidney-diseases",
+      "sourceDate": "2021-09-23",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-003",
@@ -229,13 +232,14 @@
       "type": "CORE",
       "world": "ECONOMICS",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Heather McGhee, The Sum of Us (2021), 'drained-pool politics'",
-      "candidateSourcesUnopened": [
-        "https://www.cnn.com/2021/03/05/us/heather-mcghee-racism-white-people-blake/index.html"
-      ]
+      "text": "In The Sum of Us (2021), Heather McGhee argues that racial zero-sum thinking can lead people to oppose public goods that would benefit everyone, pointing to communities that drained public pools rather than integrate them.",
+      "bridge": "Colonial elites in the lesson on Bacon's Rebellion had incentives to sharpen racial lines among laboring people with shared grievances; McGhee's argument examines what such divisions cost the people they divide.",
+      "sourceTitle": "Race in America: The Costs of Racism with Heather McGhee",
+      "sourcePublisher": "The Washington Post (Washington Post Live)",
+      "sourceURL": "https://www.washingtonpost.com/washington-post-live/2022/07/21/transcript-race-america-costs-racism-with-heather-mcghee-author-sum-us/",
+      "sourceDate": "2022-07-21",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-016",
@@ -243,14 +247,14 @@
       "type": "CORE",
       "world": "ECONOMICS",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Common-rate refusal by dispersed workers (#DeclineNow); Virginia domestic workers' bill of rights (2021)",
-      "candidateSourcesUnopened": [
-        "https://www.whsv.com/2021/03/02/virginia-10th-state-to-pass-domestic-worker-protections/",
-        "https://www.vice.com/en/article/no-dasher-no-deliveries-doordash-drivers-strike-for-tip-transparency/"
-      ]
+      "text": "In 2021, some DoorDash drivers organized around #DeclineNow, collectively turning down low-paying orders in hopes of pushing offers higher—a shared rule among workers who never share a workplace.",
+      "bridge": "Atlanta's washerwomen faced the same problem of isolated, household-by-household work and answered it by setting common rates together.",
+      "sourceTitle": "Organized DoorDash Drivers' #DeclineNow Strategy Is Driving Up Their Pay",
+      "sourcePublisher": "Vice",
+      "sourceURL": "https://www.vice.com/en/article/organized-doordash-drivers-declinenow-strategy-is-driving-up-their-pay/",
+      "sourceDate": "2021-02",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-024",
@@ -258,14 +262,22 @@
       "type": "CORE",
       "world": "ECONOMICS",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Evanston reparations program (2021); ongoing lawsuit with federal involvement",
-      "candidateSourcesUnopened": [
-        "https://www.nbcnews.com/news/nbcblk/conservative-group-sues-evanston-reparations-racial-discrimination-rcna155634",
-        "https://abc7chicago.com/post/donald-trump-administration-department-justice-seeks-halt-evanston-reparations-program/19312433/"
-      ]
+      "text": "Evanston, Illinois created a local reparations fund in 2019 and committed its first $10 million in municipal cannabis-tax revenue to housing and economic programs for Black residents. In June 2026, the U.S. Justice Department moved to join a lawsuit against the program, alleging it violates the Equal Protection Clause and the Fair Housing Act.",
+      "bridge": "More than a century earlier, Callie House turned reparations from an idea into a mass organization of formerly enslaved people, with members, chapters, and a concrete claim.",
+      "sourceTitle": "Evanston Local Reparations",
+      "sourcePublisher": "City of Evanston",
+      "sourceURL": "https://www.cityofevanston.org/government/initiatives/evanston_local_reparations.php",
+      "sourceDate": "current page (program milestones 2019–2021)",
+      "refreshBy": "2027-10",
+      "additionalSources": [
+        {
+          "sourceTitle": "Flinn v. City of Evanston (N.D. Ill.)",
+          "sourcePublisher": "U.S. Department of Justice, Civil Rights Division",
+          "sourceURL": "https://www.justice.gov/crt/case/flinn-v-city-evanston-nd-ill",
+          "sourceDate": "2026-06-17"
+        }
+      ],
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-029",
@@ -273,13 +285,14 @@
       "type": "CORE",
       "world": "ECONOMICS",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Amazon Bessemer union drive (2021), framed as civil rights + labor; failed",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/2021/01/28/960869795/for-amazon-and-alabama-warehouse-union-vote-would-shake-up-history"
-      ]
+      "text": "In 2021, workers at Amazon's warehouse in Bessemer, Alabama voted on whether to unionize, in a campaign widely discussed in terms of race, class, and civil-rights history. The union lost: the National Labor Relations Board's initial count was 738 for and 1,798 against.",
+      "bridge": "Black Left thinkers of the 1930s and 1940s treated racial hierarchy and labor as one question rather than two, which is how many people framed the Bessemer fight.",
+      "sourceTitle": "NLRB Announces Results in Amazon Election",
+      "sourcePublisher": "National Labor Relations Board",
+      "sourceURL": "https://www.nlrb.gov/news-outreach/news-story/nlrb-announces-results-in-amazon-election",
+      "sourceDate": "2021-04-09",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-050",
@@ -287,14 +300,14 @@
       "type": "CORE",
       "world": "ECONOMICS",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Return of contract-for-deed sales marketed to Black buyers (2016–2019)",
-      "candidateSourcesUnopened": [
-        "https://www.consumerfinance.gov/data-research/research-reports/report-on-contract-for-deed-lending/",
-        "https://fedcommunities.org/built-fail-contracts-for-deeds-often-sell-homeownership-illusion/"
-      ]
+      "text": "Under a contract for deed, a homebuyer can make payments for years without receiving the deed until the contract is fully paid. A 2024 federal consumer-protection report traced a resurgence of these deals after the Great Recession, concentrated among lower-income buyers and communities of color, with terms that can make losing accumulated payments and equity more likely.",
+      "bridge": "Predatory inclusion names this pattern: the door to ownership opens, but the terms of entry can still extract wealth from the people let in.",
+      "sourceTitle": "Report on Contract for Deed Lending",
+      "sourcePublisher": "Consumer Financial Protection Bureau",
+      "sourceURL": "https://www.consumerfinance.gov/data-research/research-reports/report-on-contract-for-deed-lending/",
+      "sourceDate": "2024-08",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-019",
@@ -302,13 +315,14 @@
       "type": "CORE",
       "world": "IDENTITY",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "HBR (2019) 'The Costs of Code-Switching'",
-      "candidateSourcesUnopened": [
-        "https://hbr.org/2019/11/the-costs-of-codeswitching"
-      ]
+      "text": "A 2019 Harvard Business Review article on Black employees' code-switching—adjusting speech, appearance, or behavior to fit dominant workplace norms—reported that white participants often judged Black people who code-switched as more professional, while the effort carried psychological costs.",
+      "bridge": "Du Bois described a related strain in the early 1900s: knowing yourself while also seeing yourself through the eyes of a society that devalues Blackness.",
+      "sourceTitle": "The Costs of Code-Switching",
+      "sourcePublisher": "Harvard Business Review",
+      "sourceURL": "https://hbr.org/2019/11/the-costs-of-codeswitching",
+      "sourceDate": "2019-11",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-039",
@@ -316,13 +330,14 @@
       "type": "CORE",
       "world": "IDENTITY",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Barbara Smith on misuse of Combahee's term 'identity politics'",
-      "candidateSourcesUnopened": [
-        "https://msmagazine.com/2019/12/16/the-ms-qa-barbara-smith-looks-back-on-a-lifetime-of-black-feminist-struggle/"
-      ]
+      "text": "Combahee River Collective members used \"identity politics\" to mean politics built from Black women's own experience of race, gender, class, and sexuality together. Co-founder Barbara Smith has since argued that the term is often used far from that original meaning.",
+      "bridge": "Combahee set out in the 1970s to build politics from Black women's whole position while still working in coalition, the meaning Smith says is often lost.",
+      "sourceTitle": "Until Black Women Are Free, None of Us Will Be Free",
+      "sourcePublisher": "The New Yorker",
+      "sourceURL": "https://www.newyorker.com/news/our-columnists/until-black-women-are-free-none-of-us-will-be-free",
+      "sourceDate": "2020-07",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-041",
@@ -330,13 +345,14 @@
       "type": "CORE",
       "world": "IDENTITY",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Megan Thee Stallion, 'Why I Speak Up for Black Women' (NYT, 2020)",
-      "candidateSourcesUnopened": [
-        "https://www.cnn.com/2020/10/13/entertainment/megan-stallion-opinion-piece/index.html"
-      ]
+      "text": "In an October 2020 essay, Megan Thee Stallion argued that Black women are often disregarded and expected to protect others while receiving less protection themselves. It followed intense public scrutiny of a shooting in which she said she had been harmed.",
+      "bridge": "The Anita Hill hearings showed how a Black woman's credibility can be weighed against racial loyalty when race and gender pull in different directions.",
+      "sourceTitle": "Megan Thee Stallion pens op-ed on protecting Black women",
+      "sourcePublisher": "CBS News",
+      "sourceURL": "https://www.cbsnews.com/news/megan-thee-stallion-pens-op-ed-new-york-times-protecting-black-women/",
+      "sourceDate": "2020-10",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-042",
@@ -344,13 +360,14 @@
       "type": "CORE",
       "world": "IDENTITY",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Pew (2022): one in ten Black people in the U.S. is an immigrant",
-      "candidateSourcesUnopened": [
-        "https://www.pewresearch.org/race-ethnicity/wp-content/uploads/sites/18/2022/01/RE_2022.01.20_Black-Immigrants_FINAL.pdf"
-      ]
+      "text": "About one in ten Black people living in the United States is an immigrant, according to Pew Research Center's 2022 analysis of 2019 data—up from about 3% in 1980.",
+      "bridge": "That growth is part of why this lesson treats U.S. Blackness as a shared identity that still holds distinct national, ethnic, and migration histories.",
+      "sourceTitle": "One-in-Ten Black People Living in the U.S. Are Immigrants",
+      "sourcePublisher": "Pew Research Center",
+      "sourceURL": "https://www.pewresearch.org/race-and-ethnicity/2022/01/20/one-in-ten-black-people-living-in-the-u-s-are-immigrants/",
+      "sourceDate": "2022-01-20",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-045",
@@ -358,13 +375,14 @@
       "type": "CORE",
       "world": "IDENTITY",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "CROWN Act laws; Texas student suspended over locs (2023; court sided with district)",
-      "candidateSourcesUnopened": [
-        "https://www.texastribune.org/2024/02/22/texas-crown-act-judge-barbers-hill/"
-      ]
+      "text": "In 2023, Texas passed a CROWN Act barring discrimination based on hair texture or protective hairstyles associated with race. When the Barbers Hill school district disciplined student Darryl George under its hair-length policy for how he wore his locs, a judge ruled in February 2024 that the policy did not violate the act.",
+      "bridge": "Respectability asks who has to meet dominant standards of appearance to be treated as acceptable—and who gets to decide when they have.",
+      "sourceTitle": "Judge rules Texas school district did not violate CROWN Act in student's hair case",
+      "sourcePublisher": "The Texas Tribune",
+      "sourceURL": "https://www.texastribune.org/2024/02/22/texas-crown-act-judge-barbers-hill/",
+      "sourceDate": "2024-02-22",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-012",
@@ -372,13 +390,14 @@
       "type": "CORE",
       "world": "ORGANIZING",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2020 Black National Convention modeled on Gary (1972)",
-      "candidateSourcesUnopened": [
-        "https://www.csmonitor.com/USA/Politics/2020/0828/First-Black-National-Convention-puts-reform-on-the-agenda"
-      ]
+      "text": "In August 2020, the Movement for Black Lives and partner groups held a virtual Black National Convention to present a Black political agenda, placing it in a line of conventions that includes the 1972 gathering in Gary, Indiana.",
+      "bridge": "The National Negro Conventions of the 1830s were built for the same work: a place to argue over abolition, education, migration, and strategy together, not only to protest.",
+      "sourceTitle": "Black National Convention seeks to shape Black agenda ahead of November elections",
+      "sourcePublisher": "CBS News",
+      "sourceURL": "https://www.cbsnews.com/news/black-national-convention-seeks-to-shape-black-agenda-ahead-of-november-elections/",
+      "sourceDate": "2020-08",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-022",
@@ -386,13 +405,14 @@
       "type": "CORE",
       "world": "ORGANIZING",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2020 surge in Black gun ownership / NAAGA growth",
-      "candidateSourcesUnopened": [
-        "https://www.thetrace.org/2020/12/black-gunowners-self-protection-shooting-club-naaga-member/"
-      ]
+      "text": "In 2020, reporting documented a surge of interest in gun ownership among Black Americans and rapid membership growth in the National African American Gun Association. Many people interviewed cited self-protection and distrust of police protection among their reasons.",
+      "bridge": "Wells argued in the 1890s that when authorities would not protect Black communities, people had to weigh several kinds of leverage and self-protection—migration, boycotts, public exposure, and self-defense.",
+      "sourceTitle": "Black gun owners are joining groups, training and buying firearms amid 2020 unrest",
+      "sourcePublisher": "The Trace",
+      "sourceURL": "https://www.thetrace.org/2020/12/black-gunowners-self-protection-shooting-club-naaga-member/",
+      "sourceDate": "2020-12",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-031",
@@ -400,13 +420,14 @@
       "type": "CORE",
       "world": "ORGANIZING",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Milwaukee Bucks walkout (2020) → NBA arenas as polling places",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/sections/live-updates-protests-for-racial-justice/2020/08/28/907101601/nba-agrees-to-use-arenas-as-polling-places-in-deal-to-resume-playoffs"
-      ]
+      "text": "In August 2020, the Milwaukee Bucks refused to play a playoff game after the police shooting of Jacob Blake, setting off a wider NBA work stoppage. In the talks that followed, the league and players agreed to work with arena owners to turn team-owned buildings into voting sites where allowed, and Milwaukee's Fiserv Forum became an early-voting site.",
+      "bridge": "A. Philip Randolph showed in the 1940s that a credible threat of mass action could move officials who held far more formal power than the people making it.",
+      "sourceTitle": "Fiserv Forum to serve as voting site in 2020 election",
+      "sourcePublisher": "NBA",
+      "sourceURL": "https://www.nba.com/news/milwaukee-bucks-fiserv-forum-voting-site-2020-official-release",
+      "sourceDate": "2020-08",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-033",
@@ -414,13 +435,14 @@
       "type": "CORE",
       "world": "ORGANIZING",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Claudette Colvin's record expunged (2021); she died in 2026",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/2021/12/16/1064890661/claudette-colvin-rosa-parks-arrest-record-expunged"
-      ]
+      "text": "In December 2021, a judge granted Claudette Colvin's request to expunge the juvenile record from her March 1955 arrest in Montgomery for refusing to give up her bus seat—nine months before Rosa Parks.",
+      "bridge": "The Montgomery lesson separates the person who acts, the organizers who build a campaign, and the person who becomes its symbol, and Colvin's own record was still being settled 66 years later.",
+      "sourceTitle": "Claudette Colvin's arrest record expunged 66 years after refusing to give up bus seat",
+      "sourcePublisher": "CBS News",
+      "sourceURL": "https://www.cbsnews.com/news/claudette-colvin-record-expunged/",
+      "sourceDate": "2021-12",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-044",
@@ -428,13 +450,14 @@
       "type": "CORE",
       "world": "ORGANIZING",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "BLM Global Network Foundation finance and chapter disputes (2022); allegations disputed",
-      "candidateSourcesUnopened": [
-        "https://www.charitywatch.org/charity-donating-articles/legal-battle-ensues-over-control-of-black-lives-matter-global-network-foundation-funds"
-      ]
+      "text": "In November 2020, a group of ten local Black Lives Matter chapters publicly demanded more transparency and accountability from the Black Lives Matter Global Network, saying their concerns about decision-making, finances, and the relationship between national leadership and chapters went back to 2016.",
+      "bridge": "The lesson on BLM's decentralized networks raised old questions about leadership, accountability, and continuity, and the chapters' statement turned those questions on the movement's own structure.",
+      "sourceTitle": "Statement From the Frontlines of BLM: It's Time for Accountability",
+      "sourcePublisher": "Black Lives Matter DC / #BLM10 chapters",
+      "sourceURL": "https://www.dcblm.org/in-the-media/statement-from-the-frontlines-of-blm-its-time-for-accountability",
+      "sourceDate": "2020-11-30",
+      "refreshBy": "2027-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-048",
@@ -442,13 +465,14 @@
       "type": "CORE",
       "world": "ORGANIZING",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Ghana's Year of Return (2019) and 2024 diaspora citizenship grants",
-      "candidateSourcesUnopened": [
-        "https://www.voanews.com/a/ghana-s-citizenship-offer-attracts-some-black-americans/7924102.html"
-      ]
+      "text": "In November 2024, Ghana granted citizenship to 524 members of the African diaspora, part of its Year of Return and Beyond the Return efforts to deepen ties with people of African descent abroad.",
+      "bridge": "Pan-Africanism is the effort to turn connection among African-descended peoples into deliberate, organized relationships, and a grant of citizenship makes that connection concrete in law.",
+      "sourceTitle": "524 African Diasporas Granted Ghanaian Citizenship",
+      "sourcePublisher": "Ghana Ministry of the Interior",
+      "sourceURL": "https://www.mint.gov.gh/524-african-diasporas-granted-ghanaian-citizenship/",
+      "sourceDate": "2024-11",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-006",
@@ -456,13 +480,14 @@
       "type": "CORE",
       "world": "CULTURE",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Black churches as COVID-19 vaccination sites (2021)",
-      "candidateSourcesUnopened": [
-        "https://religionnews.com/2021/01/29/black-clergy-offer-churches-as-covid-19-vaccination-sites-roll-up-their-sleeves/"
-      ]
+      "text": "In 2021, Black churches in the Washington, D.C. area and elsewhere opened their buildings as COVID-19 vaccination sites, drawing on their long-standing role as trusted institutions with ongoing relationships in Black communities.",
+      "bridge": "Since the 1700s, independent Black churches have been places where faith, mutual aid, organization, and public action meet, and a vaccination site is a recent form of that role.",
+      "sourceTitle": "Churches stepping up as COVID-19 vaccine sites across the Washington metropolitan area",
+      "sourcePublisher": "Religion News Service",
+      "sourceURL": "https://religionnews.com/2021/03/22/churches-stepping-up-as-covid-19-vaccine-sites-across-the-washington-metropolitan-area/",
+      "sourceDate": "2021-03-22",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-010",
@@ -470,13 +495,14 @@
       "type": "CORE",
       "world": "CULTURE",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Capital B (2022) Black-led nonprofit newsroom; Word In Black",
-      "candidateSourcesUnopened": [
-        "https://www.niemanlab.org/2022/02/capital-b-written-for-and-by-black-people-launches-as-a-nonprofit-newsroom/"
-      ]
+      "text": "In February 2022, Capital B launched as a nonprofit newsroom written for and by Black communities, starting with a national team and a local newsroom in Atlanta.",
+      "bridge": "Freedom's Journal began in the 1820s on the same principle: owning the platform can be part of owning the story.",
+      "sourceTitle": "Capital B, written for and by Black people, launches as a nonprofit newsroom",
+      "sourcePublisher": "Nieman Lab",
+      "sourceURL": "https://www.niemanlab.org/2022/02/capital-b-written-for-and-by-black-people-launches-as-a-nonprofit-newsroom/",
+      "sourceDate": "2022-02",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-026",
@@ -484,13 +510,14 @@
       "type": "CORE",
       "world": "CULTURE",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Speculators flipping young Black artists' work (2021)",
-      "candidateSourcesUnopened": [
-        "https://glasstire.com/2022/06/05/art-dirt-on-speculation-art-flipping-and-the-market/"
-      ]
+      "text": "As demand for painter Amoako Boafo's work surged, some collectors resold paintings bought relatively cheaply for far higher prices at auction—\"flipping\" that, under the U.S. market system, generally pays the artist nothing from the resale.",
+      "bridge": "The Harlem Renaissance was partly an argument over who Black art was for and how patrons and mainstream institutions shaped it, and the flipping debate asks who benefits when demand for a Black artist suddenly rises.",
+      "sourceTitle": "Amoako Boafo Wants to Stop Collectors From Flipping His Work",
+      "sourcePublisher": "Artnet News",
+      "sourceURL": "https://news.artnet.com/art-world/amoako-boafo-1910883",
+      "sourceDate": "2020",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "V1-040",
@@ -498,13 +525,14 @@
       "type": "CORE",
       "world": "CULTURE",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Kendrick Lamar's 2025 Super Bowl halftime show as political narration",
-      "candidateSourcesUnopened": [
-        "https://www.theroot.com/the-complete-breakdown-of-the-symbolism-references-in-1851760266"
-      ]
+      "text": "In February 2025, Kendrick Lamar became the first solo rapper to headline the Super Bowl halftime show, and commentators read the performance as dense with Black cultural and political symbolism.",
+      "bridge": "Hip-hop has worked since the 1980s as a political language that does not need a formal political meeting, even on one of the country's biggest commercial stages.",
+      "sourceTitle": "Media Tip Sheet: Kendrick Lamar Delivers Super Bowl Halftime Show Packed With Politics and Punches",
+      "sourcePublisher": "George Washington University Media Relations",
+      "sourceURL": "https://mediarelations.gwu.edu/media-tip-sheet-kendrick-lamar-delivers-super-bowl-halftime-show-packed-politics-and-punches",
+      "sourceDate": "2025-02",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-01",
@@ -512,13 +540,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Black homeschooling rise in 2020 (Census Household Pulse; measurement caveat)",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/2021/12/13/1061787233/more-black-families-are-homeschooling-their-children-citing-the-pandemic-and-rac"
-      ]
+      "text": "Census Household Pulse estimates showed the share of Black households reporting homeschooling rising from 3.3% to 16.1% between spring and fall 2020, though the Census Bureau cautioned that survey changes and limitations call for care in reading the numbers.",
+      "bridge": "Under emergency conditions, many families faced a version of this thread's choice: stay inside an institution, push it to change, or build an alternative.",
+      "sourceTitle": "Homeschooling on the Rise During COVID-19 Pandemic",
+      "sourcePublisher": "U.S. Census Bureau",
+      "sourceURL": "https://www.census.gov/library/stories/2021/03/homeschooling-on-the-rise-during-covid-19-pandemic.html",
+      "sourceDate": "2021-03",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-02",
@@ -526,13 +555,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Church-led Target boycott (2025–26); contested results",
-      "candidateSourcesUnopened": [
-        "https://wordinblack.com/2026/03/jamal-bryant-target-fast-boycott/"
-      ]
+      "text": "In 2025, Pastor Jamal Bryant and supporters led a church-based boycott of Target after the retailer changed diversity-related commitments, and they ended it in March 2026. Organizers and the company described the results differently.",
+      "bridge": "Leverage asks how people without formal authority make an institution respond—here by withholding the money a retailer depends on, with the outcome still disputed.",
+      "sourceTitle": "Target boycott ends after yearlong campaign",
+      "sourcePublisher": "Axios",
+      "sourceURL": "https://www.axios.com/2026/03/11/target-boycott-ends-dei",
+      "sourceDate": "2026-03-11",
+      "refreshBy": "2027-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-03",
@@ -540,14 +570,22 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Gender Shades (2018) → 2020 face-recognition pullbacks",
-      "candidateSourcesUnopened": [
-        "https://news.mit.edu/2018/study-finds-gender-skin-type-bias-artificial-intelligence-systems-0212",
-        "https://www.technologyreview.com/2020/06/12/1003482/amazon-stopped-selling-police-face-recognition-fight/"
-      ]
+      "text": "In 2018, the Gender Shades study found commercial gender-classification systems far less accurate for darker-skinned women than for lighter-skinned men. In 2020, amid that evidence and wider public pressure, IBM, Amazon, and Microsoft each limited their facial-recognition offerings, especially to police.",
+      "bridge": "McCune Smith, Wells, and Du Bois each used evidence against claims presented as neutral truth, and an accuracy audit applies that method to software.",
+      "sourceTitle": "Study finds gender and skin-type bias in commercial artificial-intelligence systems",
+      "sourcePublisher": "MIT News",
+      "sourceURL": "https://news.mit.edu/2018/study-finds-gender-skin-type-bias-artificial-intelligence-systems-0212",
+      "sourceDate": "2018-02-11",
+      "refreshBy": "2028-10",
+      "additionalSources": [
+        {
+          "sourceTitle": "Amazon stopped selling police its facial-recognition technology. Here's why that matters",
+          "sourcePublisher": "MIT Technology Review",
+          "sourceURL": "https://www.technologyreview.com/2020/06/12/1003482/amazon-stopped-selling-police-face-recognition-fight/",
+          "sourceDate": "2020-06"
+        }
+      ],
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-04",
@@ -555,13 +593,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "AP African American Studies revisions (2023)",
-      "candidateSourcesUnopened": [
-        "https://www.edweek.org/teaching-learning/the-revised-ap-african-american-studies-whats-been-changed-and-why/2023/12"
-      ]
+      "text": "In 2023, the College Board released a revised AP African American Studies framework amid public controversy; topics including Black Lives Matter, reparations, and some material on queer Black life moved from required content to optional areas. The College Board denied that political pressure dictated the changes.",
+      "bridge": "Douglass, Washington, and Baker gave different answers about what education is for, and the AP dispute adds a question about who decides what belongs in the course.",
+      "sourceTitle": "College Board's revised AP African American Studies course draws new criticism",
+      "sourcePublisher": "NPR",
+      "sourceURL": "https://www.npr.org/2023/02/01/1153434464/college-boards-revised-ap-african-american-studies-course-draws-new-criticism",
+      "sourceDate": "2023-02",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-05",
@@ -569,13 +608,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "New Georgia Project voter-registration infrastructure; later turmoil",
-      "candidateSourcesUnopened": [
-        "https://www.ajc.com/politics/once-a-powerhouse-abrams-founded-new-georgia-project-roiled-by-turmoil-and-layoffs/ZIKVS5ZDONHUDCRAP7NH2VK7WE/"
-      ]
+      "text": "The New Georgia Project spent years registering voters and canvassing—including millions of door knocks—before Georgia's high-profile 2020 elections. By 2025 it had gone through layoffs and legal and financial problems, and it shut down.",
+      "bridge": "WHO BUILT IT? looks beneath the headline moment for the registration, staffing, and local organizing that made it possible, and at how hard that infrastructure is to sustain.",
+      "sourceTitle": "New Georgia Project shuts down, ending a decade of political influence in state",
+      "sourcePublisher": "The Atlanta Journal-Constitution",
+      "sourceURL": "https://www.ajc.com/politics/2025/10/new-georgia-project-shuts-down-ending-a-decade-of-political-influence-in-state/",
+      "sourceDate": "2025-10",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-06",
@@ -583,13 +623,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "ADOS lineage debate over who counts for reparations",
-      "candidateSourcesUnopened": [
-        "https://abcnews.com/US/controversial-group-ados-divides-black-americans-fight-economic/story?id=66832680"
-      ]
+      "text": "The American Descendants of Slavery (ADOS) movement argues that Black Americans descended from U.S. slavery should be distinguished from Black immigrants and their descendants in reparations and political claims. The position has drawn disagreement within Black communities over lineage, solidarity, and who qualifies.",
+      "bridge": "This thread keeps asking whether Blackness is racial, national, diasporic, lineage-based, or political, and the ADOS debate turns that question into a dispute over eligibility for a remedy.",
+      "sourceTitle": "Which Americans should get reparations?",
+      "sourcePublisher": "The Washington Post",
+      "sourceURL": "https://www.washingtonpost.com/national/which-americans-should-get-reparations/2019/09/18/271cf744-cab1-11e9-a4f3-c081a126de70_story.html",
+      "sourceDate": "2019-09-18",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-07",
@@ -597,14 +638,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Baltimore home appraised 59% higher after being 'whitewashed' (2021); PAVE action plan (2022)",
-      "candidateSourcesUnopened": [
-        "https://archives.hud.gov/news/2022/pr22-050-factsheet.cfm",
-        "https://www.cbsnews.com/baltimore/news/homeowning-while-black-baltimore-couple-alleges-bias-in-appraisal/"
-      ]
+      "text": "A Black couple in the Baltimore area said their home's second appraisal came in at $750,000—59% higher than one less than seven months earlier—after they removed family photos and had a white colleague stand in for the appraisal visit.",
+      "bridge": "Long after housing discrimination was outlawed, cases like theirs keep this thread's question open: what changes when the law changes, and what stays in everyday practice?",
+      "sourceTitle": "Black couple's home appraisal rises after \"whitewashing\" home",
+      "sourcePublisher": "CBS News",
+      "sourceURL": "https://www.cbsnews.com/news/housing-discrimination-black-home-appraisal/",
+      "sourceDate": "2022",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-08",
@@ -612,14 +653,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Benin's 2024 citizenship law for descendants of the enslaved (ancestry proof; limits)",
-      "candidateSourcesUnopened": [
-        "https://www.france24.com/en/video/20250730-new-benin-law-offers-citizenship-to-descendants-of-african-slaves",
-        "https://allafrica.com/stories/202410020022.html"
-      ]
+      "text": "Under a 2024 law, Benin offers a path to recognized nationality for adult Afro-descendants who can document ancestry from a sub-Saharan African person deported through the transatlantic slave trade; applicants who already hold a sub-Saharan African nationality are excluded.",
+      "bridge": "Blackness across borders asks what connects African-descended people across nations and where the connection breaks, and Benin's law makes that a legal test of belonging generations after forced displacement.",
+      "sourceTitle": "Recognition of Beninese nationality for Afro-descendants",
+      "sourcePublisher": "Government of Benin (Afro-Origines portal)",
+      "sourceURL": "https://afro-origines.gouv.bj/services/1/recognition-of-beninese-nationality-for-afro-descendants",
+      "sourceDate": "2024 law / current implementation",
+      "refreshBy": "2028-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-09",
@@ -627,14 +668,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Serena Williams's 2018 French Open catsuit and the new dress code; WTA rule change (2019)",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/2018/08/24/641549735/one-must-respect-the-game-french-open-bans-serena-williams-catsuit",
-        "https://www.aljazeera.com/features/2019/2/20/after-catsuit-controversy-womens-tennis-modernises-dress-code"
-      ]
+      "text": "In 2018, French Tennis Federation president Bernard Giudicelli announced stricter French Open dress rules and said Serena Williams's black catsuit—which she said helped with circulation after serious postpartum blood clots—would not be accepted, adding that players must \"respect the game and the place.\"",
+      "bridge": "The dress-code dispute brought this thread's question onto a tennis court: who sets the terms of acceptable presentation, and what happens when someone does not meet them?",
+      "sourceTitle": "\"One Must Respect The Game\": French Open Bans Serena Williams' Catsuit",
+      "sourcePublisher": "NPR (via NPR Illinois)",
+      "sourceURL": "https://www.nprillinois.org/generationlisten/2018-08-24/one-must-respect-the-game-french-open-bans-serena-williams-catsuit",
+      "sourceDate": "2018-08-24",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "T-10",
@@ -642,13 +683,14 @@
       "type": "THREAD",
       "world": "CROSS-WORLD",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Black TikTok creators' strike over uncredited dances (2021)",
-      "candidateSourcesUnopened": [
-        "https://www.npr.org/2021/07/01/1011899328/black-tiktok-creators-are-on-strike-to-protest-a-lack-of-credit-for-their-work"
-      ]
+      "text": "In 2021, Black TikTok creators collectively refused to make dances for a new Megan Thee Stallion song, protesting that Black creators originated viral dances without receiving equal credit or benefit.",
+      "bridge": "The Who Owns the Platform? card puts it plainly—visibility is not the same thing as control—and the strike tested who controls credit for Black creativity.",
+      "sourceTitle": "Black TikTok creators are on strike to protest a lack of credit for their work",
+      "sourcePublisher": "NPR (via CapRadio)",
+      "sourceURL": "https://www.capradio.org/news/npr/story?storyid=1010676975",
+      "sourceDate": "2021-07",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "D-03",
@@ -656,11 +698,14 @@
       "type": "DEBATE",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2020-era 'leaderful' vs. centralized movement leadership debates",
-      "candidateSourcesUnopened": []
+      "text": "Scholarship on today's Black liberation movements describes a continuing tension between visible, centralized leadership and decentralized or \"leaderful\" organizing—a contrast the 2020 protests made widely visible, even as many local groups mixed both.",
+      "bridge": "Ella Baker built ordinary people's capacity to lead while King became the movement's most visible voice, and each model carries tradeoffs rather than a verdict.",
+      "sourceTitle": "Chapter on leadership and Black liberation movements",
+      "sourcePublisher": "Oxford Academic",
+      "sourceURL": "https://academic.oup.com/book/39181/chapter-abstract/338655590",
+      "sourceDate": "2021",
+      "refreshBy": "2029-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "D-05",
@@ -668,13 +713,22 @@
       "type": "DEBATE",
       "world": "CROSS-WORLD",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2020 corporate racial-justice pledges (mostly loans/investments) vs. deposits in Black-owned banks",
-      "candidateSourcesUnopened": [
-        "https://www.washingtonpost.com/business/interactive/2021/george-floyd-corporate-america-racial-justice/"
-      ]
+      "text": "A 2021 Washington Post analysis found that the 50 largest U.S. public companies had pledged about $49.5 billion toward racial equity after George Floyd's murder, more than 90% of it as loans or investments. Separately, Netflix said it would move 2% of its cash—initially up to $100 million—into Black banks and other financial institutions serving Black communities.",
+      "bridge": "Integration and Black Power split over access versus control: inclusion in existing institutions is not the same as strengthening institutions that set their own terms.",
+      "sourceTitle": "Corporate America's racial-justice commitments analysis",
+      "sourcePublisher": "The Washington Post",
+      "sourceURL": "https://www.washingtonpost.com/business/interactive/2021/george-floyd-corporate-america-racial-justice/",
+      "sourceDate": "2021",
+      "refreshBy": "2028-10",
+      "additionalSources": [
+        {
+          "sourceTitle": "Banking on Us: Fulfilling Our Pledge to the Black Community",
+          "sourcePublisher": "Netflix",
+          "sourceURL": "https://about.netflix.com/en/news/banking-on-us-fulfilling-our-pledge-to-the-black-community",
+          "sourceDate": "2021-12"
+        }
+      ],
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "D-06",
@@ -682,13 +736,14 @@
       "type": "DEBATE",
       "world": "CROSS-WORLD",
       "placement": "LEAD",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "2021 'trauma porn' vs. 'Black joy' debate over Black screen stories (Them)",
-      "candidateSourcesUnopened": [
-        "https://edition.cnn.com/2021/04/22/opinions/them-two-distant-strangers-black-trauma-porn-hobson/index.html"
-      ]
+      "text": "In 2021, Amazon's series Them and other releases set off a public argument over repeated depictions of Black suffering on screen: some critics called it \"trauma porn,\" while creators and defenders said confronting racial violence can be artistically and historically meaningful.",
+      "bridge": "Hurston refused to make Black art serve only as protest, and the argument over what Black creators owe politics, audiences, and ordinary Black life has never settled on one answer.",
+      "sourceTitle": "Why \"Them\" and \"Two Distant Strangers\" reignited the debate over Black trauma on screen",
+      "sourcePublisher": "Los Angeles Times",
+      "sourceURL": "https://www.latimes.com/entertainment-arts/tv/story/2021-04-19/them-amazon-two-distant-strangers-netflix-debate",
+      "sourceDate": "2021-04-19",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "D-07",
@@ -696,13 +751,14 @@
       "type": "DEBATE",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "#SayHerName (African American Policy Forum)",
-      "candidateSourcesUnopened": [
-        "https://www.forbes.com/sites/marianneschnall/2023/12/15/begin-with-the-story-kimberl-crenshaw-on-sayhername-her-new-book-and-working-toward-gender-inclusive-racial-justice/"
-      ]
+      "text": "The African American Policy Forum's #SayHerName campaign was created to draw attention to Black women, girls, and femmes whose experiences of police violence, the campaign argues, are often missing from public narratives.",
+      "bridge": "Combahee warned in the 1970s that liberation politics fails Black women when men's experience is treated as everyone's, the gap the campaign says it exists to close.",
+      "sourceTitle": "#SayHerName",
+      "sourcePublisher": "African American Policy Forum",
+      "sourceURL": "https://www.aapf.org/sayhername",
+      "sourceDate": "current project page",
+      "refreshBy": "2028-10",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     },
     {
       "id": "D-08",
@@ -710,14 +766,15 @@
       "type": "DEBATE",
       "world": "CROSS-WORLD",
       "placement": "CODA",
-      "status": "SOURCE BLOCKED",
-      "text": "",
-      "bridge": "",
-      "candidateExample": "Minneapolis Question 2 (2021) to replace the police department; defeated",
-      "candidateSourcesUnopened": [
-        "https://ballotpedia.org/Minneapolis,_Minnesota,_Question_2,_Replace_Police_Department_with_Department_of_Public_Safety_Initiative_(November_2021)"
-      ]
+      "text": "In November 2021, Minneapolis voters rejected Question 2, a proposal to replace the Police Department with a Department of Public Safety using a public-health approach, by about 56% to 44%.",
+      "bridge": "FIX IT OR END IT? asks whether a harmful institution can be repaired or must be replaced, and Minneapolis put one specific version of that choice to a public vote.",
+      "sourceTitle": "2021 ballot question results",
+      "sourcePublisher": "City of Minneapolis",
+      "sourceURL": "https://vote.minneapolismn.gov/results-data/election-results/2021/ballot-questions/",
+      "sourceDate": "2021-11",
+      "refreshBy": "2029-04",
+      "verification": "Facts from the externally verified source packet (black_folk_now_hooks_verified_source_packet.md v1.0); packet caveats applied."
     }
   ],
-  "_note": "Only `hooks` is approved content. `sourceBlocked` lists approved LEAD/CODA items whose sources could not be opened from the build environment; their text and bridge are intentionally blank. candidateExample/candidateSourcesUnopened come from the approved triage research and are leads for verification only, not verified facts. NONE items are not listed. Not wired into the app."
+  "_note": "Content only; not wired into the app. FREEDOM hooks were drafted from owner-verified facts; all others from the verified source packet v1.0. NONE items have no hooks. refreshBy windows follow the packet, counted from 2026-10."
 }
