@@ -220,13 +220,13 @@
     {
       "id": "E086",
       "mode": "APPLY",
-      "prompt": "In community design, who decides what a shared space needs?",
+      "prompt": "What makes the redesign an act of care?",
       "answers": [
-        "The designer",
-        "The people who use the space",
-        "Both, together"
+        "Affected people share decision power",
+        "Designers decide alone, then explain",
+        "A survey after construction ends"
       ],
-      "correct_answer": "Both, together",
+      "correct_answer": "Affected people share decision power",
       "reveal": "Community design changes who participates in shaping the conditions. Care becomes structural when people can help shape the conditions they live inside.",
       "points": 20,
       "node_ids": [
@@ -365,13 +365,13 @@
       "stage": [
         "A COMMUNITY SPACE IS BEING REDESIGNED."
       ],
-      "question": "In community design, who decides what a shared space needs?",
+      "question": "What makes the redesign an act of care?",
       "options": [
-        "The designer",
-        "The people who use the space",
-        "Both, together"
+        "Affected people share decision power",
+        "Designers decide alone, then explain",
+        "A survey after construction ends"
       ],
-      "correct": "Both, together"
+      "correct": "Affected people share decision power"
     },
     "E087": {
       "form": "binary",
