@@ -10,6 +10,7 @@ require('../app/js/notes.js');
 require('../app/js/session.js');
 require('../app/js/encounters.js');
 const { content, mastery: M, session: S, graph: GR } = globalThis.BF;
+const BF_CONTENT = globalThis.BF_CONTENT;
 const C = content.load();
 
 let failures = 0;
@@ -448,7 +449,23 @@ const allItems = () => Object.fromEntries([...C.encounters, ...C.discovery].map(
 test('every existing explanation, reveal and card text is unchanged (vs. pre-change snapshot)', () => {
   const items = allItems();
   let n = 0;
-  for (const [id, fields] of Object.entries(SNAP.items)) for (const [k, v] of Object.entries(fields)) { assert.deepEqual(items[id][k], v, id + '.' + k); n++; }
+  // Clarity audit: on audited cards only the question, labels and hint may change, and
+  // the reveal may only gain a first line. Everything else must match exactly.
+  const audited = new Set(BF_CONTENT.interactions._clarity_audit.ids);
+  const QUESTION_FIELDS = ['prompt', 'lead', 'ask', 'choices', 'correct', 'items'];
+  for (const [id, fields] of Object.entries(SNAP.items)) for (const [k, v] of Object.entries(fields)) {
+    n++;
+    if (audited.has(id) && QUESTION_FIELDS.includes(k)) continue;
+    if (audited.has(id) && k === 'reveal') { assert.ok(items[id].reveal === v || items[id].reveal.endsWith('\n\n' + v), id + ' reveal changed'); continue; }
+    assert.deepEqual(items[id][k], v, id + '.' + k);
+  }
+  for (const id of audited) {
+    const was = SNAP.items[id], now = items[id];
+    if (was.choices) assert.equal(now.choices.indexOf(now.correct), was.choices.indexOf(was.correct), id + ': correct answer moved');
+    if (was.choices) assert.equal(now.choices.length, was.choices.length);
+    if (was.items && was.items[0] && was.items[0].bin) assert.deepEqual(now.items.map((i) => i.bin), was.items.map((i) => i.bin), id + ': sort answers changed');
+    if (was.pairs) assert.deepEqual(now.pairs, was.pairs);
+  }
   for (const [id, fields] of Object.entries(SNAP.nodes)) for (const [k, v] of Object.entries(fields)) { assert.deepEqual(C.nodesById[id][k], v, id + '.' + k); n++; }
   for (const [id, v] of Object.entries(SNAP.deepening)) assert.equal((C.deepeningById[id] || {}).text || null, v, id);
   // Derived cards reveal the curriculum's core idea, word for word.
@@ -612,6 +629,49 @@ test('v4 saves upgrade to v5: progress, WORDS and every YOUR WORDS answer kept, 
   assert.deepEqual(player.checks, []);
   assert.equal(N.typeOf(C, player.yourWords[0]), 'explain');
   assert.equal(N.typeOf(C, player.yourWords[1]), 'reflective');
+});
+
+console.log('clarity');
+const INSTRUCTION = /^(Put|Match|Place|Explain|Name|Complete|Pick|Choose|Sort|Tap|Read|Describe|Compare|Say|Type|Write|Connect)\b/;
+const isQuestion = (t) => { t = String(t).trim(); return t.endsWith('?') || INSTRUCTION.test(t); };
+test('every question headline ends in "?" or begins with an instruction verb', () => {
+  const heads = [];
+  const encHead = (e) => {
+    if (e.kind === 'discover') return e.ask ? [e.id + ' ask', e.ask] : null; // reading cards: the statement is the content
+    if (e.kind === 'quote') return null; // a quotation card has no question
+    return [e.id, e.lead || e.prompt];
+  };
+  for (const e of [...C.encounters, ...C.discovery]) { const x = encHead(e); if (x) heads.push(x); }
+  // Generated cards, as they appear in real sessions.
+  const p = M.newPlayer(); const rng = S.makeRng(2); let now = Date.now();
+  const seen = new Set();
+  const take = (s) => s.items.forEach((it) => { if (it.enc.derived && !seen.has(it.enc.id)) { seen.add(it.enc.id); const x = encHead(it.enc); if (x) heads.push(x); } });
+  for (const n of C.nodes) take(S.buildAnchored(C, M.newPlayer(), n.id, { seed: 7 }));
+  for (let k = 0; k < 60; k++) { now += 0.5 * M.DAY; const s = S.buildNext(C, p, { seed: 500 + k, now }); take(s); answerAll(p, s, 'random', rng, now); }
+  for (const n of C.nodes) heads.push(['your words ' + n.id, BF.content.ideaPrompt(C, n).text]);
+  for (const c of Object.values(C.checks)) heads.push(['check ' + c.nodeId, c.ask]);
+  for (const t of C.threads) heads.push([t.id, t.question]);
+  for (const d of C.debates) heads.push([d.id, d.question]);
+  for (const w of C.worlds) heads.push([w.id, w.question]);
+  // A trailing colon is fine only on a lead that introduces the quoted line beneath it.
+  const leads = new Set([...C.encounters, ...C.discovery].filter((e) => e.lead).map((e) => e.lead).concat(['Explain this line:']));
+  const bad = heads.filter(([, t]) => !isQuestion(t) || /…$/.test(String(t).trim()) || (/:$/.test(String(t).trim()) && !leads.has(t)));
+  assert.deepEqual(bad, []);
+  console.log('    ' + heads.length + ' headlines checked (' + seen.size + ' generated cards)');
+});
+test('sort cards and multi-part cards carry a one-line hint', () => {
+  for (const e of C.encounters.filter((x) => x.kind === 'sort')) assert.ok(e.hint && e.hint.length < 60, e.id + ' needs a hint');
+});
+test('no option or sort label leans on a pronoun from another line', () => {
+  const labels = [];
+  for (const e of C.encounters) {
+    for (const c of e.choices || []) labels.push([e.id, c]);
+    for (const it of (e.kind === 'sort' ? e.items : [])) labels.push([e.id, it.text]);
+  }
+  // Allowed: the antecedent sits in the same label, or a plain answer to a yes/no question.
+  const OK = ['Wells opposed journalism; Washington supported it.', 'Not that simple', 'Proof that inclusion equals exclusion', 'Tries to turn that connection into an organized movement'];
+  const bad = labels.filter(([, t]) => /\b(it|this|that|they|them)\b/i.test(t) && !/^(What|Who|Whether|How)\b/.test(t) && !OK.includes(t));
+  assert.deepEqual(bad, []);
 });
 
 console.log(failures ? `\n${failures} failing` : '\nall passing');

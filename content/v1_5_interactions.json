@@ -16,7 +16,7 @@
     },
     "D046": {
       "statement": "Ending something is only half the question.",
-      "ask": "What replaces it?",
+      "ask": "What replaces the thing that ends?",
       "reveal": "Abolition asks what must end—and what must be built in its place."
     },
     "D047": {
@@ -26,7 +26,7 @@
     },
     "D048": {
       "statement": "Diaspora describes connection.",
-      "ask": "What turns it into organized solidarity?",
+      "ask": "What turns that connection into organized solidarity?",
       "reveal": "Pan-Africanism tries to turn global Black connection into organized solidarity across borders."
     },
     "D049": {
@@ -46,7 +46,7 @@
         "vs.",
         "AFRICA"
       ],
-      "question": "Where does the story start?",
+      "question": "Where does Black history start?",
       "options": [
         "1619",
         "Africa"
@@ -59,7 +59,7 @@
       "stage": [
         "ELLA BAKER"
       ],
-      "question": "Strong leadership should…",
+      "question": "According to Ella Baker, what should strong leadership do?",
       "options": [
         "Protect one central voice",
         "Create more leaders"
@@ -73,7 +73,7 @@
         "IDA B. WELLS",
         "→ ?"
       ],
-      "question": "Complete the connection.",
+      "question": "Which of these connects to Ida B. Wells’s work?",
       "options": [
         "Investigative evidence",
         "Federal employment policy",
@@ -99,7 +99,7 @@
       "stage": [
         "WASHINGTON’S BET"
       ],
-      "question": "Build what first?",
+      "question": "In Booker T. Washington’s strategy, what should Black people build first?",
       "options": [
         "Skills and economic strength",
         "Armed insurrection",
@@ -114,7 +114,7 @@
         "↓",
         "ART"
       ],
-      "question": "Must it be protest first?",
+      "question": "In Zora Neale Hurston’s view, must Black life become protest before it can become art?",
       "options": [
         "Yes",
         "No"
@@ -128,7 +128,7 @@
         "JAMES McCUNE SMITH",
         "→ ?"
       ],
-      "question": "Complete the connection.",
+      "question": "Which of these connects to James McCune Smith’s work?",
       "options": [
         "Evidence against racist “science”",
         "Plessy v. Ferguson",
@@ -143,7 +143,7 @@
         "+",
         "IDA B. WELLS"
       ],
-      "question": "What connects them?",
+      "question": "What connects Freedom’s Journal and Ida B. Wells?",
       "options": [
         "Black-controlled media",
         "Industrial education",
@@ -158,7 +158,7 @@
         "COMMON RATES.",
         "A PROTECTIVE ASSOCIATION."
       ],
-      "question": "What did the washerwomen gain?",
+      "question": "What did the Atlanta washerwomen gain by organizing?",
       "options": [
         "Automatic voting rights",
         "More control over their labor"
@@ -171,7 +171,7 @@
       "stage": [
         "MARY McLEOD BETHUNE"
       ],
-      "question": "Inside government, or outside it?",
+      "question": "Where did Mary McLeod Bethune build influence: inside government, outside it, or both?",
       "options": [
         "Inside",
         "Outside",
@@ -184,7 +184,7 @@
       "stage": [
         "EVIDENCE AS RESISTANCE"
       ],
-      "question": "Which pair belongs on this thread?",
+      "question": "Which pair belongs on the EVIDENCE AS RESISTANCE thread?",
       "options": [
         "McCune Smith + Wells",
         "Hampton + Hurston",
@@ -197,7 +197,7 @@
       "stage": [
         "MALCOLM X"
       ],
-      "question": "Where did he increasingly place the struggle?",
+      "question": "Where did Malcolm X increasingly place the Black freedom struggle?",
       "options": [
         "U.S. citizenship alone",
         "Global human rights"
@@ -210,7 +210,7 @@
       "stage": [
         "PLESSY LOST IN COURT."
       ],
-      "question": "What does the case show?",
+      "question": "What does Plessy v. Ferguson show?",
       "options": [
         "A defeat, nothing more",
         "A defeat—and organized resistance"
@@ -225,7 +225,7 @@
         "→ RANDOLPH’S PROTEST THREAT",
         "→ ?"
       ],
-      "question": "Complete the LEVERAGE sequence.",
+      "question": "Which is another example of LEVERAGE, like the two above?",
       "options": [
         "Montgomery boycott",
         "Hurston’s folklore",
@@ -235,7 +235,7 @@
     },
     "E022": {
       "form": "sort",
-      "prompt": "Integration and Black Power asked different questions.",
+      "prompt": "Which question did each movement ask?",
       "bins": [
         "Integration",
         "Black Power"
@@ -250,14 +250,16 @@
           "bin": "Black Power"
         }
       ],
-      "lens": "WHO DECIDES?"
+      "lens": "WHO DECIDES?",
+      "hint": "Pick one for each row.",
+      "reveal_lead": "Integration and Black Power asked different questions."
     },
     "E023": {
       "form": "binary",
       "stage": [
         "RACE · GENDER · CLASS · SEXUALITY"
       ],
-      "question": "One at a time, or together?",
+      "question": "Did the Combahee River Collective treat race, gender, class, and sexuality one at a time, or together?",
       "options": [
         "One at a time",
         "Together"
@@ -275,7 +277,7 @@
       "stage": [
         "FRED HAMPTON’S COALITION"
       ],
-      "question": "It depended most on…",
+      "question": "What did Fred Hampton’s coalition depend on most?",
       "options": [
         "Shared needs + political education",
         "Celebrity leadership",
@@ -288,7 +290,7 @@
       "stage": [
         "WHAT IS EDUCATION FOR?"
       ],
-      "question": "Which three belong here?",
+      "question": "Which three belong on the WHAT IS EDUCATION FOR? thread?",
       "options": [
         "Douglass · Washington · Baker",
         "Hurston · Plessy · Fort Mose",
@@ -304,7 +306,7 @@
       "stage": [
         "HIP-HOP"
       ],
-      "question": "Why is it in an intellectual-history game?",
+      "question": "Why is hip-hop part of an intellectual-history game?",
       "options": [
         "Entertainment history only",
         "Culture can carry ideas"
@@ -321,7 +323,7 @@
       "stage": [
         "WHO DEFINES BLACKNESS?"
       ],
-      "question": "Which pairing fits best?",
+      "question": "Which pair belongs on the WHO DEFINES BLACKNESS? thread?",
       "options": [
         "Du Bois + Hurston",
         "Randolph + Plessy",
@@ -331,7 +333,7 @@
     },
     "E033": {
       "form": "sort",
-      "prompt": "A first comparison—not a permanent box. Both thinkers changed.",
+      "prompt": "Which emphasis belongs to each thinker, at first?",
       "bins": [
         "King",
         "Malcolm X"
@@ -345,7 +347,8 @@
           "text": "Increasingly: self-determination · human rights",
           "bin": "Malcolm X"
         }
-      ]
+      ],
+      "hint": "Pick one for each row."
     },
     "E034": {
       "form": "pick",
@@ -354,7 +357,7 @@
         "+",
         "OUTSIDE PRESSURE"
       ],
-      "question": "Which pair shows both?",
+      "question": "Which pair combined inside access with outside pressure?",
       "options": [
         "Bethune + Randolph",
         "Hurston + Wheatley",
@@ -368,7 +371,7 @@
         "INVITED IN.",
         "LITTLE SAY OVER THE RULES."
       ],
-      "question": "Which older question?",
+      "question": "Being invited in, with little say over the rules, repeats which older question?",
       "options": [
         "Art vs. folklore",
         "Access vs. control"
@@ -382,7 +385,7 @@
       "stage": [
         "A PUBLIC STORY BLAMES A COMMUNITY."
       ],
-      "question": "Wells would ask first:",
+      "question": "What would Ida B. Wells ask first?",
       "options": [
         "What do the facts show?",
         "Who is the best spokesperson?"
@@ -392,7 +395,7 @@
     },
     "E037": {
       "form": "sort",
-      "prompt": "Place each on LEAVE · REFORM · BUILD.",
+      "prompt": "Is each example leaving, reforming, or building?",
       "bins": [
         "Leave",
         "Reform",
@@ -411,7 +414,8 @@
           "text": "Bethune / Black institutions",
           "bin": "Build"
         }
-      ]
+      ],
+      "hint": "Pick one for each row."
     },
     "E039": {
       "lens": "WHAT HAPPENS AFTER THE PROTEST?"
@@ -423,10 +427,10 @@
       ],
       "question": "Did law only record race?",
       "options": [
-        "Only recorded it",
-        "Helped make it"
+        "Law only recorded race",
+        "Law helped make race"
       ],
-      "correct": "Helped make it",
+      "correct": "Law helped make race",
       "verdict": "It helped make it."
     },
     "E042": {
@@ -461,7 +465,7 @@
       "stage": [
         "THE FREEDOM CHURCH"
       ],
-      "question": "Only a place of worship?",
+      "question": "Was the freedom church only a place of worship?",
       "options": [
         "Worship only",
         "Worship + institution"
@@ -524,7 +528,7 @@
         "WHERE YOU LIVE SHAPES",
         "SAFETY · WAGES · POLITICAL POSSIBILITY"
       ],
-      "question": "Moving becomes…",
+      "question": "When where you live shapes safety, wages, and political possibility, what does moving become?",
       "options": [
         "A change of address",
         "A strategy"
@@ -537,7 +541,7 @@
       "stage": [
         "A STEREOTYPE"
       ],
-      "question": "Baldwin’s answer:",
+      "question": "How did James Baldwin answer narrow stereotypes of Black life?",
       "options": [
         "One respectable image",
         "Fuller Black humanity"
@@ -550,7 +554,7 @@
       "stage": [
         "RACISM"
       ],
-      "question": "The Black Left treated it as…",
+      "question": "How did the Black Left understand racism?",
       "options": [
         "Prejudice only",
         "Tied to labor, class, and empire"
@@ -579,7 +583,7 @@
       "stage": [
         "BLACK LIVES MATTER"
       ],
-      "question": "It organized through…",
+      "question": "How did Black Lives Matter organize?",
       "options": [
         "One central leader",
         "Decentralized networks"
@@ -625,7 +629,7 @@
         "ABOLITION",
         "= ending something"
       ],
-      "question": "Is that the whole idea?",
+      "question": "Is ending something the whole idea of abolition?",
       "options": [
         "Yes",
         "No—what gets built?"
@@ -640,7 +644,7 @@
         "vs.",
         "END IT AND BUILD SOMETHING ELSE."
       ],
-      "question": "Both agree it causes harm. What do they disagree about?",
+      "question": "Both sides agree an institution causes harm. What do they disagree about?",
       "options": [
         "Whether harm exists",
         "Whether repair can work"
@@ -655,7 +659,7 @@
         "↓",
         "FREEDOM BUILT."
       ],
-      "question": "Same job?",
+      "question": "Is ending slavery the same job as building freedom?",
       "options": [
         "Yes",
         "No"
@@ -668,7 +672,7 @@
       "stage": [
         "BLACK NATIONALISM"
       ],
-      "question": "One program, or many?",
+      "question": "Is Black nationalism one program, or many?",
       "options": [
         "One fixed doctrine",
         "A family of strategies"
@@ -683,7 +687,7 @@
         "vs.",
         "BLACK CONTROL OF THE ROOM"
       ],
-      "question": "Same thing?",
+      "question": "Are Black faces in the room the same thing as Black control of the room?",
       "options": [
         "Yes",
         "No"
@@ -697,7 +701,7 @@
       "stage": [
         "BLACK POPULATIONS IN MANY COUNTRIES"
       ],
-      "question": "Is that Pan-Africanism yet?",
+      "question": "Do Black populations in many countries already add up to Pan-Africanism?",
       "options": [
         "Yes",
         "Not yet"
@@ -707,21 +711,23 @@
     },
     "E066": {
       "form": "sort",
-      "prompt": "Two words that are easy to blur.",
+      "prompt": "Which word fits each description?",
       "bins": [
         "Diaspora",
         "Pan-Africanism"
       ],
       "items": [
         {
-          "text": "Describes connection",
+          "text": "Describes how people of African descent around the world are connected",
           "bin": "Diaspora"
         },
         {
-          "text": "Tries to organize it",
+          "text": "Tries to turn that connection into an organized movement",
           "bin": "Pan-Africanism"
         }
-      ]
+      ],
+      "hint": "Pick one for each row.",
+      "reveal_lead": "These two are easy to blur: diaspora describes the connection; Pan-Africanism tries to organize it."
     },
     "E067": {
       "form": "binary",
@@ -742,7 +748,7 @@
       "stage": [
         "CRIMINALIZATION"
       ],
-      "question": "What does it study?",
+      "question": "What does the idea of criminalization examine?",
       "options": [
         "Whether crime is real",
         "How danger gets assigned"
@@ -752,18 +758,18 @@
     },
     "E069": {
       "form": "sort",
-      "prompt": "Two close ideas. Keep them apart.",
+      "prompt": "Which idea does each example belong to?",
       "bins": [
         "Law helped construct race",
         "Criminalization"
       ],
       "items": [
         {
-          "text": "Category-making",
+          "text": "Creating racial categories",
           "bin": "Law helped construct race"
         },
         {
-          "text": "Danger-making",
+          "text": "Marking people as dangerous",
           "bin": "Criminalization"
         },
         {
@@ -774,7 +780,9 @@
           "text": "Vagrancy laws and Black Codes",
           "bin": "Criminalization"
         }
-      ]
+      ],
+      "hint": "Pick one for each row.",
+      "reveal_lead": "Two close ideas—keep them apart."
     },
     "E070": {
       "form": "binary",
@@ -784,7 +792,7 @@
         "vs.",
         "“DANGEROUS”"
       ],
-      "question": "Investigate first:",
+      "question": "What should you investigate first?",
       "options": [
         "Who applied the label",
         "Who has better public relations"
@@ -799,7 +807,7 @@
         "You can buy the house.",
         "PRICE ↑ · QUALITY ↓ · LOAN COST ↑"
       ],
-      "question": "Progress?",
+      "question": "Is being let in on these terms progress?",
       "options": [
         "Yes",
         "Not that simple"
@@ -814,11 +822,11 @@
         "LEGAL VICTORY · LIVED REALITY",
         "names a gap."
       ],
-      "question": "What does Predatory Inclusion add?",
+      "question": "What does predatory inclusion add to the gap between legal victory and lived reality?",
       "options": [
         "One mechanism behind the gap",
         "Proof legal victories never matter",
-        "That inclusion equals exclusion"
+        "Proof that inclusion equals exclusion"
       ],
       "correct": "One mechanism behind the gap"
     },
@@ -828,7 +836,7 @@
         "A HOUSING PROGRAM LETS YOU IN.",
         "INFLATED PRICE · POOR PROPERTY · COSTLY LOAN"
       ],
-      "question": "Best fit?",
+      "question": "Which idea best fits this situation?",
       "options": [
         "Predatory inclusion",
         "Marronage",
@@ -843,7 +851,7 @@
         "A JAMAICAN LONDONER",
         "AN AFRO-BRAZILIAN"
       ],
-      "question": "What do you look for?",
+      "question": "Comparing these three people, what should you look for?",
       "options": [
         "One shared culture",
         "The connection—and the break"
@@ -858,7 +866,7 @@
         "AN ARTIST IS TOLD:",
         "SHOW AN “UPLIFTING” IMAGE OF BLACK LIFE."
       ],
-      "question": "Which thread appears?",
+      "question": "Which thread does this situation raise?",
       "options": [
         "Respectability ↔ Refusal",
         "Evidence as resistance",
@@ -867,7 +875,8 @@
       "correct": "Respectability ↔ Refusal"
     },
     "E077": {
-      "prompt": "Match each example to a strategy."
+      "prompt": "Match each example to the strategy it shows.",
+      "lead": ""
     },
     "E078": {
       "form": "pick",
@@ -875,7 +884,7 @@
         "THREE GROUPS DISAGREE ON IDEOLOGY.",
         "THEY AGREE ON ONE CONCRETE GOAL."
       ],
-      "question": "Best fit?",
+      "question": "Which idea best fits this situation?",
       "options": [
         "Operational unity",
         "Double consciousness",
@@ -889,7 +898,7 @@
         "BLACK EDUCATORS TEACH",
         "AROUND A HOSTILE SCHOOL SYSTEM."
       ],
-      "question": "Which thread does this deepen?",
+      "question": "Which thread does this kind of teaching deepen?",
       "options": [
         "What is education for?",
         "Leverage",
@@ -911,6 +920,14 @@
         "The movement"
       ],
       "correct": "The person judged less acceptable"
+    },
+    "E006": {
+      "prompt": "What did Freedom’s Journal give Black communities?"
+    },
+    "E011": {
+      "choices_relabel": {
+        "They had identical diagnoses.": "Wells and Washington had identical diagnoses."
+      }
     }
   },
   "_kept_conventional": {
@@ -918,5 +935,62 @@
     "E006": "Onboarding S01 second choice screen; answers are already short.",
     "E011": "Washington ↔ Wells: the fair contrast needs each side's diagnosis in full.",
     "E014": "Baker ↔ King (onboarding S02/S03): BEST FIT between four short contrasts is the lesson."
+  },
+  "_clarity_audit": {
+    "_note": "Cards rewritten by the clarity audit (docs/clarity_audit.md). Only questions, labels and hints changed; correct answers, scoring and explanations are untouched. reveal_lead adds a first line to the reveal (framing moved out of the question).",
+    "ids": [
+      "D046",
+      "D048",
+      "E001",
+      "E003",
+      "E004",
+      "E006",
+      "E007",
+      "E008",
+      "E009",
+      "E011",
+      "E012",
+      "E013",
+      "E015",
+      "E016",
+      "E017",
+      "E019",
+      "E021",
+      "E022",
+      "E023",
+      "E025",
+      "E026",
+      "E028",
+      "E030",
+      "E033",
+      "E034",
+      "E035",
+      "E036",
+      "E037",
+      "E041",
+      "E044",
+      "E050",
+      "E051",
+      "E052",
+      "E055",
+      "E059",
+      "E060",
+      "E061",
+      "E062",
+      "E063",
+      "E065",
+      "E066",
+      "E068",
+      "E069",
+      "E070",
+      "E071",
+      "E072",
+      "E073",
+      "E074",
+      "E075",
+      "E077",
+      "E078",
+      "E079"
+    ]
   }
 }

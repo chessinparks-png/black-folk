@@ -62,7 +62,7 @@ each line.
 | E076 When BLACK FOLK asks WHO IS "WE"?, what should your next question be? | RECALL card | explain (closest call: it asks for a method, but the card has one model answer) |
 | X-R-* "What is the core idea worth remembering?" (all 50 ideas) | generated RECALL | explain |
 | X-S-* "Explain this line: …" (all 50 ideas) | generated SHARE | explain |
-| X-WR-* "What was the core idea? Then read it in their own words." | generated WORDS recall | explain |
+| X-WR-* "Before you see the quotation: what was the core idea?" | generated WORDS recall | explain |
 | V1-045 Who gets left out when dignity becomes a condition for sympathy? | Respectability idea page | reflective |
 | V1-046 How would you tell whether an institution should be repaired, replaced, or abandoned? | Abolition idea page | reflective |
 | V1-047 What would meaningful Black self-determination require: control of what, by whom, and for whom? | Black Nationalism idea page | reflective |

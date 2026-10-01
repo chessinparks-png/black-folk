@@ -131,7 +131,7 @@
       return {
         id: 'X-WR-' + w.id, mode: 'RECALL', kind: 'recall', derived: true, quoteId: w.id, quoteAfter: true,
         eyebrow: 'Think before revealing', subject: n.name,
-        prompt: 'What was the core idea? Then read it in their own words.', reveal: n.coreIdea,
+        prompt: 'Before you see the quotation: what was the core idea?', reveal: n.coreIdea,
         points: 20, nodeIds: [n.id], mastery: ['RECALL'], difficulty: 'medium',
         source: 'WORDS', answerLabel: 'ANSWER',
       };

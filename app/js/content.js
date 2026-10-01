@@ -103,7 +103,19 @@
   function applyInteraction(e, spec) {
     if (!spec) return e;
     if (spec.lens) e.lens = spec.lens;
+    // Clarity audit: a one-line hint under the question, and framing moved out of a
+    // question into the first line of the reveal (the reveal itself is unchanged).
+    if (spec.hint) e.hint = spec.hint;
+    if (spec.reveal_lead) e.reveal = spec.reveal_lead + '\n\n' + e.reveal;
     if (spec.prompt && !spec.form) e.prompt = spec.prompt;
+    if ('lead' in spec && !spec.form) e.lead = spec.lead || null;
+    if (spec.choices_relabel && e.choices) {
+      // Reword an option without changing which one is correct.
+      const r = spec.choices_relabel;
+      for (const k of Object.keys(r)) if (!e.choices.includes(k)) throw new Error(e.id + ': relabel of unknown option ' + k);
+      e.choices = e.choices.map((c) => r[c] || c);
+      e.correct = r[e.correct] || e.correct;
+    }
     if (!spec.form) return e;
     e.original = { kind: e.kind, prompt: e.prompt, choices: e.choices, correct: e.correct };
     const need = (cond, msg) => {

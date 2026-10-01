@@ -224,7 +224,7 @@
     } else if (enc.form === 'pick') {
       // Short scenario → pick: a small stage, one short question, three short options.
       list.classList.add('choices--short');
-      put(root, lensTag(enc), eyebrow(enc), stageBlock(enc.stage), h('h1', { class: 'question', tabindex: '-1' }, enc.prompt), list);
+      put(root, lensTag(enc), eyebrow(enc), stageBlock(enc.stage), h('h1', { class: 'question', tabindex: '-1' }, enc.prompt), hint(enc.hint), list);
     } else {
       put(root, lensTag(enc), eyebrow(enc), promptBlock(enc), hint(ctx.hint(hintKey)), list);
     }
@@ -787,6 +787,7 @@
       eyebrow(enc),
       w ? quoteBlock(w, { large: true, hideSpeaker: enc.hideSpeaker }) : stageBlock(enc.stage),
       h('h1', { class: 'question', tabindex: '-1' }, enc.prompt),
+      hint(enc.hint),
       row
     );
     let done = false;
@@ -844,7 +845,7 @@
     const list = h('ul', { class: 'sort' });
     const checkBtn = h('button', { class: 'btn btn--primary', disabled: true, onclick: check }, 'Check');
     const actions = h('div', { class: 'actions' }, checkBtn);
-    put(root, lensTag(enc), eyebrow(enc), h('h1', { class: 'question', tabindex: '-1' }, enc.prompt), list, actions);
+    put(root, lensTag(enc), eyebrow(enc), h('h1', { class: 'question', tabindex: '-1' }, enc.prompt), hint(enc.hint), list, actions);
 
     function draw() {
       list.replaceChildren();

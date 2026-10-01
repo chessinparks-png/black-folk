@@ -274,6 +274,19 @@ deserve protection?* It is not presented as a strategy to recommend.
 
 Sources and rationale are in `docs/respectability_revision.md`.
 
+## Question clarity
+
+Every question headline ends in "?" or starts with an instruction verb ("Match…",
+"Put…"), and sort cards carry a one-line hint ("Pick one for each row."). The audit, with
+before/after for each rewritten card, is in `docs/clarity_audit.md`. Rewrites live in
+`content/v1_5_interactions.json`, which uses these fields:
+- `hint`;
+- `reveal_lead`, which adds a first line to a reveal;
+- `lead` / `choices_relabel`;
+- `_clarity_audit.ids`.
+
+Correct answers, scoring and explanations are unchanged, and a test enforces this.
+
 ## Look: quiet, not empty
 
 Each screen carries one world colour as structure:

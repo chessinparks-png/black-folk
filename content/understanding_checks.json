@@ -19,7 +19,7 @@
       "E076": "explain"
     },
     "derived": {
-      "_note": "Cards the app builds from curriculum text. X-R = RECALL (\"What is the core idea worth remembering?\"), X-S = SHARE (\"Explain this line\"), X-WR = WORDS recall (\"What was the core idea? Then read it in their own words.\"). All three reveal the idea's core idea.",
+      "_note": "Cards the app builds from curriculum text. X-R = RECALL (\"What is the core idea worth remembering?\"), X-S = SHARE (\"Explain this line\"), X-WR = WORDS recall (\"Before you see the quotation: what was the core idea?\"). All three reveal the idea's core idea.",
       "X-R": "explain",
       "X-S": "explain",
       "X-WR": "explain"
