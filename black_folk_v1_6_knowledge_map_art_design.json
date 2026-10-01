@@ -1,0 +1,3716 @@
+{
+  "project": "BLACK FOLK",
+  "version": "V1.6 — arts/design expansion",
+  "purpose": "Knowledge graph for the 50-node BLACK FOLK V1.5 curriculum. Preserve sparse reveal behavior; new depth should appear through discovered connections, not a busier home screen.",
+  "design_principles": [
+    "The map begins sparse and fills in through play.",
+    "People/ideas are primary; worlds organize without becoming textbook chapters.",
+    "Connections should be revealed, not dumped on the player at once.",
+    "Threads are recurring patterns; debates are genuine disagreements.",
+    "WORDS are exact, verified quotations and are visually distinct from paraphrases.",
+    "The player should be able to see gaps in knowledge without seeing a punitive score."
+  ],
+  "visual_object_types": {
+    "curriculum": "thinker, movement, institution, historical idea, or cultural idea",
+    "world": "one of the seven conceptual worlds",
+    "thread": "recurring intellectual pattern",
+    "debate": "historically grounded disagreement or strategic contrast",
+    "context": "historical background",
+    "words": "verified quotation"
+  },
+  "progress_states": {
+    "locked": "not yet encountered; may appear as a faint unlabeled dot in zoomed-out view",
+    "discovered": "encountered at least once",
+    "connected": "player has completed at least one meaningful connection involving this node",
+    "familiar": "successful review across more than one mastery dimension",
+    "strong": "strong recall plus at least one connection/context/share/apply success"
+  },
+  "unlock_logic": {
+    "curriculum_node": "unlock on first DISCOVER or other first exposure",
+    "quote": "unlock when shown in a WORDS encounter; then save permanently to the linked node",
+    "thread": "unlock after at least 2 member nodes are discovered and one thread connection is encountered",
+    "debate": "unlock only after required sides have each been introduced",
+    "context": "show after the first linked curriculum node is discovered; deepen as more linked nodes appear",
+    "edge": "do not show every possible edge; prioritize edges the player has actually encountered"
+  },
+  "explore_flow": [
+    "EXPLORE landing: seven worlds plus discovered counts",
+    "World view: discovered curriculum nodes, faint locked gaps, visible unlocked threads",
+    "Node detail: CORE IDEA → WHY THEN → WORDS → CONNECTED TO → THREADS → DEBATES → YOUR WORDS later",
+    "Thread view: question at center with discovered examples arranged around it",
+    "Debate view: SAME QUESTION with both positions presented sympathetically",
+    "WORDS view: only quotations the player has discovered"
+  ],
+  "nodes": [
+    {
+      "id": "WORLD-FREEDOM",
+      "type": "world",
+      "label": "FREEDOM",
+      "question": "What does freedom actually require?",
+      "default_visibility": "visible"
+    },
+    {
+      "id": "WORLD-POWER",
+      "type": "world",
+      "label": "POWER",
+      "question": "Who gets to decide, and how is power exercised?",
+      "default_visibility": "visible"
+    },
+    {
+      "id": "WORLD-EDUCATION",
+      "type": "world",
+      "label": "EDUCATION",
+      "question": "What is learning for?",
+      "default_visibility": "visible"
+    },
+    {
+      "id": "WORLD-ECONOMICS",
+      "type": "world",
+      "label": "ECONOMICS",
+      "question": "Who controls work, wealth, and resources?",
+      "default_visibility": "visible"
+    },
+    {
+      "id": "WORLD-IDENTITY",
+      "type": "world",
+      "label": "IDENTITY",
+      "question": "Who defines Blackness and the self?",
+      "default_visibility": "visible"
+    },
+    {
+      "id": "WORLD-ORGANIZING",
+      "type": "world",
+      "label": "ORGANIZING",
+      "question": "How do people act together?",
+      "default_visibility": "visible"
+    },
+    {
+      "id": "WORLD-CULTURE",
+      "type": "world",
+      "label": "CULTURE",
+      "question": "What can art, faith, media, language, and design do?",
+      "default_visibility": "visible"
+    },
+    {
+      "id": "V1-001",
+      "type": "curriculum",
+      "label": "Africa before enslavement",
+      "kind": "historical_idea",
+      "world": "IDENTITY",
+      "era": "pre-1619",
+      "core_idea": "Black American history sits inside a longer African history; enslavement is a rupture, not the beginning of Black existence.",
+      "share": "Black history doesn’t start in 1619. It starts in Africa.",
+      "lens": "Ask what changes when a people’s story begins before their oppression.",
+      "source": "Four Hundred Souls",
+      "source_section": "1624–1629: Africa",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-002",
+      "type": "curriculum",
+      "label": "Law helped construct race",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1600s",
+      "core_idea": "Colonial law did not merely reflect racial categories; it helped harden them by assigning unequal status, rights, and inheritance.",
+      "share": "Racist law didn’t just enforce race. It helped define what race meant.",
+      "lens": "Legal categories can shape social categories, not just record them.",
+      "source": "Four Hundred Souls + Black AF History",
+      "source_section": "1664–1709 chapters; Black AF History 'How White People Were Invented'",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-003",
+      "type": "curriculum",
+      "label": "Bacon’s Rebellion and divided interests",
+      "kind": "historical_idea",
+      "world": "ECONOMICS",
+      "era": "1670s",
+      "core_idea": "Colonial elites had incentives to sharpen racial divisions among laboring people who could otherwise share economic grievances.",
+      "share": "Race and class can divide people who share material problems.",
+      "lens": "When a coalition breaks, ask what interests or identities are pulling people apart.",
+      "source": "Four Hundred Souls",
+      "source_section": "1674–1679: Bacon’s Rebellion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-004",
+      "type": "curriculum",
+      "label": "Marronage and autonomous communities",
+      "kind": "movement_idea",
+      "world": "FREEDOM",
+      "era": "1700s",
+      "core_idea": "Some enslaved people pursued freedom by leaving slave society and building alternative communities such as maroon settlements and Fort Mose.",
+      "share": "Sometimes freedom meant escaping the system and building somewhere else.",
+      "lens": "Leave, reform, or build: different strategies begin with different ideas of what is possible.",
+      "source": "Four Hundred Souls",
+      "source_section": "1719–1724: Maroons and Marronage; 1734–1739: From Fort Mose to Soul City",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-005",
+      "type": "curriculum",
+      "label": "The spirituals",
+      "kind": "cultural_idea",
+      "world": "CULTURE",
+      "era": "1700s",
+      "core_idea": "Spirituals could carry theology, memory, coded meaning, endurance, and visions of freedom simultaneously.",
+      "share": "A song can carry history, faith, and strategy at the same time.",
+      "lens": "Culture can do intellectual work even when it does not look like an essay.",
+      "source": "Four Hundred Souls",
+      "source_section": "1724–1729: The Spirituals",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-006",
+      "type": "curriculum",
+      "label": "Freedom church",
+      "kind": "institution_idea",
+      "world": "CULTURE",
+      "era": "1700s",
+      "core_idea": "Independent Black religious life became a place where faith, collective organization, mutual aid, and claims for freedom could meet.",
+      "share": "The Black church became both a sanctuary and an organizing institution.",
+      "lens": "Institutions can preserve ideas because people meet there repeatedly, not just because leaders speak there.",
+      "source": "Four Hundred Souls",
+      "source_section": "David George / freedom church; Savannah and early Black churches",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-007",
+      "type": "curriculum",
+      "label": "Phillis Wheatley",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1760s",
+      "core_idea": "Black literary achievement challenged claims of Black intellectual inferiority while exposing the burden of having to prove humanity to a hostile public.",
+      "share": "Wheatley had to write poems—and prove Black people could think.",
+      "lens": "Marginalized people are often asked to create and justify their right to create at once.",
+      "source": "Four Hundred Souls",
+      "source_section": "1764–1769: Phillis Wheatley",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-008",
+      "type": "curriculum",
+      "label": "Liberty’s contradiction",
+      "kind": "historical_idea",
+      "world": "FREEDOM",
+      "era": "1700s",
+      "core_idea": "Enlightenment and Revolutionary language about universal liberty coexisted with racial hierarchy and slavery, giving Black people both a contradiction to expose and a language to claim.",
+      "share": "America preached universal liberty while deciding who counted as universal.",
+      "lens": "Compare a society’s principles with who actually receives the rights those principles promise.",
+      "source": "Four Hundred Souls",
+      "source_section": "1749–1754: Race and the Enlightenment; 1774–1779: The American Revolution",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-009",
+      "type": "curriculum",
+      "label": "Denmark Vesey",
+      "kind": "thinker_organizer",
+      "world": "ORGANIZING",
+      "era": "1820s",
+      "core_idea": "Black resistance could require secret networks, trust, planning, and a willingness to pursue collective freedom under severe repression.",
+      "share": "Rebellion required organization long before it required action.",
+      "lens": "Under repression, trust and information control become part of strategy.",
+      "source": "Four Hundred Souls",
+      "source_section": "1819–1824: Denmark Vesey",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-010",
+      "type": "curriculum",
+      "label": "Freedom’s Journal",
+      "kind": "institution_idea",
+      "world": "CULTURE",
+      "era": "1820s",
+      "core_idea": "Black-controlled media let Black communities speak for themselves rather than depend on white institutions to define Black life.",
+      "share": "Owning the platform can be part of owning the story.",
+      "lens": "Ask who controls the channel through which a community is described.",
+      "source": "Four Hundred Souls",
+      "source_section": "1824–1829: Freedom’s Journal",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-011",
+      "type": "curriculum",
+      "label": "Maria Stewart",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1830s",
+      "core_idea": "Stewart connected Black advancement to education, public voice, economic ambition, and the political agency of Black women.",
+      "share": "Stewart argued that Black freedom could not leave Black women behind.",
+      "lens": "When a movement says 'the people,' ask who is actually included in that phrase.",
+      "source": "Four Hundred Souls",
+      "source_section": "1829–1834: Maria Stewart",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-012",
+      "type": "curriculum",
+      "label": "National Negro Conventions",
+      "kind": "institution_idea",
+      "world": "ORGANIZING",
+      "era": "1830s",
+      "core_idea": "Black political thought developed through institutions where people debated abolition, education, migration, and strategy together.",
+      "share": "Movements need places to argue about strategy, not only places to protest.",
+      "lens": "Deliberation is movement infrastructure too.",
+      "source": "Four Hundred Souls",
+      "source_section": "1834–1839: The National Negro Conventions",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-013",
+      "type": "curriculum",
+      "label": "James McCune Smith",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1840s",
+      "core_idea": "Black intellectuals used scholarship and professional expertise to challenge racial pseudoscience and supposedly objective claims of inferiority.",
+      "share": "McCune Smith fought racist 'science' with evidence and expertise.",
+      "lens": "When prejudice dresses itself as fact, ask what the evidence actually shows.",
+      "source": "Four Hundred Souls",
+      "source_section": "1844–1849: James McCune Smith, M.D.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-014",
+      "type": "curriculum",
+      "label": "Frederick Douglass",
+      "kind": "thinker",
+      "world": "FREEDOM",
+      "era": "1850s–1860s",
+      "core_idea": "Douglass linked literacy, abolition, citizenship, political action, and the destruction of slavery; personal escape was not enough while the system remained.",
+      "share": "Douglass escaped slavery, then spent his life attacking the system itself.",
+      "lens": "Individual mobility and collective freedom are different measurements.",
+      "source": "Four Hundred Souls",
+      "source_section": "1859–1864: Frederick Douglass",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-015",
+      "type": "curriculum",
+      "label": "Reconstruction",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1865–1877",
+      "core_idea": "Emancipation opened a second struggle over citizenship, voting, education, labor, land, and political power.",
+      "share": "Ending slavery answered one question. Reconstruction asked what freedom required next.",
+      "lens": "After a formal barrier falls, ask who controls institutions and resources afterward.",
+      "source": "Four Hundred Souls + Black AF History",
+      "source_section": "1869–1874: Reconstruction; Black AF History Reconstruction discussion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-016",
+      "type": "curriculum",
+      "label": "Atlanta washerwomen",
+      "kind": "movement_idea",
+      "world": "ECONOMICS",
+      "era": "1870s–1880s",
+      "core_idea": "Black washerwomen used labor autonomy, common rates, mutual-aid traditions, and collective organization to increase control over their work.",
+      "share": "Black washerwomen turned private labor into collective bargaining power.",
+      "lens": "Economic power can begin with workers coordinating rules they previously faced alone.",
+      "source": "Four Hundred Souls",
+      "source_section": "Atlanta / washerwomen and post-Reconstruction Black neighborhoods",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-017",
+      "type": "curriculum",
+      "label": "Plessy and the Citizens’ Committee",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1890s",
+      "core_idea": "Plessy v. Ferguson legalized 'separate but equal,' but the case itself grew from organized Black resistance to segregation.",
+      "share": "Plessy was a defeat in court—and the product of organized resistance.",
+      "lens": "A failed legal challenge can still reveal how a community understood the injustice it faced.",
+      "source": "Four Hundred Souls",
+      "source_section": "1894–1899: Plessy v. Ferguson",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-018",
+      "type": "curriculum",
+      "label": "Booker T. Washington",
+      "kind": "thinker",
+      "world": "EDUCATION",
+      "era": "1890s–1900s",
+      "core_idea": "Washington emphasized industrial education, economic strength, and pragmatic advancement as a route toward Black progress in a hostile political environment.",
+      "share": "Washington’s bet: build skills and wealth while navigating a hostile system.",
+      "lens": "A strategy can be judged partly by what risks its author believed were realistic at the time.",
+      "source": "Four Hundred Souls + Black AF History",
+      "source_section": "1899–1904: Booker T. Washington; Wells section",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-019",
+      "type": "curriculum",
+      "label": "W.E.B. Du Bois — double consciousness",
+      "kind": "thinker_idea",
+      "world": "IDENTITY",
+      "era": "1900s",
+      "core_idea": "Du Bois described the strain of knowing oneself while also seeing oneself through a society that devalues Blackness.",
+      "share": "Du Bois named the strain of seeing yourself through hostile eyes.",
+      "lens": "Ask how much self-image comes from one’s own values versus other people’s expectations.",
+      "source": "Black AF History",
+      "source_section": "Introduction / The Souls of Black Folk",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-020",
+      "type": "curriculum",
+      "label": "W.E.B. Du Bois — Black Reconstruction",
+      "kind": "thinker_idea",
+      "world": "POWER",
+      "era": "1930s interpreting 1860s",
+      "core_idea": "Du Bois reframed Reconstruction and emancipation around Black agency, arguing that enslaved people helped destroy slavery by withdrawing labor and joining the freedom struggle.",
+      "share": "Du Bois made enslaved people actors in emancipation, not spectators to it.",
+      "lens": "Ask who disappears when history is told only through presidents, generals, and laws.",
+      "source": "Black AF History",
+      "source_section": "Black Reconstruction / 'The General Strike' discussion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-021",
+      "type": "curriculum",
+      "label": "Ida B. Wells — evidence against racial mythology",
+      "kind": "thinker_idea",
+      "world": "POWER",
+      "era": "1890s",
+      "core_idea": "Wells used investigative reporting and statistics to challenge the claim that lynching was a neutral response to crime.",
+      "share": "Wells attacked lynching by attacking the lie used to justify it.",
+      "lens": "When violence is justified by a story about its victims, check the evidence behind the story.",
+      "source": "Black AF History",
+      "source_section": "Ida B. Wells section",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-022",
+      "type": "curriculum",
+      "label": "Ida B. Wells — leverage and self-protection",
+      "kind": "thinker_idea",
+      "world": "ORGANIZING",
+      "era": "1890s",
+      "core_idea": "Wells treated migration, boycotts, public exposure, and self-defense as forms of leverage when authorities would not protect Black communities.",
+      "share": "Wells paired truth-telling with economic pressure and self-protection.",
+      "lens": "Moral argument and leverage are different tools; movements may use both.",
+      "source": "Black AF History",
+      "source_section": "Ida B. Wells section; Mob Rule discussion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-023",
+      "type": "curriculum",
+      "label": "Mary Church Terrell",
+      "kind": "thinker_organizer",
+      "world": "EDUCATION",
+      "era": "1890s–1950s",
+      "core_idea": "Terrell used education, writing, club work, anti-lynching advocacy, women’s rights, and direct challenges to segregation as mutually reinforcing forms of public action.",
+      "share": "Terrell turned education and status into tools for public action.",
+      "lens": "Private achievement can become civic power when it is converted into institutions and organizing.",
+      "source": "Black AF History",
+      "source_section": "Mary Church Terrell section",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-024",
+      "type": "curriculum",
+      "label": "Callie House",
+      "kind": "thinker_organizer",
+      "world": "ECONOMICS",
+      "era": "1890s–1910s",
+      "core_idea": "House helped build a mass reparations movement among formerly enslaved people through local chapters, churches, agents, and membership organization.",
+      "share": "The reparations movement had mass organizers more than a century ago.",
+      "lens": "A demand becomes a movement when ordinary people have a structure for participating in it.",
+      "source": "Black AF History",
+      "source_section": "Ex-slave pension / Callie House discussion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-025",
+      "type": "curriculum",
+      "label": "The Great Migration",
+      "kind": "historical_idea",
+      "world": "FREEDOM",
+      "era": "1910s–1970s",
+      "core_idea": "Migration became a strategy for pursuing safety, wages, political possibility, and autonomy, not simply a change of address.",
+      "share": "Millions moved because geography itself could shape freedom.",
+      "lens": "Leaving can be a political strategy when place determines opportunity and safety.",
+      "source": "Four Hundred Souls",
+      "source_section": "1914–1919: The Great Migration",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-026",
+      "type": "curriculum",
+      "label": "Harlem Renaissance",
+      "kind": "cultural_idea",
+      "world": "CULTURE",
+      "era": "1920s",
+      "core_idea": "The Harlem Renaissance became an argument about who could define Black life and what Black art owed to politics, audiences, and white patronage.",
+      "share": "The Harlem Renaissance was also a debate about who Black art was for.",
+      "lens": "Art can seek recognition, protest, autonomy, or several goals at once.",
+      "source": "Four Hundred Souls",
+      "source_section": "1924–1929: The Harlem Renaissance",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-027",
+      "type": "curriculum",
+      "label": "Zora Neale Hurston",
+      "kind": "thinker_artist",
+      "world": "CULTURE",
+      "era": "1920s–1930s",
+      "core_idea": "Hurston treated Black vernacular, folklore, humor, and ordinary life as worthy subjects without requiring them to function only as protest.",
+      "share": "Hurston let Black life be more than an argument about racism.",
+      "lens": "Creators from marginalized groups may resist being asked to represent the whole group.",
+      "source": "Four Hundred Souls",
+      "source_section": "1934–1939: Zora Neale Hurston",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-028",
+      "type": "curriculum",
+      "label": "James Baldwin",
+      "kind": "thinker_artist",
+      "world": "IDENTITY",
+      "era": "1950s",
+      "core_idea": "Baldwin pushed against narrow depictions of Black life and used autobiography, criticism, and global perspective to insist on fuller Black humanity.",
+      "share": "Baldwin refused narrow stories about what Black life was allowed to be.",
+      "lens": "A stereotype can be challenged not only by rebutting it, but by expanding the range of lives shown.",
+      "source": "Four Hundred Souls",
+      "source_section": "1954–1959 cultural chapter / Notes of a Native Son discussion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-029",
+      "type": "curriculum",
+      "label": "The Black Left",
+      "kind": "intellectual_tradition",
+      "world": "ECONOMICS",
+      "era": "1930s–1940s",
+      "core_idea": "Black radicals linked racial hierarchy to labor, capitalism, imperialism, and class instead of treating racism only as prejudice.",
+      "share": "The Black Left tied race to who owned, worked, and profited.",
+      "lens": "Ask whether an inequality is about attitudes, institutions, economic structure, or several at once.",
+      "source": "Four Hundred Souls",
+      "source_section": "1944–1949: The Black Left",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-030",
+      "type": "curriculum",
+      "label": "Mary McLeod Bethune",
+      "kind": "thinker_organizer",
+      "world": "POWER",
+      "era": "1930s–1940s",
+      "core_idea": "Bethune combined Black institution-building with access to federal decision-makers to pursue jobs, education, and policy opportunities.",
+      "share": "Bethune built institutions outside government and leverage inside it.",
+      "lens": "Access and independence can be complementary forms of power.",
+      "source": "Black AF History",
+      "source_section": "Mary McLeod Bethune section",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-031",
+      "type": "curriculum",
+      "label": "A. Philip Randolph",
+      "kind": "thinker_organizer",
+      "world": "ORGANIZING",
+      "era": "1940s",
+      "core_idea": "Randolph used the credible threat of mass protest to increase pressure on federal officials over employment discrimination.",
+      "share": "Randolph’s leverage came from people organized behind the threat.",
+      "lens": "Access matters differently when an organizer also has an independent base of support.",
+      "source": "Black AF History",
+      "source_section": "Bethune / Randolph / Executive Order 8802 discussion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-032",
+      "type": "curriculum",
+      "label": "Brown v. Board",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "1950s",
+      "core_idea": "Brown overturned the constitutional basis for school segregation, while demonstrating that changing the legal rule and changing institutions are separate tasks.",
+      "share": "Brown changed the rule before it changed the reality.",
+      "lens": "After any reform, ask separately what changed in law and what changed in practice.",
+      "source": "Four Hundred Souls",
+      "source_section": "1949–1954: The Road to Brown v. Board",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-033",
+      "type": "curriculum",
+      "label": "Montgomery 1955 — organizer, action, symbol",
+      "kind": "case",
+      "world": "ORGANIZING",
+      "era": "1955",
+      "core_idea": "Claudette Colvin, Rosa Parks, Jo Ann Robinson, the Women’s Political Council, lawyers, and local networks show that the person who acts, the person who organizes, and the person who becomes the symbol may be different people.",
+      "share": "Parks became the symbol because organizers were already prepared to move.",
+      "lens": "When a movement looks spontaneous, ask who had the network ready beforehand.",
+      "source": "Black AF History",
+      "source_section": "Women who desegregated Montgomery buses",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-034",
+      "type": "curriculum",
+      "label": "Ella Baker",
+      "kind": "thinker",
+      "world": "ORGANIZING",
+      "era": "1950s–1960s",
+      "core_idea": "Baker favored participatory leadership that increased ordinary people’s capacity to act rather than concentrating a movement around a single public figure.",
+      "share": "Baker thought strong leadership should create more leaders.",
+      "lens": "If the visible leader vanished, would the organization still know how to act?",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Ella Baker / Civil Rights Movement chapters",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-035",
+      "type": "curriculum",
+      "label": "Martin Luther King Jr. — nonviolent resistance",
+      "kind": "thinker",
+      "world": "POWER",
+      "era": "1950s–1960s",
+      "core_idea": "King treated disciplined nonviolent resistance as an organizing strategy for confronting injustice publicly, mobilizing broad participation, and applying moral and political pressure.",
+      "share": "King’s nonviolence was a method of resistance, not passive acceptance.",
+      "lens": "A tactic can reject violence while still being confrontational.",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Civil Rights Movement / Black Power discussions",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-036",
+      "type": "curriculum",
+      "label": "Malcolm X",
+      "kind": "thinker",
+      "world": "FREEDOM",
+      "era": "1950s–1960s",
+      "core_idea": "Malcolm X emphasized Black dignity, self-determination, international human rights, and an analysis of Black struggle that extended beyond U.S. citizenship alone.",
+      "share": "Malcolm moved the freedom struggle onto a global human-rights map.",
+      "lens": "A thinker can change strategy while keeping the underlying problem in view.",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Malcolm X / Black Power chapters",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-037",
+      "type": "curriculum",
+      "label": "Stokely Carmichael / Kwame Ture",
+      "kind": "thinker",
+      "world": "POWER",
+      "era": "1960s",
+      "core_idea": "Carmichael/Ture emphasized Black political self-determination and evolved from civil-rights organizing toward Black Power and Pan-Africanism.",
+      "share": "Carmichael shifted the question from inclusion to political control.",
+      "lens": "Representation and agenda-setting power are not the same thing.",
+      "source": "Black AF History + Four Hundred Souls",
+      "source_section": "Black Power chapters",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-038",
+      "type": "curriculum",
+      "label": "Fred Hampton",
+      "kind": "thinker_organizer",
+      "world": "ORGANIZING",
+      "era": "1960s",
+      "core_idea": "Hampton linked political education, community programs, and coalition across racial and ethnic groups around shared material interests.",
+      "share": "Hampton built coalition around concrete needs, not vague solidarity.",
+      "lens": "Coalitions are easier to sustain when groups know what they are trying to win together.",
+      "source": "Black AF History",
+      "source_section": "Fred Hampton / COINTELPRO section",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-039",
+      "type": "curriculum",
+      "label": "Combahee River Collective",
+      "kind": "collective_thought",
+      "world": "IDENTITY",
+      "era": "1970s",
+      "core_idea": "Combahee argued that race, gender, class, and sexuality could operate simultaneously; Black women could build politics from their own position while still forming coalitions.",
+      "share": "Combahee asked politics to see Black women whole, not one category at a time.",
+      "lens": "If a movement helps one part of a group, ask whose experience its analysis may still miss.",
+      "source": "Four Hundred Souls",
+      "source_section": "1974–1979: Combahee River Collective",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-040",
+      "type": "curriculum",
+      "label": "Hip-hop generation",
+      "kind": "cultural_idea",
+      "world": "CULTURE",
+      "era": "1980s",
+      "core_idea": "Hip-hop became a space where a new generation narrated Black urban life, politics, creativity, alienation, and identity outside older movement forms.",
+      "share": "Hip-hop became a political language without needing to look like a political meeting.",
+      "lens": "A generation may build its intellectual vocabulary through culture before institutions recognize it as thought.",
+      "source": "Four Hundred Souls",
+      "source_section": "1984–1989: The Hip-Hop Generation",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-041",
+      "type": "curriculum",
+      "label": "Anita Hill and Black women’s public voice",
+      "kind": "historical_idea",
+      "world": "IDENTITY",
+      "era": "1990s",
+      "core_idea": "The Anita Hill hearings forced public debate over race, gender, sexual harassment, credibility, and whether Black women’s experiences could be subordinated to other political loyalties.",
+      "share": "Anita Hill exposed what happens when race and gender demand different loyalties.",
+      "lens": "When two forms of injustice intersect, single-issue politics can leave people without a full language for their experience.",
+      "source": "Four Hundred Souls",
+      "source_section": "1989–1994: Anita Hill",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-042",
+      "type": "curriculum",
+      "label": "Black immigrant identity",
+      "kind": "historical_idea",
+      "world": "IDENTITY",
+      "era": "1990s–2000s",
+      "core_idea": "Blackness in the United States includes immigrants whose national, ethnic, and racial identities interact with a U.S. racial system that may read them simply as Black.",
+      "share": "Black identity can unite people without erasing where they came from.",
+      "lens": "A broad identity can create solidarity while still containing many histories inside it.",
+      "source": "Four Hundred Souls",
+      "source_section": "1999–2004: The Black Immigrant",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-043",
+      "type": "curriculum",
+      "label": "Voting rights after Shelby",
+      "kind": "historical_idea",
+      "world": "POWER",
+      "era": "2000s–2010s",
+      "core_idea": "The history of voting rights shows that legal protections can be weakened or reinterpreted after major victories, making political rights an ongoing institutional question.",
+      "share": "Voting rights can expand, contract, and require protection again.",
+      "lens": "A right’s existence and the durability of the institutions protecting it are different questions.",
+      "source": "Four Hundred Souls",
+      "source_section": "2009–2014: The Shelby Ruling",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-044",
+      "type": "curriculum",
+      "label": "Black Lives Matter — organizational form",
+      "kind": "movement_idea",
+      "world": "ORGANIZING",
+      "era": "2010s",
+      "core_idea": "Black Lives Matter drew on Black feminist and grassroots traditions while using decentralized networks to organize in a media environment very different from mid-century movements.",
+      "share": "Modern movements inherited old questions about leadership, power, and whose lives count.",
+      "lens": "Compare how decentralized and leader-centered organizations handle speed, accountability, visibility, and continuity.",
+      "source": "Four Hundred Souls",
+      "source_section": "2014–2019: Black Lives Matter",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CTX-01",
+      "type": "context",
+      "label": "The Constitution and slavery",
+      "purpose": "Background for founding-era freedom and later citizenship debates.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CTX-02",
+      "type": "context",
+      "label": "Lynching and racial terror",
+      "purpose": "Background for Wells, Washington, migration, and Black political strategy.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CTX-03",
+      "type": "context",
+      "label": "COINTELPRO",
+      "purpose": "Background for King, Malcolm X, Hampton, Carmichael/Ture, and Black Power.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CTX-04",
+      "type": "context",
+      "label": "Jim Crow",
+      "purpose": "Background for Plessy, Washington, Wells, Great Migration, and civil-rights strategy.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CTX-05",
+      "type": "context",
+      "label": "The War on Drugs and mass incarceration",
+      "purpose": "Late-twentieth-century background without turning policy history into a thinker node.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CTX-06",
+      "type": "context",
+      "label": "Hurricane Katrina",
+      "purpose": "Modern context for state capacity, race, place, inequality, and public institutions.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CTX-07",
+      "type": "context",
+      "label": "Civil Rights Act / Voting Rights Act",
+      "purpose": "Legal context for civil-rights victories and later debates about implementation and durability.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-01",
+      "type": "debate",
+      "label": "Washington ↔ Du Bois",
+      "question": "What should education and Black advancement prioritize?",
+      "rule": "Present both strategies in their historical setting; do not designate a winner.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-02",
+      "type": "debate",
+      "label": "Washington ↔ Wells",
+      "question": "What strategy makes sense when racial terror is the immediate threat?",
+      "rule": "Compare diagnoses and available leverage; do not caricature Washington.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-03",
+      "type": "debate",
+      "label": "Baker ↔ King",
+      "question": "How should movement leadership work?",
+      "rule": "Compare grassroots leadership development with the advantages of visible centralized leadership.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-04",
+      "type": "debate",
+      "label": "King ↔ Malcolm X",
+      "question": "How should resistance relate to nonviolence, self-defense, citizenship, and human rights?",
+      "rule": "Use dated positions because both thinkers evolved.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-05",
+      "type": "debate",
+      "label": "Integration ↔ Black Power",
+      "question": "Is access to institutions enough, or is control over decisions the deeper goal?",
+      "rule": "Treat this as a strategic distinction, not a moral scorecard.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-06",
+      "type": "debate",
+      "label": "Hurston ↔ protest-art tradition",
+      "question": "What does Black art owe to political struggle?",
+      "rule": "Do not invent a single opponent; use the Harlem Renaissance/Black Arts context until a source-supported thinker pair is added.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-07",
+      "type": "debate",
+      "label": "Combahee ↔ male-centered liberation politics",
+      "question": "What gets missed when race politics treats men’s experience as the default?",
+      "rule": "Use the source’s documented critique; do not reduce all Black nationalism to one position.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-01",
+      "type": "thread",
+      "label": "LEAVE · REFORM · BUILD",
+      "question": "Do you leave an oppressive institution, reform it, or build another one?",
+      "path": [
+        "Marronage/Fort Mose",
+        "Great Migration",
+        "Brown/Reconstruction",
+        "Bethune",
+        "Black Power"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-02",
+      "type": "thread",
+      "label": "LEVERAGE",
+      "question": "How do people without formal authority make powerful institutions respond?",
+      "path": [
+        "Wells boycotts",
+        "Randolph protest threat",
+        "Montgomery boycott",
+        "Hampton coalition"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-03",
+      "type": "thread",
+      "label": "EVIDENCE AS RESISTANCE",
+      "question": "How can research challenge ideas presented as objective truth?",
+      "path": [
+        "McCune Smith",
+        "Ida B. Wells",
+        "Du Bois"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-04",
+      "type": "thread",
+      "label": "WHAT IS EDUCATION FOR?",
+      "question": "Is education for literacy, livelihood, leadership, institutions, political consciousness—or several at once?",
+      "path": [
+        "Wheatley",
+        "Douglass",
+        "Washington",
+        "Bethune",
+        "Baker",
+        "Hampton"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-05",
+      "type": "thread",
+      "label": "WHO BUILT IT?",
+      "question": "What invisible infrastructure sits underneath the famous event or leader?",
+      "path": [
+        "National Negro Conventions",
+        "Montgomery",
+        "Baker",
+        "Boynton/context",
+        "BLM"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-06",
+      "type": "thread",
+      "label": "WHO DEFINES BLACKNESS?",
+      "question": "Who gets to define what Black life means?",
+      "path": [
+        "African identities",
+        "Du Bois",
+        "Harlem Renaissance",
+        "Hurston",
+        "Baldwin",
+        "Hip-hop",
+        "Black immigrant identity"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-07",
+      "type": "thread",
+      "label": "LEGAL VICTORY · LIVED REALITY",
+      "question": "What changes when the law changes—and what does not?",
+      "path": [
+        "Reconstruction",
+        "Plessy",
+        "Brown",
+        "Voting Rights",
+        "Shelby"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W001",
+      "type": "words",
+      "label": "Freedom’s Journal editors",
+      "speaker": "Freedom’s Journal editors",
+      "text": "We wish to plead our own cause",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1824–1829: Freedom’s Journal",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W002",
+      "type": "words",
+      "label": "Freedom’s Journal editors",
+      "speaker": "Freedom’s Journal editors",
+      "text": "Too long have others spoken for us.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1824–1829: Freedom’s Journal",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W003",
+      "type": "words",
+      "label": "Maria Stewart",
+      "speaker": "Maria Stewart",
+      "text": "Sue for your rights and privileges. Know the reason you cannot attain them.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1829–1834: Maria Stewart",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W004",
+      "type": "words",
+      "label": "Maria Stewart",
+      "speaker": "Maria Stewart",
+      "text": "possess the spirit of men, bold and enterprising, fearless and undaunted.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1829–1834: Maria Stewart",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W005",
+      "type": "words",
+      "label": "Booker T. Washington",
+      "speaker": "Booker T. Washington",
+      "text": "Cast down your bucket where you are.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1899–1904: Booker T. Washington",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W006",
+      "type": "words",
+      "label": "Booker T. Washington",
+      "speaker": "Booker T. Washington",
+      "text": "The wisest among my race understand that the agitation of questions of social equality is the extremist folly.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1899–1904: Booker T. Washington",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W007",
+      "type": "words",
+      "label": "Frederick Douglass",
+      "speaker": "Frederick Douglass",
+      "text": "a mightier work than the abolition of slavery",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1859–1864: Frederick Douglass",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W008",
+      "type": "words",
+      "label": "Frederick Douglass",
+      "speaker": "Frederick Douglass",
+      "text": "Men talk of the Negro problem. There is no Negro problem",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1859–1864: Frederick Douglass",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W009",
+      "type": "words",
+      "label": "Frederick Douglass",
+      "speaker": "Frederick Douglass",
+      "text": "shall not brand the Declaration of Independence as a lie.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1859–1864: Frederick Douglass",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W010",
+      "type": "words",
+      "label": "Frederick Douglass",
+      "speaker": "Frederick Douglass",
+      "text": "there is no power on earth which can deny that he has earned the right to citizenship.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "Civil War / Reconstruction",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W011",
+      "type": "words",
+      "label": "W.E.B. Du Bois",
+      "speaker": "W.E.B. Du Bois",
+      "text": "How does it feel to be a problem?",
+      "source_book": "Black AF History",
+      "source_section": "Introduction / The Souls of Black Folk",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W012",
+      "type": "words",
+      "label": "W.E.B. Du Bois",
+      "speaker": "W.E.B. Du Bois",
+      "text": "two souls, two thoughts, two unreconciled strivings",
+      "source_book": "Black AF History",
+      "source_section": "Introduction / The Souls of Black Folk",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W013",
+      "type": "words",
+      "label": "Ida B. Wells",
+      "speaker": "Ida B. Wells",
+      "text": "lynching is not invoked to punish crime but color",
+      "source_book": "Black AF History",
+      "source_section": "Ida B. Wells",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W014",
+      "type": "words",
+      "label": "Ida B. Wells",
+      "speaker": "Ida B. Wells",
+      "text": "one had better die fighting against injustice than to die like a dog or rat in a trap.",
+      "source_book": "Black AF History",
+      "source_section": "Ida B. Wells / armed self-defense discussion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W015",
+      "type": "words",
+      "label": "Ida B. Wells",
+      "speaker": "Ida B. Wells",
+      "text": "save our money and leave a town which will neither protect our lives and property",
+      "source_book": "Black AF History",
+      "source_section": "Ida B. Wells / Memphis Free Speech",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W016",
+      "type": "words",
+      "label": "Mary McLeod Bethune",
+      "speaker": "Mary McLeod Bethune",
+      "text": "But more can be done",
+      "source_book": "Black AF History",
+      "source_section": "Mary McLeod Bethune",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W017",
+      "type": "words",
+      "label": "Mary Church Terrell",
+      "speaker": "Mary Church Terrell",
+      "text": "Do you mean to tell me that you are not going to serve me?",
+      "source_book": "Black AF History",
+      "source_section": "Mary Church Terrell",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W018",
+      "type": "words",
+      "label": "James Baldwin",
+      "speaker": "James Baldwin",
+      "text": "We made the world we are living in and we have to make it over again.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "Freedom church essay",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W019",
+      "type": "words",
+      "label": "Stokely Carmichael",
+      "speaker": "Stokely Carmichael",
+      "text": "What we gonna start saying now is Black Power!",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1964–1969: Black Power",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W020",
+      "type": "words",
+      "label": "Martin Luther King Jr.",
+      "speaker": "Martin Luther King Jr.",
+      "text": "the biggest purveyor of violence in the world.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1964–1969: Black Power / antiwar context",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W021",
+      "type": "words",
+      "label": "Malcolm X",
+      "speaker": "Malcolm X",
+      "text": "they would cease to measure others always in terms of their ‘differences in color,’",
+      "source_book": "Black AF History",
+      "source_section": "Malcolm X after Mecca",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W022",
+      "type": "words",
+      "label": "Rosa Parks",
+      "speaker": "Rosa Parks",
+      "text": "talked and talked of everything I know about the white man’s inhuman treatment of the negro.",
+      "source_book": "Black AF History",
+      "source_section": "Rosa Parks / movement formation",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "W023",
+      "type": "words",
+      "label": "Zora Neale Hurston",
+      "speaker": "Zora Neale Hurston",
+      "text": "had been dammed up in me.",
+      "source_book": "Four Hundred Souls",
+      "source_section": "1934–1939: Zora Neale Hurston",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-045",
+      "type": "curriculum",
+      "label": "Respectability",
+      "kind": "concept",
+      "world": "IDENTITY",
+      "era": "1890s–present",
+      "core_idea": "Respectability is the strategy or expectation that Black people can gain legitimacy, protection, opportunity, or acceptance by meeting dominant standards of behavior, appearance, morality, class, or public presentation.",
+      "share": "Respectability asks whether meeting dominant standards can buy protection, legitimacy, or opportunity.",
+      "lens": "Treat respectability as a strategy with real historical uses and real limits; REFUSAL is not the automatically correct answer.",
+      "source": "Black Perspectives audit synthesis + existing BLACK FOLK historical nodes",
+      "source_section": "Vengeance feminism / fury and disrepute cluster; Montgomery; Wells; Terrell; Washington",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-046",
+      "type": "curriculum",
+      "label": "Abolition",
+      "kind": "intellectual_tradition",
+      "world": "FREEDOM",
+      "era": "1800s–present",
+      "core_idea": "Abolition is a Black intellectual and political tradition that asks whether some systems must be ended rather than repaired—and what social institutions must exist so that the ending produces a durable form of freedom.",
+      "share": "Abolition asks what must end—and what must be built in its place.",
+      "lens": "Teach abolition as one tradition in a real reform-versus-replacement debate, not as the app's predetermined answer.",
+      "source": "Keywords for African American Studies",
+      "source_section": "Abolition — Sarah Haley",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-047",
+      "type": "curriculum",
+      "label": "Black Nationalism",
+      "kind": "intellectual_tradition",
+      "world": "POWER",
+      "era": "1800s–present",
+      "core_idea": "Black nationalism is a varied tradition of Black self-determination. Different nationalists have emphasized territory, political unity, economic control, culture, independent institutions, or combinations of these.",
+      "share": "Black nationalism asks what Black self-determination requires in power, institutions, culture, and resources.",
+      "lens": "WHO IS “WE”? Black nationalism raises a second question after self-determination: who belongs to the Black collective that is supposed to determine for itself?",
+      "source": "Keywords for African American Studies",
+      "source_section": "Nationalism — Yohuru Williams",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-048",
+      "type": "curriculum",
+      "label": "Pan-Africanism",
+      "kind": "intellectual_tradition",
+      "world": "ORGANIZING",
+      "era": "1900s–present",
+      "core_idea": "Pan-Africanism is a family of political and cultural projects that tries to turn connections among African-descended peoples into deliberate solidarity, organization, or cooperation across national borders.",
+      "share": "Pan-Africanism tries to turn global Black connection into organized solidarity.",
+      "lens": "Do not treat global Blackness as automatic agreement; Pan-African projects have disagreed over who belongs, what solidarity requires, and whether unity should be cultural, political, economic, or state-based.",
+      "source": "Keywords for African American Studies",
+      "source_section": "Pan-Africanism — Tsitsi Jaji",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-049",
+      "type": "curriculum",
+      "label": "Criminalization",
+      "kind": "concept",
+      "world": "POWER",
+      "era": "1865–present",
+      "core_idea": "Criminalization is the process through which laws, institutions, media, and social narratives define particular people, behaviors, or communities as dangerous and therefore more legitimately punishable or controllable.",
+      "share": "Criminalization asks who gets defined as dangerous—and who gains power from that label.",
+      "lens": "Keep this node focused on the production of danger and punishability. Keep V1-002 focused on the legal production of racial categories themselves.",
+      "source": "Keywords for African American Studies",
+      "source_section": "Criminal — Dylan Rodríguez",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "V1-050",
+      "type": "curriculum",
+      "label": "Predatory Inclusion",
+      "kind": "concept",
+      "world": "ECONOMICS",
+      "era": "late 1960s–present",
+      "core_idea": "Predatory inclusion describes access granted to people previously excluded from a market or institution, but on unequal or exploitative terms that can reproduce extraction rather than equal power.",
+      "share": "Predatory inclusion is access granted on unequal or exploitative terms.",
+      "lens": "Do not imply that all inclusion is predatory. Ask what access changes, what terms remain unequal, and who has the power to refuse or renegotiate them.",
+      "source": "Black Perspectives audit synthesis",
+      "source_section": "Paige Glotzer on Keeanga-Yamahtta Taylor's Race for Profit — predatory inclusion",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-08",
+      "type": "thread",
+      "label": "BLACKNESS ACROSS BORDERS",
+      "question": "What connects Black people across borders, and where does the connection break?",
+      "path": [
+        "Africa before enslavement",
+        "Diaspora (intro concept card)",
+        "Black Nationalism",
+        "Pan-Africanism",
+        "Malcolm X",
+        "Black immigrant identity",
+        "Hip-hop",
+        "Amefricanidade (deepening card)"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-09",
+      "type": "thread",
+      "label": "RESPECTABILITY ↔ REFUSAL",
+      "question": "Should you meet their standards or refuse them, and who pays for each choice?",
+      "path": [
+        "Booker T. Washington",
+        "Ida B. Wells",
+        "Mary Church Terrell",
+        "Respectability",
+        "Montgomery",
+        "Black Power",
+        "Combahee River Collective",
+        "Hip-hop",
+        "Criminalization"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "D-08",
+      "type": "debate",
+      "label": "FIX IT OR END IT?",
+      "question": "When should an institution be repaired, and when should it be replaced?",
+      "rule": "Present reform and abolition as competing strategies; do not score a political winner.",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "T-10",
+      "type": "thread",
+      "label": "WHO DESIGNS THE WORLD?",
+      "question": "Who shapes the images, spaces, systems, platforms, and futures Black people inhabit—and who has the power to redesign them?",
+      "path": [
+        "The spirituals",
+        "Freedom’s Journal",
+        "Harlem Renaissance",
+        "Zora Neale Hurston",
+        "Who Controls the Image? (deepening card)",
+        "Art as Evidence (deepening card)",
+        "The Artist as Organizer (deepening card)",
+        "Black Power / AfriCOBRA",
+        "Hip-hop",
+        "Systems Are Designed Too (deepening card)",
+        "Design as Care (deepening card)",
+        "Who Owns the Platform? (deepening card)",
+        "Who Gets to Imagine the Future? (deepening card)"
+      ],
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-07",
+      "type": "deepening",
+      "label": "Who Controls the Image?",
+      "home": "T-10",
+      "core_idea": "Images do not simply reflect Black life; they can help define who appears human, dangerous, beautiful, respectable, modern, or worthy.",
+      "keep_this": "Representation is power when images shape what people think is possible or true.",
+      "source": "Richard J. Powell, Black Art and Culture in the 20th Century",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-08",
+      "type": "deepening",
+      "label": "Who Is Black Art For?",
+      "home": "T-10",
+      "core_idea": "Black artists have repeatedly argued over whether the work should persuade outsiders, serve Black communities, pursue artistic freedom, protest injustice, or do several things at once.",
+      "keep_this": "Audience changes what art is asked to do.",
+      "source": "Richard J. Powell, Black Art and Culture in the 20th Century",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-09",
+      "type": "deepening",
+      "label": "Art as Evidence",
+      "home": "T-10",
+      "core_idea": "A photograph or visual record can become evidence, memory, witness, and political leverage—but framing and circulation still shape what viewers understand.",
+      "keep_this": "An image can document reality and still raise the question: who framed the story?",
+      "source": "Richard J. Powell, Black Art and Culture in the 20th Century",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-10",
+      "type": "deepening",
+      "label": "The Artist as Organizer",
+      "home": "T-10",
+      "core_idea": "Artists can organize not only through messages in their work but by building collectives, spaces, networks, and institutions that let cultural work survive and circulate.",
+      "keep_this": "A movement can have a studio, a gallery, a magazine, or a design guild.",
+      "source": "Richard J. Powell + The Black Experience in Design",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-11",
+      "type": "deepening",
+      "label": "Systems Are Designed Too",
+      "home": "T-10",
+      "core_idea": "Schools, services, platforms, streets, forms, interfaces, and institutions all embody design choices about access, priorities, behavior, and outcomes.",
+      "keep_this": "If a system produces an outcome repeatedly, ask how it was designed.",
+      "source": "The Black Experience in Design — Eddie Opara and anthology framing",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-12",
+      "type": "deepening",
+      "label": "Design as Care",
+      "home": "T-10",
+      "core_idea": "Design can redistribute access and decision-making by shaping spaces, processes, and institutions around the people most affected by them.",
+      "keep_this": "Care becomes structural when people can help shape the conditions they live inside.",
+      "source": "The Black Experience in Design — community design / Infrastructure of Care",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-13",
+      "type": "deepening",
+      "label": "Who Owns the Platform?",
+      "home": "T-10",
+      "core_idea": "A platform can give Black people visibility and voice while someone else still controls the rules, data, archive, reach, and economic value.",
+      "keep_this": "Visibility is not the same thing as control.",
+      "source": "Black Futures + The Black Experience in Design",
+      "default_visibility": "locked"
+    },
+    {
+      "id": "CARD-14",
+      "type": "deepening",
+      "label": "Who Gets to Imagine the Future?",
+      "home": "T-10",
+      "core_idea": "Imagining Black futures is a form of cultural power: before institutions, technologies, or communities can be built differently, people must be able to picture Black life continuing and flourishing differently.",
+      "keep_this": "Before people build a different world, they have to imagine one.",
+      "source": "Black Futures + The Black Experience in Design",
+      "default_visibility": "locked"
+    }
+  ],
+  "edges": [
+    {
+      "id": "E-WORLD-V1-001",
+      "type": "belongs_to_world",
+      "from": "V1-001",
+      "to": "WORLD-IDENTITY",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-002",
+      "type": "belongs_to_world",
+      "from": "V1-002",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-003",
+      "type": "belongs_to_world",
+      "from": "V1-003",
+      "to": "WORLD-ECONOMICS",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-004",
+      "type": "belongs_to_world",
+      "from": "V1-004",
+      "to": "WORLD-FREEDOM",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-005",
+      "type": "belongs_to_world",
+      "from": "V1-005",
+      "to": "WORLD-CULTURE",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-006",
+      "type": "belongs_to_world",
+      "from": "V1-006",
+      "to": "WORLD-CULTURE",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-007",
+      "type": "belongs_to_world",
+      "from": "V1-007",
+      "to": "WORLD-EDUCATION",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-008",
+      "type": "belongs_to_world",
+      "from": "V1-008",
+      "to": "WORLD-FREEDOM",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-009",
+      "type": "belongs_to_world",
+      "from": "V1-009",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-010",
+      "type": "belongs_to_world",
+      "from": "V1-010",
+      "to": "WORLD-CULTURE",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-011",
+      "type": "belongs_to_world",
+      "from": "V1-011",
+      "to": "WORLD-EDUCATION",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-012",
+      "type": "belongs_to_world",
+      "from": "V1-012",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-013",
+      "type": "belongs_to_world",
+      "from": "V1-013",
+      "to": "WORLD-EDUCATION",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-014",
+      "type": "belongs_to_world",
+      "from": "V1-014",
+      "to": "WORLD-FREEDOM",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-015",
+      "type": "belongs_to_world",
+      "from": "V1-015",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-016",
+      "type": "belongs_to_world",
+      "from": "V1-016",
+      "to": "WORLD-ECONOMICS",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-017",
+      "type": "belongs_to_world",
+      "from": "V1-017",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-018",
+      "type": "belongs_to_world",
+      "from": "V1-018",
+      "to": "WORLD-EDUCATION",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-019",
+      "type": "belongs_to_world",
+      "from": "V1-019",
+      "to": "WORLD-IDENTITY",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-020",
+      "type": "belongs_to_world",
+      "from": "V1-020",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-021",
+      "type": "belongs_to_world",
+      "from": "V1-021",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-022",
+      "type": "belongs_to_world",
+      "from": "V1-022",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-023",
+      "type": "belongs_to_world",
+      "from": "V1-023",
+      "to": "WORLD-EDUCATION",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-024",
+      "type": "belongs_to_world",
+      "from": "V1-024",
+      "to": "WORLD-ECONOMICS",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-025",
+      "type": "belongs_to_world",
+      "from": "V1-025",
+      "to": "WORLD-FREEDOM",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-026",
+      "type": "belongs_to_world",
+      "from": "V1-026",
+      "to": "WORLD-CULTURE",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-027",
+      "type": "belongs_to_world",
+      "from": "V1-027",
+      "to": "WORLD-CULTURE",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-028",
+      "type": "belongs_to_world",
+      "from": "V1-028",
+      "to": "WORLD-IDENTITY",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-029",
+      "type": "belongs_to_world",
+      "from": "V1-029",
+      "to": "WORLD-ECONOMICS",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-030",
+      "type": "belongs_to_world",
+      "from": "V1-030",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-031",
+      "type": "belongs_to_world",
+      "from": "V1-031",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-032",
+      "type": "belongs_to_world",
+      "from": "V1-032",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-033",
+      "type": "belongs_to_world",
+      "from": "V1-033",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-034",
+      "type": "belongs_to_world",
+      "from": "V1-034",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-035",
+      "type": "belongs_to_world",
+      "from": "V1-035",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-036",
+      "type": "belongs_to_world",
+      "from": "V1-036",
+      "to": "WORLD-FREEDOM",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-037",
+      "type": "belongs_to_world",
+      "from": "V1-037",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-038",
+      "type": "belongs_to_world",
+      "from": "V1-038",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-039",
+      "type": "belongs_to_world",
+      "from": "V1-039",
+      "to": "WORLD-IDENTITY",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-040",
+      "type": "belongs_to_world",
+      "from": "V1-040",
+      "to": "WORLD-CULTURE",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-041",
+      "type": "belongs_to_world",
+      "from": "V1-041",
+      "to": "WORLD-IDENTITY",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-042",
+      "type": "belongs_to_world",
+      "from": "V1-042",
+      "to": "WORLD-IDENTITY",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-043",
+      "type": "belongs_to_world",
+      "from": "V1-043",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-044",
+      "type": "belongs_to_world",
+      "from": "V1-044",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-T-01-V1-004",
+      "type": "thread_member",
+      "from": "V1-004",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-01-V1-025",
+      "type": "thread_member",
+      "from": "V1-025",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-01-V1-015",
+      "type": "thread_member",
+      "from": "V1-015",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-01-V1-032",
+      "type": "thread_member",
+      "from": "V1-032",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-01-V1-030",
+      "type": "thread_member",
+      "from": "V1-030",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-01-V1-037",
+      "type": "thread_member",
+      "from": "V1-037",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-02-V1-022",
+      "type": "thread_member",
+      "from": "V1-022",
+      "to": "T-02",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-02-V1-031",
+      "type": "thread_member",
+      "from": "V1-031",
+      "to": "T-02",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-02-V1-033",
+      "type": "thread_member",
+      "from": "V1-033",
+      "to": "T-02",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-02-V1-038",
+      "type": "thread_member",
+      "from": "V1-038",
+      "to": "T-02",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-03-V1-013",
+      "type": "thread_member",
+      "from": "V1-013",
+      "to": "T-03",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-03-V1-021",
+      "type": "thread_member",
+      "from": "V1-021",
+      "to": "T-03",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-03-V1-020",
+      "type": "thread_member",
+      "from": "V1-020",
+      "to": "T-03",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-04-V1-007",
+      "type": "thread_member",
+      "from": "V1-007",
+      "to": "T-04",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-04-V1-014",
+      "type": "thread_member",
+      "from": "V1-014",
+      "to": "T-04",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-04-V1-018",
+      "type": "thread_member",
+      "from": "V1-018",
+      "to": "T-04",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-04-V1-030",
+      "type": "thread_member",
+      "from": "V1-030",
+      "to": "T-04",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-04-V1-034",
+      "type": "thread_member",
+      "from": "V1-034",
+      "to": "T-04",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-04-V1-038",
+      "type": "thread_member",
+      "from": "V1-038",
+      "to": "T-04",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-05-V1-012",
+      "type": "thread_member",
+      "from": "V1-012",
+      "to": "T-05",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-05-V1-033",
+      "type": "thread_member",
+      "from": "V1-033",
+      "to": "T-05",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-05-V1-034",
+      "type": "thread_member",
+      "from": "V1-034",
+      "to": "T-05",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-05-V1-044",
+      "type": "thread_member",
+      "from": "V1-044",
+      "to": "T-05",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-06-V1-001",
+      "type": "thread_member",
+      "from": "V1-001",
+      "to": "T-06",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-06-V1-019",
+      "type": "thread_member",
+      "from": "V1-019",
+      "to": "T-06",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-06-V1-026",
+      "type": "thread_member",
+      "from": "V1-026",
+      "to": "T-06",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-06-V1-027",
+      "type": "thread_member",
+      "from": "V1-027",
+      "to": "T-06",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-06-V1-028",
+      "type": "thread_member",
+      "from": "V1-028",
+      "to": "T-06",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-06-V1-040",
+      "type": "thread_member",
+      "from": "V1-040",
+      "to": "T-06",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-06-V1-042",
+      "type": "thread_member",
+      "from": "V1-042",
+      "to": "T-06",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-07-V1-015",
+      "type": "thread_member",
+      "from": "V1-015",
+      "to": "T-07",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-07-V1-017",
+      "type": "thread_member",
+      "from": "V1-017",
+      "to": "T-07",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-07-V1-032",
+      "type": "thread_member",
+      "from": "V1-032",
+      "to": "T-07",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-07-V1-043",
+      "type": "thread_member",
+      "from": "V1-043",
+      "to": "T-07",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-D-01-V1-018",
+      "type": "debate_member",
+      "from": "V1-018",
+      "to": "D-01",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-01-V1-019",
+      "type": "debate_member",
+      "from": "V1-019",
+      "to": "D-01",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-02-V1-018",
+      "type": "debate_member",
+      "from": "V1-018",
+      "to": "D-02",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-02-V1-021",
+      "type": "debate_member",
+      "from": "V1-021",
+      "to": "D-02",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-02-V1-022",
+      "type": "debate_member",
+      "from": "V1-022",
+      "to": "D-02",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-03-V1-034",
+      "type": "debate_member",
+      "from": "V1-034",
+      "to": "D-03",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-03-V1-035",
+      "type": "debate_member",
+      "from": "V1-035",
+      "to": "D-03",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-04-V1-035",
+      "type": "debate_member",
+      "from": "V1-035",
+      "to": "D-04",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-04-V1-036",
+      "type": "debate_member",
+      "from": "V1-036",
+      "to": "D-04",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-05-V1-032",
+      "type": "debate_member",
+      "from": "V1-032",
+      "to": "D-05",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-05-V1-037",
+      "type": "debate_member",
+      "from": "V1-037",
+      "to": "D-05",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-06-V1-027",
+      "type": "debate_member",
+      "from": "V1-027",
+      "to": "D-06",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-06-V1-026",
+      "type": "debate_member",
+      "from": "V1-026",
+      "to": "D-06",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-D-07-V1-039",
+      "type": "debate_member",
+      "from": "V1-039",
+      "to": "D-07",
+      "reveal_rule": "debate unlocks only after prerequisite curriculum nodes have been introduced"
+    },
+    {
+      "id": "E-CTX-01-V1-008",
+      "type": "context_for",
+      "from": "CTX-01",
+      "to": "V1-008",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-01-V1-014",
+      "type": "context_for",
+      "from": "CTX-01",
+      "to": "V1-014",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-01-V1-015",
+      "type": "context_for",
+      "from": "CTX-01",
+      "to": "V1-015",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-02-V1-018",
+      "type": "context_for",
+      "from": "CTX-02",
+      "to": "V1-018",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-02-V1-021",
+      "type": "context_for",
+      "from": "CTX-02",
+      "to": "V1-021",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-02-V1-022",
+      "type": "context_for",
+      "from": "CTX-02",
+      "to": "V1-022",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-02-V1-025",
+      "type": "context_for",
+      "from": "CTX-02",
+      "to": "V1-025",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-03-V1-035",
+      "type": "context_for",
+      "from": "CTX-03",
+      "to": "V1-035",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-03-V1-036",
+      "type": "context_for",
+      "from": "CTX-03",
+      "to": "V1-036",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-03-V1-037",
+      "type": "context_for",
+      "from": "CTX-03",
+      "to": "V1-037",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-03-V1-038",
+      "type": "context_for",
+      "from": "CTX-03",
+      "to": "V1-038",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-017",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-017",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-018",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-018",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-021",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-021",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-025",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-025",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-027",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-027",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-032",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-032",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-033",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-033",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-04-V1-035",
+      "type": "context_for",
+      "from": "CTX-04",
+      "to": "V1-035",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-05-V1-040",
+      "type": "context_for",
+      "from": "CTX-05",
+      "to": "V1-040",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-05-V1-041",
+      "type": "context_for",
+      "from": "CTX-05",
+      "to": "V1-041",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-05-V1-044",
+      "type": "context_for",
+      "from": "CTX-05",
+      "to": "V1-044",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-06-V1-042",
+      "type": "context_for",
+      "from": "CTX-06",
+      "to": "V1-042",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-06-V1-044",
+      "type": "context_for",
+      "from": "CTX-06",
+      "to": "V1-044",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-07-V1-032",
+      "type": "context_for",
+      "from": "CTX-07",
+      "to": "V1-032",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-07-V1-035",
+      "type": "context_for",
+      "from": "CTX-07",
+      "to": "V1-035",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CTX-07-V1-043",
+      "type": "context_for",
+      "from": "CTX-07",
+      "to": "V1-043",
+      "reveal_rule": "show inside node detail after curriculum node is discovered"
+    },
+    {
+      "id": "E-CONN-E011-V1-018-V1-021",
+      "type": "encounter_connection",
+      "from": "V1-018",
+      "to": "V1-021",
+      "encounter_id": "E011",
+      "connection_mode": "SAME QUESTION",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E011-V1-018-V1-022",
+      "type": "encounter_connection",
+      "from": "V1-018",
+      "to": "V1-022",
+      "encounter_id": "E011",
+      "connection_mode": "SAME QUESTION",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E011-V1-021-V1-022",
+      "type": "encounter_connection",
+      "from": "V1-021",
+      "to": "V1-022",
+      "encounter_id": "E011",
+      "connection_mode": "SAME QUESTION",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E012-V1-010-V1-021",
+      "type": "encounter_connection",
+      "from": "V1-010",
+      "to": "V1-021",
+      "encounter_id": "E012",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E014-V1-034-V1-035",
+      "type": "encounter_connection",
+      "from": "V1-034",
+      "to": "V1-035",
+      "encounter_id": "E014",
+      "connection_mode": "SAME QUESTION",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E016-V1-013-V1-021",
+      "type": "encounter_connection",
+      "from": "V1-013",
+      "to": "V1-021",
+      "encounter_id": "E016",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E021-V1-022-V1-031",
+      "type": "encounter_connection",
+      "from": "V1-022",
+      "to": "V1-031",
+      "encounter_id": "E021",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E021-V1-022-V1-033",
+      "type": "encounter_connection",
+      "from": "V1-022",
+      "to": "V1-033",
+      "encounter_id": "E021",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E021-V1-031-V1-033",
+      "type": "encounter_connection",
+      "from": "V1-031",
+      "to": "V1-033",
+      "encounter_id": "E021",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E022-V1-032-V1-037",
+      "type": "encounter_connection",
+      "from": "V1-032",
+      "to": "V1-037",
+      "encounter_id": "E022",
+      "connection_mode": "SAME QUESTION",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E024-V1-033-V1-039",
+      "type": "encounter_connection",
+      "from": "V1-033",
+      "to": "V1-039",
+      "encounter_id": "E024",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E026-V1-014-V1-018",
+      "type": "encounter_connection",
+      "from": "V1-014",
+      "to": "V1-018",
+      "encounter_id": "E026",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E026-V1-014-V1-034",
+      "type": "encounter_connection",
+      "from": "V1-014",
+      "to": "V1-034",
+      "encounter_id": "E026",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E026-V1-018-V1-034",
+      "type": "encounter_connection",
+      "from": "V1-018",
+      "to": "V1-034",
+      "encounter_id": "E026",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E027-V1-014-V1-018",
+      "type": "encounter_connection",
+      "from": "V1-014",
+      "to": "V1-018",
+      "encounter_id": "E027",
+      "connection_mode": "RECALL",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E030-V1-019-V1-027",
+      "type": "encounter_connection",
+      "from": "V1-019",
+      "to": "V1-027",
+      "encounter_id": "E030",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E033-V1-035-V1-036",
+      "type": "encounter_connection",
+      "from": "V1-035",
+      "to": "V1-036",
+      "encounter_id": "E033",
+      "connection_mode": "SAME QUESTION",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E034-V1-030-V1-031",
+      "type": "encounter_connection",
+      "from": "V1-030",
+      "to": "V1-031",
+      "encounter_id": "E034",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E037-V1-004-V1-030",
+      "type": "encounter_connection",
+      "from": "V1-004",
+      "to": "V1-030",
+      "encounter_id": "E037",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E037-V1-004-V1-032",
+      "type": "encounter_connection",
+      "from": "V1-004",
+      "to": "V1-032",
+      "encounter_id": "E037",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E037-V1-030-V1-032",
+      "type": "encounter_connection",
+      "from": "V1-030",
+      "to": "V1-032",
+      "encounter_id": "E037",
+      "connection_mode": "CONNECT",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E039-V1-012-V1-024",
+      "type": "encounter_connection",
+      "from": "V1-012",
+      "to": "V1-024",
+      "encounter_id": "E039",
+      "connection_mode": "SHARE",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E039-V1-012-V1-034",
+      "type": "encounter_connection",
+      "from": "V1-012",
+      "to": "V1-034",
+      "encounter_id": "E039",
+      "connection_mode": "SHARE",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E039-V1-012-V1-038",
+      "type": "encounter_connection",
+      "from": "V1-012",
+      "to": "V1-038",
+      "encounter_id": "E039",
+      "connection_mode": "SHARE",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E039-V1-024-V1-034",
+      "type": "encounter_connection",
+      "from": "V1-024",
+      "to": "V1-034",
+      "encounter_id": "E039",
+      "connection_mode": "SHARE",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E039-V1-024-V1-038",
+      "type": "encounter_connection",
+      "from": "V1-024",
+      "to": "V1-038",
+      "encounter_id": "E039",
+      "connection_mode": "SHARE",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E039-V1-034-V1-038",
+      "type": "encounter_connection",
+      "from": "V1-034",
+      "to": "V1-038",
+      "encounter_id": "E039",
+      "connection_mode": "SHARE",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-014-V1-018",
+      "type": "encounter_connection",
+      "from": "V1-014",
+      "to": "V1-018",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-014-V1-030",
+      "type": "encounter_connection",
+      "from": "V1-014",
+      "to": "V1-030",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-014-V1-034",
+      "type": "encounter_connection",
+      "from": "V1-014",
+      "to": "V1-034",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-014-V1-038",
+      "type": "encounter_connection",
+      "from": "V1-014",
+      "to": "V1-038",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-018-V1-030",
+      "type": "encounter_connection",
+      "from": "V1-018",
+      "to": "V1-030",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-018-V1-034",
+      "type": "encounter_connection",
+      "from": "V1-018",
+      "to": "V1-034",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-018-V1-038",
+      "type": "encounter_connection",
+      "from": "V1-018",
+      "to": "V1-038",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-030-V1-034",
+      "type": "encounter_connection",
+      "from": "V1-030",
+      "to": "V1-034",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-030-V1-038",
+      "type": "encounter_connection",
+      "from": "V1-030",
+      "to": "V1-038",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-CONN-E040-V1-034-V1-038",
+      "type": "encounter_connection",
+      "from": "V1-034",
+      "to": "V1-038",
+      "encounter_id": "E040",
+      "connection_mode": "MATCH",
+      "reveal_rule": "reveal after this connection has appeared in PLAY or both nodes are familiar"
+    },
+    {
+      "id": "E-W001-V1-010",
+      "type": "words_attached_to",
+      "from": "W001",
+      "to": "V1-010",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W002-V1-010",
+      "type": "words_attached_to",
+      "from": "W002",
+      "to": "V1-010",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W003-V1-011",
+      "type": "words_attached_to",
+      "from": "W003",
+      "to": "V1-011",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W004-V1-011",
+      "type": "words_attached_to",
+      "from": "W004",
+      "to": "V1-011",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W005-V1-018",
+      "type": "words_attached_to",
+      "from": "W005",
+      "to": "V1-018",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W006-V1-018",
+      "type": "words_attached_to",
+      "from": "W006",
+      "to": "V1-018",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W007-V1-014",
+      "type": "words_attached_to",
+      "from": "W007",
+      "to": "V1-014",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W007-V1-015",
+      "type": "words_attached_to",
+      "from": "W007",
+      "to": "V1-015",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W008-V1-014",
+      "type": "words_attached_to",
+      "from": "W008",
+      "to": "V1-014",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W009-V1-014",
+      "type": "words_attached_to",
+      "from": "W009",
+      "to": "V1-014",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W010-V1-014",
+      "type": "words_attached_to",
+      "from": "W010",
+      "to": "V1-014",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W010-V1-015",
+      "type": "words_attached_to",
+      "from": "W010",
+      "to": "V1-015",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W011-V1-019",
+      "type": "words_attached_to",
+      "from": "W011",
+      "to": "V1-019",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W012-V1-019",
+      "type": "words_attached_to",
+      "from": "W012",
+      "to": "V1-019",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W013-V1-021",
+      "type": "words_attached_to",
+      "from": "W013",
+      "to": "V1-021",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W014-V1-022",
+      "type": "words_attached_to",
+      "from": "W014",
+      "to": "V1-022",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W015-V1-022",
+      "type": "words_attached_to",
+      "from": "W015",
+      "to": "V1-022",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W015-V1-025",
+      "type": "words_attached_to",
+      "from": "W015",
+      "to": "V1-025",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W016-V1-030",
+      "type": "words_attached_to",
+      "from": "W016",
+      "to": "V1-030",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W017-V1-023",
+      "type": "words_attached_to",
+      "from": "W017",
+      "to": "V1-023",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W018-V1-028",
+      "type": "words_attached_to",
+      "from": "W018",
+      "to": "V1-028",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W019-V1-037",
+      "type": "words_attached_to",
+      "from": "W019",
+      "to": "V1-037",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W020-V1-035",
+      "type": "words_attached_to",
+      "from": "W020",
+      "to": "V1-035",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W021-V1-036",
+      "type": "words_attached_to",
+      "from": "W021",
+      "to": "V1-036",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W022-V1-033",
+      "type": "words_attached_to",
+      "from": "W022",
+      "to": "V1-033",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-W023-V1-027",
+      "type": "words_attached_to",
+      "from": "W023",
+      "to": "V1-027",
+      "reveal_rule": "quote appears permanently in EXPLORE after it is discovered in PLAY"
+    },
+    {
+      "id": "E-WORLD-V1-045",
+      "type": "belongs_to_world",
+      "from": "V1-045",
+      "to": "WORLD-IDENTITY",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-046",
+      "type": "belongs_to_world",
+      "from": "V1-046",
+      "to": "WORLD-FREEDOM",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-047",
+      "type": "belongs_to_world",
+      "from": "V1-047",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-048",
+      "type": "belongs_to_world",
+      "from": "V1-048",
+      "to": "WORLD-ORGANIZING",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-049",
+      "type": "belongs_to_world",
+      "from": "V1-049",
+      "to": "WORLD-POWER",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-WORLD-V1-050",
+      "type": "belongs_to_world",
+      "from": "V1-050",
+      "to": "WORLD-ECONOMICS",
+      "reveal_rule": "reveal when curriculum node is first encountered"
+    },
+    {
+      "id": "E-T-01-V1-046",
+      "type": "thread_member",
+      "from": "V1-046",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-01-V1-047",
+      "type": "thread_member",
+      "from": "V1-047",
+      "to": "T-01",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-07-V1-050",
+      "type": "thread_member",
+      "from": "V1-050",
+      "to": "T-07",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-08-V1-001",
+      "type": "thread_member",
+      "from": "V1-001",
+      "to": "T-08",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-08-V1-036",
+      "type": "thread_member",
+      "from": "V1-036",
+      "to": "T-08",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-08-V1-040",
+      "type": "thread_member",
+      "from": "V1-040",
+      "to": "T-08",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-08-V1-042",
+      "type": "thread_member",
+      "from": "V1-042",
+      "to": "T-08",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-08-V1-047",
+      "type": "thread_member",
+      "from": "V1-047",
+      "to": "T-08",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-08-V1-048",
+      "type": "thread_member",
+      "from": "V1-048",
+      "to": "T-08",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-018",
+      "type": "thread_member",
+      "from": "V1-018",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-021",
+      "type": "thread_member",
+      "from": "V1-021",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-023",
+      "type": "thread_member",
+      "from": "V1-023",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-033",
+      "type": "thread_member",
+      "from": "V1-033",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-037",
+      "type": "thread_member",
+      "from": "V1-037",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-039",
+      "type": "thread_member",
+      "from": "V1-039",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-040",
+      "type": "thread_member",
+      "from": "V1-040",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-045",
+      "type": "thread_member",
+      "from": "V1-045",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-09-V1-049",
+      "type": "thread_member",
+      "from": "V1-049",
+      "to": "T-09",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-D-08-V1-046",
+      "type": "debate_member",
+      "from": "V1-046",
+      "to": "D-08",
+      "reveal_rule": "edge appears after both the node and debate are unlocked"
+    },
+    {
+      "id": "E-D-08-V1-049",
+      "type": "debate_member",
+      "from": "V1-049",
+      "to": "D-08",
+      "reveal_rule": "edge appears after both the node and debate are unlocked"
+    },
+    {
+      "id": "E-V15-CONN-01",
+      "type": "encounter_connection",
+      "from": "V1-045",
+      "to": "V1-018",
+      "label": "Respectability strategy",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-02",
+      "type": "encounter_connection",
+      "from": "V1-045",
+      "to": "V1-021",
+      "label": "Respectability vs evidence about racial mythology",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-03",
+      "type": "encounter_connection",
+      "from": "V1-045",
+      "to": "V1-023",
+      "label": "Clubwomen and public legitimacy",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-04",
+      "type": "encounter_connection",
+      "from": "V1-045",
+      "to": "V1-033",
+      "label": "Movement symbolism and public acceptability",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-05",
+      "type": "encounter_connection",
+      "from": "V1-045",
+      "to": "V1-039",
+      "label": "WHO IS “WE”? and who sits outside the respectable center",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-06",
+      "type": "encounter_connection",
+      "from": "V1-045",
+      "to": "V1-040",
+      "label": "Respectability backlash and cultural refusal",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-07",
+      "type": "encounter_connection",
+      "from": "V1-045",
+      "to": "V1-049",
+      "label": "Respectability as one answer to criminalization",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-08",
+      "type": "encounter_connection",
+      "from": "V1-046",
+      "to": "V1-015",
+      "label": "Emancipation to substantive freedom",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-09",
+      "type": "encounter_connection",
+      "from": "V1-046",
+      "to": "V1-020",
+      "label": "Abolition democracy / reconstruction",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-10",
+      "type": "encounter_connection",
+      "from": "V1-046",
+      "to": "V1-049",
+      "label": "Diagnosis versus remedy",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-11",
+      "type": "encounter_connection",
+      "from": "V1-047",
+      "to": "V1-012",
+      "label": "Collective strategy and Black political deliberation",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-12",
+      "type": "encounter_connection",
+      "from": "V1-047",
+      "to": "V1-036",
+      "label": "Self-determination and Malcolm X",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-13",
+      "type": "encounter_connection",
+      "from": "V1-047",
+      "to": "V1-037",
+      "label": "Black Power and political control",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-14",
+      "type": "encounter_connection",
+      "from": "V1-047",
+      "to": "V1-048",
+      "label": "National self-determination and global solidarity overlap",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-15",
+      "type": "encounter_connection",
+      "from": "V1-048",
+      "to": "V1-036",
+      "label": "Global human-rights frame",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-16",
+      "type": "encounter_connection",
+      "from": "V1-048",
+      "to": "V1-037",
+      "label": "Kwame Ture and Pan-African turn",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-17",
+      "type": "encounter_connection",
+      "from": "V1-048",
+      "to": "V1-042",
+      "label": "Blackness across national and migration histories",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-18",
+      "type": "encounter_connection",
+      "from": "V1-049",
+      "to": "V1-002",
+      "label": "Category-making versus danger-making",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-19",
+      "type": "encounter_connection",
+      "from": "V1-049",
+      "to": "V1-021",
+      "label": "Evidence against racialized crime narratives",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-20",
+      "type": "encounter_connection",
+      "from": "V1-049",
+      "to": "V1-039",
+      "label": "Who gets left outside protection and respectability",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-21",
+      "type": "encounter_connection",
+      "from": "V1-050",
+      "to": "V1-017",
+      "label": "Formal exclusion and what follows",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-22",
+      "type": "encounter_connection",
+      "from": "V1-050",
+      "to": "V1-032",
+      "label": "Legal access versus institutional terms",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-23",
+      "type": "encounter_connection",
+      "from": "V1-050",
+      "to": "V1-047",
+      "label": "Inclusion on others' terms versus self-determination",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-V15-CONN-24",
+      "type": "encounter_connection",
+      "from": "V1-050",
+      "to": "V1-045",
+      "label": "Acceptance, entry, and conditional legitimacy",
+      "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
+    },
+    {
+      "id": "E-T-10-V1-005",
+      "type": "thread_member",
+      "from": "V1-005",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-V1-010",
+      "type": "thread_member",
+      "from": "V1-010",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-V1-026",
+      "type": "thread_member",
+      "from": "V1-026",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-V1-027",
+      "type": "thread_member",
+      "from": "V1-027",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-V1-037",
+      "type": "thread_member",
+      "from": "V1-037",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-V1-040",
+      "type": "thread_member",
+      "from": "V1-040",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-V1-044",
+      "type": "thread_member",
+      "from": "V1-044",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-V1-047",
+      "type": "thread_member",
+      "from": "V1-047",
+      "to": "T-10",
+      "reveal_rule": "edge appears after both the node and thread are unlocked"
+    },
+    {
+      "id": "E-T-10-CARD-07",
+      "type": "thread_member",
+      "from": "CARD-07",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-T-10-CARD-08",
+      "type": "thread_member",
+      "from": "CARD-08",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-T-10-CARD-09",
+      "type": "thread_member",
+      "from": "CARD-09",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-T-10-CARD-10",
+      "type": "thread_member",
+      "from": "CARD-10",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-T-10-CARD-11",
+      "type": "thread_member",
+      "from": "CARD-11",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-T-10-CARD-12",
+      "type": "thread_member",
+      "from": "CARD-12",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-T-10-CARD-13",
+      "type": "thread_member",
+      "from": "CARD-13",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-T-10-CARD-14",
+      "type": "thread_member",
+      "from": "CARD-14",
+      "to": "T-10",
+      "reveal_rule": "edge appears when the deepening card is discovered"
+    },
+    {
+      "id": "E-V16-CARD-07-V1-010",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "V1-010",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-07-V1-021",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "V1-021",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-07-V1-026",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "V1-026",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-07-V1-027",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "V1-027",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-07-V1-028",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "V1-028",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-07-V1-040",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "V1-040",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-07-T-06",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "T-06",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-07-T-09",
+      "type": "deepening_connection",
+      "from": "CARD-07",
+      "to": "T-09",
+      "label": "Who Controls the Image?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-08-V1-026",
+      "type": "deepening_connection",
+      "from": "CARD-08",
+      "to": "V1-026",
+      "label": "Who Is Black Art For?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-08-V1-027",
+      "type": "deepening_connection",
+      "from": "CARD-08",
+      "to": "V1-027",
+      "label": "Who Is Black Art For?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-08-D-06",
+      "type": "deepening_connection",
+      "from": "CARD-08",
+      "to": "D-06",
+      "label": "Who Is Black Art For?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-08-V1-045",
+      "type": "deepening_connection",
+      "from": "CARD-08",
+      "to": "V1-045",
+      "label": "Who Is Black Art For?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-08-T-06",
+      "type": "deepening_connection",
+      "from": "CARD-08",
+      "to": "T-06",
+      "label": "Who Is Black Art For?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-08-T-09",
+      "type": "deepening_connection",
+      "from": "CARD-08",
+      "to": "T-09",
+      "label": "Who Is Black Art For?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-09-V1-021",
+      "type": "deepening_connection",
+      "from": "CARD-09",
+      "to": "V1-021",
+      "label": "Art as Evidence",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-09-V1-022",
+      "type": "deepening_connection",
+      "from": "CARD-09",
+      "to": "V1-022",
+      "label": "Art as Evidence",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-09-T-03",
+      "type": "deepening_connection",
+      "from": "CARD-09",
+      "to": "T-03",
+      "label": "Art as Evidence",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-09-V1-010",
+      "type": "deepening_connection",
+      "from": "CARD-09",
+      "to": "V1-010",
+      "label": "Art as Evidence",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-09-V1-044",
+      "type": "deepening_connection",
+      "from": "CARD-09",
+      "to": "V1-044",
+      "label": "Art as Evidence",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-10-V1-012",
+      "type": "deepening_connection",
+      "from": "CARD-10",
+      "to": "V1-012",
+      "label": "The Artist as Organizer",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-10-V1-030",
+      "type": "deepening_connection",
+      "from": "CARD-10",
+      "to": "V1-030",
+      "label": "The Artist as Organizer",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-10-V1-037",
+      "type": "deepening_connection",
+      "from": "CARD-10",
+      "to": "V1-037",
+      "label": "The Artist as Organizer",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-10-V1-038",
+      "type": "deepening_connection",
+      "from": "CARD-10",
+      "to": "V1-038",
+      "label": "The Artist as Organizer",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-10-V1-040",
+      "type": "deepening_connection",
+      "from": "CARD-10",
+      "to": "V1-040",
+      "label": "The Artist as Organizer",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-10-T-05",
+      "type": "deepening_connection",
+      "from": "CARD-10",
+      "to": "T-05",
+      "label": "The Artist as Organizer",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-10-V1-047",
+      "type": "deepening_connection",
+      "from": "CARD-10",
+      "to": "V1-047",
+      "label": "The Artist as Organizer",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-V1-015",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "V1-015",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-V1-032",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "V1-032",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-V1-043",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "V1-043",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-V1-046",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "V1-046",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-V1-049",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "V1-049",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-V1-050",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "V1-050",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-T-05",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "T-05",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-11-D-08",
+      "type": "deepening_connection",
+      "from": "CARD-11",
+      "to": "D-08",
+      "label": "Systems Are Designed Too",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-12-V1-006",
+      "type": "deepening_connection",
+      "from": "CARD-12",
+      "to": "V1-006",
+      "label": "Design as Care",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-12-V1-034",
+      "type": "deepening_connection",
+      "from": "CARD-12",
+      "to": "V1-034",
+      "label": "Design as Care",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-12-V1-038",
+      "type": "deepening_connection",
+      "from": "CARD-12",
+      "to": "V1-038",
+      "label": "Design as Care",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-12-V1-039",
+      "type": "deepening_connection",
+      "from": "CARD-12",
+      "to": "V1-039",
+      "label": "Design as Care",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-12-T-05",
+      "type": "deepening_connection",
+      "from": "CARD-12",
+      "to": "T-05",
+      "label": "Design as Care",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-12-CARD-04",
+      "type": "deepening_connection",
+      "from": "CARD-12",
+      "to": "CARD-04",
+      "label": "Design as Care",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-13-V1-010",
+      "type": "deepening_connection",
+      "from": "CARD-13",
+      "to": "V1-010",
+      "label": "Who Owns the Platform?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-13-V1-040",
+      "type": "deepening_connection",
+      "from": "CARD-13",
+      "to": "V1-040",
+      "label": "Who Owns the Platform?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-13-V1-044",
+      "type": "deepening_connection",
+      "from": "CARD-13",
+      "to": "V1-044",
+      "label": "Who Owns the Platform?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-13-V1-047",
+      "type": "deepening_connection",
+      "from": "CARD-13",
+      "to": "V1-047",
+      "label": "Who Owns the Platform?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-13-V1-050",
+      "type": "deepening_connection",
+      "from": "CARD-13",
+      "to": "V1-050",
+      "label": "Who Owns the Platform?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-13-T-06",
+      "type": "deepening_connection",
+      "from": "CARD-13",
+      "to": "T-06",
+      "label": "Who Owns the Platform?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-13-T-05",
+      "type": "deepening_connection",
+      "from": "CARD-13",
+      "to": "T-05",
+      "label": "Who Owns the Platform?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-14-V1-001",
+      "type": "deepening_connection",
+      "from": "CARD-14",
+      "to": "V1-001",
+      "label": "Who Gets to Imagine the Future?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-14-V1-027",
+      "type": "deepening_connection",
+      "from": "CARD-14",
+      "to": "V1-027",
+      "label": "Who Gets to Imagine the Future?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-14-V1-036",
+      "type": "deepening_connection",
+      "from": "CARD-14",
+      "to": "V1-036",
+      "label": "Who Gets to Imagine the Future?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-14-V1-042",
+      "type": "deepening_connection",
+      "from": "CARD-14",
+      "to": "V1-042",
+      "label": "Who Gets to Imagine the Future?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-14-V1-047",
+      "type": "deepening_connection",
+      "from": "CARD-14",
+      "to": "V1-047",
+      "label": "Who Gets to Imagine the Future?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-14-V1-048",
+      "type": "deepening_connection",
+      "from": "CARD-14",
+      "to": "V1-048",
+      "label": "Who Gets to Imagine the Future?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-CARD-14-T-08",
+      "type": "deepening_connection",
+      "from": "CARD-14",
+      "to": "T-08",
+      "label": "Who Gets to Imagine the Future?",
+      "reveal_rule": "unlock through PLAY, LEARN FROM HERE, or when both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-T-03",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "T-03",
+      "label": "Images can function as evidence",
+      "reveal_rule": "show only after both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-T-05",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "T-05",
+      "label": "Cultural work depends on infrastructure",
+      "reveal_rule": "show only after both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-T-06",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "T-06",
+      "label": "Art helps define Blackness",
+      "reveal_rule": "show only after both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-T-08",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "T-08",
+      "label": "Black aesthetics and futures cross borders",
+      "reveal_rule": "show only after both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-T-09",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "T-09",
+      "label": "Art can meet or refuse dominant standards",
+      "reveal_rule": "show only after both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-D-06",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "D-06",
+      "label": "What does Black art owe political struggle?",
+      "reveal_rule": "show only after both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-D-05",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "D-05",
+      "label": "Access to institutions versus control",
+      "reveal_rule": "show only after both objects are visible"
+    },
+    {
+      "id": "E-V16-T10-D-08",
+      "type": "thread_connection",
+      "from": "T-10",
+      "to": "D-08",
+      "label": "Systems can be repaired or redesigned",
+      "reveal_rule": "show only after both objects are visible"
+    }
+  ],
+  "counts": {
+    "curriculum_nodes": 50,
+    "worlds": 7,
+    "context_cards": 7,
+    "debates": 8,
+    "threads": 10,
+    "words": 23,
+    "total_graph_nodes": 113,
+    "total_graph_edges": 310,
+    "deepening_cards": 14
+  }
+}
