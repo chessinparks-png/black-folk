@@ -381,7 +381,8 @@ const ideaCount = async () => {
   for (const w of ['FREEDOM', 'POWER', 'EDUCATION', 'ECONOMICS', 'IDENTITY', 'ORGANIZING', 'CULTURE']) {
     await page.goto(APP_URL + '#/world/' + w);
     await page.waitForSelector('.screen');
-    n += await page.locator('.rows .row').count();
+    // The first list on a world page is its core ideas (CULTURE also lists deepening cards).
+    n += await page.evaluate(() => { const ul = document.querySelector('.panel--list .rows'); return ul ? ul.children.length : 0; });
   }
   return n;
 };
@@ -401,7 +402,7 @@ await page.goto(APP_URL + '#/settings');
 await btn('Show everything').click();
 check(await btn('Show everything').getAttribute('aria-pressed') === 'true', 'Show everything selected');
 const allLanding = await landing();
-check(allLanding.threads === 9 && allLanding.debates === 8, `Show everything lists 9 threads and 8 debates (${allLanding.threads}/${allLanding.debates})`);
+check(allLanding.threads === 10 && allLanding.debates === 8, `Show everything lists 10 threads and 8 debates (${allLanding.threads}/${allLanding.debates})`);
 check(allLanding.unlearned > 0 && (await page.textContent('main')).includes('Visible is not the same as learned'), 'undiscovered ideas drawn as not yet learned');
 await snap('show-all-map');
 check(await ideaCount() === 50, 'Show everything exposes all 50 ideas');
@@ -679,6 +680,96 @@ await page.waitForSelector('.stats');
 const cleared = await page.evaluate(async () => { const p = await BF.store.get('player'); return { yw: (p ? p.yourWords : []).length, ck: (p ? p.checks || [] : []).length, mem: BF.app.state.player.yourWords.length + BF.app.state.player.checks.length }; });
 check(cleared.yw === 0 && cleared.ck === 0 && cleared.mem === 0, 'reset clears answer history and verdicts');
 check(rhythmSeen.length >= 10 && rhythmSeen.every((r) => !r.bad), `writing rhythm held in all ${rhythmSeen.length} sessions started` + (rhythmSeen.some((r) => r.bad) ? ': ' + rhythmSeen.filter((r) => r.bad).map((r) => r.ids).join(' | ') : ''));
+
+// V1.6 ART & DESIGN
+console.log('V1.6 art & design');
+const ART = ['CARD-07', 'CARD-08', 'CARD-09', 'CARD-10', 'CARD-11', 'CARD-12', 'CARD-13', 'CARD-14'];
+const counts = await page.evaluate(() => { const C = BF.app.state.C; return { nodes: C.nodes.length, threads: C.threads.length, debates: C.debates.length, cards: C.deepening.length }; });
+check(counts.nodes === 50 && counts.threads === 10 && counts.debates === 8 && counts.cards === 14, 'V1.6 content: 50 core · 10 threads · 8 debates · 14 deepening cards');
+await page.goto(APP_URL + '#/settings');
+await btn('Discover gradually').click();
+let land = await (async () => { await page.goto(APP_URL + '#/explore'); await page.waitForSelector('.kmap'); return page.textContent('main'); })();
+const t10Before = await page.evaluate(() => !!BF.app.state.player.threadsUnlocked['T-10']);
+check(!t10Before && !land.includes('WHO DESIGNS THE WORLD?'), 'gradual: T-10 hidden until it unlocks');
+check(!ART.some((id) => land.includes(id)) && (await page.locator('.kmap .is-card').count()) === 0, 'gradual: no deepening cards before they are met');
+// Learn from here on Harlem Renaissance: needs Show everything to open an unmet idea.
+await page.goto(APP_URL + '#/settings');
+await btn('Show everything').click();
+const kArt = (await st()).knowledge;
+lf = await learnFrom('V1-026');
+check(lf.session.kind === 'anchored' && lf.session.ids[0] === 'D029' && lf.session.ids.some((x) => /^D05[1-8]$/.test(x)), 'Learn from here: Harlem Renaissance reaches an art/design card (' + lf.session.ids.join(' → ') + ')');
+await btn('Begin').click();
+await playToEnd('lfh-hr');
+await btn('Done').click();
+const afterHR = await page.evaluate(() => ({ k: BF.app.state.player.knowledge, cards: ['CARD-07', 'CARD-08'].filter((x) => (BF.app.state.player.nodes[x] || {}).introduced), t10: !!BF.app.state.player.threadsUnlocked['T-10'] }));
+check(afterHR.k > kArt && afterHR.cards.length >= 1, 'deepening cards are learned through play (' + afterHR.cards.join(', ') + ')');
+await page.goto(APP_URL + '#/settings');
+await btn('Discover gradually').click();
+land = await (async () => { await page.goto(APP_URL + '#/explore'); await page.waitForSelector('.kmap'); return page.textContent('main'); })();
+check(afterHR.t10 === land.includes('WHO DESIGNS THE WORLD?'), 'T-10 appears on EXPLORE exactly when unlocked (' + afterHR.t10 + ')');
+const metTitles = await page.evaluate((ids) => ids.map((x) => BF.app.state.C.nodesById[x].subject), afterHR.cards);
+check(land.includes('Deepening cards') && metTitles.every((x) => land.includes(x)), 'met cards are listed under Deepening cards: ' + metTitles.join(', '));
+await page.goto(APP_URL + '#/world/CULTURE');
+check(await page.locator('.kmap .is-card').count() === afterHR.cards.length, 'CULTURE map draws only the cards met so far');
+await snap('v16-culture-gradual');
+// Overview stays sparse: cards are never drawn on the whole map.
+await page.goto(APP_URL + '#/explore');
+check(await page.locator('.kmap--overview .is-card').count() === 0, 'overview map stays core-only (no card marks)');
+const sparse = await page.evaluate(() => ({ drawn: document.querySelectorAll('.kmap--overview .medge').length, total: BF.app.state.G.edges.size }));
+check(sparse.drawn < sparse.total / 2, `no spiderweb: ${sparse.drawn} of ${sparse.total} links drawn`);
+// Show everything: all V1.6 content browsable.
+await page.goto(APP_URL + '#/settings');
+await btn('Show everything').click();
+land = await (async () => { await page.goto(APP_URL + '#/explore'); await page.waitForSelector('.kmap'); return page.textContent('main'); })();
+const titles = await page.evaluate(() => BF.app.state.C.cardNodes.map((c) => c.subject));
+check(titles.every((x) => land.includes(x)) && land.includes('14 deepening cards'), 'Show everything lists all 8 art/design cards (14 deepening cards in all)');
+await snap('v16-explore-all');
+await page.goto(APP_URL + '#/thread/T-10');
+const t10 = await page.textContent('main');
+check(t10.includes('Who shapes the images, spaces, systems, platforms, and futures') && titles.every((x) => t10.includes(x)) && t10.includes('EVIDENCE AS RESISTANCE') && t10.includes('FIX IT OR END IT?'), 'T-10 view: question, cards on the path, links to T-03…D-08');
+await snap('v16-t10');
+for (const id of ART) {
+  await page.goto(APP_URL + '#/idea/' + id);
+  await page.waitForSelector('.hero');
+  const txt = await page.textContent('main');
+  if (!(txt.includes('Deepening card') && txt.includes('Keep this') && await btn('Learn from here').count() === 1)) check(false, id + ' page');
+}
+check(true, 'all 8 card pages browsable with KEEP THIS and Learn from here');
+await page.goto(APP_URL + '#/debate/D-06');
+check((await page.textContent('main')).includes('Who Is Black Art For?'), 'D-06 is deepened by Who Is Black Art For?');
+await page.goto(APP_URL + '#/debate/D-08');
+check((await page.textContent('main')).includes('Systems Are Designed Too'), 'D-08 is deepened by Systems Are Designed Too');
+// Learn from here anchored on a card, played on a phone.
+await page.setViewportSize({ width: 390, height: 844 });
+lf = await learnFrom('CARD-11');
+check(lf.session.ids[0] === 'D055', 'Learn from here: Systems Are Designed Too (' + lf.session.ids.join(' → ') + ')');
+await btn('Begin').click();
+let artOverflow = 0;
+for (let i = 0; i < 7 && !(await has('text=Session complete')); i++) {
+  while (await has('text=Thread revealed')) await btn('Continue').click();
+  if (await has('text=Session complete')) break;
+  if (await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)) artOverflow++;
+  const e = await page.evaluate(() => { const s = BF.app.state.session; return s.items[s.index].enc; });
+  if (e.id === 'E085') { await snap('v16-mobile-E085'); check(/\?$/.test(await page.textContent('h1.question')), 'E085 asks a clear question'); }
+  await playEncounter({});
+}
+await page.waitForSelector('text=Session complete');
+await btn('Done').click();
+check(artOverflow === 0, 'phone: no horizontal overflow on art/design cards');
+const c11 = await page.evaluate(() => !!(BF.app.state.player.nodes['CARD-11'] || {}).introduced);
+check(c11, 'Systems Are Designed Too learned through play');
+await page.goto(APP_URL + '#/idea/CARD-11');
+check(!(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)), 'phone: card page fits');
+await snap('v16-mobile-card');
+await page.goto(APP_URL + '#/explore');
+await page.waitForSelector('.kmap');
+check(!(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)), 'phone: EXPLORE with V1.6 content fits');
+await page.setViewportSize({ width: 1280, height: 820 });
+// Persistence: card progress and settings survive reload.
+await page.reload();
+await page.waitForSelector('.screen');
+const kept = await page.evaluate(() => ({ c: !!(BF.app.state.player.nodes['CARD-11'] || {}).introduced, vis: BF.store.settings.get().mapVisibility }));
+check(kept.c && kept.vis === 'all', 'card progress and settings survive reload');
 
 check(badText.length === 0, 'no stray null/undefined text' + (badText.length ? ': ' + badText.join(' | ') : ''));
 check(errors.length === 0, 'no page errors' + (errors.length ? ': ' + errors.join(' | ') : ''));

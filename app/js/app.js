@@ -264,7 +264,7 @@
       canWrite: (enc, it) => enc.nodeIds.length > 0 && !(it && it.noWrite),
       writePrompt: (enc) => {
         const n = state.C.nodesById[enc.nodeIds[0]];
-        if (enc.derived && n) return 'How would you explain ' + n.name + ' to someone new?';
+        if (enc.derived && n) return BF.content.explainPrompt(n);
         return 'How would you put it in your own words?'; // the question is already on screen above
       },
       saveNote(enc, text) {

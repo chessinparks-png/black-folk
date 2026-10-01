@@ -2650,3 +2650,33 @@ a.world-tag:hover {
     max-width: none;
   }
 }
+
+/* =====================================================================
+   V1.6 DEEPENING CARDS — square marks so a card never reads as a core idea.
+   ===================================================================== */
+.links a.is-card .wdot {
+  border-radius: 1px;
+  transform: rotate(45deg) scale(0.85);
+}
+
+.kmap .mnode.is-card .dot {
+  stroke-width: 1.5;
+}
+
+.kmap .mnode.is-card.is-unlearned .dot {
+  stroke-dasharray: 3 3;
+}
+
+.link-note {
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.thread-steps li.is-card .step-name::before {
+  content: '◆ ';
+  color: var(--w, var(--muted));
+  font-size: 0.7em;
+  vertical-align: 0.15em;
+}

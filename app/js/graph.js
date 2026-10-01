@@ -49,6 +49,11 @@
     // ideas have been discovered.
     const raw = C.knowledgeMapRaw;
     for (const r of (raw && raw.edges) || []) {
+      // V1.6: a playable deepening card ↔ an idea it deepens reveals once both are met.
+      if (r.type === 'deepening_connection') {
+        add(r.from, r.to, 'discovered', null);
+        continue;
+      }
       if (r.type !== 'encounter_connection') continue;
       if (r.encounter_id) add(r.from, r.to, 'encounter', r.encounter_id);
       else add(r.from, r.to, 'discovered', null);
@@ -239,6 +244,12 @@
     members.forEach((n, k) => {
       const a = -Math.PI / 2 + (k * 2 * Math.PI) / members.length;
       nodes[n.id] = { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) * 0.82, angle: a };
+    });
+    // Deepening cards sit on a smaller inner ring of their world (not on the overview).
+    const cards = (C.cardNodes || []).filter((c) => c.world === worldId);
+    cards.forEach((c, k) => {
+      const a = -Math.PI / 2 + Math.PI / cards.length + (k * 2 * Math.PI) / cards.length;
+      nodes[c.id] = { x: cx + 150 * Math.cos(a), y: cy + 150 * Math.sin(a) * 0.82, angle: a, card: true };
     });
     return { width: W, height: H, center: { x: cx, y: cy }, nodes };
   }

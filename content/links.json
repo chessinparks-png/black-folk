@@ -1,5 +1,5 @@
 {
-  "_about": "Editorial wiring for V1.5. It adds NO historical claims: it maps existing curriculum debates and thread paths onto existing node ids so the game can decide when they unlock. Thread members added by the knowledge map but missing from a path are appended automatically. Edit freely; run `npm run data` afterwards.",
+  "_about": "Editorial wiring for V1.5/V1.6. It adds NO historical claims: it maps existing curriculum debates and thread paths onto existing node ids so the game can decide when they unlock. Thread members added by the knowledge map but missing from a path are appended automatically. Edit freely; run `npm run data` afterwards.",
   "debates": {
     "D-01": {
       "sides": [
@@ -307,6 +307,47 @@
       [
         "V1-049"
       ]
+    ],
+    "T-10": [
+      [
+        "V1-005"
+      ],
+      [
+        "V1-010"
+      ],
+      [
+        "V1-026"
+      ],
+      [
+        "V1-027"
+      ],
+      [
+        "CARD-07"
+      ],
+      [
+        "CARD-09"
+      ],
+      [
+        "CARD-10"
+      ],
+      [
+        "V1-037"
+      ],
+      [
+        "V1-040"
+      ],
+      [
+        "CARD-11"
+      ],
+      [
+        "CARD-12"
+      ],
+      [
+        "CARD-13"
+      ],
+      [
+        "CARD-14"
+      ]
     ]
   },
   "_threads_note": "Per step of each curriculum thread `path`, the node ids that satisfy it (any one). Empty = no playable node (e.g. 'Boynton/context', 'Voting Rights', and the Diaspora / Amefricanidade deepening cards in T-08, which EXPLORE shows as cards).",
@@ -338,5 +379,24 @@
       "Art that refuses the demand"
     ]
   },
-  "_thread_responses_note": "Historical responses to the demand for respectability, listed in the RESPECTABILITY ↔ REFUSAL thread view. Labels only; drawn from the Black Perspectives audit framing (vengeance feminism, disrepute, self-defense, the respectable center)."
+  "_thread_responses_note": "Historical responses to the demand for respectability, listed in the RESPECTABILITY ↔ REFUSAL thread view. Labels only; drawn from the Black Perspectives audit framing (vengeance feminism, disrepute, self-defense, the respectable center).",
+  "thread_notes": {
+    "T-09": [
+      {
+        "id": "T09-NOTE-1",
+        "title": "Disrepute",
+        "text": "Where the law failed to protect them, some Black women defended themselves—and disrepute could be the price. Their survival did not fit the respectable public story.",
+        "role": "Deepens RESPECTABILITY ↔ REFUSAL and Criminalization through Black women's self-defense.",
+        "source": "Black Perspectives audit synthesis — vengeance feminism / fury and disrepute"
+      },
+      {
+        "id": "T09-NOTE-2",
+        "title": "Who counts as a thinker?",
+        "text": "Poor, unlettered, criminalized, and queer Black people—often recorded by the archive only as problems—can be sources of political thought too.",
+        "role": "Deepens RESPECTABILITY ↔ REFUSAL and Combahee: political thought outside the respectable center.",
+        "source": "Black Perspectives audit synthesis; Keywords for African American Studies"
+      }
+    ]
+  },
+  "_thread_notes_note": "Short notes shown in a thread view beside its deepening cards. The two T-09 notes come from the Respectability revision (docs/respectability_revision.md); they were deepening cards CARD-07/CARD-08 in V1.5 and moved here when V1.6 assigned CARD-07–CARD-14 to the art/design layer. They are not counted as deepening cards."
 }

@@ -218,10 +218,42 @@
       source: n.source,
       sourceSection: n.source_section,
     }));
-    const nodesById = Object.fromEntries(nodes.map((n) => [n.id, n]));
+    // V1.6 art/design deepening cards (CARD-07–CARD-14) are playable objects: they
+    // can be discovered, reviewed, mapped and used to anchor LEARN FROM HERE, but
+    // they are NOT core nodes. They live in nodesById (so every lookup works) and
+    // in cardNodes; `nodes` stays the 50-node core.
+    const recurring = cur.recurring_questions || [];
+    const designLens = (recurring.find((q) => /^WHO DESIGNED THIS/.test(q.text || '')) || {}).text || null;
+    const LENS_CARDS = ['CARD-11', 'CARD-13']; // used selectively: systems and platforms
+    const art = raw.artDesign || { discovery_cards: [], encounters: [], interactions: {} };
+    const playableCards = new Set(art.discovery_cards.flatMap((d) => d.node_ids));
+    const cardNodes = (cur.deepening_cards || [])
+      .filter((c) => playableCards.has(c.id))
+      .map((c) => ({
+        id: c.id,
+        subject: c.title,
+        name: c.title,
+        kind: 'deepening',
+        isCard: true,
+        world: 'CULTURE',
+        era: null,
+        coreIdea: c.core_idea,
+        share: c.keep_this,
+        keepThis: c.keep_this,
+        whyThen: null,
+        lens: LENS_CARDS.includes(c.id) ? designLens : null,
+        yourWordsPrompt: null,
+        source: c.source,
+        sourceSection: c.source_note || null,
+        home: c.home,
+        role: c.role || null,
+        connections: (c.connections || []).slice(),
+      }));
+    const nodesById = Object.fromEntries(nodes.concat(cardNodes).map((n) => [n.id, n]));
 
-    const encounters = play.encounters.map((r) => applyInteraction(normalizeEncounter(r, nodesById), (inter.encounters || {})[r.id]));
-    const discovery = play.discovery_cards.map((r) => {
+    const interSpecs = Object.assign({}, inter.encounters || {}, art.interactions || {});
+    const encounters = play.encounters.concat(art.encounters).map((r) => applyInteraction(normalizeEncounter(r, nodesById), interSpecs[r.id]));
+    const discovery = play.discovery_cards.concat(art.discovery_cards).map((r) => {
       const d = normalizeEncounter(r, nodesById);
       const o = (inter.discover || {})[r.id];
       if (o) {
@@ -238,7 +270,7 @@
     for (const e of all) {
       for (const id of e.nodeIds) if (!nodesById[id]) throw new Error(e.id + ' references unknown node ' + id);
     }
-    for (const id of Object.keys(inter.encounters || {})) if (!byId[id]) throw new Error('interaction for unknown encounter ' + id);
+    for (const id of Object.keys(interSpecs)) if (!byId[id]) throw new Error('interaction for unknown encounter ' + id);
 
     // Knowledge-map memberships (thread_member / debate_member / context_for).
     const members = { thread: {}, debate: {}, context: {} };
@@ -254,6 +286,7 @@
       home: c.home,
       role: c.role,
       text: c.core_idea || (links.deepening_display || {})[c.id] || null,
+      keepThis: c.keep_this || null,
       source: c.source || null,
     }));
     const deepeningById = Object.fromEntries(deepening.map((c) => [c.id, c]));
@@ -301,6 +334,7 @@
         steps,
         members: [...new Set(steps.flatMap((s) => s.nodeIds))],
         cards: deepening.filter((c) => c.home === t.id).map((c) => c.id),
+        notes: ((links.thread_notes || {})[t.id] || []).map((x) => ({ id: x.id, title: x.title, text: x.text })),
       };
     });
 
@@ -356,6 +390,13 @@
       bridges,
       sessionDesign: play.session_design,
       pointsScale: play.session_design.points,
+      cardNodes,
+      cardsById: Object.fromEntries(cardNodes.map((c) => [c.id, c])),
+      // Card → threads / debates it deepens (from the V1.6 card connections).
+      cardLinks: Object.fromEntries(cardNodes.map((c) => [c.id, c.connections.filter((x) => /^(T|D)-/.test(x))])),
+      designLens,
+      // V1.6: thread ↔ thread/debate links (e.g. T-10 → T-03, D-06), shown in those views.
+      threadConnections: ((mapRaw && mapRaw.edges) || []).filter((e) => e.type === 'thread_connection').map((e) => ({ from: e.from, to: e.to, label: e.label })),
       promptTypes: (raw.understanding && raw.understanding.prompt_types) || {},
       checks: loadChecks(raw.understanding, nodesById),
     };
@@ -391,11 +432,17 @@
     return (t.encounters || {})[enc.id] || 'reflective';
   }
 
+  // "How would you explain X to someone new?" — deepening-card titles are quoted.
+  function explainPrompt(n) {
+    const what = n.isCard ? 'the idea behind “' + n.name + '”' : n.name;
+    return 'How would you explain ' + what + ' to someone new?';
+  }
+
   // The idea page's YOUR WORDS prompt: authored prompts are open questions.
   function ideaPrompt(C, n) {
     const t = (C.promptTypes || {}).idea_pages || {};
     const type = t[n.id] || (n.yourWordsPrompt ? 'reflective' : t._default || 'reflective');
-    const text = n.yourWordsPrompt || 'How would you explain ' + n.name + ' to someone new?';
+    const text = n.yourWordsPrompt || explainPrompt(n);
     return { text, type };
   }
 
@@ -406,5 +453,5 @@
     return null;
   }
 
-  BF.content = { load, writeTypeOf, ideaPrompt, checkFor, CHOICE_MODES, SELF_RATED_MODES, cleanReveal, splitPrompt };
+  BF.content = { load, writeTypeOf, ideaPrompt, explainPrompt, checkFor, CHOICE_MODES, SELF_RATED_MODES, cleanReveal, splitPrompt };
 })((globalThis.BF = globalThis.BF || {}));

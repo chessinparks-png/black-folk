@@ -3,6 +3,15 @@
 A minimalist, offline-first learning game for Black intellectual history.
 No accounts, no network, no backend. Progress lives on your device.
 
+**Current content version: V1.6** (arts & design):
+- 50 core nodes, in 7 worlds;
+- 10 formal threads;
+- 8 debates;
+- 14 deepening cards.
+
+**NOW hooks** are planned as a separate, refreshable contemporary layer (see
+`docs/black_folk_now_hooks_strategy.md`). They are **not yet integrated**.
+
 ## Run it
 
 **Easiest (no install):** open `app/index.html` in Chrome, Edge or Safari. Everything
@@ -46,12 +55,15 @@ the app, which is useful for replaying onboarding.
 ## Project layout
 
 ```
-content/                          V1.5 source of truth (edit these; run `npm run data`)
-  black_folk_v1_5_master_curriculum.json   50 nodes, 7 worlds, 9 threads, 8 debates, context, deepening cards
+content/                          source of truth (edit these; run `npm run data`)
+  black_folk_v1_6_master_curriculum_art_design.json  V1.6: 50 nodes, 7 worlds, 10 threads, 8 debates, 14 deepening cards
+  black_folk_v1_6_knowledge_map_art_design.json      V1.6: graph edges, memberships, verified WORDS quote bank
   black_folk_v1_5_encounter_pack.json      50 DISCOVER + 80 encounters, 3 starter + 5 bridge sessions
-  black_folk_v1_5_knowledge_map.json       graph edges, memberships, and the verified WORDS quote bank
-  links.json                               wiring only: thread steps / debate sides → node ids
+  v1_6_art_design_encounters.json          8 DISCOVER + 8 interactions for the art/design cards
+  links.json                               wiring only: thread steps / debate sides → node ids; T-09 notes
   v1_5_interactions.json                   HOW each encounter is played (binary, sort, pick, recall…)
+  understanding_checks.json                YOUR WORDS prompt types + pilot checks
+  archive/                                 V1.5 curriculum + map (reference only)
 docs/                             design briefs, V1.5 build brief and encounter-pack QA
 app/                              the web app (static)
   index.html, styles.css, sw.js, fonts/
@@ -137,8 +149,8 @@ ordered by era.
 - **Node states:** an idea is LOCKED (a faint unlabeled point) until it is met in PLAY.
   After that it moves through DISCOVERED, CONNECTED, FAMILIAR and STRONG. The state
   shows through the dot's fill, size and halo, never as a percentage.
-- **The graph:** 121 idea-to-idea links:
-  - the V1.5 knowledge map's 61 connections,
+- **The graph:** 172 links (V1.6, including links to the 8 playable deepening cards):
+  - the knowledge map’s idea and card connections,
   - encounters that link several ideas,
   - neighbouring steps of each thread,
   - the two sides of each debate.
@@ -151,7 +163,7 @@ ordered by era.
   Links revealed since your last visit draw themselves in once. The overview draws only
   links met in PLAY. Cross-world links stay faint until you hover or focus an idea, and
   thread chains live in each thread's view.
-- **Threads (9):** a thread unlocks after 2 of its ideas are introduced and one encounter
+- **Threads (10):** a thread unlocks after 2 of its ideas are introduced and one encounter
   linking two of them is played, or once 3 of its ideas are introduced. Deepening cards
   (Diaspora, Coalition, Operational Unity, Fugitive Pedagogy) appear in the thread and
   world views. They are not core nodes.
@@ -165,6 +177,41 @@ ordered by era.
     Lens, context and source are folded away.
   - Thread: "Different moments. Same question."
   - Debate: "Same question. Different answers.", with no winner.
+
+## V1.6: art & design
+
+The CULTURE world is deepened without adding core nodes. The material draws on three
+sources, each with its own job:
+- **Richard J. Powell**, *Black Art and Culture in the 20th Century*: the visual-art
+  spine.
+- ***The Black Experience in Design***: design as services, spaces, care and systems.
+- ***Black Futures***: archive, platforms and futurity.
+
+**What's in this layer:**
+- **T-10 WHO DESIGNS THE WORLD?** is the 10th formal thread. Its path runs:
+  1. The spirituals → Freedom’s Journal → Harlem Renaissance → Hurston;
+  2. Who Controls the Image? → Art as Evidence → The Artist as Organizer;
+  3. Black Power / AfriCOBRA → Hip-hop;
+  4. Systems Are Designed Too → Design as Care → Who Owns the Platform? → Who Gets to
+     Imagine the Future?
+
+  Black Lives Matter, Black Nationalism and Who Is Black Art For? join it as map members.
+  Its view links to T-03, T-05, T-06, T-08, T-09, D-05, D-06 and D-08.
+- **CARD-07–CARD-14** are playable deepening cards, not core nodes. Each has:
+  - a DISCOVER card;
+  - one interaction;
+  - a page in EXPLORE;
+  - map links to the ideas it deepens.
+
+  A card surfaces in PLAY once two of its ideas have been met, at most one per session.
+  It can also anchor LEARN FROM HERE.
+- **Map:** cards are drawn as small diamonds on the CULTURE world map only after they are
+  met (or in Show everything). The overview map stays core-only.
+- **Debates:** there is no new debate. D-06 (Hurston ↔ protest-art tradition) is
+  deepened by *Who Is Black Art For?*, and D-08 by *Systems Are Designed Too*.
+- **Recurring question:** *WHO DESIGNED THIS — AND WHO COULD REDESIGN IT?* is a lens like
+  WHO IS “WE”?. It is shown only on the systems and platform cards.
+- **No new images.** The layer uses type, color and layout only.
 
 ## WORDS
 
@@ -237,7 +284,7 @@ Pilot check cards keep the writing slot first.
 **Settings → Map visibility** has two options. **Discover gradually** is the default.
 
 - **Show everything:**
-  - makes all 50 ideas, 9 threads, 8 debates and every deepening card browsable in EXPLORE;
+  - makes all 50 ideas, 10 threads, 8 debates and all 14 deepening cards browsable in EXPLORE;
   - draws undiscovered ideas on the map as hollow, dashed "not yet learned" points;
   - marks unopened threads and debates "Not yet opened in play".
 - **Visible is not learned.** Browsing never changes Knowledge, mastery, discoveries, WORDS,
@@ -270,7 +317,10 @@ deserve protection?* It is not presented as a strategy to recommend.
   responses: accommodation, strategic presentation, refusal, disrepute, self-defense,
   cultural rejection, queer and "deviant" politics, Black is beautiful, and art that
   refuses the demand. No response is scored as the right one.
-- Two deepening cards were added: *Disrepute* and *Who counts as a thinker?*
+- Two notes were added to T-09: *Disrepute* and *Who counts as a thinker?* In V1.5 they
+  were deepening cards. In V1.6 they are T-09 thread notes, because V1.6 assigns
+  CARD-07–CARD-14 to the art/design layer. V1.6 is re-applied with this revision, so
+  the revised wording stays canonical.
 
 Sources and rationale are in `docs/respectability_revision.md`.
 
@@ -318,7 +368,7 @@ Older saves are upgraded in place when the app loads:
 
 Knowledge already earned under the old rules is not recalculated.
 
-## Data notes (V1.5)
+## Data notes (V1.5 encounter pack)
 
 1. **Source consolidation.** The V1.5 curriculum, encounter pack and knowledge map replace
    the earlier V1 files (still in git history). The WORDS quote bank now comes from the

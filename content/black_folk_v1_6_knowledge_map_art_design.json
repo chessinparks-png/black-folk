@@ -1147,9 +1147,9 @@
       "kind": "concept",
       "world": "IDENTITY",
       "era": "1890s–present",
-      "core_idea": "Respectability is the strategy or expectation that Black people can gain legitimacy, protection, opportunity, or acceptance by meeting dominant standards of behavior, appearance, morality, class, or public presentation.",
-      "share": "Respectability asks whether meeting dominant standards can buy protection, legitimacy, or opportunity.",
-      "lens": "Treat respectability as a strategy with real historical uses and real limits; REFUSAL is not the automatically correct answer.",
+      "core_idea": "Respectability is the pressure or strategy of meeting dominant standards of behavior, appearance, morality, class, gender, sexuality, or public presentation in hopes of being treated as worthy of protection, opportunity, legitimacy, or sympathy.",
+      "share": "Respectability makes acceptability a condition for protection and sympathy.",
+      "lens": "Ask who is treated as an acceptable victim—and who is pushed outside the public story when protection depends on presentation.",
       "source": "Black Perspectives audit synthesis + existing BLACK FOLK historical nodes",
       "source_section": "Vengeance feminism / fury and disrepute cluster; Montgomery; Wells; Terrell; Washington",
       "default_visibility": "locked"
@@ -1245,7 +1245,7 @@
       "id": "T-09",
       "type": "thread",
       "label": "RESPECTABILITY ↔ REFUSAL",
-      "question": "Should you meet their standards or refuse them, and who pays for each choice?",
+      "question": "What happens when protection depends on acceptability?",
       "path": [
         "Booker T. Washington",
         "Ida B. Wells",
@@ -2906,7 +2906,7 @@
       "type": "encounter_connection",
       "from": "V1-045",
       "to": "V1-018",
-      "label": "Respectability strategy",
+      "label": "Respectability as accommodation",
       "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
     },
     {
@@ -2914,7 +2914,7 @@
       "type": "encounter_connection",
       "from": "V1-045",
       "to": "V1-021",
-      "label": "Respectability vs evidence about racial mythology",
+      "label": "Evidence against the 'acceptable victim' story",
       "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
     },
     {
@@ -2946,7 +2946,7 @@
       "type": "encounter_connection",
       "from": "V1-045",
       "to": "V1-040",
-      "label": "Respectability backlash and cultural refusal",
+      "label": "Cultural refusal of respectable norms",
       "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
     },
     {
@@ -2954,7 +2954,7 @@
       "type": "encounter_connection",
       "from": "V1-045",
       "to": "V1-049",
-      "label": "Respectability as one answer to criminalization",
+      "label": "Marked dangerous vs. marked worthy",
       "reveal_rule": "unlock through PLAY or when both concepts are at least DISCOVERED"
     },
     {

@@ -384,7 +384,9 @@
         for (const o of orders) {
           if (!rhythmOk(o, writing) || !introOk(o) || maxRun(o) > runLimit) continue;
           const moved = o.reduce((sum, it, i) => sum + Math.abs(i - pos.get(it)), 0);
-          const cost = moved - bonus;
+          // Prefer not to end on a DISCOVER card: an idea met last is never tried.
+          const endsOnDiscover = o[o.length - 1].enc.kind === 'discover' ? 4 : 0;
+          const cost = moved - bonus + endsOnDiscover;
           if (!best || cost < best.cost) best = { cost, order: o, writing };
         }
       }
@@ -495,14 +497,20 @@
       C.encounters.filter((e) => e.nodeIds.includes(id)).length + (curatedDiscover[id] ? 3 : 0);
     // Ideas a pending bridge session introduces are left for that session.
     const reserved = new Set(pendingBridges(C, player).flatMap((b) => b.encounterIds.filter((id) => /^D/.test(id)).flatMap((id) => C.byId[id].nodeIds)));
-    const unmet = C.nodes.filter((n) => !introduced.has(n.id));
+    // V1.6 deepening cards surface out of the network: a card becomes a candidate
+    // once two of the ideas it deepens have been introduced (at most one per session).
+    const cardReady = (c) => !introduced.has(c.id) && c.connections.filter((x) => introduced.has(x)).length >= 2;
+    const unmet = C.nodes.filter((n) => !introduced.has(n.id)).concat((C.cardNodes || []).filter(cardReady));
     const fresh = (unmet.some((n) => !reserved.has(n.id)) ? unmet.filter((n) => !reserved.has(n.id)) : unmet)
       .map((n) => ({ n, score: unlockValue(n.id) + rng() * 2 + (M.isSeen(player, n.id) ? 1 : 0) }))
       .sort((a, b) => b.score - a.score);
     const newWorlds = new Set();
+    let cardsHere = 0;
     for (const { n } of fresh) {
       if (discoveredHere.size >= 2) break;
+      if (n.isCard && cardsHere >= 1) continue;
       if (newWorlds.has(n.world) && fresh.length > 4) continue;
+      if (n.isCard) cardsHere++;
       newWorlds.add(n.world);
       discoveredHere.add(n.id);
       add(curatedDiscover[n.id] || derive.discover(n), 'new');
@@ -664,6 +672,7 @@
       known.add(id);
     };
     const singles = (id) => C.encounters.filter((e) => e.nodeIds.length === 1 && e.nodeIds[0] === id);
+    const tapFor = (id) => singles(id).find((e) => e.kind !== 'recall' && e.kind !== 'share' && !used.has(e.id) && !seen(e));
     const seen = (e) => player.encounters[e.id] && player.encounters[e.id].count;
 
     // 1) Enter through the idea.
@@ -709,14 +718,24 @@
       if (!joint && bare >= 1) continue; // at most one neighbour met without a connecting card
       for (const id of newIds) introduce(id);
       if (joint) push(joint);
-      else bare++;
+      else {
+        bare++;
+        // A neighbour met without a connecting card gets one quick question of its own.
+        const t = tapFor(nb.id);
+        if (t && out.length < SESSION_LENGTH - 1) push(t);
+      }
     }
     // Thin neighbourhood? Meet one or two more neighbours directly.
-    for (const nb of neighbours) {
+    // Neighbours that can be tried right away (known, or with a quick question) come first.
+    const fill = neighbours.filter((nb) => known.has(nb.id) || tapFor(nb.id)).concat(neighbours.filter((nb) => !known.has(nb.id) && !tapFor(nb.id)));
+    for (const nb of fill) {
       if (out.length >= 4) break;
       if (out.some((e) => e.nodeIds.includes(nb.id))) continue;
-      if (!known.has(nb.id)) introduce(nb.id);
-      else push(singles(nb.id).find((e) => e.kind !== 'share' && !used.has(e.id)) || derive.recall(C.nodesById[nb.id]));
+      if (!known.has(nb.id)) {
+        introduce(nb.id);
+        const t = tapFor(nb.id);
+        if (t && out.length < SESSION_LENGTH - 1) push(t);
+      } else push(singles(nb.id).find((e) => e.kind !== 'share' && !used.has(e.id)) || derive.recall(C.nodesById[nb.id]));
     }
 
     // 6) Close on the idea itself: think first, then reveal.

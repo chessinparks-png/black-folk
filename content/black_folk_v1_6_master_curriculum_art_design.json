@@ -563,11 +563,11 @@
       "kind": "concept",
       "world": "IDENTITY",
       "era": "1890s–present",
-      "core_idea": "Respectability is the strategy or expectation that Black people can gain legitimacy, protection, opportunity, or acceptance by meeting dominant standards of behavior, appearance, morality, class, or public presentation.",
-      "why_then": "Black communities facing hostile institutions repeatedly debated whether careful public presentation could reduce vulnerability, win sympathy, or expand opportunity—and who would be excluded when a movement chose a 'respectable' image.",
-      "share": "Respectability asks whether meeting dominant standards can buy protection, legitimacy, or opportunity.",
-      "keep_this": "If protection depends on being respectable, are they really rights?",
-      "lens": "Treat respectability as a strategy with real historical uses and real limits; REFUSAL is not the automatically correct answer.",
+      "core_idea": "Respectability is the pressure or strategy of meeting dominant standards of behavior, appearance, morality, class, gender, sexuality, or public presentation in hopes of being treated as worthy of protection, opportunity, legitimacy, or sympathy.",
+      "why_then": "Black people facing hostile institutions were repeatedly told that protection, sympathy, and opportunity depended on proving themselves proper, moral, and safe. Those standards were set under unequal power—and many poor, criminalized, unlettered, queer, or otherwise 'non-respectable' Black people could not meet them, or would not.",
+      "share": "Respectability makes acceptability a condition for protection and sympathy.",
+      "keep_this": "Who has to prove they deserve protection?",
+      "lens": "Ask who is treated as an acceptable victim—and who is pushed outside the public story when protection depends on presentation.",
       "connections": [
         "V1-018",
         "V1-021",
@@ -583,33 +583,33 @@
       ],
       "debates": [],
       "words": [],
-      "your_words_prompt": "When can respectability be strategically useful, and what can it never guarantee?",
+      "your_words_prompt": "Who gets left out when dignity becomes a condition for sympathy?",
       "today": "Use sourced contemporary examples only when the standards themselves are the question; avoid implying that every disagreement over behavior is respectability politics.",
       "source": "Black Perspectives audit synthesis + existing BLACK FOLK historical nodes",
-      "source_section": "Vengeance feminism / fury and disrepute cluster; Montgomery; Wells; Terrell; Washington",
+      "source_section": "Vengeance feminism / fury and disrepute cluster; Keywords for African American Studies critique of morality and respectability politics; Montgomery; Wells; Terrell; Washington",
       "encounter_seeds": [
         {
           "id": "E15-045-01",
           "mode": "SAME_QUESTION",
-          "prompt": "Two Black people experience the same injustice. One fits the public image organizers think will win sympathy; one does not. What is the strategic advantage of choosing the first person—and what is the cost?",
-          "reveal": "Respectability can be a movement strategy, but choosing the most publicly acceptable symbol can leave other harmed people outside the story."
+          "prompt": "Two Black people suffer the same injustice. One is considered a 'better' public symbol. Who disappears from the story?",
+          "reveal": "Organizers sometimes chose symbols they believed audiences would accept. That choice could also push other harmed people outside the story."
         },
         {
           "id": "E15-045-02",
           "mode": "CONNECT",
-          "prompt": "Connect Montgomery, Mary Church Terrell, and modern debates about the 'right kind' of victim. What question keeps returning?",
-          "reveal": "Who must appear respectable before the public treats an injustice as legitimate?"
+          "prompt": "Connect Montgomery, Mary Church Terrell, and debates about the 'right kind' of victim. What question keeps returning?",
+          "reveal": "Who has to appear respectable before the public treats an injustice as real?"
         },
         {
           "id": "E15-045-03",
           "mode": "SORT",
-          "prompt": "Sort these into STRATEGIC RESPECTABILITY or REFUSAL: careful movement symbolism; 'Black is beautiful'; changing your public behavior to gain access; rejecting the demand to prove worthiness.",
-          "reveal": "The point is not to score a winner. The thread asks what each strategy can gain, what it costs, and who gets left out."
+          "prompt": "Sort historical responses to the demand for respectability: accommodation, strategic presentation, refusal, disrepute as the price of self-defense, 'Black is beautiful.'",
+          "reveal": "These are responses to unequal power, not equally marketed lifestyle choices."
         },
         {
           "id": "E15-045-04",
           "mode": "YOUR_WORDS",
-          "prompt": "If someone's rights depend on being respectable, what kind of right is that?",
+          "prompt": "Who gets left out when dignity becomes a condition for sympathy?",
           "reveal": "Compare your answer with the thread's historical cases rather than treating the prompt as having one correct political conclusion."
         }
       ]
@@ -830,8 +830,8 @@
         {
           "id": "E15-049-03",
           "mode": "SAME_QUESTION",
-          "prompt": "Respectability and Criminalization both concern judgment. What is the difference?",
-          "reveal": "Criminalization is the charge: who is defined as dangerous. Respectability is one possible strategy for answering that charge."
+          "prompt": "Criminalization asks who gets marked dangerous. Respectability asks who gets marked worthy. Same system?",
+          "reveal": "Not exactly. One helps define who is punishable; the other helps define who is considered deserving of protection or sympathy."
         },
         {
           "id": "E15-049-04",
@@ -1099,8 +1099,8 @@
         "Hip-hop",
         "Criminalization"
       ],
-      "question": "Should you meet their standards or refuse them, and who pays for each choice?",
-      "rule": "Do not make REFUSAL the implied winner. Present respectability's strongest historical case when standards are actually the issue."
+      "question": "What happens when protection depends on acceptability?",
+      "rule": "Treat respectability as a standard imposed under unequal power, not a lifestyle choice to market. Describe historical choices (e.g., organizers choosing publicly acceptable symbols) without endorsing them. Treat accommodation, strategic presentation, refusal, disrepute, self-defense, and cultural rejection as historical responses to that power. Do not make refusal an automatic winner either."
     },
     {
       "id": "T-10",
@@ -1477,6 +1477,14 @@
         "Richard J. Powell — Black Art and Culture in the 20th Century",
         "The Black Experience in Design: Identity, Expression & Reflection",
         "Black Futures — Kimberly Drew and Jenna Wortham"
+      ]
+    },
+    {
+      "id": "V16-RESP-01",
+      "change": "Re-apply the Respectability revision (docs/respectability_revision.md) on top of V1.6.",
+      "details": [
+        "The V1.6 source files were prepared from the pre-revision V1.5 text. The revised V1-045 core idea, why then, share, KEEP THIS, lens, YOUR WORDS prompt, encounter seeds and source section, the revised V1-049 seed, and the revised T-09 question and rule are kept so the approved revision is not undone.",
+        "The two revision cards (Disrepute; Who counts as a thinker?) are kept as T-09 thread notes in content/links.json, so the deepening-card count stays 14 and CARD-07–CARD-14 are the V1.6 art/design cards."
       ]
     }
   ]

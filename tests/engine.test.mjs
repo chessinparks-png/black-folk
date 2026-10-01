@@ -44,18 +44,22 @@ function maxChoiceRun(items) {
 }
 
 console.log('content');
-test('V1.5: 50 nodes, 80 encounters + 50 DISCOVER = 130, 9 threads, 8 debates, 5 bridges', () => {
+test('V1.6: 50 core nodes, 10 threads, 8 debates, 14 deepening cards, 5 bridges', () => {
   assert.equal(C.nodes.length, 50);
-  assert.equal(C.encounters.length, 80);
-  assert.equal(C.discovery.length, 50);
-  assert.equal(C.encounters.length + C.discovery.length, 130);
-  assert.equal(C.threads.length, 9);
+  assert.ok(C.nodes.every((n) => /^V1-0\d\d$/.test(n.id) && !n.isCard), 'no deepening card counted as a core node');
+  assert.equal(C.encounters.length, 88, '80 V1.5 encounters + 8 art/design');
+  assert.equal(C.discovery.length, 58, '50 core DISCOVER + 8 card DISCOVER');
+  assert.equal(C.threads.length, 10);
+  assert.equal(C.deepening.length, 14);
+  assert.deepEqual(C.deepening.map((c) => c.id), Array.from({ length: 14 }, (_, i) => 'CARD-' + String(i + 1).padStart(2, '0')));
+  assert.deepEqual(C.cardNodes.map((c) => c.id), ['CARD-07', 'CARD-08', 'CARD-09', 'CARD-10', 'CARD-11', 'CARD-12', 'CARD-13', 'CARD-14']);
+  assert.deepEqual(C.deepening.slice(6).map((c) => c.title), ['Who Controls the Image?', 'Who Is Black Art For?', 'Art as Evidence', 'The Artist as Organizer', 'Systems Are Designed Too', 'Design as Care', 'Who Owns the Platform?', 'Who Gets to Imagine the Future?']);
   assert.equal(C.debates.length, 8);
   assert.equal(C.starters.length, 3);
   assert.equal(C.bridges.length, 5);
-  assert.deepEqual(C.threads.map((t) => t.title), ['LEAVE · REFORM · BUILD', 'LEVERAGE', 'EVIDENCE AS RESISTANCE', 'WHAT IS EDUCATION FOR?', 'WHO BUILT IT?', 'WHO DEFINES BLACKNESS?', 'LEGAL VICTORY · LIVED REALITY', 'BLACKNESS ACROSS BORDERS', 'RESPECTABILITY ↔ REFUSAL']);
+  assert.deepEqual(C.threads.map((t) => t.title), ['LEAVE · REFORM · BUILD', 'LEVERAGE', 'EVIDENCE AS RESISTANCE', 'WHAT IS EDUCATION FOR?', 'WHO BUILT IT?', 'WHO DEFINES BLACKNESS?', 'LEGAL VICTORY · LIVED REALITY', 'BLACKNESS ACROSS BORDERS', 'RESPECTABILITY ↔ REFUSAL', 'WHO DESIGNS THE WORLD?']);
   for (const id of ['V1-045', 'V1-046', 'V1-047', 'V1-048', 'V1-049', 'V1-050']) assert.ok(C.nodesById[id], id);
-  assert.equal(new Set(C.discovery.map((d) => d.nodeIds[0])).size, 50, 'every node has a DISCOVER card');
+  assert.equal(new Set(C.discovery.map((d) => d.nodeIds[0])).size, 58, 'every node and playable card has a DISCOVER card');
 });
 test('Linked Fate, Post-Race and Diaspora are not core nodes; WHO IS “WE”? is not a thread/node', () => {
   const names = C.nodes.map((n) => n.subject.toLowerCase());
@@ -317,10 +321,11 @@ test('after onboarding, 40 simulated sessions obey the rules', () => {
   console.log('    first sessions after onboarding:', kindsSeen.slice(0, 10).join(' → '));
   assert.deepEqual(kindsSeen.filter((k) => /^S0/.test(k)), ['S04', 'S05', 'S06', 'S07', 'S08'], 'all five bridges surface, in order');
   assert.equal(kindsSeen[1], 'adaptive', 'bridges alternate with review sessions');
-  console.log('    introduced:', Object.values(p.nodes).filter((n) => n.introduced).length, '/ 50 · threads:',
+  console.log('    introduced:', C.nodes.filter((n) => p.nodes[n.id] && p.nodes[n.id].introduced).length, '/ 50 · cards:', C.cardNodes.filter((n) => p.nodes[n.id] && p.nodes[n.id].introduced).length, '/ 8 · threads:',
     Object.keys(p.threadsUnlocked).length, '· debates:', Object.keys(p.debatesUnlocked).length, '· LVL', p.level, p.knowledge);
-  assert.equal(Object.values(p.nodes).filter((n) => n.introduced).length, 50, 'all 50 nodes discovered through play');
-  assert.equal(Object.keys(p.threadsUnlocked).length, 9);
+  assert.equal(C.nodes.filter((n) => p.nodes[n.id] && p.nodes[n.id].introduced).length, 50, 'all 50 nodes discovered through play');
+  assert.equal(C.cardNodes.filter((n) => p.nodes[n.id] && p.nodes[n.id].introduced).length, 8, 'all 8 art/design cards discovered through play');
+  assert.equal(Object.keys(p.threadsUnlocked).length, 10);
   assert.equal(Object.keys(p.debatesUnlocked).length, 8);
   for (const m of ['DISCOVER', 'RECALL', 'SHARE', 'TIMELINE', 'MATCH', 'SAME QUESTION', 'THEN → NOW', 'CONNECT', 'WORDS'])
     assert.ok(kinds.has(m), 'never saw ' + m);
@@ -394,7 +399,8 @@ test('Respectability: new core idea, KEEP THIS and YOUR WORDS prompt', () => {
   assert.ok(/worthy of protection, opportunity, legitimacy, or sympathy/.test(n.coreIdea));
   assert.equal(C.threadsById['T-09'].question, 'What happens when protection depends on acceptability?');
   assert.equal(C.threadResponses['T-09'].length, 9);
-  assert.deepEqual(C.threadsById['T-09'].cards, ['CARD-07', 'CARD-08']);
+  // The revision's two cards are T-09 thread notes in V1.6 (CARD-07+ are the art/design cards).
+  assert.deepEqual(C.threadsById['T-09'].notes.map((n) => n.title), ['Disrepute', 'Who counts as a thinker?']);
 });
 test('E056 / E057 / E058 rewritten; refusal is never the scored answer', () => {
   const [a, b, c] = ['E056', 'E057', 'E058'].map((id) => C.byId[id]);
@@ -467,7 +473,13 @@ test('every existing explanation, reveal and card text is unchanged (vs. pre-cha
     if (was.pairs) assert.deepEqual(now.pairs, was.pairs);
   }
   for (const [id, fields] of Object.entries(SNAP.nodes)) for (const [k, v] of Object.entries(fields)) { assert.deepEqual(C.nodesById[id][k], v, id + '.' + k); n++; }
-  for (const [id, v] of Object.entries(SNAP.deepening)) assert.equal((C.deepeningById[id] || {}).text || null, v, id);
+  // V1.6 reassigned CARD-07/08 to the art/design layer; the two Respectability
+  // revision cards keep their exact text as T-09 notes.
+  const notes = C.threadsById['T-09'].notes.map((x) => x.text);
+  for (const [id, v] of Object.entries(SNAP.deepening)) {
+    if (id === 'CARD-07' || id === 'CARD-08') assert.ok(notes.includes(v), id + ' text kept as a T-09 note');
+    else assert.equal((C.deepeningById[id] || {}).text || null, v, id);
+  }
   // Derived cards reveal the curriculum's core idea, word for word.
   for (const nd of C.nodes) {
     const s = S.buildAnchored(C, M.newPlayer(), nd.id, { seed: 3 });
@@ -672,6 +684,103 @@ test('no option or sort label leans on a pronoun from another line', () => {
   const OK = ['Wells opposed journalism; Washington supported it.', 'Not that simple', 'Proof that inclusion equals exclusion', 'Tries to turn that connection into an organized movement'];
   const bad = labels.filter(([, t]) => /\b(it|this|that|they|them)\b/i.test(t) && !/^(What|Who|Whether|How)\b/.test(t) && !OK.includes(t));
   assert.deepEqual(bad, []);
+});
+
+console.log('V1.6 art & design');
+const ART = C.cardNodes.map((c) => c.id);
+test('T-10 WHO DESIGNS THE WORLD? is a formal thread of ideas and deepening cards', () => {
+  const t = C.threadsById['T-10'];
+  assert.equal(t.title, 'WHO DESIGNS THE WORLD?');
+  assert.equal(t.question, 'Who shapes the images, spaces, systems, platforms, and futures Black people inhabit—and who has the power to redesign them?');
+  for (const id of ['V1-005', 'V1-010', 'V1-026', 'V1-027', 'V1-037', 'V1-040', 'CARD-07', 'CARD-11', 'CARD-14']) assert.ok(t.members.includes(id), id);
+  for (const s of t.steps) for (const id of s.nodeIds) assert.ok(C.nodesById[id], 'broken id ' + id);
+});
+test('the 8 art/design cards are playable deepening cards, not core nodes', () => {
+  assert.deepEqual(ART, ['CARD-07', 'CARD-08', 'CARD-09', 'CARD-10', 'CARD-11', 'CARD-12', 'CARD-13', 'CARD-14']);
+  for (const id of ART) {
+    assert.ok(!C.nodes.some((n) => n.id === id));
+    assert.ok(C.discovery.some((d) => d.nodeIds[0] === id), id + ' has a DISCOVER card');
+    const encs = C.encounters.filter((e) => e.nodeIds.includes(id));
+    assert.ok(encs.length >= 1, id + ' has an interaction');
+    for (const e of encs) {
+      assert.ok(e.prompt.trim().endsWith('?'), e.id + ' asks a question');
+      assert.ok(e.choices.every((c) => c.length <= 40 && c.split(/\s+/).length <= 6), e.id + ' short options');
+      assert.ok(e.reveal.length <= 260 && e.reveal.split(/(?<=[.?!])\s+/).length <= 2, e.id + ' concise reveal');
+      assert.ok(e.choices.includes(e.correct));
+    }
+  }
+  assert.equal(C.encounters.filter((e) => e.nodeIds.some((x) => ART.includes(x))).length, 8, 'only the encounters needed: one per card');
+});
+test('required V1.6 connections are kept', () => {
+  const links = (id) => C.cardLinks[id];
+  assert.ok(links('CARD-09').includes('T-03'));
+  assert.ok(links('CARD-10').includes('T-05') && links('CARD-11').includes('T-05'));
+  assert.ok(links('CARD-07').includes('T-06'));
+  assert.ok(links('CARD-14').includes('T-08'));
+  assert.ok(links('CARD-07').includes('T-09') && links('CARD-08').includes('T-09'));
+  assert.ok(links('CARD-08').includes('D-06'));
+  assert.ok(links('CARD-11').includes('D-08'));
+  const t10 = C.threadConnections.filter((e) => e.from === 'T-10').map((e) => e.to).sort();
+  assert.deepEqual(t10, ['D-05', 'D-06', 'D-08', 'T-03', 'T-05', 'T-06', 'T-08', 'T-09']);
+  const G = GR.build(C);
+  const nb = (id) => new Set((G.byNode[id] || []).map((e) => (e.a === id ? e.b : e.a)));
+  for (const [card, ids] of Object.entries({ 'CARD-07': ['V1-010', 'V1-026', 'V1-027', 'V1-028', 'V1-040'], 'CARD-08': ['V1-026', 'V1-027', 'V1-045'], 'CARD-10': ['V1-037', 'V1-047'], 'CARD-13': ['V1-010', 'V1-040', 'V1-044', 'V1-050'], 'CARD-14': ['V1-047', 'V1-048'] }))
+    for (const id of ids) assert.ok(nb(card).has(id), card + ' ↔ ' + id);
+  for (const e of G.edges.values()) assert.ok(C.nodesById[e.a] && C.nodesById[e.b], 'edge to unknown id ' + e.id);
+  for (const id of ART) assert.ok(nb(id).size >= 3 && nb(id).size <= 9, id + ' is connected, not a hub (' + nb(id).size + ')');
+});
+test('the overview map stays core-only; cards appear only in their world view', () => {
+  const G = GR.build(C);
+  for (const id of ART) assert.ok(!G.layout.nodes[id], id + ' not on the overview');
+  const L = GR.worldLayout(C, 'CULTURE');
+  for (const id of ART) assert.ok(L.nodes[id] && L.nodes[id].card, id + ' in CULTURE view');
+  assert.equal(Object.keys(GR.worldLayout(C, 'POWER').nodes).length, C.nodes.filter((n) => n.world === 'POWER').length);
+  // A new player sees no links at all; nothing is revealed in advance.
+  assert.equal(GR.visibleEdges(G, M.newPlayer()).length, 0);
+});
+test('recurring question WHO DESIGNED THIS — AND WHO COULD REDESIGN IT? is used selectively', () => {
+  assert.equal(C.designLens, 'WHO DESIGNED THIS — AND WHO COULD REDESIGN IT?');
+  assert.ok(!C.threads.some((t) => /WHO DESIGNED THIS/.test(t.title)) && !C.nodes.some((n) => /WHO DESIGNED THIS/.test(n.name)), 'not a thread or node');
+  const tagged = C.encounters.filter((e) => e.lens === C.designLens).map((e) => e.id);
+  assert.ok(tagged.length >= 1 && tagged.length <= 3, 'selective: ' + tagged);
+});
+test('cards surface in PLAY only after two of their ideas are met, one at a time', () => {
+  const p = M.newPlayer();
+  for (let k = 0; k < 5; k++) assert.ok(!S.buildAdaptive(C, p, { seed: 3 + k }).items.some((i) => i.enc.nodeIds.some((x) => ART.includes(x))), 'no card for a new player');
+  // Once the core ideas are met, cards are what is new — at most one per session.
+  for (const d of C.discovery) if (!ART.includes(d.nodeIds[0])) M.recordEncounter(p, d, 1);
+  for (let k = 0; k < 8; k++) {
+    const cards = S.buildAdaptive(C, p, { seed: 60 + k }).items.filter((i) => i.enc.kind === 'discover' && ART.includes(i.enc.nodeIds[0]));
+    assert.equal(cards.length, 1, 'one card per session');
+  }
+  // A card whose ideas are unmet stays back.
+  const q = M.newPlayer();
+  for (const d of C.discovery) if (!ART.includes(d.nodeIds[0]) && !C.cardsById['CARD-07'].connections.includes(d.nodeIds[0])) M.recordEncounter(q, d, 1);
+  for (let k = 0; k < 8; k++) assert.ok(!S.buildAdaptive(C, q, { seed: 80 + k }).items.some((i) => i.enc.id === 'D051'), 'CARD-07 waits for its ideas');
+});
+for (const [id, label] of [['V1-026', 'Harlem Renaissance'], ['V1-027', 'Hurston'], ['V1-040', 'Hip-hop'], ['V1-047', 'Black Nationalism'], ['CARD-07', 'Who Controls the Image?'], ['CARD-11', 'Systems Are Designed Too'], ['CARD-14', 'Who Gets to Imagine the Future?']])
+  test('Learn from here: ' + label, () => {
+    const G = GR.build(C);
+    const p = M.newPlayer();
+    const s = S.buildAnchored(C, p, id, { seed: 4 });
+    assert.equal(s.items[0].enc.nodeIds[0], id);
+    assert.ok(s.items.length >= 4 && s.items.length <= 6);
+    assert.ok(s.items.at(-1).enc.kind !== 'discover', 'does not end on an untried idea');
+    const near = new Set([id, ...(G.byNode[id] || []).map((e) => (e.a === id ? e.b : e.a))]);
+    const intro = new Set();
+    for (const it of s.items) {
+      for (const x of it.enc.nodeIds) assert.ok(C.nodesById[x], 'broken id ' + x);
+      if (it.enc.kind === 'discover') { const x = it.enc.nodeIds[0]; assert.ok(near.has(x), x + ' is not a graph neighbour of ' + id); intro.add(x); }
+      else assert.ok(it.enc.nodeIds.every((x) => intro.has(x)), it.enc.id + ' before its ideas were introduced');
+    }
+    console.log('    ' + s.items.map((i) => i.enc.nodeIds.map((x) => C.nodesById[x].name).join('+')).join(' → '));
+  });
+test('V1.6 keeps the Respectability revision and adds no NOW hooks', () => {
+  const bundle = require('node:fs').readFileSync(new URL('../app/data/content.js', import.meta.url), 'utf8');
+  assert.ok(!/strategically useful|real historical uses/i.test(bundle));
+  assert.equal(C.nodesById['V1-045'].keepThis, 'Who has to prove they deserve protection?');
+  assert.ok(!/"refreshBy"|"now_hook"|"lead_hook"|"coda_hook"/i.test(bundle), 'no NOW hook fields');
+  assert.equal(BF_CONTENT.curriculum.version, 'V1.6 — arts/design expansion');
 });
 
 console.log(failures ? `\n${failures} failing` : '\nall passing');

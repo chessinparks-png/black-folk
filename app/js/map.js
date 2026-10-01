@@ -34,8 +34,10 @@
     const openUnlearned = state === 'locked' && ctx.showAll;
     const r = (openUnlearned ? 4.5 : RADIUS[state]) * (opts.scale || 1);
     const g = s('g', { class: 'mnode is-' + state + (openUnlearned ? ' is-unlearned' : ''), 'data-world': n.world });
+    if (opts.card) g.classList.add('is-card');
     if (state === 'strong') g.append(s('circle', { class: 'halo', cx: pos.x, cy: pos.y, r: r + 5 * (opts.scale || 1) }));
-    g.append(s('circle', { class: 'dot', cx: pos.x, cy: pos.y, r }));
+    if (opts.card) g.append(s('rect', { class: 'dot', x: pos.x - r, y: pos.y - r, width: r * 2, height: r * 2, transform: `rotate(45 ${pos.x} ${pos.y})` }));
+    else g.append(s('circle', { class: 'dot', cx: pos.x, cy: pos.y, r }));
     if (state === 'locked' && !openUnlearned) {
       g.setAttribute('aria-hidden', 'true');
       return g;
@@ -50,7 +52,12 @@
       s('circle', { class: 'hit', cx: pos.x, cy: pos.y, r: 18 * (opts.scale || 1) }),
       s('text', { class: 'mlabel', x: pos.x + cos * off, y: ly, 'text-anchor': anchor }, opts.label ? opts.label(n) : n.name)
     );
-    const a = s('a', { href: '#/idea/' + n.id, 'aria-label': n.subject + ', ' + (openUnlearned ? 'not yet learned' : state) }, g);
+    if (opts.card) {
+      // Cards stay unlabeled on the map (the list below names them); hover shows the title.
+      g.querySelector('.mlabel').remove();
+      g.append(s('title', {}, n.subject));
+    }
+    const a = s('a', { href: '#/idea/' + n.id, 'aria-label': (opts.card ? 'Deepening card: ' : '') + n.subject + ', ' + (openUnlearned ? 'not yet learned' : state) }, g);
     return a;
   }
 
@@ -84,6 +91,7 @@
       if (!e.kinds.has('encounter') && !e.kinds.has('discovered')) continue;
       const a = L.nodes[e.a];
       const b = L.nodes[e.b];
+      if (!a || !b) continue; // deepening cards live in their world's view, not the overview
       const fresh = map.edges[e.id] > lastViewed && lastViewed > 0;
       const wa = C.nodesById[e.a].world;
       const far = wa !== C.nodesById[e.b].world;
@@ -157,6 +165,8 @@
     for (const e of GR.visibleEdges(G, player)) {
       const inA = L.nodes[e.a];
       const inB = L.nodes[e.b];
+      // Links between a card and an idea in another world stay off this map.
+      if ((inA && inA.card && !inB) || (inB && inB.card && !inA)) continue;
       if (inA && inB) {
         edges.append(s('path', { class: 'medge', 'data-world': worldId, d: curve(inA, inB, L.center, 0.3) }));
       } else if (inA || inB) {
@@ -181,6 +191,12 @@
     const nodes = s('g', { class: 'mnodes' });
     for (const n of C.nodes.filter((x) => x.world === worldId)) {
       nodes.append(nodeMark(ctx, n, L.nodes[n.id], GR.nodeState(G, player, n.id), { scale: narrow ? 1.8 : 1.35, label }));
+    }
+    // Deepening cards: square marks on the inner ring, shown once met (or in Show everything).
+    for (const c of (C.cardNodes || []).filter((x) => x.world === worldId)) {
+      const st = GR.nodeState(G, player, c.id);
+      if (st === 'locked' && !ctx.showAll) continue;
+      nodes.append(nodeMark(ctx, c, L.nodes[c.id], st, { scale: narrow ? 1.8 : 1.35, label, card: true }));
     }
     svg.append(nodes);
     return svg;

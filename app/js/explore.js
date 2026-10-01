@@ -49,7 +49,32 @@
   }
 
   function chip(ctx, n, dim) {
-    return h('a', { href: '#/idea/' + n.id, 'data-world': n.world, class: dim ? 'is-dim' : null }, h('i', { class: 'wdot', 'aria-hidden': 'true' }), displayName(ctx, n));
+    const cls = [dim ? 'is-dim' : null, n.isCard ? 'is-card' : null].filter(Boolean).join(' ') || null;
+    return h('a', { href: '#/idea/' + n.id, 'data-world': n.world, class: cls }, h('i', { class: 'wdot', 'aria-hidden': 'true' }), displayName(ctx, n));
+  }
+
+  // V1.6 deepening cards: playable cards (CARD-07–14) open their own page; the
+  // earlier cards are short notes that live in their thread or world.
+  const cardsShown = (ctx) => ctx.C.cardNodes.filter((c) => canSee(ctx, c.id));
+  const cardsFor = (ctx, targetId) => cardsShown(ctx).filter((c) => (ctx.C.cardLinks[c.id] || []).includes(targetId));
+  function cardRow(ctx, c) {
+    const open = isOpen(ctx, c.id);
+    return row(ctx, { href: '#/idea/' + c.id, name: c.subject, plain: true, sub: c.keepThis, dim: !open, meta: open ? null : 'Not yet learned', metaClass: 'new', world: c.world });
+  }
+  // Thread ↔ thread / debate links from the V1.6 map, only to things the player can see.
+  function threadLinksFor(ctx, id) {
+    const { C, player } = ctx;
+    const visible = (x) => ctx.showAll || player.threadsUnlocked[x] || player.debatesUnlocked[x];
+    return C.threadConnections
+      .filter((e) => e.from === id || e.to === id)
+      .map((e) => ({ other: e.from === id ? e.to : e.from, label: e.label }))
+      .filter((x) => visible(x.other))
+      .map((x) => {
+        const t = C.threadsById[x.other] || C.debatesById[x.other];
+        const href = (C.threadsById[x.other] ? '#/thread/' : '#/debate/') + x.other;
+        const open = player.threadsUnlocked[x.other] || player.debatesUnlocked[x.other];
+        return row(ctx, { href, name: t.title, plain: !C.threadsById[x.other], sub: x.label, dim: !open });
+      });
   }
 
   // Deepening cards (Diaspora, Coalition, Disrepute…): supporting ideas, never core nodes.
@@ -136,6 +161,13 @@
             ? h('ul', { class: 'rows rows--tight' }, debates.map((d) => row(ctx, { href: '#/debate/' + d.id, name: d.title, plain: true, sub: d.question, dim: !player.debatesUnlocked[d.id], meta: notOpened(player.debatesUnlocked[d.id]), metaClass: 'new' })))
             : null,
           h('p', { class: 'lede-note' }, lockedNote(ctx, C.debates.length - debates.length, 'debate', 'debates'))
+        ),
+        block(
+          'Deepening cards',
+          cardsShown(ctx).length ? h('ul', { class: 'rows rows--tight' }, cardsShown(ctx).map((c) => cardRow(ctx, c))) : null,
+          h('p', { class: 'lede-note' }, ctx.showAll
+            ? C.deepening.length + ' deepening cards in all. The earlier six live inside their threads and worlds.'
+            : lockedNote(ctx, C.cardNodes.length - cardsShown(ctx).length, 'deepening card', 'deepening cards'))
         )
       )
     );
@@ -178,6 +210,10 @@
           : h('p', { class: 'lede-note' }, 'Nothing discovered here yet. This world opens as you play.'),
         locked && !ctx.showAll ? h('p', { class: 'lede-note gaps' }, h('span', { class: 'gap-dots', 'aria-hidden': 'true' }, '· '.repeat(Math.min(locked, 10)).trim()), ' ' + locked + ' still undiscovered') : null
       ),
+      (() => {
+        const wc = cardsShown(ctx).filter((c) => c.world === id);
+        return wc.length ? panel('panel--list', h('h2', { class: 'panel-title' }, 'Deepening cards'), h('ul', { class: 'rows rows--tight' }, wc.map((c) => cardRow(ctx, c)))) : null;
+      })(),
       panel(
         'panel--group',
         beyond.size ? block('Connected beyond ' + w.id.toLowerCase(), h('div', { class: 'links' }, [...beyond.values()].map((n) => chip(ctx, n)))) : null,
@@ -288,7 +324,7 @@
       },
       'Learn from here'
     );
-    const sub = h('span', { class: 'learn-sub' }, 'A short session that starts with this idea and moves through its neighbours.');
+    const sub = h('span', { class: 'learn-sub' }, 'A short session that starts with this ' + (n.isCard ? 'card' : 'idea') + ' and moves through its neighbours.');
     area.append(btn, sub);
     return area;
   }
@@ -305,7 +341,7 @@
         { class: 'screen', 'data-world': n.world },
         ctx.backLink(null, 'Back'),
         hero(n.world, h('p', { class: 'eyebrow' }, h('span', { class: 'world-tag' }, n.world)), h('h1', { class: 'display display--md' }, 'Not yet discovered.')),
-        h('p', { class: 'lede-note' }, 'This idea appears on your map once you meet it in PLAY. To browse the whole map, use Settings → Map visibility.')
+        h('p', { class: 'lede-note' }, (n.isCard ? 'This deepening card' : 'This idea') + ' appears on your map once you meet it in PLAY. To browse the whole map, use Settings → Map visibility.')
       );
     }
     const why = C.whyThenByNode[id];
@@ -316,8 +352,9 @@
     const nearby = ctx.showAll
       ? [...new Set((G.byNode[id] || []).map((e) => (e.a === id ? e.b : e.a)))].filter((x) => !connected.some((c) => c.id === x)).map((x) => C.nodesById[x])
       : [];
-    const threads = threadsShown(ctx).filter((t) => t.steps.some((s) => s.nodeIds.includes(id)));
-    const debates = debatesShown(ctx).filter((d) => d.prereq.includes(id));
+    const linked = C.cardLinks[id] || [];
+    const threads = threadsShown(ctx).filter((t) => t.steps.some((s) => s.nodeIds.includes(id)) || linked.includes(t.id));
+    const debates = debatesShown(ctx).filter((d) => d.prereq.includes(id) || linked.includes(d.id));
     const context = G.contextByNode[id] || [];
 
     // Progressive disclosure: lens, context and source stay folded away.
@@ -346,7 +383,7 @@
       ctx.backLink(null, 'Back'),
       hero(
         n.world,
-        h('p', { class: 'eyebrow' }, h('a', { href: '#/world/' + n.world, class: 'world-tag' }, n.world), h('span', { class: 'sep' }, '·'), n.era),
+        h('p', { class: 'eyebrow' }, h('a', { href: '#/world/' + n.world, class: 'world-tag' }, n.world), h('span', { class: 'sep' }, '·'), n.isCard ? 'Deepening card' : n.era),
         h('h1', { class: 'display display--md', tabindex: '-1' }, n.subject),
         h('div', { class: 'hero-row' }, h('span', { class: 'pill pill--' + st, 'data-world': n.world }, STATE_LABEL[st]), learnFromHere(ctx, n))
       ),
@@ -380,7 +417,9 @@
     const t = C.threadsById[id];
     if (!t || !(player.threadsUnlocked[id] || ctx.showAll)) return landing(ctx);
     const responses = (C.threadResponses || {})[id] || [];
-    const extraCards = t.cards.map((cid) => C.deepeningById[cid]).filter((c) => c.text && !t.steps.some((s) => s.cardId === c.id));
+    const extraCards = t.cards.map((cid) => C.deepeningById[cid]).filter((c) => c.text && !C.cardsById[c.id] && !t.steps.some((s) => s.cardId === c.id));
+    const deepenedBy = cardsFor(ctx, id).filter((c) => !t.steps.some((s) => s.nodeIds.includes(c.id)));
+    const crossLinks = threadLinksFor(ctx, id);
     return h(
       'main',
       { class: 'screen' },
@@ -397,6 +436,16 @@
         'ol',
         { class: 'thread-steps panel' },
         t.steps.map((st) => {
+          if (st.cardId && C.cardsById[st.cardId]) {
+            // A playable deepening card: opens its own page once met (or in Show everything).
+            const c = C.cardsById[st.cardId];
+            if (!canSee(ctx, c.id)) return h('li', { class: 'is-locked is-card' }, h('span', { class: 'muted' }, 'A deepening card, not yet discovered'));
+            return h(
+              'li',
+              { class: 'is-card' + (isOpen(ctx, c.id) ? '' : ' is-dim'), 'data-world': c.world },
+              h('a', { href: '#/idea/' + c.id }, h('span', { class: 'step-name' }, c.subject), h('span', { class: 'step-sub' }, c.keepThis))
+            );
+          }
           if (st.cardId) {
             const c = C.deepeningById[st.cardId];
             return c && c.text ? h('li', { class: 'is-card' }, h('span', { class: 'step-name' }, c.title), h('span', { class: 'step-sub' }, c.text)) : null;
@@ -411,7 +460,14 @@
           );
         })
       ),
-      extraCards.length ? panel('panel--group', block('Deepen', extraCards.map(deepCard))) : null
+      extraCards.length || t.notes.length ? panel('panel--group', block('Deepen', extraCards.map(deepCard), t.notes.map((x) => deepCard({ title: x.title, text: x.text })))) : null,
+      deepenedBy.length || crossLinks.length
+        ? panel(
+            'panel--group',
+            deepenedBy.length ? block('Deepened by', h('ul', { class: 'rows rows--tight' }, deepenedBy.map((c) => cardRow(ctx, c)))) : null,
+            crossLinks.length ? block('Connects to', h('ul', { class: 'rows rows--tight' }, crossLinks)) : null
+          )
+        : null
     );
   }
 
@@ -458,6 +514,17 @@
         )
       ),
       contrasts.length ? panel('panel--keep', block('The contrast', contrasts.map((e) => paras(e.reveal)))) : null,
+      (() => {
+        const deepenedBy = cardsFor(ctx, id);
+        const crossLinks = threadLinksFor(ctx, id);
+        return deepenedBy.length || crossLinks.length
+          ? panel(
+              'panel--group',
+              deepenedBy.length ? block('Deepened by', h('ul', { class: 'rows rows--tight' }, deepenedBy.map((c) => cardRow(ctx, c)))) : null,
+              crossLinks.length ? block('Also part of', h('ul', { class: 'rows rows--tight' }, crossLinks)) : null
+            )
+          : null;
+      })(),
       h('p', { class: 'lede-note' }, 'Mastering a debate means understanding both answers, not choosing one.')
     );
   }

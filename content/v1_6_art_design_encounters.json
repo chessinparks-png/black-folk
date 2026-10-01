@@ -1,0 +1,406 @@
+{
+  "_about": "V1.6 art/design layer: the DISCOVER card and one interaction for each new deepening card (CARD-07–CARD-14). Statements, reveals and KEEP THIS lines come from the V1.6 curriculum's deepening cards; interaction wording follows the V1.6 integration brief and the clarity rules (every screen asks a question, short options, no paragraphs). No new historical claims, no NOW hooks.",
+  "discovery_cards": [
+    {
+      "id": "D051",
+      "mode": "DISCOVER",
+      "title": "WHO CONTROLS THE IMAGE?",
+      "statement": "Representation is power when images shape what people think is possible or true.",
+      "reveal": "Images do not simply reflect Black life; they can help define who appears human, dangerous, beautiful, respectable, modern, or worthy.",
+      "points": 10,
+      "node_ids": [
+        "CARD-07"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — Richard J. Powell, Black Art and Culture in the 20th Century"
+    },
+    {
+      "id": "D052",
+      "mode": "DISCOVER",
+      "title": "WHO IS BLACK ART FOR?",
+      "statement": "Audience changes what art is asked to do.",
+      "reveal": "Black artists have repeatedly argued over whether the work should persuade outsiders, serve Black communities, pursue artistic freedom, protest injustice, or do several things at once.",
+      "points": 10,
+      "node_ids": [
+        "CARD-08"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — Richard J. Powell, Black Art and Culture in the 20th Century"
+    },
+    {
+      "id": "D053",
+      "mode": "DISCOVER",
+      "title": "ART AS EVIDENCE",
+      "statement": "An image can document reality and still raise the question: who framed the story?",
+      "reveal": "A photograph or visual record can become evidence, memory, witness, and political leverage—but framing and circulation still shape what viewers understand.",
+      "points": 10,
+      "node_ids": [
+        "CARD-09"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — Richard J. Powell, Black Art and Culture in the 20th Century"
+    },
+    {
+      "id": "D054",
+      "mode": "DISCOVER",
+      "title": "THE ARTIST AS ORGANIZER",
+      "statement": "A movement can have a studio, a gallery, a magazine, or a design guild.",
+      "reveal": "Artists can organize not only through messages in their work but by building collectives, spaces, networks, and institutions that let cultural work survive and circulate.",
+      "points": 10,
+      "node_ids": [
+        "CARD-10"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — Richard J. Powell + The Black Experience in Design"
+    },
+    {
+      "id": "D055",
+      "mode": "DISCOVER",
+      "title": "SYSTEMS ARE DESIGNED TOO",
+      "statement": "If a system produces an outcome repeatedly, ask how it was designed.",
+      "reveal": "Schools, services, platforms, streets, forms, interfaces, and institutions all embody design choices about access, priorities, behavior, and outcomes.",
+      "points": 10,
+      "node_ids": [
+        "CARD-11"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — The Black Experience in Design — Eddie Opara and anthology framing"
+    },
+    {
+      "id": "D056",
+      "mode": "DISCOVER",
+      "title": "DESIGN AS CARE",
+      "statement": "Care becomes structural when people can help shape the conditions they live inside.",
+      "reveal": "Design can redistribute access and decision-making by shaping spaces, processes, and institutions around the people most affected by them.",
+      "points": 10,
+      "node_ids": [
+        "CARD-12"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — The Black Experience in Design — community design / Infrastructure of Care"
+    },
+    {
+      "id": "D057",
+      "mode": "DISCOVER",
+      "title": "WHO OWNS THE PLATFORM?",
+      "statement": "Visibility is not the same thing as control.",
+      "reveal": "A platform can give Black people visibility and voice while someone else still controls the rules, data, archive, reach, and economic value.",
+      "points": 10,
+      "node_ids": [
+        "CARD-13"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — Black Futures + The Black Experience in Design"
+    },
+    {
+      "id": "D058",
+      "mode": "DISCOVER",
+      "title": "WHO GETS TO IMAGINE THE FUTURE?",
+      "statement": "Before people build a different world, they have to imagine one.",
+      "reveal": "Imagining Black futures is a form of cultural power: before institutions, technologies, or communities can be built differently, people must be able to picture Black life continuing and flourishing differently.",
+      "points": 10,
+      "node_ids": [
+        "CARD-14"
+      ],
+      "world": "CULTURE",
+      "source": "V1.6 art/design layer — Black Futures + The Black Experience in Design"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "E081",
+      "mode": "WHAT",
+      "prompt": "Who gets to define what Black life looks like?",
+      "answers": [
+        "Whoever controls the image",
+        "No one—images just show reality"
+      ],
+      "correct_answer": "Whoever controls the image",
+      "reveal": "Images do not simply reflect Black life; they can help define who appears human, dangerous, beautiful, respectable, modern, or worthy.",
+      "points": 15,
+      "node_ids": [
+        "CARD-07"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "source": "V1.6 art/design layer — Richard J. Powell, Black Art and Culture in the 20th Century",
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E082",
+      "mode": "SAME QUESTION",
+      "prompt": "In the Harlem Renaissance era, who could set the terms for what Black art was expected to do?",
+      "answers": [
+        "All four, in different ways",
+        "Only the artist",
+        "No one—art sets its own terms"
+      ],
+      "correct_answer": "All four, in different ways",
+      "reveal": "Audience changes what art is asked to do. Black artists have repeatedly argued over whether the work should persuade outsiders, serve Black communities, pursue artistic freedom, protest injustice, or do several things at once.",
+      "points": 20,
+      "node_ids": [
+        "CARD-08",
+        "V1-026"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONNECT",
+        "CONTEXTUALIZE"
+      ],
+      "source": "V1.6 art/design layer — Richard J. Powell, Black Art and Culture in the 20th Century",
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E083",
+      "mode": "CONNECT",
+      "prompt": "What makes a picture political?",
+      "answers": [
+        "Witness plus circulation",
+        "An expensive camera",
+        "A museum owning the print"
+      ],
+      "correct_answer": "Witness plus circulation",
+      "reveal": "A photograph or visual record can become evidence, memory, witness, and political leverage—but framing and circulation still shape what viewers understand.",
+      "points": 15,
+      "node_ids": [
+        "CARD-09"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONNECT"
+      ],
+      "source": "V1.6 art/design layer — Richard J. Powell, Black Art and Culture in the 20th Century",
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E084",
+      "mode": "WHAT",
+      "prompt": "Are all of these cultural infrastructure?",
+      "answers": [
+        "Yes",
+        "No"
+      ],
+      "correct_answer": "Yes",
+      "reveal": "Artists can organize not only through messages in their work but by building collectives, spaces, networks, and institutions that let cultural work survive and circulate.",
+      "points": 15,
+      "node_ids": [
+        "CARD-10"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "source": "V1.6 art/design layer — Richard J. Powell + The Black Experience in Design",
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E085",
+      "mode": "APPLY",
+      "prompt": "Which of these are designed?",
+      "answers": [
+        "All five",
+        "Only the poster and the website",
+        "None"
+      ],
+      "correct_answer": "All five",
+      "reveal": "Design shapes rules, access, priorities, and outcomes—not only appearance. If a system produces an outcome repeatedly, ask how it was designed.",
+      "points": 20,
+      "node_ids": [
+        "CARD-11"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "APPLY"
+      ],
+      "source": "V1.6 art/design layer — The Black Experience in Design — Eddie Opara and anthology framing",
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E086",
+      "mode": "APPLY",
+      "prompt": "In community design, who decides what a shared space needs?",
+      "answers": [
+        "The designer",
+        "The people who use the space",
+        "Both, together"
+      ],
+      "correct_answer": "Both, together",
+      "reveal": "Community design changes who participates in shaping the conditions. Care becomes structural when people can help shape the conditions they live inside.",
+      "points": 20,
+      "node_ids": [
+        "CARD-12"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "APPLY"
+      ],
+      "source": "V1.6 art/design layer — The Black Experience in Design — community design / Infrastructure of Care",
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E087",
+      "mode": "CONNECT",
+      "prompt": "Is being visible on a platform the same as controlling the platform?",
+      "answers": [
+        "Yes",
+        "No"
+      ],
+      "correct_answer": "No",
+      "reveal": "A platform can give Black people visibility and voice while someone else still controls the rules, data, archive, reach, and economic value.",
+      "points": 15,
+      "node_ids": [
+        "CARD-13"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "CONNECT"
+      ],
+      "source": "V1.6 art/design layer — Black Futures + The Black Experience in Design",
+      "answer_label": "ANSWER"
+    },
+    {
+      "id": "E088",
+      "mode": "WHAT",
+      "prompt": "Before people can build a different world, what has to come first?",
+      "answers": [
+        "Imagining a different world",
+        "Remembering the old one",
+        "Enforcing new rules"
+      ],
+      "correct_answer": "Imagining a different world",
+      "reveal": "Futurity is a form of cultural power. Before people build a different world, they have to imagine one.",
+      "points": 15,
+      "node_ids": [
+        "CARD-14"
+      ],
+      "difficulty": "medium",
+      "mastery": [
+        "UNDERSTAND"
+      ],
+      "source": "V1.6 art/design layer — Black Futures + The Black Experience in Design",
+      "answer_label": "ANSWER"
+    }
+  ],
+  "interactions": {
+    "E081": {
+      "form": "binary",
+      "stage": [
+        "A CARICATURE MADE FOR OUTSIDERS",
+        "vs.",
+        "A PORTRAIT MADE ON BLACK TERMS"
+      ],
+      "verdict": "Whoever controls the image.",
+      "question": "Who gets to define what Black life looks like?",
+      "options": [
+        "Whoever controls the image",
+        "No one—images just show reality"
+      ],
+      "correct": "Whoever controls the image"
+    },
+    "E082": {
+      "form": "pick",
+      "stage": [
+        "BLACK AUDIENCE",
+        "WHITE PATRON",
+        "MAINSTREAM MUSEUM",
+        "THE ARTIST"
+      ],
+      "question": "In the Harlem Renaissance era, who could set the terms for what Black art was expected to do?",
+      "options": [
+        "All four, in different ways",
+        "Only the artist",
+        "No one—art sets its own terms"
+      ],
+      "correct": "All four, in different ways"
+    },
+    "E083": {
+      "form": "pick",
+      "stage": [
+        "IMAGE",
+        "→ WITNESS",
+        "→ CIRCULATION",
+        "→ PUBLIC PRESSURE"
+      ],
+      "question": "What makes a picture political?",
+      "options": [
+        "Witness plus circulation",
+        "An expensive camera",
+        "A museum owning the print"
+      ],
+      "correct": "Witness plus circulation"
+    },
+    "E084": {
+      "form": "binary",
+      "stage": [
+        "STUDIO · GUILD · MAGAZINE",
+        "COLLECTIVE · COMMUNITY SPACE"
+      ],
+      "verdict": "Yes. Movements can have cultural infrastructure too.",
+      "question": "Are all of these cultural infrastructure?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "correct": "Yes"
+    },
+    "E085": {
+      "form": "pick",
+      "stage": [
+        "A POSTER · A SCHOOL · A WEBSITE",
+        "A PRISON · A COOPERATIVE"
+      ],
+      "lens": "WHO DESIGNED THIS — AND WHO COULD REDESIGN IT?",
+      "question": "Which of these are designed?",
+      "options": [
+        "All five",
+        "Only the poster and the website",
+        "None"
+      ],
+      "correct": "All five"
+    },
+    "E086": {
+      "form": "pick",
+      "stage": [
+        "A COMMUNITY SPACE IS BEING REDESIGNED."
+      ],
+      "question": "In community design, who decides what a shared space needs?",
+      "options": [
+        "The designer",
+        "The people who use the space",
+        "Both, together"
+      ],
+      "correct": "Both, together"
+    },
+    "E087": {
+      "form": "binary",
+      "stage": [
+        "VISIBLE",
+        "vs.",
+        "IN CONTROL"
+      ],
+      "verdict": "No. Visibility is not the same thing as control.",
+      "lens": "WHO DESIGNED THIS — AND WHO COULD REDESIGN IT?",
+      "question": "Is being visible on a platform the same as controlling the platform?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "correct": "No"
+    },
+    "E088": {
+      "form": "pick",
+      "stage": [
+        "BEFORE SOMETHING NEW CAN BE BUILT…"
+      ],
+      "question": "Before people can build a different world, what has to come first?",
+      "options": [
+        "Imagining a different world",
+        "Remembering the old one",
+        "Enforcing new rules"
+      ],
+      "correct": "Imagining a different world"
+    }
+  }
+}
