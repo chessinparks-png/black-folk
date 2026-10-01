@@ -97,7 +97,27 @@
   }
 
   function exploreCtx() {
-    return { C: state.C, G: state.G, player: state.player, go, backLink, save, render };
+    return {
+      C: state.C,
+      G: state.G,
+      player: state.player,
+      go,
+      backLink,
+      save,
+      render,
+      showAll: store.settings.get().mapVisibility === 'all',
+      sessionInProgress: () => !!(state.session && state.session.begun && state.session.index > 0),
+      learnFrom,
+    };
+  }
+
+  // LEARN FROM HERE: a short session anchored on one idea (see session.buildAnchored).
+  // Only the encounters actually answered there change progress.
+  function learnFrom(nodeId) {
+    state.session = S.buildAnchored(state.C, state.player, nodeId);
+    state.summary = null;
+    save();
+    go('#/play');
   }
 
   // ---- HOME ---------------------------------------------------------------------
@@ -145,9 +165,10 @@
     s.items.forEach((_, i) =>
       dots.append(h('li', { class: i < s.index ? 'done' : i === s.index ? 'now' : '', 'data-world': i === s.index ? worldOfEnc(s.items[i].enc) : null }))
     );
+    const current = s.items[s.index];
     return h(
       'main',
-      { class: 'screen' },
+      { class: 'screen screen--play', 'data-world': current ? worldOfEnc(current.enc) : null },
       h(
         'div',
         { class: 'session-bar' },
@@ -185,6 +206,9 @@
     } else if (s.kind === 'bridge') {
       eyebrowText = 'Theme';
       notes.push('Six short moments.');
+    } else if (s.kind === 'anchored') {
+      eyebrowText = 'Learn from here';
+      notes.push('Start with this idea. Then move through its neighbours.');
     } else {
       notes.push('Six short moments.');
     }
@@ -362,6 +386,20 @@
         },
         label
       );
+    // Display only: switching never changes Knowledge, mastery, discoveries, or WORDS.
+    const mapBtn = (value, label) =>
+      h(
+        'button',
+        {
+          'aria-pressed': settings.mapVisibility === value ? 'true' : 'false',
+          onclick: () => {
+            settings.mapVisibility = value;
+            store.settings.set(settings);
+            render();
+          },
+        },
+        label
+      );
     const resetArea = h('div');
     const askReset = () => {
       resetArea.replaceChildren(
@@ -387,6 +425,19 @@
       backLink('#/', 'Home'),
       h('p', { class: 'eyebrow' }, 'Settings'),
       h('div', { class: 'block', style: 'margin-top:0' }, h('h2', {}, 'Appearance'), h('div', { class: 'seg', role: 'group', 'aria-label': 'Theme' }, themeBtn('dark', 'Dark'), themeBtn('light', 'Light'))),
+      h(
+        'div',
+        { class: 'block' },
+        h('h2', {}, 'Map visibility'),
+        h('div', { class: 'seg', role: 'group', 'aria-label': 'Map visibility' }, mapBtn('gradual', 'Discover gradually'), mapBtn('all', 'Show everything')),
+        h(
+          'p',
+          { class: 'muted', style: 'margin-top:.9rem;max-width:34rem' },
+          settings.mapVisibility === 'all'
+            ? 'Every idea, thread, and debate is browsable, and you can learn from any idea. Visible is not the same as learned: your progress only changes through play.'
+            : 'The map reveals itself as you play. Switch to Show everything to browse the whole map and learn from any idea.'
+        )
+      ),
       h('div', { class: 'block' }, h('h2', {}, 'Progress'), h('p', { class: 'muted', style: 'margin-bottom:1rem' }, 'Progress is stored only on this device. Nothing is sent anywhere.'), resetArea),
       h(
         'div',

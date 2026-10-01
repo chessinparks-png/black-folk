@@ -29,11 +29,14 @@
   const RADIUS = { locked: 3.2, discovered: 6, connected: 6.5, familiar: 7.5, strong: 7.5 };
 
   function nodeMark(ctx, n, pos, state, opts) {
-    const r = RADIUS[state] * (opts.scale || 1);
-    const g = s('g', { class: 'mnode is-' + state, 'data-world': n.world });
+    // Whole-map mode: unlearned ideas are visible and openable, but drawn hollow
+    // and dashed so visible never looks like learned.
+    const openUnlearned = state === 'locked' && ctx.showAll;
+    const r = (openUnlearned ? 4.5 : RADIUS[state]) * (opts.scale || 1);
+    const g = s('g', { class: 'mnode is-' + state + (openUnlearned ? ' is-unlearned' : ''), 'data-world': n.world });
     if (state === 'strong') g.append(s('circle', { class: 'halo', cx: pos.x, cy: pos.y, r: r + 5 * (opts.scale || 1) }));
     g.append(s('circle', { class: 'dot', cx: pos.x, cy: pos.y, r }));
-    if (state === 'locked') {
+    if (state === 'locked' && !openUnlearned) {
       g.setAttribute('aria-hidden', 'true');
       return g;
     }
@@ -47,7 +50,7 @@
       s('circle', { class: 'hit', cx: pos.x, cy: pos.y, r: 18 * (opts.scale || 1) }),
       s('text', { class: 'mlabel', x: pos.x + cos * off, y: ly, 'text-anchor': anchor }, opts.label ? opts.label(n) : n.name)
     );
-    const a = s('a', { href: '#/idea/' + n.id, 'aria-label': n.subject + ', ' + state }, g);
+    const a = s('a', { href: '#/idea/' + n.id, 'aria-label': n.subject + ', ' + (openUnlearned ? 'not yet learned' : state) }, g);
     return a;
   }
 

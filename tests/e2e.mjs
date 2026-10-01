@@ -325,7 +325,7 @@ await page.goto(APP_URL + '#/words');
 await snap('words');
 await page.goto(APP_URL + '#/explore');
 check(await has('text=FREEDOM'), 'EXPLORE lists worlds');
-await page.locator('.row', { hasText: 'POWER' }).first().click();
+await page.locator('.world-card[data-world="POWER"]').click();
 await snap('explore-world');
 await page.locator('.rows .row', { hasText: 'Ida B. Wells — evidence' }).first().click();
 await snap('explore-idea');
@@ -349,6 +349,66 @@ await btn('Begin').click();
 await snap('mobile-encounter');
 await page.setViewportSize({ width: 1280, height: 820 });
 
+// MAP VISIBILITY: display only. Visible is not the same as learned.
+console.log('map visibility');
+// map.lastViewed only times the "new links draw in once" animation; everything else must match.
+const dbPlayer = () => page.evaluate(async () => JSON.stringify(await BF.store.get('player'), (k, v) => (k === 'lastViewed' ? undefined : v)));
+const memPlayer = () => page.evaluate(() => JSON.stringify(BF.app.state.player, (k, v) => (k === 'lastViewed' ? undefined : v)));
+const ideaCount = async () => {
+  let n = 0;
+  for (const w of ['FREEDOM', 'POWER', 'EDUCATION', 'ECONOMICS', 'IDENTITY', 'ORGANIZING', 'CULTURE']) {
+    await page.goto(APP_URL + '#/world/' + w);
+    await page.waitForSelector('.screen');
+    n += await page.locator('.rows .row').count();
+  }
+  return n;
+};
+const landing = async () => {
+  await page.goto(APP_URL + '#/explore');
+  await page.waitForSelector('.kmap');
+  const text = await page.textContent('main');
+  const t = await page.evaluate(() => ({ threads: BF.app.state.C.threads.map((x) => x.title), debates: BF.app.state.C.debates.map((x) => x.title) }));
+  return { threads: t.threads.filter((x) => text.includes(x)).length, debates: t.debates.filter((x) => text.includes(x)).length, unlearned: await page.locator('.kmap .is-unlearned').count() };
+};
+check(await page.evaluate(() => BF.store.settings.get().mapVisibility) === 'gradual', 'Map visibility defaults to Discover gradually');
+const pBefore = { db: await dbPlayer(), mem: await memPlayer() };
+const gradualIdeas = await ideaCount();
+const gradualLanding = await landing();
+check(gradualIdeas < 50 && gradualLanding.unlearned === 0, `gradual map shows only discovered ideas (${gradualIdeas} of 50)`);
+await page.goto(APP_URL + '#/settings');
+await btn('Show everything').click();
+check(await btn('Show everything').getAttribute('aria-pressed') === 'true', 'Show everything selected');
+const allLanding = await landing();
+check(allLanding.threads === 9 && allLanding.debates === 8, `Show everything lists 9 threads and 8 debates (${allLanding.threads}/${allLanding.debates})`);
+check(allLanding.unlearned > 0 && (await page.textContent('main')).includes('Visible is not the same as learned'), 'undiscovered ideas drawn as not yet learned');
+await snap('show-all-map');
+check(await ideaCount() === 50, 'Show everything exposes all 50 ideas');
+const unseen = await page.evaluate(() => BF.app.state.C.nodes.find((n) => !(BF.app.state.player.nodes[n.id] || {}).introduced).id);
+await page.goto(APP_URL + '#/idea/' + unseen);
+await page.waitForSelector('.hero');
+const unseenText = await page.textContent('main');
+check(/not yet learned/i.test(unseenText) && /keep this/i.test(unseenText) && await btn('Learn from here').count() === 1, 'an undiscovered idea is browsable and offers Learn from here');
+await snap('show-all-idea');
+const lockedThread = await page.evaluate(() => (BF.app.state.C.threads.find((t) => !BF.app.state.player.threadsUnlocked[t.id]) || BF.app.state.C.threads[8]).id);
+await page.goto(APP_URL + '#/thread/' + lockedThread);
+check((await page.textContent('main')).length > 200, 'an unopened thread is browsable');
+const lockedDebate = await page.evaluate(() => (BF.app.state.C.debates.find((d) => !BF.app.state.player.debatesUnlocked[d.id]) || BF.app.state.C.debates[7]).id);
+await page.goto(APP_URL + '#/debate/' + lockedDebate);
+check((await page.textContent('main')).length > 200, 'an unopened debate is browsable');
+await page.goto(APP_URL + '#/thread/T-09');
+const t09 = await page.textContent('main');
+check(t09.includes('What happens when protection depends on acceptability?') && t09.includes('Disrepute') && t09.includes('Who counts as a thinker?'), 'T-09 shows its question, historical responses and deepening cards');
+await page.goto(APP_URL + '#/words');
+await page.waitForTimeout(300);
+check(pBefore.db === await dbPlayer() && pBefore.mem === await memPlayer(), 'browsing everything changes no Knowledge, mastery, discoveries, WORDS or notes');
+await page.reload();
+await page.goto(APP_URL + '#/settings');
+check(await btn('Show everything').getAttribute('aria-pressed') === 'true', 'Map visibility persists across reload');
+await btn('Discover gradually').click();
+const backLanding = await landing();
+check(await ideaCount() === gradualIdeas && backLanding.unlearned === 0 && backLanding.threads === gradualLanding.threads, 'switching back hides undiscovered content again');
+check(pBefore.db === await dbPlayer(), 'progress identical after switching back');
+
 // Reset
 await page.goto(APP_URL + '#/settings');
 await btn('Reset progress').click();
@@ -359,6 +419,67 @@ await page.reload();
 await page.waitForSelector('.stats');
 state = await st();
 check(state.knowledge === 0 && state.starters === 0 && !state.session, 'reset persists across reload');
+
+check(await page.evaluate(() => BF.store.settings.get().mapVisibility) === 'gradual', 'reset returns Map visibility to Discover gradually');
+
+// LEARN FROM HERE from unseen ideas (new player, Show everything)
+console.log('learn from here');
+async function playToEnd(tag) {
+  for (let i = 0; i < 8 && !(await has('text=Session complete')); i++) {
+    while (await has('text=Thread revealed')) await btn('Continue').click();
+    if (await has('text=Session complete')) break;
+    const before = (await st()).knowledge;
+    await playEncounter({ shotName: i < 2 ? tag + '-' + (i + 1) : null });
+    if ((await st()).knowledge < before) check(false, 'knowledge dropped');
+  }
+  await page.waitForSelector('text=Session complete');
+}
+async function learnFrom(id) {
+  await page.goto(APP_URL + '#/idea/' + id);
+  await page.waitForSelector('.hero');
+  await btn('Learn from here').click();
+  await page.waitForSelector('text=Begin');
+  return st();
+}
+await page.goto(APP_URL + '#/settings');
+await btn('Show everything').click();
+const k0 = (await st()).knowledge;
+let lf = await learnFrom('V1-048');
+check(lf.session.kind === 'anchored' && lf.session.ids[0] === 'D048', 'Pan-Africanism: anchored session opens on the idea (' + lf.session.ids.join(' → ') + ')');
+check(lf.knowledge === k0 && !(await page.evaluate(() => BF.app.state.player.nodes['V1-048'])), 'starting it awards nothing');
+check((await page.textContent('main')).includes('Learn from here'), 'intro says Learn from here');
+await btn('Begin').click();
+check(await page.locator('main.screen--play[data-world]').count() === 1, 'play screen carries its world colour');
+await playToEnd('lfh-pan');
+const afterPan = await page.evaluate(() => ({ k: BF.app.state.player.knowledge, intro: !!(BF.app.state.player.nodes['V1-048'] || {}).introduced, starters: BF.app.state.player.startersCompleted }));
+check(afterPan.k > k0 && afterPan.intro, `progress came only through play (+${afterPan.k - k0})`);
+await btn('Done').click();
+await page.getByRole('button', { name: /^(Play|Continue)$/ }).click();
+check(!(await page.textContent('main')).includes('Learn from here'), 'PLAY intro is the normal one');
+await btn('Begin').click();
+check((await st()).session.kind === 'starter', 'normal PLAY still starts the curated starter');
+await page.setViewportSize({ width: 390, height: 844 });
+lf = await learnFrom('V1-045');
+check(lf.session.kind === 'anchored' && lf.session.ids[0] === 'D045', 'Respectability: ' + lf.session.ids.join(' → '));
+await btn('Begin').click();
+const ov = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+check(!ov, 'phone play screen has no horizontal overflow');
+await playToEnd('lfh-resp');
+await btn('Done').click();
+await page.goto(APP_URL + '#/explore');
+await page.waitForSelector('.kmap');
+check(!(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)), 'phone EXPLORE (show everything) has no horizontal overflow');
+await snap('mobile-show-all');
+await page.setViewportSize({ width: 1280, height: 820 });
+lf = await learnFrom('V1-015');
+check(lf.session.kind === 'anchored' && lf.session.ids[0] === 'D005', 'Reconstruction: ' + lf.session.ids.join(' → '));
+await btn('Begin').click();
+await playEncounter({});
+await page.goto(APP_URL + '#/idea/V1-048');
+await btn('Learn from here').click();
+check(await has('text=Leave your current session?'), 'Learn from here asks before replacing a session in progress');
+await btn('Cancel').click();
+check((await st()).session.ids[0] === 'D005', 'cancel keeps the current session');
 
 check(badText.length === 0, 'no stray null/undefined text' + (badText.length ? ': ' + badText.join(' | ') : ''));
 check(errors.length === 0, 'no page errors' + (errors.length ? ': ' + errors.join(' | ') : ''));

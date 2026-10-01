@@ -94,7 +94,8 @@
   // Small settings live in localStorage (read synchronously at startup).
   const settings = {
     get() {
-      return Object.assign({ theme: 'dark' }, lsGet('settings') || {});
+      // mapVisibility: 'gradual' (default) | 'all'. Display only; never touches progress.
+      return Object.assign({ theme: 'dark', mapVisibility: 'gradual' }, lsGet('settings') || {});
     },
     set(s) {
       lsSet('settings', s);

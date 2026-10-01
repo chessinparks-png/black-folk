@@ -8,84 +8,915 @@
     "lens": "Optional recurring question shown quietly above the card (WHO IS “WE”?, WHO DECIDES?, …)."
   },
   "discover": {
-    "D045": { "statement": "Meet their standards. Get protection?", "reveal": "Respectability is a strategy—or an expectation—that meeting dominant standards can buy legitimacy, protection, or opportunity. It has real uses, and real limits." },
-    "D046": { "statement": "Ending something is only half the question.", "ask": "What replaces it?", "reveal": "Abolition asks what must end—and what must be built in its place." },
-    "D047": { "statement": "Representation asks who is present. Self-determination asks who can decide.", "reveal": "Black nationalism is a varied tradition of self-determination: territory, political unity, economic control, culture, independent institutions—or combinations of these.", "lens": "WHO IS “WE”?" },
-    "D048": { "statement": "Diaspora describes connection.", "ask": "What turns it into organized solidarity?", "reveal": "Pan-Africanism tries to turn global Black connection into organized solidarity across borders." },
-    "D049": { "statement": "Before punishment comes a decision about who looks punishable.", "reveal": "Criminalization is how laws, institutions, media, and stories define some people as dangerous—and so more punishable." },
-    "D050": { "statement": "The door opens. On whose terms?", "reveal": "Predatory inclusion is access granted on unequal or exploitative terms. Getting in matters. So do the terms of entry." }
+    "D045": {
+      "statement": "Before people care, they ask whether you were proper, safe, moral.",
+      "ask": "Who has to prove they deserve protection?",
+      "reveal": "Respectability is the pressure—or strategy—of meeting dominant standards in hopes of being treated as worthy of protection or sympathy. Those standards are set by people with more power.",
+      "lens": "WHO IS “WE”?"
+    },
+    "D046": {
+      "statement": "Ending something is only half the question.",
+      "ask": "What replaces it?",
+      "reveal": "Abolition asks what must end—and what must be built in its place."
+    },
+    "D047": {
+      "statement": "Representation asks who is present. Self-determination asks who can decide.",
+      "reveal": "Black nationalism is a varied tradition of self-determination: territory, political unity, economic control, culture, independent institutions—or combinations of these.",
+      "lens": "WHO IS “WE”?"
+    },
+    "D048": {
+      "statement": "Diaspora describes connection.",
+      "ask": "What turns it into organized solidarity?",
+      "reveal": "Pan-Africanism tries to turn global Black connection into organized solidarity across borders."
+    },
+    "D049": {
+      "statement": "Before punishment comes a decision about who looks punishable.",
+      "reveal": "Criminalization is how laws, institutions, media, and stories define some people as dangerous—and so more punishable."
+    },
+    "D050": {
+      "statement": "The door opens. On whose terms?",
+      "reveal": "Predatory inclusion is access granted on unequal or exploitative terms. Getting in matters. So do the terms of entry."
+    }
   },
   "encounters": {
-    "E001": { "form": "binary", "stage": ["1619", "vs.", "AFRICA"], "question": "Where does the story start?", "options": ["1619", "Africa"], "correct": "Africa", "verdict": "Before 1619." },
-    "E003": { "form": "binary", "stage": ["ELLA BAKER"], "question": "Strong leadership should…", "options": ["Protect one central voice", "Create more leaders"], "correct": "Create more leaders", "verdict": "More leaders." },
-    "E004": { "form": "pick", "stage": ["IDA B. WELLS", "→ ?"], "question": "Complete the connection.", "options": ["Investigative evidence", "Federal employment policy", "The Harlem Renaissance"], "correct": "Investigative evidence" },
-    "E005": { "form": "binary", "stage": ["SLAVERY ENDS."], "question": "Is freedom settled?", "options": ["Yes", "Not yet"], "correct": "Not yet", "verdict": "Not yet." },
-    "E007": { "form": "pick", "stage": ["WASHINGTON’S BET"], "question": "Build what first?", "options": ["Skills and economic strength", "Armed insurrection", "Student-led networks"], "correct": "Skills and economic strength" },
-    "E008": { "form": "binary", "stage": ["BLACK LIFE", "↓", "ART"], "question": "Must it be protest first?", "options": ["Yes", "No"], "correct": "No", "verdict": "No." },
-    "E009": { "form": "pick", "stage": ["JAMES McCUNE SMITH", "→ ?"], "question": "Complete the connection.", "options": ["Evidence against racist “science”", "Plessy v. Ferguson", "Montgomery bus organizing"], "correct": "Evidence against racist “science”" },
-    "E012": { "form": "pick", "stage": ["FREEDOM’S JOURNAL", "+", "IDA B. WELLS"], "question": "What connects them?", "options": ["Black-controlled media", "Industrial education", "Migration north"], "correct": "Black-controlled media", "lens": "WHO OWNS IT?" },
-    "E013": { "form": "binary", "stage": ["COMMON RATES.", "A PROTECTIVE ASSOCIATION."], "question": "What did the washerwomen gain?", "options": ["Automatic voting rights", "More control over their labor"], "correct": "More control over their labor", "verdict": "Control over their labor." },
-    "E015": { "form": "pick", "stage": ["MARY McLEOD BETHUNE"], "question": "Inside government, or outside it?", "options": ["Inside", "Outside", "Both"], "correct": "Both" },
-    "E016": { "form": "pick", "stage": ["EVIDENCE AS RESISTANCE"], "question": "Which pair belongs on this thread?", "options": ["McCune Smith + Wells", "Hampton + Hurston", "Washington + the spirituals"], "correct": "McCune Smith + Wells" },
-    "E017": { "form": "binary", "stage": ["MALCOLM X"], "question": "Where did he increasingly place the struggle?", "options": ["U.S. citizenship alone", "Global human rights"], "correct": "Global human rights", "verdict": "Global human rights." },
-    "E019": { "form": "binary", "stage": ["PLESSY LOST IN COURT."], "question": "What does the case show?", "options": ["A defeat, nothing more", "A defeat—and organized resistance"], "correct": "A defeat—and organized resistance", "verdict": "Both." },
-    "E021": { "form": "pick", "stage": ["WELLS BOYCOTT", "→ RANDOLPH’S PROTEST THREAT", "→ ?"], "question": "Complete the LEVERAGE sequence.", "options": ["Montgomery boycott", "Hurston’s folklore", "Wheatley’s poetry"], "correct": "Montgomery boycott" },
-    "E022": { "form": "sort", "prompt": "Integration and Black Power asked different questions.", "bins": ["Integration", "Black Power"], "items": [{ "text": "Who can enter?", "bin": "Integration" }, { "text": "Who can decide?", "bin": "Black Power" }], "lens": "WHO DECIDES?" },
-    "E023": { "form": "binary", "stage": ["RACE · GENDER · CLASS · SEXUALITY"], "question": "One at a time, or together?", "options": ["One at a time", "Together"], "correct": "Together", "verdict": "Together.", "lens": "WHO IS “WE”?" },
-    "E024": { "form": "recall", "prompt": "Why does Claudette Colvin connect to Combahee?" },
-    "E025": { "form": "pick", "stage": ["FRED HAMPTON’S COALITION"], "question": "It depended most on…", "options": ["Shared needs + political education", "Celebrity leadership", "Keeping groups separate"], "correct": "Shared needs + political education" },
-    "E026": { "form": "pick", "stage": ["WHAT IS EDUCATION FOR?"], "question": "Which three belong here?", "options": ["Douglass · Washington · Baker", "Hurston · Plessy · Fort Mose", "Combahee · Migration · spirituals"], "correct": "Douglass · Washington · Baker" },
-    "E027": { "lens": "DOES THIS HELP ONE PERSON OR CHANGE THE SYSTEM?" },
-    "E028": { "form": "binary", "stage": ["HIP-HOP"], "question": "Why is it in an intellectual-history game?", "options": ["Entertainment history only", "Culture can carry ideas"], "correct": "Culture can carry ideas", "verdict": "It carries ideas." },
-    "E029": { "form": "recall", "prompt": "Why does the Anita Hill episode matter beyond one biography?" },
-    "E030": { "form": "pick", "stage": ["WHO DEFINES BLACKNESS?"], "question": "Which pairing fits best?", "options": ["Du Bois + Hurston", "Randolph + Plessy", "Vesey + washerwomen"], "correct": "Du Bois + Hurston" },
-    "E033": { "form": "sort", "prompt": "A first comparison—not a permanent box. Both thinkers changed.", "bins": ["King", "Malcolm X"], "items": [{ "text": "Disciplined nonviolence · U.S. citizenship", "bin": "King" }, { "text": "Increasingly: self-determination · human rights", "bin": "Malcolm X" }] },
-    "E034": { "form": "pick", "stage": ["INSIDE ACCESS", "+", "OUTSIDE PRESSURE"], "question": "Which pair shows both?", "options": ["Bethune + Randolph", "Hurston + Wheatley", "Baker + Baldwin"], "correct": "Bethune + Randolph" },
-    "E035": { "form": "binary", "stage": ["INVITED IN.", "LITTLE SAY OVER THE RULES."], "question": "Which older question?", "options": ["Art vs. folklore", "Access vs. control"], "correct": "Access vs. control", "verdict": "Access vs. control.", "lens": "WHO HAS POWER?" },
-    "E036": { "form": "binary", "stage": ["A PUBLIC STORY BLAMES A COMMUNITY."], "question": "Wells would ask first:", "options": ["What do the facts show?", "Who is the best spokesperson?"], "correct": "What do the facts show?", "verdict": "Check the evidence." },
-    "E037": { "form": "sort", "prompt": "Place each on LEAVE · REFORM · BUILD.", "bins": ["Leave", "Reform", "Build"], "items": [{ "text": "Marronage", "bin": "Leave" }, { "text": "Brown v. Board", "bin": "Reform" }, { "text": "Bethune / Black institutions", "bin": "Build" }] },
-    "E039": { "lens": "WHAT HAPPENS AFTER THE PROTEST?" },
-    "E041": { "form": "binary", "stage": ["COLONIAL LAW ASSIGNED STATUS BY RACE."], "question": "Did law only record race?", "options": ["Only recorded it", "Helped make it"], "correct": "Helped make it", "verdict": "It helped make it." },
-    "E042": { "form": "pick", "stage": ["SHARED GRIEVANCES.", "AN ELITE GAINS WHEN WORKERS SPLIT BY RACE."], "question": "Name the mechanism.", "options": ["Divided interests", "Double consciousness", "Predatory inclusion"], "correct": "Divided interests" },
-    "E043": { "form": "binary", "stage": ["A SPIRITUAL"], "question": "What can a song carry?", "options": ["Entertainment only", "Theology · memory · strategy"], "correct": "Theology · memory · strategy", "verdict": "Ideas, too." },
-    "E044": { "form": "binary", "stage": ["THE FREEDOM CHURCH"], "question": "Only a place of worship?", "options": ["Worship only", "Worship + institution"], "correct": "Worship + institution", "verdict": "Also an institution." },
-    "E045": { "form": "recall", "prompt": "Why did Phillis Wheatley’s writing carry a second burden?" },
-    "E046": { "form": "binary", "stage": ["UNIVERSAL LIBERTY — PREACHED.", "SLAVERY — MAINTAINED."], "question": "What did that give Black thinkers?", "options": ["Proof liberty was universal", "A contradiction to expose—and a language to claim"], "correct": "A contradiction to expose—and a language to claim", "verdict": "Both a target and a tool." },
-    "E047": { "form": "recall", "prompt": "Under severe repression, why do trust and information control matter?" },
-    "E048": { "form": "binary", "stage": ["BLACK ADVANCEMENT"], "question": "Whose agency did Maria Stewart insist on?", "options": ["Black men’s only", "Black women’s, too"], "correct": "Black women’s, too", "verdict": "Black women’s, too.", "lens": "WHO IS “WE”?" },
-    "E049": { "form": "pick", "stage": ["EDUCATION · WRITING · CLUB WORK · ANTI-SEGREGATION"], "question": "What connects Terrell’s work?", "options": ["Achievement → civic power", "Education apart from politics", "Individual success only"], "correct": "Achievement → civic power" },
-    "E050": { "form": "binary", "stage": ["WHERE YOU LIVE SHAPES", "SAFETY · WAGES · POLITICAL POSSIBILITY"], "question": "Moving becomes…", "options": ["A change of address", "A strategy"], "correct": "A strategy", "verdict": "A strategy." },
-    "E051": { "form": "binary", "stage": ["A STEREOTYPE"], "question": "Baldwin’s answer:", "options": ["One respectable image", "Fuller Black humanity"], "correct": "Fuller Black humanity", "verdict": "Widen the range." },
-    "E052": { "form": "binary", "stage": ["RACISM"], "question": "The Black Left treated it as…", "options": ["Prejudice only", "Tied to labor, class, and empire"], "correct": "Tied to labor, class, and empire", "verdict": "Structure, not only attitude.", "lens": "WHO OWNS IT?" },
-    "E053": { "form": "binary", "stage": ["ONE BLACK IDENTITY.", "MANY HISTORIES."], "question": "Does unity require sameness?", "options": ["Yes", "No"], "correct": "No", "verdict": "No.", "lens": "WHO IS “WE”?" },
-    "E055": { "form": "binary", "stage": ["BLACK LIVES MATTER"], "question": "It organized through…", "options": ["One central leader", "Decentralized networks"], "correct": "Decentralized networks", "verdict": "Networks." },
-    "E056": { "form": "recall", "prompt": "Respectability is a bet. What is the bet?" },
-    "E058": { "form": "binary", "stage": ["CRIMINALIZATION", "Who gets called dangerous?", "↓", "RESPECTABILITY", "How do you respond to being judged?"], "question": "Same thing?", "options": ["Yes", "No"], "correct": "No", "verdict": "No. One produces the charge. The other can be a response." },
-    "E059": { "form": "binary", "stage": ["ABOLITION", "= ending something"], "question": "Is that the whole idea?", "options": ["Yes", "No—what gets built?"], "correct": "No—what gets built?", "verdict": "No. Building is half of it." },
-    "E060": { "form": "binary", "stage": ["FIX IT.", "vs.", "END IT AND BUILD SOMETHING ELSE."], "question": "Both agree it causes harm. What do they disagree about?", "options": ["Whether harm exists", "Whether repair can work"], "correct": "Whether repair can work", "verdict": "Whether repair can work." },
-    "E061": { "form": "binary", "stage": ["SLAVERY ENDED.", "↓", "FREEDOM BUILT."], "question": "Same job?", "options": ["Yes", "No"], "correct": "No", "verdict": "No. Two different jobs." },
-    "E062": { "form": "binary", "stage": ["BLACK NATIONALISM"], "question": "One program, or many?", "options": ["One fixed doctrine", "A family of strategies"], "correct": "A family of strategies", "verdict": "Many." },
-    "E063": { "form": "binary", "stage": ["BLACK FACES IN THE ROOM", "vs.", "BLACK CONTROL OF THE ROOM"], "question": "Same thing?", "options": ["Yes", "No"], "correct": "No", "verdict": "No. Representation asks who is present. Self-determination asks who can decide.", "lens": "WHO DECIDES?" },
-    "E065": { "form": "binary", "stage": ["BLACK POPULATIONS IN MANY COUNTRIES"], "question": "Is that Pan-Africanism yet?", "options": ["Yes", "Not yet"], "correct": "Not yet", "verdict": "Not yet. It has to be organized." },
-    "E066": { "form": "sort", "prompt": "Two words that are easy to blur.", "bins": ["Diaspora", "Pan-Africanism"], "items": [{ "text": "Describes connection", "bin": "Diaspora" }, { "text": "Tries to organize it", "bin": "Pan-Africanism" }] },
-    "E067": { "form": "binary", "stage": ["SHARED ANCESTRY.", "SHARP DISAGREEMENT."], "question": "Does solidarity follow automatically?", "options": ["Yes", "Not necessarily"], "correct": "Not necessarily", "verdict": "A real question." },
-    "E068": { "form": "binary", "stage": ["CRIMINALIZATION"], "question": "What does it study?", "options": ["Whether crime is real", "How danger gets assigned"], "correct": "How danger gets assigned", "verdict": "How danger gets assigned." },
-    "E069": { "form": "sort", "prompt": "Two close ideas. Keep them apart.", "bins": ["Law helped construct race", "Criminalization"], "items": [{ "text": "Category-making", "bin": "Law helped construct race" }, { "text": "Danger-making", "bin": "Criminalization" }, { "text": "Who counts as Black, free, or enslaved", "bin": "Law helped construct race" }, { "text": "Vagrancy laws and Black Codes", "bin": "Criminalization" }] },
-    "E070": { "form": "binary", "stage": ["SAME BEHAVIOR.", "“TROUBLED”", "vs.", "“DANGEROUS”"], "question": "Investigate first:", "options": ["Who applied the label", "Who has better public relations"], "correct": "Who applied the label", "verdict": "Who applied the label." },
-    "E071": { "form": "binary", "stage": ["THE DOOR OPENS.", "You can buy the house.", "PRICE ↑ · QUALITY ↓ · LOAN COST ↑"], "question": "Progress?", "options": ["Yes", "Not that simple"], "correct": "Not that simple", "verdict": "Predatory inclusion. Getting in matters. So do the terms of entry.", "lens": "WHO DECIDES?" },
-    "E072": { "form": "pick", "stage": ["LEGAL VICTORY · LIVED REALITY", "names a gap."], "question": "What does Predatory Inclusion add?", "options": ["One mechanism behind the gap", "Proof legal victories never matter", "That inclusion equals exclusion"], "correct": "One mechanism behind the gap" },
-    "E073": { "form": "pick", "stage": ["A HOUSING PROGRAM LETS YOU IN.", "INFLATED PRICE · POOR PROPERTY · COSTLY LOAN"], "question": "Best fit?", "options": ["Predatory inclusion", "Marronage", "Double consciousness"], "correct": "Predatory inclusion" },
-    "E074": { "form": "binary", "stage": ["A NIGERIAN AMERICAN", "A JAMAICAN LONDONER", "AN AFRO-BRAZILIAN"], "question": "What do you look for?", "options": ["One shared culture", "The connection—and the break"], "correct": "The connection—and the break", "verdict": "Both.", "lens": "WHO IS “WE”?" },
-    "E075": { "form": "pick", "stage": ["AN ARTIST IS TOLD:", "SHOW AN UPLIFTING IMAGE OF BLACK LIFE."], "question": "Which thread appears?", "options": ["Respectability ↔ Refusal", "Evidence as resistance", "Blackness across borders"], "correct": "Respectability ↔ Refusal" },
-    "E077": { "prompt": "Match each example to a strategy." },
-    "E078": { "form": "pick", "stage": ["THREE GROUPS DISAGREE ON IDEOLOGY.", "THEY AGREE ON ONE CONCRETE GOAL."], "question": "Best fit?", "options": ["Operational unity", "Double consciousness", "Respectability"], "correct": "Operational unity" },
-    "E079": { "form": "pick", "stage": ["BLACK EDUCATORS TEACH", "AROUND A HOSTILE SCHOOL SYSTEM."], "question": "Which thread does this deepen?", "options": ["What is education for?", "Leverage", "Blackness across borders"], "correct": "What is education for?" }
+    "E001": {
+      "form": "binary",
+      "stage": [
+        "1619",
+        "vs.",
+        "AFRICA"
+      ],
+      "question": "Where does the story start?",
+      "options": [
+        "1619",
+        "Africa"
+      ],
+      "correct": "Africa",
+      "verdict": "Before 1619."
+    },
+    "E003": {
+      "form": "binary",
+      "stage": [
+        "ELLA BAKER"
+      ],
+      "question": "Strong leadership should…",
+      "options": [
+        "Protect one central voice",
+        "Create more leaders"
+      ],
+      "correct": "Create more leaders",
+      "verdict": "More leaders."
+    },
+    "E004": {
+      "form": "pick",
+      "stage": [
+        "IDA B. WELLS",
+        "→ ?"
+      ],
+      "question": "Complete the connection.",
+      "options": [
+        "Investigative evidence",
+        "Federal employment policy",
+        "The Harlem Renaissance"
+      ],
+      "correct": "Investigative evidence"
+    },
+    "E005": {
+      "form": "binary",
+      "stage": [
+        "SLAVERY ENDS."
+      ],
+      "question": "Is freedom settled?",
+      "options": [
+        "Yes",
+        "Not yet"
+      ],
+      "correct": "Not yet",
+      "verdict": "Not yet."
+    },
+    "E007": {
+      "form": "pick",
+      "stage": [
+        "WASHINGTON’S BET"
+      ],
+      "question": "Build what first?",
+      "options": [
+        "Skills and economic strength",
+        "Armed insurrection",
+        "Student-led networks"
+      ],
+      "correct": "Skills and economic strength"
+    },
+    "E008": {
+      "form": "binary",
+      "stage": [
+        "BLACK LIFE",
+        "↓",
+        "ART"
+      ],
+      "question": "Must it be protest first?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "correct": "No",
+      "verdict": "No."
+    },
+    "E009": {
+      "form": "pick",
+      "stage": [
+        "JAMES McCUNE SMITH",
+        "→ ?"
+      ],
+      "question": "Complete the connection.",
+      "options": [
+        "Evidence against racist “science”",
+        "Plessy v. Ferguson",
+        "Montgomery bus organizing"
+      ],
+      "correct": "Evidence against racist “science”"
+    },
+    "E012": {
+      "form": "pick",
+      "stage": [
+        "FREEDOM’S JOURNAL",
+        "+",
+        "IDA B. WELLS"
+      ],
+      "question": "What connects them?",
+      "options": [
+        "Black-controlled media",
+        "Industrial education",
+        "Migration north"
+      ],
+      "correct": "Black-controlled media",
+      "lens": "WHO OWNS IT?"
+    },
+    "E013": {
+      "form": "binary",
+      "stage": [
+        "COMMON RATES.",
+        "A PROTECTIVE ASSOCIATION."
+      ],
+      "question": "What did the washerwomen gain?",
+      "options": [
+        "Automatic voting rights",
+        "More control over their labor"
+      ],
+      "correct": "More control over their labor",
+      "verdict": "Control over their labor."
+    },
+    "E015": {
+      "form": "pick",
+      "stage": [
+        "MARY McLEOD BETHUNE"
+      ],
+      "question": "Inside government, or outside it?",
+      "options": [
+        "Inside",
+        "Outside",
+        "Both"
+      ],
+      "correct": "Both"
+    },
+    "E016": {
+      "form": "pick",
+      "stage": [
+        "EVIDENCE AS RESISTANCE"
+      ],
+      "question": "Which pair belongs on this thread?",
+      "options": [
+        "McCune Smith + Wells",
+        "Hampton + Hurston",
+        "Washington + the spirituals"
+      ],
+      "correct": "McCune Smith + Wells"
+    },
+    "E017": {
+      "form": "binary",
+      "stage": [
+        "MALCOLM X"
+      ],
+      "question": "Where did he increasingly place the struggle?",
+      "options": [
+        "U.S. citizenship alone",
+        "Global human rights"
+      ],
+      "correct": "Global human rights",
+      "verdict": "Global human rights."
+    },
+    "E019": {
+      "form": "binary",
+      "stage": [
+        "PLESSY LOST IN COURT."
+      ],
+      "question": "What does the case show?",
+      "options": [
+        "A defeat, nothing more",
+        "A defeat—and organized resistance"
+      ],
+      "correct": "A defeat—and organized resistance",
+      "verdict": "Both."
+    },
+    "E021": {
+      "form": "pick",
+      "stage": [
+        "WELLS BOYCOTT",
+        "→ RANDOLPH’S PROTEST THREAT",
+        "→ ?"
+      ],
+      "question": "Complete the LEVERAGE sequence.",
+      "options": [
+        "Montgomery boycott",
+        "Hurston’s folklore",
+        "Wheatley’s poetry"
+      ],
+      "correct": "Montgomery boycott"
+    },
+    "E022": {
+      "form": "sort",
+      "prompt": "Integration and Black Power asked different questions.",
+      "bins": [
+        "Integration",
+        "Black Power"
+      ],
+      "items": [
+        {
+          "text": "Who can enter?",
+          "bin": "Integration"
+        },
+        {
+          "text": "Who can decide?",
+          "bin": "Black Power"
+        }
+      ],
+      "lens": "WHO DECIDES?"
+    },
+    "E023": {
+      "form": "binary",
+      "stage": [
+        "RACE · GENDER · CLASS · SEXUALITY"
+      ],
+      "question": "One at a time, or together?",
+      "options": [
+        "One at a time",
+        "Together"
+      ],
+      "correct": "Together",
+      "verdict": "Together.",
+      "lens": "WHO IS “WE”?"
+    },
+    "E024": {
+      "form": "recall",
+      "prompt": "Why does Claudette Colvin connect to Combahee?"
+    },
+    "E025": {
+      "form": "pick",
+      "stage": [
+        "FRED HAMPTON’S COALITION"
+      ],
+      "question": "It depended most on…",
+      "options": [
+        "Shared needs + political education",
+        "Celebrity leadership",
+        "Keeping groups separate"
+      ],
+      "correct": "Shared needs + political education"
+    },
+    "E026": {
+      "form": "pick",
+      "stage": [
+        "WHAT IS EDUCATION FOR?"
+      ],
+      "question": "Which three belong here?",
+      "options": [
+        "Douglass · Washington · Baker",
+        "Hurston · Plessy · Fort Mose",
+        "Combahee · Migration · spirituals"
+      ],
+      "correct": "Douglass · Washington · Baker"
+    },
+    "E027": {
+      "lens": "DOES THIS HELP ONE PERSON OR CHANGE THE SYSTEM?"
+    },
+    "E028": {
+      "form": "binary",
+      "stage": [
+        "HIP-HOP"
+      ],
+      "question": "Why is it in an intellectual-history game?",
+      "options": [
+        "Entertainment history only",
+        "Culture can carry ideas"
+      ],
+      "correct": "Culture can carry ideas",
+      "verdict": "It carries ideas."
+    },
+    "E029": {
+      "form": "recall",
+      "prompt": "Why does the Anita Hill episode matter beyond one biography?"
+    },
+    "E030": {
+      "form": "pick",
+      "stage": [
+        "WHO DEFINES BLACKNESS?"
+      ],
+      "question": "Which pairing fits best?",
+      "options": [
+        "Du Bois + Hurston",
+        "Randolph + Plessy",
+        "Vesey + washerwomen"
+      ],
+      "correct": "Du Bois + Hurston"
+    },
+    "E033": {
+      "form": "sort",
+      "prompt": "A first comparison—not a permanent box. Both thinkers changed.",
+      "bins": [
+        "King",
+        "Malcolm X"
+      ],
+      "items": [
+        {
+          "text": "Disciplined nonviolence · U.S. citizenship",
+          "bin": "King"
+        },
+        {
+          "text": "Increasingly: self-determination · human rights",
+          "bin": "Malcolm X"
+        }
+      ]
+    },
+    "E034": {
+      "form": "pick",
+      "stage": [
+        "INSIDE ACCESS",
+        "+",
+        "OUTSIDE PRESSURE"
+      ],
+      "question": "Which pair shows both?",
+      "options": [
+        "Bethune + Randolph",
+        "Hurston + Wheatley",
+        "Baker + Baldwin"
+      ],
+      "correct": "Bethune + Randolph"
+    },
+    "E035": {
+      "form": "binary",
+      "stage": [
+        "INVITED IN.",
+        "LITTLE SAY OVER THE RULES."
+      ],
+      "question": "Which older question?",
+      "options": [
+        "Art vs. folklore",
+        "Access vs. control"
+      ],
+      "correct": "Access vs. control",
+      "verdict": "Access vs. control.",
+      "lens": "WHO HAS POWER?"
+    },
+    "E036": {
+      "form": "binary",
+      "stage": [
+        "A PUBLIC STORY BLAMES A COMMUNITY."
+      ],
+      "question": "Wells would ask first:",
+      "options": [
+        "What do the facts show?",
+        "Who is the best spokesperson?"
+      ],
+      "correct": "What do the facts show?",
+      "verdict": "Check the evidence."
+    },
+    "E037": {
+      "form": "sort",
+      "prompt": "Place each on LEAVE · REFORM · BUILD.",
+      "bins": [
+        "Leave",
+        "Reform",
+        "Build"
+      ],
+      "items": [
+        {
+          "text": "Marronage",
+          "bin": "Leave"
+        },
+        {
+          "text": "Brown v. Board",
+          "bin": "Reform"
+        },
+        {
+          "text": "Bethune / Black institutions",
+          "bin": "Build"
+        }
+      ]
+    },
+    "E039": {
+      "lens": "WHAT HAPPENS AFTER THE PROTEST?"
+    },
+    "E041": {
+      "form": "binary",
+      "stage": [
+        "COLONIAL LAW ASSIGNED STATUS BY RACE."
+      ],
+      "question": "Did law only record race?",
+      "options": [
+        "Only recorded it",
+        "Helped make it"
+      ],
+      "correct": "Helped make it",
+      "verdict": "It helped make it."
+    },
+    "E042": {
+      "form": "pick",
+      "stage": [
+        "SHARED GRIEVANCES.",
+        "AN ELITE GAINS WHEN WORKERS SPLIT BY RACE."
+      ],
+      "question": "Name the mechanism.",
+      "options": [
+        "Divided interests",
+        "Double consciousness",
+        "Predatory inclusion"
+      ],
+      "correct": "Divided interests"
+    },
+    "E043": {
+      "form": "binary",
+      "stage": [
+        "A SPIRITUAL"
+      ],
+      "question": "What can a song carry?",
+      "options": [
+        "Entertainment only",
+        "Theology · memory · strategy"
+      ],
+      "correct": "Theology · memory · strategy",
+      "verdict": "Ideas, too."
+    },
+    "E044": {
+      "form": "binary",
+      "stage": [
+        "THE FREEDOM CHURCH"
+      ],
+      "question": "Only a place of worship?",
+      "options": [
+        "Worship only",
+        "Worship + institution"
+      ],
+      "correct": "Worship + institution",
+      "verdict": "Also an institution."
+    },
+    "E045": {
+      "form": "recall",
+      "prompt": "Why did Phillis Wheatley’s writing carry a second burden?"
+    },
+    "E046": {
+      "form": "binary",
+      "stage": [
+        "UNIVERSAL LIBERTY — PREACHED.",
+        "SLAVERY — MAINTAINED."
+      ],
+      "question": "What did that give Black thinkers?",
+      "options": [
+        "Proof liberty was universal",
+        "A contradiction to expose—and a language to claim"
+      ],
+      "correct": "A contradiction to expose—and a language to claim",
+      "verdict": "Both a target and a tool."
+    },
+    "E047": {
+      "form": "recall",
+      "prompt": "Under severe repression, why do trust and information control matter?"
+    },
+    "E048": {
+      "form": "binary",
+      "stage": [
+        "BLACK ADVANCEMENT"
+      ],
+      "question": "Whose agency did Maria Stewart insist on?",
+      "options": [
+        "Black men’s only",
+        "Black women’s, too"
+      ],
+      "correct": "Black women’s, too",
+      "verdict": "Black women’s, too.",
+      "lens": "WHO IS “WE”?"
+    },
+    "E049": {
+      "form": "pick",
+      "stage": [
+        "EDUCATION · WRITING · CLUB WORK · ANTI-SEGREGATION"
+      ],
+      "question": "What connects Terrell’s work?",
+      "options": [
+        "Achievement → civic power",
+        "Education apart from politics",
+        "Individual success only"
+      ],
+      "correct": "Achievement → civic power"
+    },
+    "E050": {
+      "form": "binary",
+      "stage": [
+        "WHERE YOU LIVE SHAPES",
+        "SAFETY · WAGES · POLITICAL POSSIBILITY"
+      ],
+      "question": "Moving becomes…",
+      "options": [
+        "A change of address",
+        "A strategy"
+      ],
+      "correct": "A strategy",
+      "verdict": "A strategy."
+    },
+    "E051": {
+      "form": "binary",
+      "stage": [
+        "A STEREOTYPE"
+      ],
+      "question": "Baldwin’s answer:",
+      "options": [
+        "One respectable image",
+        "Fuller Black humanity"
+      ],
+      "correct": "Fuller Black humanity",
+      "verdict": "Widen the range."
+    },
+    "E052": {
+      "form": "binary",
+      "stage": [
+        "RACISM"
+      ],
+      "question": "The Black Left treated it as…",
+      "options": [
+        "Prejudice only",
+        "Tied to labor, class, and empire"
+      ],
+      "correct": "Tied to labor, class, and empire",
+      "verdict": "Structure, not only attitude.",
+      "lens": "WHO OWNS IT?"
+    },
+    "E053": {
+      "form": "binary",
+      "stage": [
+        "ONE BLACK IDENTITY.",
+        "MANY HISTORIES."
+      ],
+      "question": "Does unity require sameness?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "correct": "No",
+      "verdict": "No.",
+      "lens": "WHO IS “WE”?"
+    },
+    "E055": {
+      "form": "binary",
+      "stage": [
+        "BLACK LIVES MATTER"
+      ],
+      "question": "It organized through…",
+      "options": [
+        "One central leader",
+        "Decentralized networks"
+      ],
+      "correct": "Decentralized networks",
+      "verdict": "Networks."
+    },
+    "E056": {
+      "form": "binary",
+      "stage": [
+        "YOU ARE HARMED.",
+        "Before people care, they ask whether you were",
+        "PROPER · SAFE · MORAL · RESPECTABLE"
+      ],
+      "question": "What changed?",
+      "options": [
+        "The injustice itself",
+        "Who is treated as worthy"
+      ],
+      "correct": "Who is treated as worthy",
+      "verdict": "Who is treated as worthy."
+    },
+    "E058": {
+      "form": "binary",
+      "stage": [
+        "CRIMINALIZATION",
+        "Who gets marked dangerous?",
+        "↓",
+        "RESPECTABILITY",
+        "Who gets marked worthy?"
+      ],
+      "question": "Same system?",
+      "options": [
+        "Yes",
+        "Not exactly"
+      ],
+      "correct": "Not exactly",
+      "verdict": "Not exactly. One helps define who is punishable. The other, who is deserving."
+    },
+    "E059": {
+      "form": "binary",
+      "stage": [
+        "ABOLITION",
+        "= ending something"
+      ],
+      "question": "Is that the whole idea?",
+      "options": [
+        "Yes",
+        "No—what gets built?"
+      ],
+      "correct": "No—what gets built?",
+      "verdict": "No. Building is half of it."
+    },
+    "E060": {
+      "form": "binary",
+      "stage": [
+        "FIX IT.",
+        "vs.",
+        "END IT AND BUILD SOMETHING ELSE."
+      ],
+      "question": "Both agree it causes harm. What do they disagree about?",
+      "options": [
+        "Whether harm exists",
+        "Whether repair can work"
+      ],
+      "correct": "Whether repair can work",
+      "verdict": "Whether repair can work."
+    },
+    "E061": {
+      "form": "binary",
+      "stage": [
+        "SLAVERY ENDED.",
+        "↓",
+        "FREEDOM BUILT."
+      ],
+      "question": "Same job?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "correct": "No",
+      "verdict": "No. Two different jobs."
+    },
+    "E062": {
+      "form": "binary",
+      "stage": [
+        "BLACK NATIONALISM"
+      ],
+      "question": "One program, or many?",
+      "options": [
+        "One fixed doctrine",
+        "A family of strategies"
+      ],
+      "correct": "A family of strategies",
+      "verdict": "Many."
+    },
+    "E063": {
+      "form": "binary",
+      "stage": [
+        "BLACK FACES IN THE ROOM",
+        "vs.",
+        "BLACK CONTROL OF THE ROOM"
+      ],
+      "question": "Same thing?",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "correct": "No",
+      "verdict": "No. Representation asks who is present. Self-determination asks who can decide.",
+      "lens": "WHO DECIDES?"
+    },
+    "E065": {
+      "form": "binary",
+      "stage": [
+        "BLACK POPULATIONS IN MANY COUNTRIES"
+      ],
+      "question": "Is that Pan-Africanism yet?",
+      "options": [
+        "Yes",
+        "Not yet"
+      ],
+      "correct": "Not yet",
+      "verdict": "Not yet. It has to be organized."
+    },
+    "E066": {
+      "form": "sort",
+      "prompt": "Two words that are easy to blur.",
+      "bins": [
+        "Diaspora",
+        "Pan-Africanism"
+      ],
+      "items": [
+        {
+          "text": "Describes connection",
+          "bin": "Diaspora"
+        },
+        {
+          "text": "Tries to organize it",
+          "bin": "Pan-Africanism"
+        }
+      ]
+    },
+    "E067": {
+      "form": "binary",
+      "stage": [
+        "SHARED ANCESTRY.",
+        "SHARP DISAGREEMENT."
+      ],
+      "question": "Does solidarity follow automatically?",
+      "options": [
+        "Yes",
+        "Not necessarily"
+      ],
+      "correct": "Not necessarily",
+      "verdict": "A real question."
+    },
+    "E068": {
+      "form": "binary",
+      "stage": [
+        "CRIMINALIZATION"
+      ],
+      "question": "What does it study?",
+      "options": [
+        "Whether crime is real",
+        "How danger gets assigned"
+      ],
+      "correct": "How danger gets assigned",
+      "verdict": "How danger gets assigned."
+    },
+    "E069": {
+      "form": "sort",
+      "prompt": "Two close ideas. Keep them apart.",
+      "bins": [
+        "Law helped construct race",
+        "Criminalization"
+      ],
+      "items": [
+        {
+          "text": "Category-making",
+          "bin": "Law helped construct race"
+        },
+        {
+          "text": "Danger-making",
+          "bin": "Criminalization"
+        },
+        {
+          "text": "Who counts as Black, free, or enslaved",
+          "bin": "Law helped construct race"
+        },
+        {
+          "text": "Vagrancy laws and Black Codes",
+          "bin": "Criminalization"
+        }
+      ]
+    },
+    "E070": {
+      "form": "binary",
+      "stage": [
+        "SAME BEHAVIOR.",
+        "“TROUBLED”",
+        "vs.",
+        "“DANGEROUS”"
+      ],
+      "question": "Investigate first:",
+      "options": [
+        "Who applied the label",
+        "Who has better public relations"
+      ],
+      "correct": "Who applied the label",
+      "verdict": "Who applied the label."
+    },
+    "E071": {
+      "form": "binary",
+      "stage": [
+        "THE DOOR OPENS.",
+        "You can buy the house.",
+        "PRICE ↑ · QUALITY ↓ · LOAN COST ↑"
+      ],
+      "question": "Progress?",
+      "options": [
+        "Yes",
+        "Not that simple"
+      ],
+      "correct": "Not that simple",
+      "verdict": "Predatory inclusion. Getting in matters. So do the terms of entry.",
+      "lens": "WHO DECIDES?"
+    },
+    "E072": {
+      "form": "pick",
+      "stage": [
+        "LEGAL VICTORY · LIVED REALITY",
+        "names a gap."
+      ],
+      "question": "What does Predatory Inclusion add?",
+      "options": [
+        "One mechanism behind the gap",
+        "Proof legal victories never matter",
+        "That inclusion equals exclusion"
+      ],
+      "correct": "One mechanism behind the gap"
+    },
+    "E073": {
+      "form": "pick",
+      "stage": [
+        "A HOUSING PROGRAM LETS YOU IN.",
+        "INFLATED PRICE · POOR PROPERTY · COSTLY LOAN"
+      ],
+      "question": "Best fit?",
+      "options": [
+        "Predatory inclusion",
+        "Marronage",
+        "Double consciousness"
+      ],
+      "correct": "Predatory inclusion"
+    },
+    "E074": {
+      "form": "binary",
+      "stage": [
+        "A NIGERIAN AMERICAN",
+        "A JAMAICAN LONDONER",
+        "AN AFRO-BRAZILIAN"
+      ],
+      "question": "What do you look for?",
+      "options": [
+        "One shared culture",
+        "The connection—and the break"
+      ],
+      "correct": "The connection—and the break",
+      "verdict": "Both.",
+      "lens": "WHO IS “WE”?"
+    },
+    "E075": {
+      "form": "pick",
+      "stage": [
+        "AN ARTIST IS TOLD:",
+        "SHOW AN “UPLIFTING” IMAGE OF BLACK LIFE."
+      ],
+      "question": "Which thread appears?",
+      "options": [
+        "Respectability ↔ Refusal",
+        "Evidence as resistance",
+        "Blackness across borders"
+      ],
+      "correct": "Respectability ↔ Refusal"
+    },
+    "E077": {
+      "prompt": "Match each example to a strategy."
+    },
+    "E078": {
+      "form": "pick",
+      "stage": [
+        "THREE GROUPS DISAGREE ON IDEOLOGY.",
+        "THEY AGREE ON ONE CONCRETE GOAL."
+      ],
+      "question": "Best fit?",
+      "options": [
+        "Operational unity",
+        "Double consciousness",
+        "Respectability"
+      ],
+      "correct": "Operational unity"
+    },
+    "E079": {
+      "form": "pick",
+      "stage": [
+        "BLACK EDUCATORS TEACH",
+        "AROUND A HOSTILE SCHOOL SYSTEM."
+      ],
+      "question": "Which thread does this deepen?",
+      "options": [
+        "What is education for?",
+        "Leverage",
+        "Blackness across borders"
+      ],
+      "correct": "What is education for?"
+    },
+    "E057": {
+      "form": "pick",
+      "stage": [
+        "TWO PEOPLE.",
+        "SAME INJUSTICE.",
+        "One is considered a “better” public symbol."
+      ],
+      "question": "Who disappears?",
+      "options": [
+        "The person judged less acceptable",
+        "The law",
+        "The movement"
+      ],
+      "correct": "The person judged less acceptable"
+    }
   },
   "_kept_conventional": {
     "E002": "Onboarding S01 deliberately teaches the answer-choice interaction.",
     "E006": "Onboarding S01 second choice screen; answers are already short.",
     "E011": "Washington ↔ Wells: the fair contrast needs each side's diagnosis in full.",
-    "E014": "Baker ↔ King (onboarding S02/S03): BEST FIT between four short contrasts is the lesson.",
-    "E057": "Respectability's strategic value AND cost must both be visible; shortening risks making refusal the implied winner."
+    "E014": "Baker ↔ King (onboarding S02/S03): BEST FIT between four short contrasts is the lesson."
   }
 }

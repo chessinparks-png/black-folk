@@ -336,6 +336,7 @@
       threads,
       threadsById: Object.fromEntries(threads.map((t) => [t.id, t])),
       threadUnlock: links.thread_unlock || { min_members: 2, min_members_without_connection: 3 },
+      threadResponses: links.thread_responses || {},
       bossMinNodes: links.boss_min_nodes || {},
       framing: cur.framing,
       whyThenByNode,

@@ -20,6 +20,16 @@
     return el;
   }
 
+  // Native append/replaceChildren print null as text "null". Our UI often passes
+  // optional children, so skip null/false everywhere, once.
+  if (typeof Element !== 'undefined' && !Element.prototype.__bfSafe) {
+    const native = Element.prototype.replaceChildren;
+    Element.prototype.replaceChildren = function (...kids) {
+      return native.apply(this, kids.flat(Infinity).filter((k) => k != null && k !== false));
+    };
+    Element.prototype.__bfSafe = true;
+  }
+
   // Append children, skipping null/false (native append would print "null").
   function put(el, ...kids) {
     for (const k of kids.flat(Infinity)) if (k != null && k !== false) el.append(k);
@@ -143,8 +153,10 @@
     const actions = h('div', { class: 'actions' });
     const revealBtn = h('button', { class: 'btn btn--primary', onclick: doReveal }, 'Reveal');
     actions.append(revealBtn);
-    put(root, lensTag(enc), eyebrow(enc, ctx.worldOf(enc)), h('p', { class: 'title-caps' }, enc.title), statement,
-      enc.ask ? h('p', { class: 'ask' }, enc.ask) : null, hint(ctx.hint('DISCOVER')), actions);
+    // Title, statement and question sit together on one world-tinted surface.
+    put(root, lensTag(enc), eyebrow(enc, ctx.worldOf(enc)),
+      h('div', { class: 'concept' }, h('p', { class: 'title-caps' }, enc.title), statement, enc.ask ? h('p', { class: 'ask' }, enc.ask) : null),
+      hint(ctx.hint('DISCOVER')), actions);
 
     let revealed = false;
     function doReveal() {

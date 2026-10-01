@@ -569,6 +569,103 @@
     });
   }
 
+  // ---- LEARN FROM HERE: a session anchored on one idea --------------------------
+  // Starts at the chosen idea and walks outward along real knowledge-map links:
+  // the idea itself → its context → a connected idea and the encounter that
+  // links them → a thread or debate neighbour → recall. Nothing is marked
+  // learned in advance: neighbours that are new arrive as DISCOVER cards, and
+  // only answered encounters change progress.
+  function buildAnchored(C, player, anchorId, opts) {
+    opts = opts || {};
+    const rng = makeRng(opts.seed || Date.now());
+    const G = C.graph || (C.graph = BF.graph.build(C));
+    const anchor = C.nodesById[anchorId];
+    if (!anchor) throw new Error('Unknown idea ' + anchorId);
+    const introduced = new Set(Object.keys(player.nodes).filter((id) => player.nodes[id].introduced));
+    const curatedDiscover = Object.fromEntries(C.discovery.map((d) => [d.nodeIds[0], d]));
+    const known = new Set(introduced);
+    const out = [];
+    const used = new Set();
+    const push = (e) => {
+      if (!e || used.has(e.id)) return false;
+      used.add(e.id);
+      out.push(e);
+      return true;
+    };
+    const introduce = (id) => {
+      if (known.has(id)) return;
+      push(curatedDiscover[id] || derive.discover(C.nodesById[id]));
+      known.add(id);
+    };
+    const singles = (id) => C.encounters.filter((e) => e.nodeIds.length === 1 && e.nodeIds[0] === id);
+    const seen = (e) => player.encounters[e.id] && player.encounters[e.id].count;
+
+    // 1) Enter through the idea.
+    introduce(anchorId);
+    // 2) Its context: WHY THEN first, else another single-idea encounter.
+    const own = singles(anchorId).filter((e) => e.kind !== 'recall' && e.kind !== 'share');
+    const context = own.find((e) => e.mode === 'WHY THEN' && !seen(e)) || own.find((e) => !seen(e)) || own[0];
+    push(context);
+
+    // 3–5) Neighbours, strongest relationships first: links from small authored
+    // encounters (≤3 ideas), then knowledge-map links, then shared threads, then
+    // debates. Pairs that only co-occur in big synthesis rounds rank last.
+    const small = (eid) => C.byId[eid] && C.byId[eid].nodeIds.length <= 3;
+    const rankOf = (e) => {
+      if (e.kinds.has('encounter') && e.encounters.some(small)) return 0;
+      if (e.kinds.has('discovered')) return 1;
+      if (e.kinds.has('thread')) return 2;
+      if (e.kinds.has('debate')) return 3;
+      return 5;
+    };
+    const jointFor = (nbId) =>
+      C.encounters
+        .filter((e) => !used.has(e.id) && e.nodeIds.length <= 3 && e.nodeIds.includes(anchorId) && e.nodeIds.includes(nbId))
+        .sort((x, y) => x.nodeIds.length - y.nodeIds.length || (seen(x) ? 1 : 0) - (seen(y) ? 1 : 0))[0];
+    const neighbours = (G.byNode[anchorId] || [])
+      .map((e) => {
+        const id = e.a === anchorId ? e.b : e.a;
+        const j = jointFor(id);
+        // Cost = new ideas this neighbour would bring in; tight links come first.
+        const cost = j ? j.nodeIds.filter((x) => !known.has(x)).length : known.has(id) ? 0 : 1;
+        return { id, r: rankOf(e), joint: !!j, cost };
+      })
+      .filter((nb) => nb.r < 5)
+      .sort((x, y) => (x.joint ? 0 : 1) - (y.joint ? 0 : 1) || x.cost - y.cost || x.r - y.r || rng() - 0.5);
+    let bare = 0;
+    for (const nb of neighbours) {
+      if (out.length >= SESSION_LENGTH - 1) break;
+      const joint = jointFor(nb.id);
+      const newIds = [...new Set([nb.id].concat(joint ? joint.nodeIds : []))].filter((id) => !known.has(id));
+      if (newIds.length > 2) continue;
+      const needed = newIds.length + (joint ? 1 : 0);
+      if (!needed || out.length + needed > SESSION_LENGTH - 1) continue;
+      if (!joint && bare >= 1) continue; // at most one neighbour met without a connecting card
+      for (const id of newIds) introduce(id);
+      if (joint) push(joint);
+      else bare++;
+    }
+    // Thin neighbourhood? Meet one or two more neighbours directly.
+    for (const nb of neighbours) {
+      if (out.length >= 4) break;
+      if (out.some((e) => e.nodeIds.includes(nb.id))) continue;
+      if (!known.has(nb.id)) introduce(nb.id);
+      else push(singles(nb.id).find((e) => e.kind !== 'share' && !used.has(e.id)) || derive.recall(C.nodesById[nb.id]));
+    }
+
+    // 6) Close on the idea itself: think first, then reveal.
+    const recall = C.encounters.find((e) => e.kind === 'recall' && e.nodeIds.length === 1 && e.nodeIds[0] === anchorId && !used.has(e.id));
+    push(recall || derive.recall(anchor));
+
+    const items = attachWords(C, player, repairPacing(out.slice(0, SESSION_LENGTH)).map((e) => prepareItem(e, rng)));
+    return newSessionShell('anchored', anchor.name.toUpperCase(), items, {
+      anchorId,
+      keepThis: anchor.keepThis || anchor.share,
+      world: anchor.world,
+      levelBefore: player.level,
+    });
+  }
+
   function buildNext(C, player, opts) {
     if (player.startersCompleted < C.starters.length) {
       return buildStarter(C, player, player.startersCompleted, opts && opts.seed);
@@ -749,6 +846,7 @@
     orderCost,
     buildStarter,
     buildBridge,
+    buildAnchored,
     pendingBridges,
     buildAdaptive,
     buildNext,

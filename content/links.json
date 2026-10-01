@@ -324,5 +324,19 @@
     "CARD-03": "Black educators creating counter-curricula and teaching around oppressive systems.",
     "CARD-05": "Cooperate on concrete shared goals without requiring total ideological agreement."
   },
-  "_deepening_note": "Player-facing lines for deepening cards that have no core_idea, taken verbatim from each card's `role`. Cards with neither (Amefricanidade, Colonialism) stay in the data layer only."
+  "_deepening_note": "Player-facing lines for deepening cards that have no core_idea, taken verbatim from each card's `role`. Cards with neither (Amefricanidade, Colonialism) stay in the data layer only.",
+  "thread_responses": {
+    "T-09": [
+      "Accommodation",
+      "Strategic presentation",
+      "Refusal",
+      "Disrepute",
+      "Self-defense",
+      "Cultural rejection of dominant standards",
+      "Queer and “deviant” politics",
+      "Black is beautiful",
+      "Art that refuses the demand"
+    ]
+  },
+  "_thread_responses_note": "Historical responses to the demand for respectability, listed in the RESPECTABILITY ↔ REFUSAL thread view. Labels only; drawn from the Black Perspectives audit framing (vengeance feminism, disrepute, self-defense, the respectable center)."
 }

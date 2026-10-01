@@ -376,5 +376,65 @@ test('levels: 2,480 Knowledge is LVL 12', () => {
   assert.equal(M.levelFor(2480), 12);
 });
 
+console.log('respectability');
+test('no promotional respectability language reaches the player', () => {
+  const bundle = require('node:fs').readFileSync(new URL('../app/data/content.js', import.meta.url), 'utf8');
+  for (const bad of [/real advantages?/i, /strategically useful/i, /best[- ]case/i, /respectability (worked|works|wins)/i])
+    assert.ok(!bad.test(bundle), 'found ' + bad);
+});
+test('Respectability: new core idea, KEEP THIS and YOUR WORDS prompt', () => {
+  const n = C.nodesById['V1-045'];
+  assert.equal(n.keepThis, 'Who has to prove they deserve protection?');
+  assert.equal(n.yourWordsPrompt, 'Who gets left out when dignity becomes a condition for sympathy?');
+  assert.ok(/worthy of protection, opportunity, legitimacy, or sympathy/.test(n.coreIdea));
+  assert.equal(C.threadsById['T-09'].question, 'What happens when protection depends on acceptability?');
+  assert.equal(C.threadResponses['T-09'].length, 9);
+  assert.deepEqual(C.threadsById['T-09'].cards, ['CARD-07', 'CARD-08']);
+});
+test('E056 / E057 / E058 rewritten; refusal is never the scored answer', () => {
+  const [a, b, c] = ['E056', 'E057', 'E058'].map((id) => C.byId[id]);
+  assert.equal(a.kind, 'binary'); assert.equal(a.correct, 'Who is treated as worthy');
+  assert.equal(a.reveal, 'Respectability makes acceptability part of whether someone is believed, protected, or defended.');
+  assert.equal(b.correct, 'The person judged less acceptable');
+  assert.deepEqual(b.choices, ['The person judged less acceptable', 'The law', 'The movement']);
+  assert.equal(c.kind, 'binary'); assert.equal(c.correct, 'Not exactly');
+  const t09 = C.encounters.filter((e) => e.nodeIds.includes('V1-045'));
+  for (const e of t09) assert.ok(!/refus/i.test((e.correct || '').replace('Respectability ↔ Refusal', '')), e.id + ' makes refusal the answer');
+});
+
+console.log('learn from here');
+function anchoredChecks(anchorId) {
+  const p = M.newPlayer();
+  const before = JSON.stringify(p);
+  const s = S.buildAnchored(C, p, anchorId, { seed: 4 });
+  assert.equal(JSON.stringify(p), before, 'building changes nothing');
+  assert.equal(s.kind, 'anchored');
+  assert.equal(s.anchorId, anchorId);
+  assert.ok(s.items.length >= 4 && s.items.length <= 6, 'length ' + s.items.length);
+  assert.ok(s.items[0].enc.kind === 'discover' && s.items[0].enc.nodeIds[0] === anchorId, 'opens on the anchor');
+  const G = GR.build(C);
+  const near = new Set([anchorId, ...(G.byNode[anchorId] || []).map((e) => (e.a === anchorId ? e.b : e.a))]);
+  const introduced = new Set();
+  for (const it of s.items) {
+    if (it.enc.kind === 'discover') { introduced.add(it.enc.nodeIds[0]); assert.ok(near.has(it.enc.nodeIds[0]), it.enc.id + ' not a graph neighbour'); continue; }
+    assert.ok(it.enc.nodeIds.every((id) => introduced.has(id)), it.enc.id + ' before its ideas were introduced');
+  }
+  assert.ok(s.items.at(-1).enc.nodeIds.includes(anchorId), 'closes on the anchor');
+  assert.equal(p.knowledge, 0);
+  answerAll(p, s, 'good', S.makeRng(1), Date.now());
+  assert.ok(p.knowledge > 0 && p.nodes[anchorId].introduced, 'progress comes from play');
+  return s;
+}
+for (const [id, name] of [['V1-048', 'Pan-Africanism'], ['V1-015', 'Reconstruction'], ['V1-045', 'Respectability']])
+  test('anchored session from unseen ' + name, () => {
+    const s = anchoredChecks(id);
+    console.log('    ' + s.items.map((i) => i.enc.id).join(' → '));
+  });
+test('normal PLAY is unchanged by anchored sessions (starter 1 still first)', () => {
+  const p = M.newPlayer();
+  answerAll(p, S.buildAnchored(C, p, 'V1-048', { seed: 2 }), 'good', S.makeRng(1));
+  assert.equal(S.buildNext(C, p, { seed: 1 }).kind, 'starter');
+});
+
 console.log(failures ? `\n${failures} failing` : '\nall passing');
 process.exit(failures ? 1 : 0);

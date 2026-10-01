@@ -197,6 +197,57 @@ YOUR WORDS is an optional, private notebook for explaining ideas in your own wor
   `model_answer_snapshot`.
 - **Privacy:** notes live only on this device. Nothing is sent anywhere.
 
+## Map visibility and LEARN FROM HERE
+
+**Settings → Map visibility** has two options. **Discover gradually** is the default.
+
+- **Show everything:**
+  - makes all 50 ideas, 9 threads, 8 debates and every deepening card browsable in EXPLORE;
+  - draws undiscovered ideas on the map as hollow, dashed "not yet learned" points;
+  - marks unopened threads and debates "Not yet opened in play".
+- **Visible is not learned.** Browsing never changes Knowledge, mastery, discoveries, WORDS,
+  history or YOUR WORDS. WORDS stay found-only.
+- **Switching back** hides undiscovered content again. Nothing is lost.
+- **Where it is stored:** the setting is display-only and lives in localStorage
+  (`black-folk:settings`), not in the player save, so the **save schema stays v4**. Reset
+  progress clears it.
+
+**Learn from here** is a quiet button on every idea page, including not-yet-learned ones
+in Show everything. It builds a short session (up to 6 cards) anchored on that idea:
+
+1. the idea's DISCOVER card;
+2. a context encounter, preferring WHY THEN;
+3. connected ideas taken from the knowledge graph:
+   - neighbours that share a small encounter first, then map, thread and debate links;
+   - each new neighbour is introduced with DISCOVER before it is tested;
+4. a recall of the anchor to close.
+
+Progress comes only from the answers you give. If a session is in progress, the button asks
+before replacing it. Normal PLAY (starters, bridges, adaptive review) is unchanged.
+
+## Respectability (revised)
+
+Respectability is framed as a pressure set under unequal power: *who has to prove they
+deserve protection?* It is not presented as a strategy to recommend.
+
+- E056, E057 and E058 were rewritten.
+- T-09 asks "What happens when protection depends on acceptability?" and lists historical
+  responses: accommodation, strategic presentation, refusal, disrepute, self-defense,
+  cultural rejection, queer and "deviant" politics, Black is beautiful, and art that
+  refuses the demand. No response is scored as the right one.
+- Two deepening cards were added: *Disrepute* and *Who counts as a thinker?*
+
+Sources and rationale are in `docs/respectability_revision.md`.
+
+## Look: quiet, not empty
+
+Each screen carries one world colour as structure:
+- PLAY uses tinted concept/prompt panels with a thin world band, filled answer blocks, and
+  a grouped reveal with a world rule;
+- EXPLORE uses a tinted hero band and filled panels (map, understand, keep, words, notes).
+
+There are no gradients, neon, mascots or confetti.
+
 ## Saved progress and migration
 
 Progress is stored in IndexedDB (`black-folk` → `state` → `player`). The current schema is

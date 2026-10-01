@@ -641,8 +641,8 @@
       "id": "D045",
       "mode": "DISCOVER",
       "title": "RESPECTABILITY",
-      "statement": "Respectability asks whether meeting dominant standards can buy protection, legitimacy, or opportunity.",
-      "reveal": "Respectability is the strategy or expectation that Black people can gain legitimacy, protection, opportunity, or acceptance by meeting dominant standards of behavior, appearance, morality, class, or public presentation.",
+      "statement": "Before people care, they ask whether you were proper, safe, moral.",
+      "reveal": "Respectability is the pressure or strategy of meeting dominant standards of behavior, appearance, morality, class, gender, sexuality, or public presentation in hopes of being treated as worthy of protection, opportunity, legitimacy, or sympathy.",
       "points": 10,
       "node_ids": [
         "V1-045"
@@ -2336,15 +2336,13 @@
     {
       "id": "E056",
       "mode": "WHAT",
-      "prompt": "Respectability is best understood as what kind of strategy?",
+      "prompt": "You are harmed. Before people care, they ask whether you were proper, safe, moral, respectable. What changed?",
       "answers": [
-        "A bet that meeting dominant standards can produce legitimacy or protection",
-        "A claim that laws never matter",
-        "A synonym for Black nationalism",
-        "A refusal of all public strategy"
+        "Who is treated as worthy",
+        "The injustice itself"
       ],
-      "correct_answer": "A bet that meeting dominant standards can produce legitimacy or protection",
-      "reveal": "It is the strategy or expectation that meeting dominant standards of behavior, appearance, morality, class, or presentation can produce legitimacy, protection, opportunity, or acceptance.",
+      "correct_answer": "Who is treated as worthy",
+      "reveal": "Respectability makes acceptability part of whether someone is believed, protected, or defended.",
       "points": 15,
       "node_ids": [
         "V1-045"
@@ -2354,7 +2352,7 @@
         "UNDERSTAND"
       ],
       "design_note": "",
-      "source": "BLACK FOLK V1.5 — Respectability synthesis",
+      "source": "Black Perspectives audit synthesis — fury and disrepute cluster",
       "ui_feedback": {
         "success": "brief +KNOWLEDGE animation",
         "miss": "show answer/reveal calmly; no red punishment screen",
@@ -2365,15 +2363,14 @@
     {
       "id": "E057",
       "mode": "SAME QUESTION",
-      "prompt": "A movement chooses the publicly 'safer' symbol for a test case. What is the fairest reading?",
+      "prompt": "Two people suffer the same injustice. One is considered a “better” public symbol. Who disappears?",
       "answers": [
-        "It can be strategically useful and still impose costs on people judged less acceptable.",
-        "It proves respectable people deserve more rights.",
-        "It means symbolism never matters.",
-        "It shows refusal is always the better strategy."
+        "The person judged less acceptable",
+        "The law",
+        "The movement"
       ],
-      "correct_answer": "It can be strategically useful and still impose costs on people judged less acceptable.",
-      "reveal": "Respectability can be a strategic choice with real advantages, while the choice can also leave harmed people outside the public story.",
+      "correct_answer": "The person judged less acceptable",
+      "reveal": "Organizers sometimes chose symbols they believed audiences would accept. That choice could also push other harmed people outside the story.",
       "points": 25,
       "node_ids": [
         "V1-045",
@@ -2397,15 +2394,13 @@
     {
       "id": "E058",
       "mode": "CONNECT",
-      "prompt": "Criminalization and Respectability sit beside each other. Which distinction is cleanest?",
+      "prompt": "Criminalization: who gets marked dangerous? Respectability: who gets marked worthy? Same system?",
       "answers": [
-        "Criminalization is the charge; Respectability is one possible answer.",
-        "They are the same concept.",
-        "Respectability creates every criminal law.",
-        "Criminalization is only about personal manners."
+        "Not exactly",
+        "Yes, identical"
       ],
-      "correct_answer": "Criminalization is the charge; Respectability is one possible answer.",
-      "reveal": "Criminalization is the process of defining someone as dangerous; respectability is one possible strategy for answering judgments about worthiness or legitimacy.",
+      "correct_answer": "Not exactly",
+      "reveal": "One helps define who is punishable. The other helps define who is considered deserving of protection or sympathy.",
       "points": 25,
       "node_ids": [
         "V1-045",
@@ -2910,7 +2905,7 @@
         "BLACKNESS ACROSS BORDERS"
       ],
       "correct_answer": "RESPECTABILITY ↔ REFUSAL",
-      "reveal": "This is a Respectability ↔ Refusal question: should art meet standards meant to win recognition, or refuse the demand to represent Black life acceptably?",
+      "reveal": "This is a Respectability ↔ Refusal question: who sets the standard for an “acceptable” image of Black life—and what happens to art that refuses it?",
       "points": 25,
       "node_ids": [
         "V1-026",
@@ -3058,7 +3053,7 @@
       "mode": "BOSS ROUND",
       "prompt": "Match the six new core ideas to their sharpest question.",
       "answers": [
-        "Respectability → Must I meet their standards?",
+        "Respectability → Who has to prove they deserve protection?",
         "Abolition → Repair or replace, and what comes next?",
         "Black Nationalism → Who can decide for ourselves?",
         "Pan-Africanism → How do connections become organized solidarity?",
@@ -3066,7 +3061,7 @@
         "Predatory Inclusion → What are the terms of entry?"
       ],
       "correct_answer": "all matches correct",
-      "reveal": "Respectability → Must I meet their standards? Abolition → Repair or replace, and what comes next? Black Nationalism → Who can decide for ourselves? Pan-Africanism → How do connections become organized solidarity? Criminalization → Who gets made dangerous? Predatory Inclusion → What are the terms of entry?",
+      "reveal": "Respectability → Who has to prove they deserve protection? Abolition → Repair or replace, and what comes next? Black Nationalism → Who can decide for ourselves? Pan-Africanism → How do connections become organized solidarity? Criminalization → Who gets made dangerous? Predatory Inclusion → What are the terms of entry?",
       "points": 50,
       "node_ids": [
         "V1-045",
@@ -3150,7 +3145,7 @@
         "E076"
       ],
       "keep_this": "Before punishment or protection, ask who was defined as dangerous—or worthy.",
-      "purpose": "Introduce Criminalization and Respectability together without making refusal the automatic correct answer.",
+      "purpose": "Introduce Criminalization and Respectability together: who gets marked dangerous, who gets marked worthy, and who is pushed outside the story.",
       "status": "recommended_early_not_mandatory"
     },
     {

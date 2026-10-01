@@ -1,13 +1,18 @@
 // EXPLORE: the Knowledge Map and its views — worlds, ideas, threads, debates,
-// and the WORDS collection. Everything shown here was revealed through PLAY.
+// and the WORDS collection.
+//
+// Two visibility modes (Settings → MAP VISIBILITY):
+//   DISCOVER GRADUALLY (default) — only what PLAY has revealed is shown.
+//   SHOW EVERYTHING — every idea, thread, debate and deepening card is browsable.
+// Visibility never changes progress: nothing is marked discovered, no mastery,
+// no Knowledge, no WORDS. Only answered encounters do that.
 (function (BF) {
   'use strict';
 
   const { h, paras, quoteBlock } = BF.ui;
-  const M = BF.mastery;
   const GR = BF.graph;
 
-  const STATE_LABEL = { discovered: 'Discovered', connected: 'Connected', familiar: 'Familiar', strong: 'Strong' };
+  const STATE_LABEL = { locked: 'Not yet learned', discovered: 'Discovered', connected: 'Connected', familiar: 'Familiar', strong: 'Strong' };
 
   function row(ctx, opts) {
     return h(
@@ -15,7 +20,7 @@
       {},
       h(
         'button',
-        { class: 'row', onclick: () => ctx.go(opts.href), 'data-world': opts.world || null },
+        { class: 'row' + (opts.dim ? ' is-dim' : ''), onclick: () => ctx.go(opts.href), 'data-world': opts.world || null },
         h(
           'span',
           {},
@@ -27,11 +32,14 @@
     );
   }
 
-  const unlockedThreads = (ctx) => ctx.C.threads.filter((t) => ctx.player.threadsUnlocked[t.id]);
-  const unlockedDebates = (ctx) => ctx.C.debates.filter((d) => ctx.player.debatesUnlocked[d.id]);
+  const isOpen = (ctx, id) => GR.nodeState(ctx.G, ctx.player, id) !== 'locked';
+  const canSee = (ctx, id) => ctx.showAll || isOpen(ctx, id);
+  const threadsShown = (ctx) => ctx.C.threads.filter((t) => ctx.showAll || ctx.player.threadsUnlocked[t.id]);
+  const debatesShown = (ctx) => ctx.C.debates.filter((d) => ctx.showAll || ctx.player.debatesUnlocked[d.id]);
+  const notOpened = (on) => (on ? null : 'Not yet opened in play');
 
-  function lockedNote(n, one, many) {
-    if (!n) return '';
+  function lockedNote(ctx, n, one, many) {
+    if (!n || ctx.showAll) return '';
     return n === 1 ? 'One more ' + one + ' surfaces as you play.' : n + ' more ' + many + ' surface as you play.';
   }
 
@@ -40,11 +48,11 @@
     return ctx.C.nodes.some((o) => o.id !== n.id && o.name === n.name) ? n.subject : n.name;
   }
 
-  function chip(ctx, n) {
-    return h('a', { href: '#/idea/' + n.id, 'data-world': n.world }, h('i', { class: 'wdot', 'aria-hidden': 'true' }), displayName(ctx, n));
+  function chip(ctx, n, dim) {
+    return h('a', { href: '#/idea/' + n.id, 'data-world': n.world, class: dim ? 'is-dim' : null }, h('i', { class: 'wdot', 'aria-hidden': 'true' }), displayName(ctx, n));
   }
 
-  // Deepening cards (Diaspora, Coalition, …): supporting ideas, never core nodes.
+  // Deepening cards (Diaspora, Coalition, Disrepute…): supporting ideas, never core nodes.
   function deepCard(c) {
     return h('div', { class: 'deep-card' }, h('p', { class: 'deep-title' }, c.title), c.text ? h('p', { class: 'deep-text' }, c.text) : null);
   }
@@ -53,12 +61,27 @@
     return h('section', { class: 'block' }, h('h2', {}, title), ...kids);
   }
 
+  // A filled group: related things sit together on one surface.
+  function panel(cls, ...kids) {
+    const items = kids.flat(Infinity).filter(Boolean);
+    return items.length ? h('section', { class: 'panel ' + (cls || '') }, ...items) : null;
+  }
+
+  // World-tinted header band.
+  function hero(world, ...kids) {
+    return h('header', { class: 'hero', 'data-world': world || null }, ...kids);
+  }
+
+  function modeNote(ctx) {
+    return ctx.showAll ? h('p', { class: 'mode-note' }, 'Showing the whole map. Visible is not the same as learned.') : null;
+  }
+
   // ---- landing: the whole map --------------------------------------------------
   function landing(ctx) {
     const { C, G, player } = ctx;
-    const threads = unlockedThreads(ctx);
-    const debates = unlockedDebates(ctx);
-    const discovered = C.nodes.filter((n) => GR.nodeState(G, player, n.id) !== 'locked').length;
+    const threads = threadsShown(ctx);
+    const debates = debatesShown(ctx);
+    const discovered = C.nodes.filter((n) => isOpen(ctx, n.id)).length;
     const links = GR.visibleEdges(G, player).length;
     const found = GR.wordsFound(C, player).length;
     const svg = BF.map.overview(ctx);
@@ -70,32 +93,50 @@
       'main',
       { class: 'screen screen--wide' },
       ctx.backLink('#/', 'Home'),
-      h('p', { class: 'eyebrow' }, 'Explore'),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, 'Seven worlds. Seven questions.'),
-      h('p', { class: 'lede-note' }, discovered ? discovered + ' ideas discovered · ' + links + (links === 1 ? ' connection' : ' connections') : 'Your map fills in as you play.'),
-      h('div', { class: 'map-frame' }, svg),
+      hero(
+        null,
+        h('p', { class: 'eyebrow' }, 'Explore'),
+        h('h1', { class: 'display display--md', tabindex: '-1' }, 'Seven worlds. Seven questions.'),
+        h('p', { class: 'lede-note' }, discovered ? discovered + ' of ' + C.nodes.length + ' ideas discovered · ' + links + (links === 1 ? ' connection' : ' connections') : 'Your map fills in as you play.'),
+        modeNote(ctx)
+      ),
+      h('div', { class: 'panel panel--map' }, h('div', { class: 'map-frame' }, svg)),
       h(
         'ul',
-        { class: 'rows' },
-        C.worlds.map((w) =>
-          row(ctx, { href: '#/world/' + w.id, name: w.id, sub: w.question, meta: GR.discoveredCount(C, player, w.id) + ' discovered', world: w.id, dot: true })
+        { class: 'world-grid' },
+        C.worlds.map((w) => {
+          const n = GR.discoveredCount(C, player, w.id);
+          const total = C.nodes.filter((x) => x.world === w.id).length;
+          return h(
+            'li',
+            {},
+            h(
+              'button',
+              { class: 'world-card', 'data-world': w.id, onclick: () => ctx.go('#/world/' + w.id) },
+              h('span', { class: 'world-card-name' }, w.id),
+              h('span', { class: 'world-card-q' }, w.question),
+              h('span', { class: 'world-card-meta' }, ctx.showAll ? n + ' of ' + total + ' discovered' : n + ' discovered')
+            )
+          );
+        })
+      ),
+      panel(
+        'panel--group',
+        block('Words', h('ul', { class: 'rows rows--tight' }, row(ctx, { href: '#/words', name: 'Your collection', plain: true, sub: 'Exact quotations found in play.', meta: found + ' found' }))),
+        block(
+          'Threads',
+          threads.length
+            ? h('ul', { class: 'rows rows--tight' }, threads.map((t) => row(ctx, { href: '#/thread/' + t.id, name: t.title, sub: t.question, dim: !player.threadsUnlocked[t.id], meta: notOpened(player.threadsUnlocked[t.id]), metaClass: 'new' })))
+            : null,
+          h('p', { class: 'lede-note' }, lockedNote(ctx, C.threads.length - threads.length, 'thread', 'threads'))
+        ),
+        block(
+          'Debates',
+          debates.length
+            ? h('ul', { class: 'rows rows--tight' }, debates.map((d) => row(ctx, { href: '#/debate/' + d.id, name: d.title, plain: true, sub: d.question, dim: !player.debatesUnlocked[d.id], meta: notOpened(player.debatesUnlocked[d.id]), metaClass: 'new' })))
+            : null,
+          h('p', { class: 'lede-note' }, lockedNote(ctx, C.debates.length - debates.length, 'debate', 'debates'))
         )
-      ),
-      block(
-        'Words',
-        h('ul', { class: 'rows', style: 'margin-top:0' }, row(ctx, { href: '#/words', name: 'Your collection', plain: true, sub: 'Exact quotations found in play.', meta: found + ' found' }))
-      ),
-      block(
-        'Threads',
-        threads.length ? h('ul', { class: 'rows', style: 'margin-top:0' }, threads.map((t) => row(ctx, { href: '#/thread/' + t.id, name: t.title, sub: t.question }))) : null,
-        h('p', { class: 'lede-note' }, lockedNote(C.threads.length - threads.length, 'thread', 'threads'))
-      ),
-      block(
-        'Debates',
-        debates.length
-          ? h('ul', { class: 'rows', style: 'margin-top:0' }, debates.map((d) => row(ctx, { href: '#/debate/' + d.id, name: d.title, plain: true, sub: d.question })))
-          : null,
-        h('p', { class: 'lede-note' }, lockedNote(C.debates.length - debates.length, 'debate', 'debates'))
       )
     );
   }
@@ -106,36 +147,44 @@
     const w = C.worlds.find((x) => x.id === id);
     if (!w) return landing(ctx);
     const members = C.nodes.filter((n) => n.world === id);
-    const open = members.filter((n) => GR.nodeState(G, player, n.id) !== 'locked');
+    const open = members.filter((n) => isOpen(ctx, n.id));
+    const listed = ctx.showAll ? members : open;
     const locked = members.length - open.length;
     const ids = new Set(members.map((n) => n.id));
     const beyond = new Map();
     for (const n of open) for (const other of GR.connectionsOf(G, player, n.id)) if (!ids.has(other)) beyond.set(other, C.nodesById[other]);
-    const threads = unlockedThreads(ctx).filter((t) => t.steps.some((s) => s.nodeIds.some((x) => ids.has(x))));
-    const debates = unlockedDebates(ctx).filter((d) => d.prereq.some((x) => ids.has(x)));
+    const threads = threadsShown(ctx).filter((t) => t.steps.some((s) => s.nodeIds.some((x) => ids.has(x))));
+    const debates = debatesShown(ctx).filter((d) => d.prereq.some((x) => ids.has(x)));
+    const cards = open.length || ctx.showAll ? worldCards(C, id) : [];
 
     return h(
       'main',
       { class: 'screen screen--wide', 'data-world': id },
       ctx.backLink('#/explore', 'Map'),
-      h('p', { class: 'eyebrow' }, h('span', { class: 'world-tag', 'data-world': id }, w.id)),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, w.question),
-      h('div', { class: 'map-frame map-frame--world' }, BF.map.world(ctx, id)),
-      open.length
-        ? h(
-            'ul',
-            { class: 'rows' },
-            open.map((n) => {
-              const st = GR.nodeState(G, player, n.id);
-              return row(ctx, { href: '#/idea/' + n.id, name: n.subject, plain: true, meta: STATE_LABEL[st], metaClass: st === 'strong' ? 'strong' : '' });
-            })
-          )
-        : h('p', { class: 'lede-note' }, 'Nothing discovered here yet. This world opens as you play.'),
-      locked ? h('p', { class: 'lede-note gaps' }, h('span', { class: 'gap-dots', 'aria-hidden': 'true' }, '· '.repeat(Math.min(locked, 10)).trim()), ' ' + locked + ' still undiscovered') : null,
-      beyond.size ? block('Connected beyond ' + w.id.toLowerCase(), h('div', { class: 'links' }, [...beyond.values()].map((n) => chip(ctx, n)))) : null,
-      threads.length ? block('Threads', h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id }, t.title)))) : null,
-      debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id }, d.title)))) : null,
-      open.length && worldCards(C, id).length ? block('Deepen', worldCards(C, id).map(deepCard)) : null
+      hero(id, h('p', { class: 'eyebrow' }, h('span', { class: 'world-tag' }, w.id)), h('h1', { class: 'display display--md', tabindex: '-1' }, w.question), modeNote(ctx)),
+      h('div', { class: 'panel panel--map' }, h('div', { class: 'map-frame map-frame--world' }, BF.map.world(ctx, id))),
+      panel(
+        'panel--list',
+        h('h2', { class: 'panel-title' }, 'Ideas'),
+        listed.length
+          ? h(
+              'ul',
+              { class: 'rows rows--tight' },
+              listed.map((n) => {
+                const st = GR.nodeState(G, player, n.id);
+                return row(ctx, { href: '#/idea/' + n.id, name: n.subject, plain: true, meta: STATE_LABEL[st], metaClass: st === 'strong' ? 'strong' : st === 'locked' ? 'new' : '', dim: st === 'locked' });
+              })
+            )
+          : h('p', { class: 'lede-note' }, 'Nothing discovered here yet. This world opens as you play.'),
+        locked && !ctx.showAll ? h('p', { class: 'lede-note gaps' }, h('span', { class: 'gap-dots', 'aria-hidden': 'true' }, '· '.repeat(Math.min(locked, 10)).trim()), ' ' + locked + ' still undiscovered') : null
+      ),
+      panel(
+        'panel--group',
+        beyond.size ? block('Connected beyond ' + w.id.toLowerCase(), h('div', { class: 'links' }, [...beyond.values()].map((n) => chip(ctx, n)))) : null,
+        threads.length ? block('Threads', h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id, class: player.threadsUnlocked[t.id] ? null : 'is-dim' }, t.title)))) : null,
+        debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id, class: player.debatesUnlocked[d.id] ? null : 'is-dim' }, d.title)))) : null,
+        cards.length ? block('Deepen', cards.map(deepCard)) : null
+      )
     );
   }
 
@@ -253,28 +302,54 @@
     return wrap;
   }
 
+  // ---- LEARN FROM HERE ------------------------------------------------------------
+  function learnFromHere(ctx, n) {
+    const area = h('div', { class: 'learn' });
+    const start = () => ctx.learnFrom(n.id);
+    const btn = h(
+      'button',
+      {
+        class: 'btn btn--learn',
+        onclick: () => {
+          if (!ctx.sessionInProgress()) return start();
+          area.replaceChildren(
+            h('p', { class: 'learn-confirm' }, 'Leave your current session? Answers you already gave are kept.'),
+            h('div', { class: 'learn-actions' }, h('button', { class: 'btn btn--learn', onclick: start }, 'Learn from here'), h('button', { class: 'btn btn--quiet', onclick: () => area.replaceChildren(btn, sub) }, 'Cancel'))
+          );
+        },
+      },
+      'Learn from here'
+    );
+    const sub = h('span', { class: 'learn-sub' }, 'A short session that starts with this idea and moves through its neighbours.');
+    area.append(btn, sub);
+    return area;
+  }
+
   // ---- an idea / thinker -----------------------------------------------------------
   function idea(ctx, id) {
     const { C, G, player } = ctx;
     const n = C.nodesById[id];
     if (!n) return landing(ctx);
     const st = GR.nodeState(G, player, id);
-    if (st === 'locked') {
+    if (st === 'locked' && !ctx.showAll) {
       return h(
         'main',
-        { class: 'screen' },
+        { class: 'screen', 'data-world': n.world },
         ctx.backLink(null, 'Back'),
-        h('p', { class: 'eyebrow' }, h('span', { class: 'world-tag', 'data-world': n.world }, n.world)),
-        h('h1', { class: 'display display--md' }, 'Not yet discovered.'),
-        h('p', { class: 'lede-note' }, 'This idea appears on your map once you meet it in PLAY.')
+        hero(n.world, h('p', { class: 'eyebrow' }, h('span', { class: 'world-tag' }, n.world)), h('h1', { class: 'display display--md' }, 'Not yet discovered.')),
+        h('p', { class: 'lede-note' }, 'This idea appears on your map once you meet it in PLAY. To browse the whole map, use Settings → Map visibility.')
       );
     }
     const why = C.whyThenByNode[id];
     const words = (G.wordsByNode[id] || []).filter((w) => GR.isFound(player, w.id));
     const unfound = (G.wordsByNode[id] || []).length - words.length;
     const connected = GR.connectionsOf(G, player, id).map((x) => C.nodesById[x]);
-    const threads = unlockedThreads(ctx).filter((t) => t.steps.some((s) => s.nodeIds.includes(id)));
-    const debates = unlockedDebates(ctx).filter((d) => d.prereq.includes(id));
+    // Whole-map mode also shows the not-yet-revealed neighbourhood, dimmed.
+    const nearby = ctx.showAll
+      ? [...new Set((G.byNode[id] || []).map((e) => (e.a === id ? e.b : e.a)))].filter((x) => !connected.some((c) => c.id === x)).map((x) => C.nodesById[x])
+      : [];
+    const threads = threadsShown(ctx).filter((t) => t.steps.some((s) => s.nodeIds.includes(id)));
+    const debates = debatesShown(ctx).filter((d) => d.prereq.includes(id));
     const context = G.contextByNode[id] || [];
 
     // Progressive disclosure: lens, context and source stay folded away.
@@ -301,23 +376,32 @@
       'main',
       { class: 'screen', 'data-world': n.world },
       ctx.backLink(null, 'Back'),
-      h('p', { class: 'eyebrow' }, h('a', { href: '#/world/' + n.world, class: 'world-tag', 'data-world': n.world }, n.world), h('span', { class: 'sep' }, '·'), n.era),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, n.subject),
-      h('div', { style: 'margin-top:1rem' }, h('span', { class: 'pill pill--' + st, 'data-world': n.world }, STATE_LABEL[st])),
-      block('Core idea', h('p', {}, n.coreIdea)),
-      why ? block('Why then', h('p', {}, why)) : null,
+      hero(
+        n.world,
+        h('p', { class: 'eyebrow' }, h('a', { href: '#/world/' + n.world, class: 'world-tag' }, n.world), h('span', { class: 'sep' }, '·'), n.era),
+        h('h1', { class: 'display display--md', tabindex: '-1' }, n.subject),
+        h('div', { class: 'hero-row' }, h('span', { class: 'pill pill--' + st, 'data-world': n.world }, STATE_LABEL[st]), learnFromHere(ctx, n))
+      ),
+      panel('panel--understand', block('Core idea', h('p', {}, n.coreIdea)), why ? block('Why then', h('p', {}, why)) : null),
+      panel('panel--keep', block('Keep this', h('p', { class: 'quote' }, n.keepThis || n.share))),
       words.length || unfound
-        ? block(
-            'Words',
-            words.map((w) => quoteBlock(w, { cite: true })),
-            unfound ? h('p', { class: 'lede-note' }, words.length ? 'More words wait in play.' : 'Words wait in play.') : null
+        ? panel(
+            'panel--words',
+            block(
+              'Words',
+              words.map((w) => quoteBlock(w, { cite: true })),
+              unfound ? h('p', { class: 'lede-note' }, words.length ? 'More words wait in play.' : 'Words wait in play.') : null
+            )
           )
         : null,
-      connected.length ? block('Connected to', h('div', { class: 'links' }, connected.map((c) => chip(ctx, c)))) : null,
-      threads.length ? block('Threads', h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id }, t.title)))) : null,
-      debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id }, d.title)))) : null,
-      block('Keep this', h('p', { class: 'quote' }, n.keepThis || n.share)),
-      yourWords(ctx, n),
+      panel(
+        'panel--group',
+        connected.length ? block('Connected to', h('div', { class: 'links' }, connected.map((c) => chip(ctx, c)))) : null,
+        nearby.length ? block('Nearby on the map', h('div', { class: 'links' }, nearby.map((c) => chip(ctx, c, true)))) : null,
+        threads.length ? block('Threads', h('div', { class: 'links' }, threads.map((t) => h('a', { href: '#/thread/' + t.id, class: player.threadsUnlocked[t.id] ? null : 'is-dim' }, t.title)))) : null,
+        debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id, class: player.debatesUnlocked[d.id] ? null : 'is-dim' }, d.title)))) : null
+      ),
+      panel('panel--notes', yourWords(ctx, n)),
       more
     );
   }
@@ -326,35 +410,40 @@
   function thread(ctx, id) {
     const { C, G, player } = ctx;
     const t = C.threadsById[id];
-    if (!t || !player.threadsUnlocked[id]) return landing(ctx);
+    if (!t || !(player.threadsUnlocked[id] || ctx.showAll)) return landing(ctx);
+    const responses = (C.threadResponses || {})[id] || [];
+    const extraCards = t.cards.map((cid) => C.deepeningById[cid]).filter((c) => c.text && !t.steps.some((s) => s.cardId === c.id));
     return h(
       'main',
       { class: 'screen' },
       ctx.backLink(null, 'Back'),
-      h('p', { class: 'eyebrow' }, 'Thread', h('span', { class: 'sep' }, '·'), t.title),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, t.question),
-      h('p', { class: 'lede-note' }, 'Different moments. Same question.'),
-      t.cards.filter((cid) => C.deepeningById[cid].text && !t.steps.some((s) => s.cardId === cid)).length
-        ? block('Deepen', t.cards.map((cid) => C.deepeningById[cid]).filter((c) => c.text && !t.steps.some((s) => s.cardId === c.id)).map(deepCard))
-        : null,
+      hero(
+        null,
+        h('p', { class: 'eyebrow' }, 'Thread', h('span', { class: 'sep' }, '·'), t.title),
+        h('h1', { class: 'display display--md', tabindex: '-1' }, t.question),
+        h('p', { class: 'lede-note' }, 'Different moments. Same question.'),
+        player.threadsUnlocked[id] ? null : modeNote(ctx)
+      ),
+      responses.length ? panel('panel--group', block('Historical responses', h('div', { class: 'links links--plain' }, responses.map((r) => h('span', {}, r))))) : null,
       h(
         'ol',
-        { class: 'thread-steps' },
+        { class: 'thread-steps panel' },
         t.steps.map((st) => {
           if (st.cardId) {
             const c = C.deepeningById[st.cardId];
             return c && c.text ? h('li', { class: 'is-card' }, h('span', { class: 'step-name' }, c.title), h('span', { class: 'step-sub' }, c.text)) : null;
           }
-          const nid = st.nodeIds.find((x) => GR.nodeState(G, player, x) !== 'locked');
+          const nid = st.nodeIds.find((x) => isOpen(ctx, x)) || (ctx.showAll ? st.nodeIds[0] : null);
           if (!nid) return h('li', { class: 'is-locked' }, h('span', { class: 'muted' }, 'Not yet discovered'));
           const n = C.nodesById[nid];
           return h(
             'li',
-            { 'data-world': n.world },
+            { 'data-world': n.world, class: isOpen(ctx, nid) ? null : 'is-dim' },
             h('a', { href: '#/idea/' + nid }, h('span', { class: 'step-name' }, st.label), h('span', { class: 'step-sub' }, n.share))
           );
         })
-      )
+      ),
+      extraCards.length ? panel('panel--group', block('Deepen', extraCards.map(deepCard))) : null
     );
   }
 
@@ -363,13 +452,12 @@
     const { C, player } = ctx;
     const d = C.debatesById[id];
     if (!d) return landing(ctx);
-    if (!player.debatesUnlocked[id]) {
+    if (!player.debatesUnlocked[id] && !ctx.showAll) {
       return h(
         'main',
         { class: 'screen' },
         ctx.backLink('#/explore', 'Map'),
-        h('p', { class: 'eyebrow' }, 'Debate'),
-        h('h1', { class: 'display display--md' }, 'This debate opens once both sides have been introduced in play.')
+        hero(null, h('p', { class: 'eyebrow' }, 'Debate'), h('h1', { class: 'display display--md' }, 'This debate opens once both sides have been introduced in play.'))
       );
     }
     const contrasts = d.encounterIds.map((eid) => C.byId[eid]).filter((e) => player.encounters[e.id]);
@@ -377,16 +465,20 @@
       'main',
       { class: 'screen' },
       ctx.backLink(null, 'Back'),
-      h('p', { class: 'eyebrow' }, 'Same question. Different answers.'),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, d.question),
-      h('p', { class: 'title-caps', style: 'margin-top:1.25rem' }, d.title),
+      hero(
+        null,
+        h('p', { class: 'eyebrow' }, 'Same question. Different answers.'),
+        h('h1', { class: 'display display--md', tabindex: '-1' }, d.question),
+        h('p', { class: 'title-caps', style: 'margin:1rem 0 0' }, d.title),
+        player.debatesUnlocked[id] ? null : modeNote(ctx)
+      ),
       h(
         'div',
         { class: 'sides' },
         d.sides.map((side) =>
           h(
             'div',
-            { class: 'block side', style: 'margin-top:0' },
+            { class: 'side-card', 'data-world': side.nodeIds.length ? C.nodesById[side.nodeIds[0]].world : null },
             h('h2', {}, side.label),
             side.nodeIds.length
               ? side.nodeIds.map((nid) => {
@@ -397,16 +489,17 @@
           )
         )
       ),
-      contrasts.length ? block('The contrast', contrasts.map((e) => paras(e.reveal))) : null,
+      contrasts.length ? panel('panel--keep', block('The contrast', contrasts.map((e) => paras(e.reveal)))) : null,
       h('p', { class: 'lede-note' }, 'Mastering a debate means understanding both answers, not choosing one.')
     );
   }
 
   // ---- WORDS collection -----------------------------------------------------------
+  // WORDS stay "found in play" only, in either visibility mode.
   const filters = { speaker: '', world: '', thread: '' };
 
   function wordsScreen(ctx) {
-    const { C, G, player } = ctx;
+    const { C, player } = ctx;
     const found = GR.wordsFound(C, player).sort((a, b) => player.words[a.id].at - player.words[b.id].at);
     const listEl = h('div', { class: 'words-list' });
 
@@ -427,7 +520,7 @@
             'article',
             { class: 'words-item', 'data-world': C.nodesById[w.nodeIds[0]].world },
             quoteBlock(w, { cite: true }),
-            h('div', { class: 'links links--small' }, w.nodeIds.filter((x) => GR.nodeState(G, player, x) !== 'locked').map((x) => chip(ctx, C.nodesById[x])))
+            h('div', { class: 'links links--small' }, w.nodeIds.filter((x) => canSee(ctx, x)).map((x) => chip(ctx, C.nodesById[x])))
           )
         )
       );
@@ -458,7 +551,7 @@
 
     const speakers = [...new Set(found.map((w) => w.speaker).filter(Boolean))].sort();
     const worlds = C.worlds.filter((w) => found.some((q) => q.nodeIds.some((x) => C.nodesById[x].world === w.id)));
-    const threads = unlockedThreads(ctx).filter((t) => found.some((w) => inThread(w, t.id)));
+    const threads = C.threads.filter((t) => player.threadsUnlocked[t.id] && found.some((w) => inThread(w, t.id)));
     for (const k of Object.keys(filters)) filters[k] = '';
 
     draw();
@@ -466,9 +559,12 @@
       'main',
       { class: 'screen' },
       ctx.backLink('#/explore', 'Map'),
-      h('p', { class: 'eyebrow' }, 'Words'),
-      h('h1', { class: 'display display--md', tabindex: '-1' }, found.length ? found.length + ' found' : 'No words yet.'),
-      h('p', { class: 'lede-note' }, found.length ? 'Exact quotations, in the words of the people who said or wrote them.' : 'Quotations appear as you play. Each one you find is kept here.'),
+      hero(
+        null,
+        h('p', { class: 'eyebrow' }, 'Words'),
+        h('h1', { class: 'display display--md', tabindex: '-1' }, found.length ? found.length + ' found' : 'No words yet.'),
+        h('p', { class: 'lede-note' }, found.length ? 'Exact quotations, in the words of the people who said or wrote them.' : 'Quotations appear as you play. Each one you find is kept here.')
+      ),
       found.length > 3
         ? h(
             'div',
