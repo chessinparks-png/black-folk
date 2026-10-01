@@ -34,6 +34,7 @@
     'SAME QUESTION': 'Different thinkers, same problem. Look for the fairest contrast—not a winner.',
     RECALL: 'Answer in your head first. Then reveal, and be honest with yourself.',
     SHARE: 'Explain it out loud or in your head. Nothing is recorded.',
+    CHECK: 'Type it, or say it in your head. What you type is saved for you—never graded.',
     'THEN → NOW': 'An older lens, a new situation.',
   };
   function hintFor(key) {
@@ -240,13 +241,14 @@
     const item = s.items[s.index];
     let answered = false;
     const ctx = {
-      answer(response) {
+      answer(response, opts) {
         if (answered) return null;
         answered = true;
         const result = S.evaluate(item.enc, response, state.player);
         S.applyResult(state.C, state.player, s, result);
         save();
-        if (result.points) floatPoints(result.points);
+        // Understanding checks answer quietly: no pop, no animation, whatever the verdict.
+        if (result.points && !(opts && opts.quiet)) floatPoints(result.points);
         return result;
       },
       next() {
@@ -257,24 +259,38 @@
       },
       hint: hintFor,
       word: (id) => state.C.wordsById[id],
-      // YOUR WORDS on RECALL / SHARE. Saving a note earns no Knowledge.
-      canWrite: (enc) => enc.nodeIds.length > 0,
+      // YOUR WORDS on RECALL / SHARE. Saving an answer earns no Knowledge.
+      // The writing rhythm may turn writing off on a card (item.noWrite).
+      canWrite: (enc, it) => enc.nodeIds.length > 0 && !(it && it.noWrite),
       writePrompt: (enc) => {
         const n = state.C.nodesById[enc.nodeIds[0]];
-        if (enc.derived && n) return 'Explain ' + n.name + ' in 1–3 sentences.';
-        return 'In 1–3 sentences.'; // the question is already on screen above
+        if (enc.derived && n) return 'How would you explain ' + n.name + ' to someone new?';
+        return 'How would you put it in your own words?'; // the question is already on screen above
       },
       saveNote(enc, text) {
+        return this.saveAnswer(enc, text, {});
+      },
+      saveAnswer(enc, text, opts) {
         const rec = BF.notes.add(state.player, {
           nodeIds: enc.nodeIds,
           encounterId: enc.id,
           text,
-          prompt: (enc.lead ? enc.lead + ' ' : '') + enc.prompt,
+          prompt: (opts && opts.prompt) || (enc.lead ? enc.lead + ' ' : '') + enc.prompt,
+          promptType: (opts && opts.promptType) || BF.content.writeTypeOf(state.C, enc),
           model: enc.reveal,
         });
         save();
         return rec;
       },
+      // Understanding check: only explain-type cards with pilot content, and only
+      // where the writing rhythm leaves writing on.
+      checkFor: (it) => (it.noWrite ? null : BF.content.checkFor(state.C, it.enc)),
+      previousAnswer: (nodeId, rec) => BF.notes.previousExplain(state.C, state.player, nodeId, rec),
+      recordCheck(entry) {
+        BF.notes.recordCheck(state.player, entry);
+        save();
+      },
+      fmtDate: (t) => new Date(t).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase(),
       worldOf: worldOfEnc,
       lensFor(enc) {
         const n = state.C.nodesById[enc.nodeIds[0]];

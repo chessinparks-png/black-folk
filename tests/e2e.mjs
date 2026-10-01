@@ -35,6 +35,18 @@ const st = () => page.evaluate(() => {
 });
 const btn = (text) => page.getByRole('button', { name: text, exact: true });
 const has = async (sel) => (await page.locator(sel).count()) > 0;
+// Writing rhythm, checked on every session the test starts.
+const rhythmSeen = [];
+async function noteRhythm() {
+  const r = await page.evaluate(() => {
+    const s = BF.app.state.session;
+    if (!s) return null;
+    const w = s.items.map((it) => BF.session.isWritingItem(it));
+    const bad = w.some((x, i) => x && (i < 2 || i === w.length - 1 || w[i - 1] || w[i - 2]));
+    return { ids: s.items.map((it, i) => it.enc.id + (w[i] ? '*' : '')).join(' '), bad };
+  });
+  if (r) rhythmSeen.push(r);
+}
 function check(cond, msg) { if (!cond) { console.log('  ✗ ' + msg); process.exitCode = 1; } else console.log('  ✓ ' + msg); }
 
 // Play the current encounter. `miss` answers wrongly where possible.
@@ -65,6 +77,14 @@ async function playEncounter({ miss = false, shotName, write = null } = {}) {
     }
     await btn('Check').click();
     formsSeen.add('sort');
+  } else if ((enc.kind === 'recall' || enc.kind === 'share') && await has('.card--check')) {
+    // Understanding check: say it in your head, then tap every must-have (Got it).
+    await btn('Say it in your head').click();
+    await btn('Continue').click();
+    for (const chip of await page.locator('.check-chip').all()) await chip.click();
+    await btn('Continue').click();
+    await page.waitForTimeout(300);
+    return enc;
   } else if (enc.kind === 'recall' || enc.kind === 'share') {
     if (write) {
       await btn('Write yours').click();
@@ -103,6 +123,7 @@ async function playSession({ tag, missFirstChoice = false, reloadAt = -1, writeO
   let knowledgeNeverDropped = true;
   let missedPoints = null;
   await btn('Begin').click();
+  await noteRhythm();
   const modes = [];
   for (let i = 0; i < 6; i++) {
     while (await has('text=Thread revealed')) { await snap(tag + '-thread'); await btn('Continue').click(); }
@@ -159,7 +180,7 @@ const mig = await page.evaluate(async () => {
     node: !!p.nodes['V1-010'].introduced, mapNode: !!p.map.nodes['V1-010'], edge: !!p.map.edges['V1-030|V1-031'],
     savedV: saved.version, backupK: backup && backup.knowledge, words: p.words };
 });
-check(mig.v === 4 && mig.savedV === 4, 'V1 save upgraded to the current schema (v4) and re-saved');
+check(mig.v === 5 && mig.savedV === 5, 'V1 save upgraded to the current schema (v5) and re-saved');
 check(mig.k === 480 && mig.starters === 3 && mig.hist === 1 && mig.ratings === 1 && mig.node, 'Knowledge, starters, history, ratings and mastery preserved');
 check(mig.mapNode && mig.edge, 'map backfilled from past encounters (Bethune–Randolph link revealed)');
 check(mig.backupK === 480, 'untouched V1 backup kept');
@@ -185,15 +206,20 @@ const m3 = await page.evaluate(async () => {
   const p = BF.app.state.player;
   const snap = await BF.store.get('v3-snapshot');
   const backup = await BF.store.get('player-backup-v3');
-  return { v: p.version, k: p.knowledge, yw: JSON.stringify(p.yourWords) === JSON.stringify(snap.yourWords), words: Object.keys(p.words).sort().join(), backup: backup && backup.version === 3 && backup.yourWords.length === 2 };
+  const strip = (r) => { const { answered_at, ...rest } = r; return rest; };
+  return { v: p.version, k: p.knowledge, yw: JSON.stringify(p.yourWords.map(strip)) === JSON.stringify(snap.yourWords),
+    dated: p.yourWords.map((r) => r.answered_at).join() === '1700000500000,1710000000000', checks: Array.isArray(p.checks) && p.checks.length === 0,
+    words: Object.keys(p.words).sort().join(), backup: backup && backup.version === 3 && backup.yourWords.length === 2 };
 });
-check(m3.v === 4 && m3.k === 912, 'populated v3 save upgraded to v4 with Knowledge intact');
-check(m3.yw, 'every YOUR WORDS field preserved exactly through the v3→v4 migration');
+check(m3.v === 5 && m3.k === 912, 'populated v3 save upgraded to v5 with Knowledge intact');
+check(m3.yw, 'every YOUR WORDS field preserved exactly through the v3→v5 migration');
+check(m3.dated && m3.checks, 'existing answers dated (edit date, else creation date); empty verdict list added');
 check(m3.words === 'W001,W013', 'found WORDS remapped to the V1.5 quote ids (' + m3.words + ')');
 check(m3.backup, 'untouched v3 backup kept');
 await page.goto(APP_URL + '#/idea/V1-010');
+await page.locator('.yw-toggle').click();
 const ywMigrated = await page.textContent('.yw');
-check(ywMigrated.includes('Owning the paper meant owning the story.') && ywMigrated.includes('EDITED'), 'migrated note (with its edit date) shows on its idea page');
+check(ywMigrated.includes('Owning the paper meant owning the story.') && ywMigrated.includes('NOV 14, 2023'), 'migrated answer shows in the idea timeline with its best date');
 await page.goto(APP_URL + '#/words');
 check((await page.textContent('main')).includes('lynching is not invoked to punish crime but color'), 'migrated WORDS still in the collection');
 await page.goto(APP_URL + '#/');
@@ -209,7 +235,7 @@ await page.waitForSelector('text=WHO DEFINES THE STORY?');
 await snap('s1-intro');
 const NOTE = 'A law can change on paper while schools, money, and habits stay the same.';
 const s1 = await playSession({ tag: 's1', writeOnRecall: NOTE });
-check(s1.modes.map((m) => m.id).join() === 'D001,D002,E002,D004,E006,E010', 'starter 1 plays the curated flow');
+check(s1.modes.map((m) => m.id).join() === 'D001,D002,E002,D004,E010,E006', 'starter 1 plays the curated flow (writing card moved off the last slot)');
 check(s1.summary.knowledge === 65 && s1.knowledgeNeverDropped, 'writing a note earns no extra Knowledge (recall still pays by self-rating)');
 check(s1.summary.knowledge === 65, 'starter 1 awards 55 for play + 10 for two WORDS found (' + s1.summary.knowledge + ')');
 check(s1.summary.words.join() === 'W011,W001', 'WORDS found in starter 1: ' + s1.summary.words.join());
@@ -232,35 +258,30 @@ check(wtext.includes('“We wish to plead our own cause”') && wtext.includes('
 check(!wtext.includes('Cast down your bucket'), 'unfound quotes are not exposed');
 await page.goto(APP_URL + '#/idea/V1-019');
 check((await page.textContent('main')).includes('How does it feel to be a problem?'), 'quote joins its node page');
-// YOUR WORDS on the idea page: view, add, expand, edit, delete (with confirm), persist
+// YOUR WORDS on the idea page: write, timeline (collapsed, newest first, dated), permanent, persists
 await page.goto(APP_URL + '#/idea/V1-032');
 await page.waitForSelector('.yw');
-check((await page.textContent('.yw')).includes(NOTE) && (await page.textContent('.yw')).includes('Your words · 1'), 'note from play appears on its idea page');
-await page.getByRole('button', { name: 'Add a new note +' }).click();
+check((await page.textContent('.yw')).includes('Your answers over time · 1') && !(await page.textContent('.yw')).includes(NOTE), 'answer from play is in the timeline, collapsed by default');
+await page.getByRole('button', { name: 'Write an answer +' }).click();
 await page.locator('.yw .yw-input').fill('Second pass: rules and reality move at different speeds.');
 await page.locator('.yw').getByRole('button', { name: 'Save', exact: true }).click();
-check((await page.textContent('.yw')).includes('Your words · 2') && (await page.textContent('.yw')).includes('Show 1 earlier +'), 'new note added; older one folded away');
-await page.getByRole('button', { name: 'Show 1 earlier +' }).click();
+check((await page.textContent('.yw')).includes('Your answers over time · 2'), 'new answer added to the timeline');
+await page.locator('.yw-toggle').click();
 await snap('yourwords-idea');
-await page.locator('.yw-entry').first().getByRole('button', { name: /^Edit/ }).click();
-await page.locator('.yw .yw-input').fill('Second pass, edited.');
-await page.locator('.yw').getByRole('button', { name: 'Save', exact: true }).click();
-check((await page.textContent('.yw')).includes('Second pass, edited.') && (await page.textContent('.yw')).includes('EDITED'), 'note edited');
-await page.locator('.yw-entry').first().getByRole('button', { name: /^Delete/ }).click();
-check((await page.textContent('.yw')).includes('Delete this note?'), 'delete asks for confirmation');
-await page.locator('.yw').getByRole('button', { name: 'Keep' }).click();
-check((await page.textContent('.yw')).includes('Second pass, edited.'), 'cancelling keeps the note');
-await page.locator('.yw-entry').first().getByRole('button', { name: /^Delete/ }).click();
-await page.locator('.yw').getByRole('button', { name: 'Delete', exact: true }).click();
-await page.waitForFunction(async () => ((await BF.store.get('player')).yourWords || []).length === 1);
+const entries = await page.locator('.yw-entry .yw-text').allTextContents();
+check(entries[0].startsWith('Second pass') && entries[1] === NOTE, 'timeline is newest first');
+check(await page.locator('.yw-entry .yw-date').count() === 2, 'every answer is dated');
+check(await page.locator('.yw').getByRole('button', { name: /^(Edit|Delete)/ }).count() === 0, 'answers are permanent: no edit or delete');
+await page.waitForFunction(async () => ((await BF.store.get('player')).yourWords || []).length === 2);
 await page.reload();
 await page.waitForSelector('.yw');
+await page.locator('.yw-toggle').click();
 const ywText = await page.textContent('.yw');
-check(ywText.includes('Your words · 1') && ywText.includes(NOTE) && !ywText.includes('Second pass'), 'notes survive reload; deletion persisted');
+check(ywText.includes('Your answers over time · 2') && ywText.includes(NOTE) && ywText.includes('Second pass'), 'answers survive reload');
 const kNow = await page.evaluate(() => BF.app.state.player.knowledge);
-check(kNow === 65, 'notes never change Knowledge (' + kNow + ')');
+check(kNow === 65, 'answers never change Knowledge (' + kNow + ')');
 await page.goto(APP_URL + '#/idea/V1-019');
-check((await page.textContent('.yw')).includes('No notes yet.'), 'empty state reads "No notes yet."');
+check((await page.textContent('.yw')).includes('No answers yet.'), 'empty state reads "No answers yet."');
 await page.goto(APP_URL + '#/idea/V1-044');
 check((await page.textContent('main')).includes('Not yet discovered'), 'undiscovered node page stays locked');
 await page.goto(APP_URL + '#/explore');
@@ -318,7 +339,8 @@ check(g.shown > 0 && g.shown < g.total, `connections reveal gradually (${g.shown
 await page.locator('.kmap .mworld', { hasText: 'POWER' }).click();
 await snap('map-world');
 check(await has('.kmap--world'), 'world view shows its own map');
-await page.goto(APP_URL + '#/thread/T-02');
+const openThread = (await st()).threads[0];
+await page.goto(APP_URL + '#/thread/' + openThread);
 await snap('thread');
 check((await page.textContent('main')).includes('Different moments. Same question.'), 'thread view works');
 await page.goto(APP_URL + '#/words');
@@ -438,7 +460,9 @@ async function learnFrom(id) {
   await page.goto(APP_URL + '#/idea/' + id);
   await page.waitForSelector('.hero');
   await btn('Learn from here').click();
+  if (await has('text=Leave your current session?')) await page.locator('.learn-actions .btn--learn').click();
   await page.waitForSelector('text=Begin');
+  await noteRhythm();
   return st();
 }
 await page.goto(APP_URL + '#/settings');
@@ -480,6 +504,181 @@ await btn('Learn from here').click();
 check(await has('text=Leave your current session?'), 'Learn from here asks before replacing a session in progress');
 await btn('Cancel').click();
 check((await st()).session.ids[0] === 'D005', 'cancel keeps the current session');
+
+// CHECK YOUR UNDERSTANDING (Respectability pilot)
+console.log('check your understanding');
+await page.goto(APP_URL + '#/');
+const beatsSeen = [];
+const beatNow = async () => {
+  const b = await page.locator('.beat').count();
+  const name = b ? await page.locator('.beat').getAttribute('data-beat') : null;
+  if (name) beatsSeen.push(name);
+  return { count: b, name };
+};
+const overflow = () => page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+let overflowAt = [];
+const checksAtStart = await page.evaluate(() => BF.app.state.player.checks.length);
+// Play an anchored Respectability session up to its check card.
+async function toRespCheck() {
+  await learnFrom('V1-045');
+  await btn('Begin').click();
+  for (let i = 0; i < 6; i++) {
+    while (await has('text=Thread revealed')) await btn('Continue').click();
+    const enc = await page.evaluate(() => { const s = BF.app.state.session; return s.items[s.index].enc; });
+    if (enc.id === 'X-R-V1-045' || enc.id === 'X-S-V1-045') return enc;
+    await playEncounter({});
+  }
+  throw new Error('no Respectability check card in the session');
+}
+async function finishSession() {
+  for (let i = 0; i < 6 && !(await has('text=Session complete')); i++) {
+    while (await has('text=Thread revealed')) await btn('Continue').click();
+    if (await has('text=Session complete')) break;
+    await playEncounter({});
+  }
+  await page.waitForSelector('text=Session complete');
+  await btn('Done').click();
+}
+const ANS1 = 'Trying to look proper so that people will protect you.';
+const ANS2 = 'Pressure to meet standards set by people with more power, in hopes of being treated as worthy of protection or sympathy.';
+
+// 1) First attempt: typed, one must-have covered → Partly
+let enc = await toRespCheck();
+await snap('check-think');
+check(!(await has('text=Last time you said')) && !(await has('.check-chip')) && !(await has('.beat')), 'think screen: no previous answer, no chips, no verdict');
+check(await btn('Type it').count() === 1 && await btn('Say it in your head').count() === 1, 'two ways in: Type it / Say it in your head');
+await btn('Type it').click();
+await page.locator('.yw-input').fill(ANS1);
+check(!(await has('text=Last time you said')), 'no previous answer shown while typing');
+const nBefore = await page.evaluate(() => BF.app.state.player.yourWords.length);
+const k1 = (await st()).knowledge;
+await btn('Save').click();
+let bt = await beatNow();
+check(bt.count === 1 && bt.name === 'yours' && (await page.textContent('.beat')).includes(ANS1), 'beat a: your answer, alone on screen');
+check(!(await has('text=Last time you said')), 'first attempt: no "Last time you said"');
+const saved1 = await page.evaluate(() => BF.app.state.player.yourWords.at(-1));
+check(saved1 && saved1.text === ANS1 && saved1.prompt_type === 'explain' && saved1.answered_at > 0 && (await page.evaluate(() => BF.app.state.player.yourWords.length)) === nBefore + 1, 'typed answer saved with a date and its prompt type');
+await snap('check-a-yours');
+await btn('Continue').click();
+bt = await beatNow();
+const explText = (await page.textContent('.explanation')).trim();
+check(bt.count === 1 && bt.name === 'explain' && explText === enc.reveal.trim(), 'beat b: the full explanation, word for word');
+check((await page.textContent('.explanation .first-sentence')).length > 20 && !(await has('.check-chip')), 'first sentence bold; chips not shown yet');
+await snap('check-b-explain');
+await btn('Continue').click();
+bt = await beatNow();
+check(bt.count === 1 && bt.name === 'chips' && await page.locator('.check-chip').count() === 3, 'beat c: three must-have chips');
+await page.locator('.check-chip').first().click();
+check(await page.locator('.check-chip').first().getAttribute('aria-pressed') === 'true', 'tapping a chip marks it covered');
+await snap('check-c-chips');
+const tAnswer = Date.now();
+await btn('Continue').click();
+bt = await beatNow();
+check(bt.name === 'mixup' && (await page.textContent('.beat')).includes('A common mix-up'), 'Partly → beat d: a common mix-up');
+check(await page.locator('.beat').getAttribute('data-mixup') === 'criminalization', 'most relevant mix-up first (Respectability vs. Criminalization)');
+check(await page.locator('#floats .float').count() === 0, 'no Knowledge animation on a check');
+await snap('check-d-mixup');
+await btn('See another mix-up').click();
+check(await page.locator('.beat').getAttribute('data-mixup') === 'manners' && await btn('See another mix-up').count() === 0, '"See another mix-up" shows the second, then no more');
+const after1 = await page.evaluate(() => ({ c: BF.app.state.player.checks.at(-1), n: BF.app.state.player.nodes['V1-045'], k: BF.app.state.player.knowledge }));
+check(after1.c.verdict === 'partly' && after1.c.mode === 'typed' && after1.c.covered.join() === 'pressure' && after1.c.response_id === saved1.response_id, 'verdict "partly" stored with the answer it belongs to');
+check(after1.n.lastResult === 'almost' && after1.n.nextReview <= tAnswer + 2 * 86400000 + 60000, 'Partly uses the ALMOST schedule (back within two days at most)');
+const scheduledPartly = after1.n.nextReview - tAnswer;
+const badWords = /\b(wrong|incorrect|score|percent|%|fail)/i;
+check(!badWords.test(await page.textContent('main')), 'no "wrong", score or percentage on the check');
+await btn('Continue').click();
+check(!(await has('.beat')), 'Continue moves on to the next card');
+await finishSession();
+
+// 2) Reload; the answer persists and shows on the idea page timeline
+await page.reload();
+await page.goto(APP_URL + '#/idea/V1-045');
+await page.waitForSelector('.yw');
+await page.locator('.yw-toggle').click();
+check((await page.textContent('.yw')).includes(ANS1), 'typed answer persists across reload and appears on the idea page');
+
+// 3) Second attempt: "Last time you said" after submit; all chips → Got it, no mix-up
+enc = await toRespCheck();
+check(!(await has('text=Last time you said')), 'second attempt: previous answer hidden before submitting');
+await btn('Type it').click();
+await page.locator('.yw-input').fill(ANS2);
+check(!(await has('text=Last time you said')), 'still hidden while typing');
+await btn('Save').click();
+const last = await page.textContent('.beat');
+check(last.includes('Last time you said') && last.includes(ANS1) && last.includes(ANS2), 'after submit: "Last time you said" with the earlier answer');
+check(/last time you said · [a-z]{3} \d{1,2}, \d{4}/i.test(await page.textContent('.beat-last-label')), '…with its date');
+await snap('check-a-lasttime');
+await btn('Continue').click();
+await btn('Continue').click();
+for (const chip of await page.locator('.check-chip').all()) await chip.click();
+const idxBefore = (await st()).session.index;
+const k2 = (await st()).knowledge;
+const t2 = Date.now();
+await btn('Continue').click();
+await page.waitForTimeout(400);
+const after2 = await page.evaluate(() => ({ c: BF.app.state.player.checks.at(-1), n: BF.app.state.player.nodes['V1-045'], k: BF.app.state.player.knowledge, idx: BF.app.state.session ? BF.app.state.session.index : -1 }));
+check(after2.c.verdict === 'got' && !(await has('[data-beat="mixup"]')), 'Got it skips the mix-up beat');
+check(after2.idx === idxBefore + 1, 'Got it goes straight to the next card');
+check(after2.k - k2 === enc.points && await page.locator('#floats .float').count() === 0, 'Got it: the card’s usual points, no bonus, no animation (+' + (after2.k - k2) + ')');
+check(after2.n.nextReview - t2 > scheduledPartly, 'Got it schedules later than Partly');
+await finishSession();
+
+// 4) Third attempt on phone: said in head, nothing covered → Missed
+await page.setViewportSize({ width: 390, height: 844 });
+enc = await toRespCheck();
+if (await overflow()) overflowAt.push('think');
+const yw3 = await page.evaluate(() => BF.app.state.player.yourWords.length);
+await btn('Say it in your head').click();
+bt = await beatNow();
+check(bt.name === 'explain', 'Say it in your head: straight to the explanation (no answer beat)');
+if (await overflow()) overflowAt.push('explain');
+await btn('Continue').click();
+if (await overflow()) overflowAt.push('chips');
+await snap('mobile-check-chips');
+const t3 = Date.now();
+await btn('Continue').click();
+bt = await beatNow();
+if (await overflow()) overflowAt.push('mixup');
+await snap('mobile-check-mixup');
+const after3 = await page.evaluate(() => ({ c: BF.app.state.player.checks.at(-1), n: BF.app.state.player.nodes['V1-045'], yw: BF.app.state.player.yourWords.length }));
+check(bt.name === 'mixup' && after3.c.verdict === 'missed' && after3.c.mode === 'head', 'Missed → mix-up shown; verdict stored as said-in-head');
+check(after3.n.nextReview - t3 <= 15 * 60000, 'Missed brings the idea back within minutes');
+check(after3.yw === yw3, 'nothing typed, nothing saved');
+const chipW = await page.evaluate(() => [...document.querySelectorAll('.actions--beat .btn')].map((b) => b.getBoundingClientRect().width));
+check(chipW.every((w) => w > 300), 'phone: beat buttons full width');
+await btn('Continue').click();
+await finishSession();
+check(overflowAt.length === 0, 'no horizontal overflow on phone at any beat' + (overflowAt.length ? ': ' + overflowAt.join() : ''));
+await page.setViewportSize({ width: 1280, height: 820 });
+
+// 5) Reflective prompt: saved with a date, never checked
+await page.goto(APP_URL + '#/idea/V1-045');
+await page.waitForSelector('.yw');
+check((await page.textContent('.yw')).includes('Who gets left out when dignity becomes a condition for sympathy?'), 'idea page shows the reflective prompt');
+await page.getByRole('button', { name: 'Write an answer +' }).click();
+await page.locator('.yw .yw-input').fill('People who could not, or would not, perform respectability.');
+await page.locator('.yw').getByRole('button', { name: 'Save', exact: true }).click();
+const refl = await page.evaluate(() => BF.app.state.player.yourWords.at(-1));
+check(refl.prompt_type === 'reflective' && refl.answered_at > 0, 'reflective answer saved with a date');
+check(!(await has('.check-chip')) && !(await has('.beat')) && !(await has('text=A common mix-up')), 'reflective prompt: no chips, mix-ups or verdict');
+const checksNow = await page.evaluate(() => BF.app.state.player.checks.length);
+check(checksNow - checksAtStart === 3, 'only the three explain attempts produced verdicts (+' + (checksNow - checksAtStart) + ')');
+await page.locator('.yw-toggle').click();
+const tl = await page.locator('.yw-entry .yw-text').allTextContents();
+check(tl.length === 3 && tl[0].startsWith('People who could not') && tl[1] === ANS2 && tl[2] === ANS1, 'timeline: all answers, reflective included, newest first');
+await snap('idea-timeline');
+check(beatsSeen.slice(0, 4).join() === 'yours,explain,chips,mixup', 'beats in order, one per screen: ' + beatsSeen.join(' → '));
+
+// 6) Reset clears answer history and verdicts
+await page.goto(APP_URL + '#/settings');
+await btn('Reset progress').click();
+await btn('Erase progress').click();
+await page.waitForSelector('.stats');
+await page.reload();
+await page.waitForSelector('.stats');
+const cleared = await page.evaluate(async () => { const p = await BF.store.get('player'); return { yw: (p ? p.yourWords : []).length, ck: (p ? p.checks || [] : []).length, mem: BF.app.state.player.yourWords.length + BF.app.state.player.checks.length }; });
+check(cleared.yw === 0 && cleared.ck === 0 && cleared.mem === 0, 'reset clears answer history and verdicts');
+check(rhythmSeen.length >= 10 && rhythmSeen.every((r) => !r.bad), `writing rhythm held in all ${rhythmSeen.length} sessions started` + (rhythmSeen.some((r) => r.bad) ? ': ' + rhythmSeen.filter((r) => r.bad).map((r) => r.ids).join(' | ') : ''));
 
 check(badText.length === 0, 'no stray null/undefined text' + (badText.length ? ': ' + badText.join(' | ') : ''));
 check(errors.length === 0, 'no page errors' + (errors.length ? ': ' + errors.join(' | ') : ''));

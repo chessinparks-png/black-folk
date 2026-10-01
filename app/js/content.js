@@ -344,8 +344,55 @@
       bridges,
       sessionDesign: play.session_design,
       pointsScale: play.session_design.points,
+      promptTypes: (raw.understanding && raw.understanding.prompt_types) || {},
+      checks: loadChecks(raw.understanding, nodesById),
     };
   }
 
-  BF.content = { load, CHOICE_MODES, SELF_RATED_MODES, cleanReveal, splitPrompt };
+  // ---- YOUR WORDS: prompt types and understanding checks ----------------------------
+  // understanding_checks.json says which prompts are explain-type (one model
+  // explanation) and which are reflective (open). Unlisted prompts are reflective.
+  function loadChecks(u, nodesById) {
+    const out = {};
+    for (const [nodeId, c] of Object.entries((u && u.checks) || {})) {
+      if (!nodesById[nodeId]) throw new Error('check for unknown node ' + nodeId);
+      const ids = new Set(c.must_haves.map((m) => m.id));
+      for (const m of c.misreadings) for (const r of m.relates_to || []) if (!ids.has(r)) throw new Error(nodeId + ': mix-up ' + m.id + ' relates to unknown ' + r);
+      out[nodeId] = {
+        nodeId,
+        appliesTo: c.applies_to.slice(),
+        ask: c.ask,
+        mustHaves: c.must_haves.map((m) => ({ id: m.id, text: m.text })),
+        misreadings: c.misreadings.map((m) => ({ id: m.id, title: m.title, text: m.text, relatesTo: (m.relates_to || []).slice() })),
+      };
+    }
+    return out;
+  }
+
+  // 'explain' | 'reflective' for a card that offers writing.
+  function writeTypeOf(C, enc) {
+    const t = C.promptTypes || {};
+    if (enc.derived) {
+      const prefix = (/^(X-WR|X-R|X-S)-/.exec(enc.id) || [])[1];
+      return (prefix && (t.derived || {})[prefix]) || 'reflective';
+    }
+    return (t.encounters || {})[enc.id] || 'reflective';
+  }
+
+  // The idea page's YOUR WORDS prompt: authored prompts are open questions.
+  function ideaPrompt(C, n) {
+    const t = (C.promptTypes || {}).idea_pages || {};
+    const type = t[n.id] || (n.yourWordsPrompt ? 'reflective' : t._default || 'reflective');
+    const text = n.yourWordsPrompt || 'How would you explain ' + n.name + ' to someone new?';
+    return { text, type };
+  }
+
+  // The pilot check for a card, only for explain-type cards it names.
+  function checkFor(C, enc) {
+    if (!enc || writeTypeOf(C, enc) !== 'explain') return null;
+    for (const c of Object.values(C.checks || {})) if (c.appliesTo.includes(enc.id)) return c;
+    return null;
+  }
+
+  BF.content = { load, writeTypeOf, ideaPrompt, checkFor, CHOICE_MODES, SELF_RATED_MODES, cleanReveal, splitPrompt };
 })((globalThis.BF = globalThis.BF || {}));

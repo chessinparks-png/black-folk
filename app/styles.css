@@ -2469,3 +2469,184 @@ a.world-tag:hover {
 .screen--play .choices--short {
   max-width: none;
 }
+
+/* =====================================================================
+   CHECK YOUR UNDERSTANDING — one beat per screen, one world-tinted panel.
+   No red, no X marks, no score.
+   ===================================================================== */
+
+.check-ask {
+  margin: 1.25rem 0 0;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  color: var(--fg-soft);
+}
+
+.check-head .subject {
+  margin: 0.25rem 0 0;
+}
+
+.beat {
+  margin-top: 1rem;
+  background: var(--w-tint, var(--surface));
+  border-top: 4px solid var(--w, var(--accent));
+  padding: clamp(1.25rem, 3vw, 2rem);
+  animation: enter 320ms var(--ease) both;
+}
+
+.beat-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--w, var(--muted));
+  margin: 0 0 1rem;
+  outline: none;
+}
+
+.beat p {
+  max-width: 38rem;
+}
+
+.beat-yours {
+  font-size: 1.35rem;
+  line-height: 1.45;
+}
+
+.beat-last {
+  margin-top: 1.5rem;
+  padding: 1rem 0 0 1rem;
+  border-left: 2px solid var(--w-line, var(--line-strong));
+}
+
+.beat-last-label,
+.beat-note {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+
+.beat-last .yw-text {
+  color: var(--fg-soft);
+  font-size: 1.12rem;
+}
+
+/* The full explanation: comfortable measure, first sentence bold. */
+.explanation p {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  max-width: 36rem;
+  color: var(--fg);
+  font-weight: 400;
+}
+
+.explanation p:last-child {
+  margin-bottom: 0;
+}
+
+.explanation .first-sentence {
+  font-weight: 650;
+}
+
+.beat .words-wrap {
+  margin-top: 1.5rem;
+}
+
+.check-chips {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 34rem;
+}
+
+.check-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.95rem 1.1rem;
+  background: var(--bg);
+  border: 1px solid var(--w-line, var(--line-strong));
+  color: var(--fg);
+  font: inherit;
+  font-size: 1.02rem;
+  cursor: pointer;
+  transition: background 160ms var(--ease), border-color 160ms var(--ease);
+}
+
+.check-chip:hover {
+  border-color: var(--w, var(--accent));
+}
+
+.check-mark {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 1.5px solid var(--w, var(--accent));
+  border-radius: 50%;
+}
+
+.check-chip[aria-pressed='true'] {
+  background: var(--w-tint-2, var(--surface));
+  border-color: var(--w, var(--accent));
+}
+
+.check-chip[aria-pressed='true'] .check-mark {
+  background: var(--w, var(--accent));
+  box-shadow: inset 0 0 0 3px var(--w-tint-2, var(--bg));
+}
+
+.mixup-title {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.45rem;
+  line-height: 1.3;
+}
+
+.beat--mixup p:not(.beat-label) {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+}
+
+.actions--beat,
+.actions--choice {
+  flex-wrap: wrap;
+}
+
+/* Idea page: Your answers over time */
+.yw-ask--quiet {
+  margin-bottom: 0.35rem;
+}
+
+.yw-history {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.yw .yw-prompt,
+.panel .yw .yw-prompt {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .screen--play .beat {
+    margin-left: calc(-1 * var(--gutter) / 2);
+    margin-right: calc(-1 * var(--gutter) / 2);
+  }
+  .actions--beat .btn,
+  .actions--choice .btn,
+  .check-chips {
+    width: 100%;
+    max-width: none;
+  }
+}

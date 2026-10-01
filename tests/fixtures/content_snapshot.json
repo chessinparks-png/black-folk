@@ -1,0 +1,1741 @@
+{
+ "_note": "Snapshot of every player-facing explanation, reveal and card text taken before the understanding-check feature. Tests compare the live content against it; nothing here may shrink or change.",
+ "nodes": {
+  "V1-001": {
+   "coreIdea": "Black American history sits inside a longer African history; enslavement is a rupture, not the beginning of Black existence.",
+   "whyThen": null,
+   "share": "Black history doesn’t start in 1619. It starts in Africa.",
+   "keepThis": "Black history doesn’t start in 1619. It starts in Africa.",
+   "lens": "Ask what changes when a people’s story begins before their oppression.",
+   "yourWordsPrompt": null
+  },
+  "V1-002": {
+   "coreIdea": "Colonial law did not merely reflect racial categories; it helped harden them by assigning unequal status, rights, and inheritance.",
+   "whyThen": null,
+   "share": "Racist law didn’t just enforce race. It helped define what race meant.",
+   "keepThis": "Racist law didn’t just enforce race. It helped define what race meant.",
+   "lens": "Legal categories can shape social categories, not just record them.",
+   "yourWordsPrompt": null
+  },
+  "V1-003": {
+   "coreIdea": "Colonial elites had incentives to sharpen racial divisions among laboring people who could otherwise share economic grievances.",
+   "whyThen": null,
+   "share": "Race and class can divide people who share material problems.",
+   "keepThis": "Race and class can divide people who share material problems.",
+   "lens": "When a coalition breaks, ask what interests or identities are pulling people apart.",
+   "yourWordsPrompt": null
+  },
+  "V1-004": {
+   "coreIdea": "Some enslaved people pursued freedom by leaving slave society and building alternative communities such as maroon settlements and Fort Mose.",
+   "whyThen": null,
+   "share": "Sometimes freedom meant escaping the system and building somewhere else.",
+   "keepThis": "Sometimes freedom meant escaping the system and building somewhere else.",
+   "lens": "Leave, reform, or build: different strategies begin with different ideas of what is possible.",
+   "yourWordsPrompt": null
+  },
+  "V1-005": {
+   "coreIdea": "Spirituals could carry theology, memory, coded meaning, endurance, and visions of freedom simultaneously.",
+   "whyThen": null,
+   "share": "A song can carry history, faith, and strategy at the same time.",
+   "keepThis": "A song can carry history, faith, and strategy at the same time.",
+   "lens": "Culture can do intellectual work even when it does not look like an essay.",
+   "yourWordsPrompt": null
+  },
+  "V1-006": {
+   "coreIdea": "Independent Black religious life became a place where faith, collective organization, mutual aid, and claims for freedom could meet.",
+   "whyThen": null,
+   "share": "The Black church became both a sanctuary and an organizing institution.",
+   "keepThis": "The Black church became both a sanctuary and an organizing institution.",
+   "lens": "Institutions can preserve ideas because people meet there repeatedly, not just because leaders speak there.",
+   "yourWordsPrompt": null
+  },
+  "V1-007": {
+   "coreIdea": "Black literary achievement challenged claims of Black intellectual inferiority while exposing the burden of having to prove humanity to a hostile public.",
+   "whyThen": null,
+   "share": "Wheatley had to write poems—and prove Black people could think.",
+   "keepThis": "Wheatley had to write poems—and prove Black people could think.",
+   "lens": "Marginalized people are often asked to create and justify their right to create at once.",
+   "yourWordsPrompt": null
+  },
+  "V1-008": {
+   "coreIdea": "Enlightenment and Revolutionary language about universal liberty coexisted with racial hierarchy and slavery, giving Black people both a contradiction to expose and a language to claim.",
+   "whyThen": null,
+   "share": "America preached universal liberty while deciding who counted as universal.",
+   "keepThis": "America preached universal liberty while deciding who counted as universal.",
+   "lens": "Compare a society’s principles with who actually receives the rights those principles promise.",
+   "yourWordsPrompt": null
+  },
+  "V1-009": {
+   "coreIdea": "Black resistance could require secret networks, trust, planning, and a willingness to pursue collective freedom under severe repression.",
+   "whyThen": null,
+   "share": "Rebellion required organization long before it required action.",
+   "keepThis": "Rebellion required organization long before it required action.",
+   "lens": "Under repression, trust and information control become part of strategy.",
+   "yourWordsPrompt": null
+  },
+  "V1-010": {
+   "coreIdea": "Black-controlled media let Black communities speak for themselves rather than depend on white institutions to define Black life.",
+   "whyThen": null,
+   "share": "Owning the platform can be part of owning the story.",
+   "keepThis": "Owning the platform can be part of owning the story.",
+   "lens": "Ask who controls the channel through which a community is described.",
+   "yourWordsPrompt": null
+  },
+  "V1-011": {
+   "coreIdea": "Stewart connected Black advancement to education, public voice, economic ambition, and the political agency of Black women.",
+   "whyThen": null,
+   "share": "Stewart argued that Black freedom could not leave Black women behind.",
+   "keepThis": "Stewart argued that Black freedom could not leave Black women behind.",
+   "lens": "WHO IS “WE”? When a movement says “the people,” ask who is actually included.",
+   "yourWordsPrompt": null
+  },
+  "V1-012": {
+   "coreIdea": "Black political thought developed through institutions where people debated abolition, education, migration, and strategy together.",
+   "whyThen": null,
+   "share": "Movements need places to argue about strategy, not only places to protest.",
+   "keepThis": "Movements need places to argue about strategy, not only places to protest.",
+   "lens": "Deliberation is movement infrastructure too.",
+   "yourWordsPrompt": null
+  },
+  "V1-013": {
+   "coreIdea": "Black intellectuals used scholarship and professional expertise to challenge racial pseudoscience and supposedly objective claims of inferiority.",
+   "whyThen": null,
+   "share": "McCune Smith fought racist 'science' with evidence and expertise.",
+   "keepThis": "McCune Smith fought racist 'science' with evidence and expertise.",
+   "lens": "When prejudice dresses itself as fact, ask what the evidence actually shows.",
+   "yourWordsPrompt": null
+  },
+  "V1-014": {
+   "coreIdea": "Douglass linked literacy, abolition, citizenship, political action, and the destruction of slavery; personal escape was not enough while the system remained.",
+   "whyThen": null,
+   "share": "Douglass escaped slavery, then spent his life attacking the system itself.",
+   "keepThis": "Douglass escaped slavery, then spent his life attacking the system itself.",
+   "lens": "Individual mobility and collective freedom are different measurements.",
+   "yourWordsPrompt": null
+  },
+  "V1-015": {
+   "coreIdea": "Emancipation opened a second struggle over citizenship, voting, education, labor, land, and political power.",
+   "whyThen": null,
+   "share": "Ending slavery answered one question. Reconstruction asked what freedom required next.",
+   "keepThis": "Ending slavery answered one question. Reconstruction asked what freedom required next.",
+   "lens": "After a formal barrier falls, ask who controls institutions and resources afterward.",
+   "yourWordsPrompt": null
+  },
+  "V1-016": {
+   "coreIdea": "Black washerwomen used labor autonomy, common rates, mutual-aid traditions, and collective organization to increase control over their work.",
+   "whyThen": null,
+   "share": "Black washerwomen turned private labor into collective bargaining power.",
+   "keepThis": "Black washerwomen turned private labor into collective bargaining power.",
+   "lens": "Economic power can begin with workers coordinating rules they previously faced alone.",
+   "yourWordsPrompt": null
+  },
+  "V1-017": {
+   "coreIdea": "Plessy v. Ferguson legalized 'separate but equal,' but the case itself grew from organized Black resistance to segregation.",
+   "whyThen": null,
+   "share": "Plessy was a defeat in court—and the product of organized resistance.",
+   "keepThis": "Plessy was a defeat in court—and the product of organized resistance.",
+   "lens": "A failed legal challenge can still reveal how a community understood the injustice it faced.",
+   "yourWordsPrompt": null
+  },
+  "V1-018": {
+   "coreIdea": "Washington emphasized industrial education, economic strength, and pragmatic advancement as a route toward Black progress in a hostile political environment.",
+   "whyThen": null,
+   "share": "Washington’s bet: build skills and wealth while navigating a hostile system.",
+   "keepThis": "Washington’s bet: build skills and wealth while navigating a hostile system.",
+   "lens": "A strategy can be judged partly by what risks its author believed were realistic at the time.",
+   "yourWordsPrompt": null
+  },
+  "V1-019": {
+   "coreIdea": "Du Bois described the strain of knowing oneself while also seeing oneself through a society that devalues Blackness.",
+   "whyThen": null,
+   "share": "Du Bois named the strain of seeing yourself through hostile eyes.",
+   "keepThis": "Du Bois named the strain of seeing yourself through hostile eyes.",
+   "lens": "Ask how much self-image comes from one’s own values versus other people’s expectations.",
+   "yourWordsPrompt": null
+  },
+  "V1-020": {
+   "coreIdea": "Du Bois reframed Reconstruction and emancipation around Black agency, arguing that enslaved people helped destroy slavery by withdrawing labor and joining the freedom struggle.",
+   "whyThen": null,
+   "share": "Du Bois made enslaved people actors in emancipation, not spectators to it.",
+   "keepThis": "Du Bois made enslaved people actors in emancipation, not spectators to it.",
+   "lens": "Ask who disappears when history is told only through presidents, generals, and laws.",
+   "yourWordsPrompt": null
+  },
+  "V1-021": {
+   "coreIdea": "Wells used investigative reporting and statistics to challenge the claim that lynching was a neutral response to crime.",
+   "whyThen": null,
+   "share": "Wells attacked lynching by attacking the lie used to justify it.",
+   "keepThis": "Wells attacked lynching by attacking the lie used to justify it.",
+   "lens": "When violence is justified by a story about its victims, check the evidence behind the story.",
+   "yourWordsPrompt": null
+  },
+  "V1-022": {
+   "coreIdea": "Wells treated migration, boycotts, public exposure, and self-defense as forms of leverage when authorities would not protect Black communities.",
+   "whyThen": null,
+   "share": "Wells paired truth-telling with economic pressure and self-protection.",
+   "keepThis": "Wells paired truth-telling with economic pressure and self-protection.",
+   "lens": "Moral argument and leverage are different tools; movements may use both.",
+   "yourWordsPrompt": null
+  },
+  "V1-023": {
+   "coreIdea": "Terrell used education, writing, club work, anti-lynching advocacy, women’s rights, and direct challenges to segregation as mutually reinforcing forms of public action.",
+   "whyThen": null,
+   "share": "Terrell turned education and status into tools for public action.",
+   "keepThis": "Terrell turned education and status into tools for public action.",
+   "lens": "Private achievement can become civic power when it is converted into institutions and organizing.",
+   "yourWordsPrompt": null
+  },
+  "V1-024": {
+   "coreIdea": "House helped build a mass reparations movement among formerly enslaved people through local chapters, churches, agents, and membership organization.",
+   "whyThen": null,
+   "share": "The reparations movement had mass organizers more than a century ago.",
+   "keepThis": "The reparations movement had mass organizers more than a century ago.",
+   "lens": "A demand becomes a movement when ordinary people have a structure for participating in it.",
+   "yourWordsPrompt": null
+  },
+  "V1-025": {
+   "coreIdea": "Migration became a strategy for pursuing safety, wages, political possibility, and autonomy, not simply a change of address.",
+   "whyThen": null,
+   "share": "Millions moved because geography itself could shape freedom.",
+   "keepThis": "Millions moved because geography itself could shape freedom.",
+   "lens": "Leaving can be a political strategy when place determines opportunity and safety.",
+   "yourWordsPrompt": null
+  },
+  "V1-026": {
+   "coreIdea": "The Harlem Renaissance became an argument about who could define Black life and what Black art owed to politics, audiences, and white patronage.",
+   "whyThen": null,
+   "share": "The Harlem Renaissance was also a debate about who Black art was for.",
+   "keepThis": "The Harlem Renaissance was also a debate about who Black art was for.",
+   "lens": "Art can seek recognition, protest, autonomy, or several goals at once.",
+   "yourWordsPrompt": null
+  },
+  "V1-027": {
+   "coreIdea": "Hurston treated Black vernacular, folklore, humor, and ordinary life as worthy subjects without requiring them to function only as protest.",
+   "whyThen": null,
+   "share": "Hurston let Black life be more than an argument about racism.",
+   "keepThis": "Hurston let Black life be more than an argument about racism.",
+   "lens": "Creators from marginalized groups may resist being asked to represent the whole group.",
+   "yourWordsPrompt": null
+  },
+  "V1-028": {
+   "coreIdea": "Baldwin pushed against narrow depictions of Black life and used autobiography, criticism, and global perspective to insist on fuller Black humanity.",
+   "whyThen": null,
+   "share": "Baldwin refused narrow stories about what Black life was allowed to be.",
+   "keepThis": "Baldwin refused narrow stories about what Black life was allowed to be.",
+   "lens": "A stereotype can be challenged not only by rebutting it, but by expanding the range of lives shown.",
+   "yourWordsPrompt": null
+  },
+  "V1-029": {
+   "coreIdea": "Black radicals linked racial hierarchy to labor, capitalism, imperialism, and class instead of treating racism only as prejudice.",
+   "whyThen": null,
+   "share": "The Black Left tied race to who owned, worked, and profited.",
+   "keepThis": "The Black Left tied race to who owned, worked, and profited.",
+   "lens": "Ask whether an inequality is about attitudes, institutions, economic structure, or several at once.",
+   "yourWordsPrompt": null
+  },
+  "V1-030": {
+   "coreIdea": "Bethune combined Black institution-building with access to federal decision-makers to pursue jobs, education, and policy opportunities.",
+   "whyThen": null,
+   "share": "Bethune built institutions outside government and leverage inside it.",
+   "keepThis": "Bethune built institutions outside government and leverage inside it.",
+   "lens": "Access and independence can be complementary forms of power.",
+   "yourWordsPrompt": null
+  },
+  "V1-031": {
+   "coreIdea": "Randolph used the credible threat of mass protest to increase pressure on federal officials over employment discrimination.",
+   "whyThen": null,
+   "share": "Randolph’s leverage came from people organized behind the threat.",
+   "keepThis": "Randolph’s leverage came from people organized behind the threat.",
+   "lens": "Access matters differently when an organizer also has an independent base of support.",
+   "yourWordsPrompt": null
+  },
+  "V1-032": {
+   "coreIdea": "Brown overturned the constitutional basis for school segregation, while demonstrating that changing the legal rule and changing institutions are separate tasks.",
+   "whyThen": null,
+   "share": "Brown changed the rule before it changed the reality.",
+   "keepThis": "Brown changed the rule before it changed the reality.",
+   "lens": "After any reform, ask separately what changed in law and what changed in practice.",
+   "yourWordsPrompt": null
+  },
+  "V1-033": {
+   "coreIdea": "Claudette Colvin, Rosa Parks, Jo Ann Robinson, the Women’s Political Council, lawyers, and local networks show that the person who acts, the person who organizes, and the person who becomes the symbol may be different people.",
+   "whyThen": null,
+   "share": "Parks became the symbol because organizers were already prepared to move.",
+   "keepThis": "Parks became the symbol because organizers were already prepared to move.",
+   "lens": "When a movement looks spontaneous, ask who had the network ready beforehand.",
+   "yourWordsPrompt": null
+  },
+  "V1-034": {
+   "coreIdea": "Baker favored participatory leadership that increased ordinary people’s capacity to act rather than concentrating a movement around a single public figure.",
+   "whyThen": null,
+   "share": "Baker thought strong leadership should create more leaders.",
+   "keepThis": "Baker thought strong leadership should create more leaders.",
+   "lens": "If the visible leader vanished, would the organization still know how to act?",
+   "yourWordsPrompt": null
+  },
+  "V1-035": {
+   "coreIdea": "King treated disciplined nonviolent resistance as an organizing strategy for confronting injustice publicly, mobilizing broad participation, and applying moral and political pressure.",
+   "whyThen": null,
+   "share": "King’s nonviolence was a method of resistance, not passive acceptance.",
+   "keepThis": "King’s nonviolence was a method of resistance, not passive acceptance.",
+   "lens": "A tactic can reject violence while still being confrontational.",
+   "yourWordsPrompt": null
+  },
+  "V1-036": {
+   "coreIdea": "Malcolm X emphasized Black dignity, self-determination, international human rights, and an analysis of Black struggle that extended beyond U.S. citizenship alone.",
+   "whyThen": null,
+   "share": "Malcolm moved the freedom struggle onto a global human-rights map.",
+   "keepThis": "Malcolm moved the freedom struggle onto a global human-rights map.",
+   "lens": "A thinker can change strategy while keeping the underlying problem in view.",
+   "yourWordsPrompt": null
+  },
+  "V1-037": {
+   "coreIdea": "Carmichael/Ture emphasized Black political self-determination and evolved from civil-rights organizing toward Black Power and Pan-Africanism.",
+   "whyThen": null,
+   "share": "Carmichael shifted the question from inclusion to political control.",
+   "keepThis": "Carmichael shifted the question from inclusion to political control.",
+   "lens": "Representation and agenda-setting power are not the same thing.",
+   "yourWordsPrompt": null
+  },
+  "V1-038": {
+   "coreIdea": "Hampton linked political education, community programs, and coalition across racial and ethnic groups around shared material interests.",
+   "whyThen": null,
+   "share": "Hampton built coalition around concrete needs, not vague solidarity.",
+   "keepThis": "Hampton built coalition around concrete needs, not vague solidarity.",
+   "lens": "Coalitions are easier to sustain when groups know what they are trying to win together.",
+   "yourWordsPrompt": null
+  },
+  "V1-039": {
+   "coreIdea": "Combahee argued that race, gender, class, and sexuality could operate simultaneously; Black women could build politics from their own position while still forming coalitions.",
+   "whyThen": null,
+   "share": "Combahee asked politics to see Black women whole, not one category at a time.",
+   "keepThis": "Combahee asked politics to see Black women whole, not one category at a time.",
+   "lens": "WHO IS “WE”? If a movement speaks for Black people, ask whose experience it treats as the norm.",
+   "yourWordsPrompt": null
+  },
+  "V1-040": {
+   "coreIdea": "Hip-hop became a space where a new generation narrated Black urban life, politics, creativity, alienation, and identity outside older movement forms.",
+   "whyThen": null,
+   "share": "Hip-hop became a political language without needing to look like a political meeting.",
+   "keepThis": "Hip-hop became a political language without needing to look like a political meeting.",
+   "lens": "A generation may build its intellectual vocabulary through culture before institutions recognize it as thought.",
+   "yourWordsPrompt": null
+  },
+  "V1-041": {
+   "coreIdea": "The Anita Hill hearings forced public debate over race, gender, sexual harassment, credibility, and whether Black women’s experiences could be subordinated to other political loyalties.",
+   "whyThen": null,
+   "share": "Anita Hill exposed what happens when race and gender demand different loyalties.",
+   "keepThis": "Anita Hill exposed what happens when race and gender demand different loyalties.",
+   "lens": "When two forms of injustice intersect, single-issue politics can leave people without a full language for their experience.",
+   "yourWordsPrompt": null
+  },
+  "V1-042": {
+   "coreIdea": "Blackness in the United States includes immigrants whose national, ethnic, and racial identities interact with a U.S. racial system that may read them simply as Black.",
+   "whyThen": null,
+   "share": "Black identity can unite people without erasing where they came from.",
+   "keepThis": "Black identity can unite people without erasing where they came from.",
+   "lens": "WHO IS “WE”? Black solidarity can contain different national, ethnic, and migration histories.",
+   "yourWordsPrompt": null
+  },
+  "V1-043": {
+   "coreIdea": "The history of voting rights shows that legal protections can be weakened or reinterpreted after major victories, making political rights an ongoing institutional question.",
+   "whyThen": null,
+   "share": "Voting rights can expand, contract, and require protection again.",
+   "keepThis": "Voting rights can expand, contract, and require protection again.",
+   "lens": "A right’s existence and the durability of the institutions protecting it are different questions.",
+   "yourWordsPrompt": null
+  },
+  "V1-044": {
+   "coreIdea": "Black Lives Matter drew on Black feminist and grassroots traditions while using decentralized networks to organize in a media environment very different from mid-century movements.",
+   "whyThen": null,
+   "share": "Modern movements inherited old questions about leadership, power, and whose lives count.",
+   "keepThis": "Modern movements inherited old questions about leadership, power, and whose lives count.",
+   "lens": "Compare how decentralized and leader-centered organizations handle speed, accountability, visibility, and continuity.",
+   "yourWordsPrompt": null
+  },
+  "V1-045": {
+   "coreIdea": "Respectability is the pressure or strategy of meeting dominant standards of behavior, appearance, morality, class, gender, sexuality, or public presentation in hopes of being treated as worthy of protection, opportunity, legitimacy, or sympathy.",
+   "whyThen": "Black people facing hostile institutions were repeatedly told that protection, sympathy, and opportunity depended on proving themselves proper, moral, and safe. Those standards were set under unequal power—and many poor, criminalized, unlettered, queer, or otherwise 'non-respectable' Black people could not meet them, or would not.",
+   "share": "Respectability makes acceptability a condition for protection and sympathy.",
+   "keepThis": "Who has to prove they deserve protection?",
+   "lens": "Ask who is treated as an acceptable victim—and who is pushed outside the public story when protection depends on presentation.",
+   "yourWordsPrompt": "Who gets left out when dignity becomes a condition for sympathy?"
+  },
+  "V1-046": {
+   "coreIdea": "Abolition is a Black intellectual and political tradition that asks whether some systems must be ended rather than repaired—and what social institutions must exist so that the ending produces a durable form of freedom.",
+   "whyThen": "The end of legal slavery immediately raised a larger question: what institutions, rights, resources, and power would make emancipation substantive? Later abolitionist thought carried that question into debates about prisons, policing, safety, and life-sustaining institutions.",
+   "share": "Abolition asks what must end—and what must be built in its place.",
+   "keepThis": "Ending something is only half the question. What replaces it?",
+   "lens": "Teach abolition as one tradition in a real reform-versus-replacement debate, not as the app's predetermined answer.",
+   "yourWordsPrompt": "How would you tell whether an institution should be repaired, replaced, or abandoned?"
+  },
+  "V1-047": {
+   "coreIdea": "Black nationalism is a varied tradition of Black self-determination. Different nationalists have emphasized territory, political unity, economic control, culture, independent institutions, or combinations of these.",
+   "whyThen": "After slavery and during repeated limits on equal inclusion, Black thinkers debated whether freedom required stronger Black-controlled institutions, resources, political organization, cultural unity, or even territorial sovereignty.",
+   "share": "Black nationalism asks what Black self-determination requires in power, institutions, culture, and resources.",
+   "keepThis": "Representation asks who is present. Self-determination asks who can decide.",
+   "lens": "WHO IS “WE”? Black nationalism raises a second question after self-determination: who belongs to the Black collective that is supposed to determine for itself?",
+   "yourWordsPrompt": "What would meaningful Black self-determination require: control of what, by whom, and for whom?"
+  },
+  "V1-048": {
+   "coreIdea": "Pan-Africanism is a family of political and cultural projects that tries to turn connections among African-descended peoples into deliberate solidarity, organization, or cooperation across national borders.",
+   "whyThen": "Slavery, colonialism, migration, and racial domination crossed borders. Pan-African thinkers therefore asked whether Black freedom struggles also needed institutions, movements, and alliances that crossed borders.",
+   "share": "Pan-Africanism tries to turn global Black connection into organized solidarity.",
+   "keepThis": "Diaspora describes connection. Pan-Africanism tries to organize it.",
+   "lens": "Do not treat global Blackness as automatic agreement; Pan-African projects have disagreed over who belongs, what solidarity requires, and whether unity should be cultural, political, economic, or state-based.",
+   "yourWordsPrompt": "What should people of African descent across different nations actually owe one another, if anything?"
+  },
+  "V1-049": {
+   "coreIdea": "Criminalization is the process through which laws, institutions, media, and social narratives define particular people, behaviors, or communities as dangerous and therefore more legitimately punishable or controllable.",
+   "whyThen": "After emancipation, legal and social systems repeatedly used criminal categories to regulate Black freedom. The concept helps connect Black Codes, racialized crime narratives, policing, incarceration, and debates about innocence and deservingness without claiming that crime itself is imaginary.",
+   "share": "Criminalization asks who gets defined as dangerous—and who gains power from that label.",
+   "keepThis": "Before punishment comes a decision about who looks punishable.",
+   "lens": "Keep this node focused on the production of danger and punishability. Keep V1-002 focused on the legal production of racial categories themselves.",
+   "yourWordsPrompt": "What would you need to know before accepting that a person or group is naturally more dangerous?"
+  },
+  "V1-050": {
+   "coreIdea": "Predatory inclusion describes access granted to people previously excluded from a market or institution, but on unequal or exploitative terms that can reproduce extraction rather than equal power.",
+   "whyThen": "Formal exclusion can end without eliminating the power imbalance underneath it. Housing after the Fair Housing era provides a concrete case in which new access could coexist with inflated prices, poor properties, and costly financing.",
+   "share": "Predatory inclusion is access granted on unequal or exploitative terms.",
+   "keepThis": "Getting in matters. So do the terms of entry.",
+   "lens": "Do not imply that all inclusion is predatory. Ask what access changes, what terms remain unequal, and who has the power to refuse or renegotiate them.",
+   "yourWordsPrompt": "What would make inclusion meaningful rather than merely formal?"
+  }
+ },
+ "items": {
+  "E001": {
+   "prompt": "Where does the story start?",
+   "lead": null,
+   "reveal": "Enslavement is a rupture in a longer African history, not the beginning of Black existence.",
+   "choices": [
+    "1619",
+    "Africa"
+   ],
+   "correct": "Africa",
+   "stage": [
+    "1619",
+    "vs.",
+    "AFRICA"
+   ],
+   "verdict": "Before 1619."
+  },
+  "E002": {
+   "prompt": "Who described the strain of seeing yourself through your own eyes and through a society that devalues Blackness?",
+   "lead": null,
+   "reveal": "Du Bois called this tension double consciousness.",
+   "choices": [
+    "W.E.B. Du Bois",
+    "Booker T. Washington",
+    "Frederick Douglass",
+    "James Baldwin"
+   ],
+   "correct": "W.E.B. Du Bois"
+  },
+  "E003": {
+   "prompt": "Strong leadership should…",
+   "lead": null,
+   "reveal": "Baker favored participatory leadership that increased ordinary people’s capacity to act.",
+   "choices": [
+    "Protect one central voice",
+    "Create more leaders"
+   ],
+   "correct": "Create more leaders",
+   "stage": [
+    "ELLA BAKER"
+   ],
+   "verdict": "More leaders."
+  },
+  "E004": {
+   "prompt": "Complete the connection.",
+   "lead": null,
+   "reveal": "Wells used reporting and statistics to challenge the stories used to justify lynching.",
+   "choices": [
+    "Investigative evidence",
+    "Federal employment policy",
+    "The Harlem Renaissance"
+   ],
+   "correct": "Investigative evidence",
+   "stage": [
+    "IDA B. WELLS",
+    "→ ?"
+   ],
+   "verdict": null
+  },
+  "E005": {
+   "prompt": "Is freedom settled?",
+   "lead": null,
+   "reveal": "Emancipation answered whether slavery would continue. Reconstruction raised the harder question of what freedom would require next.",
+   "choices": [
+    "Yes",
+    "Not yet"
+   ],
+   "correct": "Not yet",
+   "stage": [
+    "SLAVERY ENDS."
+   ],
+   "verdict": "Not yet."
+  },
+  "E006": {
+   "prompt": "Freedom’s Journal mattered because it gave Black communities…",
+   "lead": null,
+   "reveal": "Black-controlled media meant Black people did not have to rely entirely on outside institutions to define Black life.",
+   "choices": [
+    "a Black-controlled platform for self-representation",
+    "the first federal voting law",
+    "a national labor union",
+    "the first integrated university"
+   ],
+   "correct": "a Black-controlled platform for self-representation"
+  },
+  "E007": {
+   "prompt": "Build what first?",
+   "lead": null,
+   "reveal": "Washington emphasized education, work, and economic advancement in a hostile political environment.",
+   "choices": [
+    "Skills and economic strength",
+    "Armed insurrection",
+    "Student-led networks"
+   ],
+   "correct": "Skills and economic strength",
+   "stage": [
+    "WASHINGTON’S BET"
+   ],
+   "verdict": null
+  },
+  "E008": {
+   "prompt": "Must it be protest first?",
+   "lead": null,
+   "reveal": "Hurston treated Black vernacular, folklore, humor, and ordinary life as worthy subjects on their own terms.",
+   "choices": [
+    "Yes",
+    "No"
+   ],
+   "correct": "No",
+   "stage": [
+    "BLACK LIFE",
+    "↓",
+    "ART"
+   ],
+   "verdict": "No."
+  },
+  "E009": {
+   "prompt": "Complete the connection.",
+   "lead": null,
+   "reveal": "McCune Smith used scholarship and professional expertise to challenge supposedly scientific claims of Black inferiority.",
+   "choices": [
+    "Evidence against racist “science”",
+    "Plessy v. Ferguson",
+    "Montgomery bus organizing"
+   ],
+   "correct": "Evidence against racist “science”",
+   "stage": [
+    "JAMES McCUNE SMITH",
+    "→ ?"
+   ],
+   "verdict": null
+  },
+  "E010": {
+   "prompt": "What is the simplest difference between legal victory and lived reality?",
+   "lead": null,
+   "reveal": "A rule can change before institutions, resources, habits, or power change with it."
+  },
+  "E011": {
+   "prompt": "Wells and Washington wanted Black advancement. Where did their diagnoses differ?",
+   "lead": null,
+   "reveal": "The important point is not to crown a winner. Different diagnoses produce different strategies.",
+   "choices": [
+    "Wells emphasized racial power and terror; Washington emphasized education and economic advancement.",
+    "Wells rejected education; Washington rejected economics.",
+    "Wells opposed journalism; Washington supported it.",
+    "They had identical diagnoses."
+   ],
+   "correct": "Wells emphasized racial power and terror; Washington emphasized education and economic advancement."
+  },
+  "E012": {
+   "prompt": "What connects them?",
+   "lead": null,
+   "reveal": "Both show media as power: owning or controlling the means of telling the story changes who gets to define Black life.",
+   "choices": [
+    "Black-controlled media",
+    "Industrial education",
+    "Migration north"
+   ],
+   "correct": "Black-controlled media",
+   "stage": [
+    "FREEDOM’S JOURNAL",
+    "+",
+    "IDA B. WELLS"
+   ],
+   "verdict": null
+  },
+  "E013": {
+   "prompt": "What did the washerwomen gain?",
+   "lead": null,
+   "reveal": "Their organizing turned individually negotiated domestic labor into coordinated economic leverage.",
+   "choices": [
+    "Automatic voting rights",
+    "More control over their labor"
+   ],
+   "correct": "More control over their labor",
+   "stage": [
+    "COMMON RATES.",
+    "A PROTECTIVE ASSOCIATION."
+   ],
+   "verdict": "Control over their labor."
+  },
+  "E014": {
+   "prompt": "Baker and King emphasized different strengths in leadership. Which contrast is fairest?",
+   "lead": null,
+   "reveal": "Baker stressed building leadership from below. King’s public leadership could concentrate attention, fundraising, and national pressure. The tradeoff matters more than picking a winner.",
+   "choices": [
+    "grassroots leadership development vs. visible centralized leadership",
+    "education vs. no education",
+    "violence vs. no politics",
+    "culture vs. economics"
+   ],
+   "correct": "grassroots leadership development vs. visible centralized leadership"
+  },
+  "E015": {
+   "prompt": "Inside government, or outside it?",
+   "lead": null,
+   "reveal": "Bethune shows that independent institutions and insider access can work together rather than cancel each other out.",
+   "choices": [
+    "Inside",
+    "Outside",
+    "Both"
+   ],
+   "correct": "Both",
+   "stage": [
+    "MARY McLEOD BETHUNE"
+   ],
+   "verdict": null
+  },
+  "E016": {
+   "prompt": "Which pair belongs on this thread?",
+   "lead": null,
+   "reveal": "Both used evidence to confront ideas that were presented as objective truth.",
+   "choices": [
+    "McCune Smith + Wells",
+    "Hampton + Hurston",
+    "Washington + the spirituals"
+   ],
+   "correct": "McCune Smith + Wells",
+   "stage": [
+    "EVIDENCE AS RESISTANCE"
+   ],
+   "verdict": null
+  },
+  "E017": {
+   "prompt": "Where did he increasingly place the struggle?",
+   "lead": null,
+   "reveal": "Malcolm increasingly situated Black struggle within international human rights, anticolonialism, and self-determination.",
+   "choices": [
+    "U.S. citizenship alone",
+    "Global human rights"
+   ],
+   "correct": "Global human rights",
+   "stage": [
+    "MALCOLM X"
+   ],
+   "verdict": "Global human rights."
+  },
+  "E018": {
+   "prompt": "Put these in chronological order.",
+   "lead": null,
+   "reveal": "1820s → 1860s–70s → 1920s → 1960s.",
+   "items": [
+    "Freedom’s Journal",
+    "Reconstruction",
+    "Harlem Renaissance",
+    "Black Power"
+   ]
+  },
+  "E019": {
+   "prompt": "What does the case show?",
+   "lead": null,
+   "reveal": "The case matters both for the doctrine it produced and for the Black organizing that challenged segregation.",
+   "choices": [
+    "A defeat, nothing more",
+    "A defeat—and organized resistance"
+   ],
+   "correct": "A defeat—and organized resistance",
+   "stage": [
+    "PLESSY LOST IN COURT."
+   ],
+   "verdict": "Both."
+  },
+  "E020": {
+   "prompt": "What was Callie House trying to turn reparations into?",
+   "lead": null,
+   "reveal": "A mass movement with chapters, members, agents, and community institutions—not just an elite policy demand."
+  },
+  "E021": {
+   "prompt": "Complete the LEVERAGE sequence.",
+   "lead": null,
+   "reveal": "Each case asks how people without formal authority can create costs or pressure that powerful institutions must answer.",
+   "choices": [
+    "Montgomery boycott",
+    "Hurston’s folklore",
+    "Wheatley’s poetry"
+   ],
+   "correct": "Montgomery boycott",
+   "stage": [
+    "WELLS BOYCOTT",
+    "→ RANDOLPH’S PROTEST THREAT",
+    "→ ?"
+   ],
+   "verdict": null
+  },
+  "E022": {
+   "prompt": "Integration and Black Power asked different questions.",
+   "lead": null,
+   "reveal": "Access and control are not identical. A person may gain entry into an institution without gaining much influence over its decisions.",
+   "items": [
+    {
+     "text": "Who can enter?",
+     "bin": "Integration"
+    },
+    {
+     "text": "Who can decide?",
+     "bin": "Black Power"
+    }
+   ],
+   "bins": [
+    "Integration",
+    "Black Power"
+   ]
+  },
+  "E023": {
+   "prompt": "One at a time, or together?",
+   "lead": null,
+   "reveal": "Combahee argued that Black women’s lives could not be understood by examining one form of domination at a time.",
+   "choices": [
+    "One at a time",
+    "Together"
+   ],
+   "correct": "Together",
+   "stage": [
+    "RACE · GENDER · CLASS · SEXUALITY"
+   ],
+   "verdict": "Together."
+  },
+  "E024": {
+   "prompt": "Why does Claudette Colvin connect to Combahee?",
+   "lead": null,
+   "reveal": "Her treatment shows how race, gender, age, class, and respectability could shape whose story became usable.\n\nColvin makes an abstract idea concrete: movements can treat people differently depending on several identities and social expectations at once."
+  },
+  "E025": {
+   "prompt": "It depended most on…",
+   "lead": null,
+   "reveal": "Hampton linked community programs, political education, and cross-racial coalition around material needs.",
+   "choices": [
+    "Shared needs + political education",
+    "Celebrity leadership",
+    "Keeping groups separate"
+   ],
+   "correct": "Shared needs + political education",
+   "stage": [
+    "FRED HAMPTON’S COALITION"
+   ],
+   "verdict": null
+  },
+  "E026": {
+   "prompt": "Which three belong here?",
+   "lead": null,
+   "reveal": "Douglass links literacy to freedom; Washington emphasizes skills and economic advancement; Baker uses education to develop people capable of acting.",
+   "choices": [
+    "Douglass · Washington · Baker",
+    "Hurston · Plessy · Fort Mose",
+    "Combahee · Migration · spirituals"
+   ],
+   "correct": "Douglass · Washington · Baker",
+   "stage": [
+    "WHAT IS EDUCATION FOR?"
+   ],
+   "verdict": null
+  },
+  "E027": {
+   "prompt": "What is the core difference between individual mobility and collective freedom?",
+   "lead": null,
+   "reveal": "An individual can advance while the rules or conditions facing the wider group remain largely unchanged."
+  },
+  "E028": {
+   "prompt": "Why is it in an intellectual-history game?",
+   "lead": null,
+   "reveal": "The game treats culture as one place Black people think publicly—not merely as decoration around formal politics.",
+   "choices": [
+    "Entertainment history only",
+    "Culture can carry ideas"
+   ],
+   "correct": "Culture can carry ideas",
+   "stage": [
+    "HIP-HOP"
+   ],
+   "verdict": "It carries ideas."
+  },
+  "E029": {
+   "prompt": "Why does the Anita Hill episode matter beyond one biography?",
+   "lead": null,
+   "reveal": "It makes race-and-gender conflict inside political loyalty visible.\n\nThe episode forces a question central to Black feminist thought: what happens when a person belongs to more than one political category at once?"
+  },
+  "E030": {
+   "prompt": "Which pairing fits best?",
+   "lead": null,
+   "reveal": "Du Bois explored how Black people see themselves through a society that judges them; Hurston insisted Black life could be represented on its own terms.",
+   "choices": [
+    "Du Bois + Hurston",
+    "Randolph + Plessy",
+    "Vesey + washerwomen"
+   ],
+   "correct": "Du Bois + Hurston",
+   "stage": [
+    "WHO DEFINES BLACKNESS?"
+   ],
+   "verdict": null
+  },
+  "E031": {
+   "prompt": "“Brown changed the rule before it changed the reality.”",
+   "lead": "Explain this idea aloud:",
+   "reveal": "Brown made school segregation unconstitutional, but institutions and communities still had to implement desegregation against enormous resistance."
+  },
+  "E032": {
+   "prompt": "Explain why Freedom’s Journal was a form of power.",
+   "lead": null,
+   "reveal": "A Black-controlled newspaper let Black people describe their own lives, priorities, and arguments instead of depending on outsiders to define them."
+  },
+  "E033": {
+   "prompt": "A first comparison—not a permanent box. Both thinkers changed.",
+   "lead": null,
+   "reveal": "This is a starting comparison, not a permanent box. Both thinkers changed over time, so later encounters should show their evolution.",
+   "items": [
+    {
+     "text": "Disciplined nonviolence · U.S. citizenship",
+     "bin": "King"
+    },
+    {
+     "text": "Increasingly: self-determination · human rights",
+     "bin": "Malcolm X"
+    }
+   ],
+   "bins": [
+    "King",
+    "Malcolm X"
+   ]
+  },
+  "E034": {
+   "prompt": "Which pair shows both?",
+   "lead": null,
+   "reveal": "Bethune had access to federal decision-makers. Randolph brought organized outside pressure. Different forms of leverage could reinforce each other.",
+   "choices": [
+    "Bethune + Randolph",
+    "Hurston + Wheatley",
+    "Baker + Baldwin"
+   ],
+   "correct": "Bethune + Randolph",
+   "stage": [
+    "INSIDE ACCESS",
+    "+",
+    "OUTSIDE PRESSURE"
+   ],
+   "verdict": null
+  },
+  "E035": {
+   "prompt": "Which older question?",
+   "lead": null,
+   "reveal": "This is the same distinction the curriculum uses to connect integration and Black Power: being present is not identical to setting the agenda.",
+   "choices": [
+    "Art vs. folklore",
+    "Access vs. control"
+   ],
+   "correct": "Access vs. control",
+   "stage": [
+    "INVITED IN.",
+    "LITTLE SAY OVER THE RULES."
+   ],
+   "verdict": "Access vs. control."
+  },
+  "E036": {
+   "prompt": "Wells would ask first:",
+   "lead": null,
+   "reveal": "Wells’s anti-lynching work repeatedly attacked the narratives used to justify violence by checking them against evidence.",
+   "choices": [
+    "What do the facts show?",
+    "Who is the best spokesperson?"
+   ],
+   "correct": "What do the facts show?",
+   "stage": [
+    "A PUBLIC STORY BLAMES A COMMUNITY."
+   ],
+   "verdict": "Check the evidence."
+  },
+  "E037": {
+   "prompt": "Place each on LEAVE · REFORM · BUILD.",
+   "lead": null,
+   "reveal": "The thread asks whether freedom is pursued by leaving an oppressive structure, changing it, or creating institutions with more autonomy.",
+   "items": [
+    {
+     "text": "Marronage",
+     "bin": "Leave"
+    },
+    {
+     "text": "Brown v. Board",
+     "bin": "Reform"
+    },
+    {
+     "text": "Bethune / Black institutions",
+     "bin": "Build"
+    }
+   ],
+   "bins": [
+    "Leave",
+    "Reform",
+    "Build"
+   ]
+  },
+  "E038": {
+   "prompt": "What did Du Bois’s Black Reconstruction change about the story of emancipation?",
+   "lead": null,
+   "reveal": "It centered Black agency—especially enslaved people withdrawing labor and joining the freedom struggle—rather than treating emancipation as something simply handed down from above."
+  },
+  "E039": {
+   "prompt": "“Protest creates attention. Organization creates continuity.”",
+   "lead": "Explain this line:",
+   "reveal": "A protest can make an issue visible, but durable change usually requires people, relationships, institutions, and routines that still exist after the event ends."
+  },
+  "E040": {
+   "prompt": "Match each thinker to the emphasis this curriculum has introduced.",
+   "lead": null,
+   "reveal": "Different eras produced different answers to the same question. Mastery here means holding several answers at once—not choosing a winner.",
+   "pairs": [
+    {
+     "left": "Douglass",
+     "right": "literacy and citizenship"
+    },
+    {
+     "left": "Washington",
+     "right": "practical skills and economic strength"
+    },
+    {
+     "left": "Bethune",
+     "right": "durable institutions and access"
+    },
+    {
+     "left": "Baker / Hampton",
+     "right": "people prepared to organize and act"
+    }
+   ]
+  },
+  "E041": {
+   "prompt": "Did law only record race?",
+   "lead": null,
+   "reveal": "Law did not merely reflect racial categories. It helped harden and define them.",
+   "choices": [
+    "Only recorded it",
+    "Helped make it"
+   ],
+   "correct": "Helped make it",
+   "stage": [
+    "COLONIAL LAW ASSIGNED STATUS BY RACE."
+   ],
+   "verdict": "It helped make it."
+  },
+  "E042": {
+   "prompt": "Name the mechanism.",
+   "lead": null,
+   "reveal": "Bacon’s Rebellion is useful here because it shows how race and class can divide people who might otherwise share material interests.",
+   "choices": [
+    "Divided interests",
+    "Double consciousness",
+    "Predatory inclusion"
+   ],
+   "correct": "Divided interests",
+   "stage": [
+    "SHARED GRIEVANCES.",
+    "AN ELITE GAINS WHEN WORKERS SPLIT BY RACE."
+   ],
+   "verdict": null
+  },
+  "E043": {
+   "prompt": "What can a song carry?",
+   "lead": null,
+   "reveal": "Spirituals could carry theology, memory, coded meaning, endurance, and visions of freedom at the same time.",
+   "choices": [
+    "Entertainment only",
+    "Theology · memory · strategy"
+   ],
+   "correct": "Theology · memory · strategy",
+   "stage": [
+    "A SPIRITUAL"
+   ],
+   "verdict": "Ideas, too."
+  },
+  "E044": {
+   "prompt": "Only a place of worship?",
+   "lead": null,
+   "reveal": "Independent Black religious life could combine faith, mutual aid, repeated organization, and claims for freedom.",
+   "choices": [
+    "Worship only",
+    "Worship + institution"
+   ],
+   "correct": "Worship + institution",
+   "stage": [
+    "THE FREEDOM CHURCH"
+   ],
+   "verdict": "Also an institution."
+  },
+  "E045": {
+   "prompt": "Why did Phillis Wheatley’s writing carry a second burden?",
+   "lead": null,
+   "reveal": "She had to create while also being treated as evidence that Black people could create.\n\nHer writing challenged claims of Black intellectual inferiority while she also faced the burden of proving Black intellectual humanity to a hostile public."
+  },
+  "E046": {
+   "prompt": "What did that give Black thinkers?",
+   "lead": null,
+   "reveal": "It exposed a gap between declared principles and lived reality while also providing a language of liberty that Black people could claim.",
+   "choices": [
+    "Proof liberty was universal",
+    "A contradiction to expose—and a language to claim"
+   ],
+   "correct": "A contradiction to expose—and a language to claim",
+   "stage": [
+    "UNIVERSAL LIBERTY — PREACHED.",
+    "SLAVERY — MAINTAINED."
+   ],
+   "verdict": "Both a target and a tool."
+  },
+  "E047": {
+   "prompt": "Under severe repression, why do trust and information control matter?",
+   "lead": null,
+   "reveal": "Because organization can be destroyed if plans and networks are exposed.\n\nDenmark Vesey’s context shows that clandestine resistance depended on networks, planning, secrecy, and trust before action could occur."
+  },
+  "E048": {
+   "prompt": "Whose agency did Maria Stewart insist on?",
+   "lead": null,
+   "reveal": "Stewart connected Black advancement to education, public voice, economic ambition, and the political agency of Black women.",
+   "choices": [
+    "Black men’s only",
+    "Black women’s, too"
+   ],
+   "correct": "Black women’s, too",
+   "stage": [
+    "BLACK ADVANCEMENT"
+   ],
+   "verdict": "Black women’s, too."
+  },
+  "E049": {
+   "prompt": "What connects Terrell’s work?",
+   "lead": null,
+   "reveal": "She converted private achievement and social position into public action, institutions, and organizing.",
+   "choices": [
+    "Achievement → civic power",
+    "Education apart from politics",
+    "Individual success only"
+   ],
+   "correct": "Achievement → civic power",
+   "stage": [
+    "EDUCATION · WRITING · CLUB WORK · ANTI-SEGREGATION"
+   ],
+   "verdict": null
+  },
+  "E050": {
+   "prompt": "Moving becomes…",
+   "lead": null,
+   "reveal": "The Great Migration shows that geography itself can shape freedom, making departure a political as well as personal strategy.",
+   "choices": [
+    "A change of address",
+    "A strategy"
+   ],
+   "correct": "A strategy",
+   "stage": [
+    "WHERE YOU LIVE SHAPES",
+    "SAFETY · WAGES · POLITICAL POSSIBILITY"
+   ],
+   "verdict": "A strategy."
+  },
+  "E051": {
+   "prompt": "Baldwin’s answer:",
+   "lead": null,
+   "reveal": "He expanded the range of Black lives, identities, contradictions, and experiences that could be represented.",
+   "choices": [
+    "One respectable image",
+    "Fuller Black humanity"
+   ],
+   "correct": "Fuller Black humanity",
+   "stage": [
+    "A STEREOTYPE"
+   ],
+   "verdict": "Widen the range."
+  },
+  "E052": {
+   "prompt": "The Black Left treated it as…",
+   "lead": null,
+   "reveal": "Black radicals linked racial hierarchy to labor, capitalism, imperialism, and class instead of treating racism only as prejudice.",
+   "choices": [
+    "Prejudice only",
+    "Tied to labor, class, and empire"
+   ],
+   "correct": "Tied to labor, class, and empire",
+   "stage": [
+    "RACISM"
+   ],
+   "verdict": "Structure, not only attitude."
+  },
+  "E053": {
+   "prompt": "Does unity require sameness?",
+   "lead": null,
+   "reveal": "A broad Black identity can create solidarity while still containing different national, ethnic, and migration histories.",
+   "choices": [
+    "Yes",
+    "No"
+   ],
+   "correct": "No",
+   "stage": [
+    "ONE BLACK IDENTITY.",
+    "MANY HISTORIES."
+   ],
+   "verdict": "No."
+  },
+  "E054": {
+   "prompt": "What is the difference between having a right and having institutions that reliably protect it?",
+   "lead": null,
+   "reveal": "A right can exist formally while the laws, procedures, enforcement, or institutions that make it usable weaken or change."
+  },
+  "E055": {
+   "prompt": "It organized through…",
+   "lead": null,
+   "reveal": "It renews older questions about leadership, accountability, visibility, and continuity through decentralized networks shaped by Black feminist and grassroots traditions.",
+   "choices": [
+    "One central leader",
+    "Decentralized networks"
+   ],
+   "correct": "Decentralized networks",
+   "stage": [
+    "BLACK LIVES MATTER"
+   ],
+   "verdict": "Networks."
+  },
+  "E056": {
+   "prompt": "What changed?",
+   "lead": null,
+   "reveal": "Respectability makes acceptability part of whether someone is believed, protected, or defended.",
+   "choices": [
+    "The injustice itself",
+    "Who is treated as worthy"
+   ],
+   "correct": "Who is treated as worthy",
+   "stage": [
+    "YOU ARE HARMED.",
+    "Before people care, they ask whether you were",
+    "PROPER · SAFE · MORAL · RESPECTABLE"
+   ],
+   "verdict": "Who is treated as worthy."
+  },
+  "E057": {
+   "prompt": "Who disappears?",
+   "lead": null,
+   "reveal": "Organizers sometimes chose symbols they believed audiences would accept. That choice could also push other harmed people outside the story.",
+   "choices": [
+    "The person judged less acceptable",
+    "The law",
+    "The movement"
+   ],
+   "correct": "The person judged less acceptable",
+   "stage": [
+    "TWO PEOPLE.",
+    "SAME INJUSTICE.",
+    "One is considered a “better” public symbol."
+   ],
+   "verdict": null
+  },
+  "E058": {
+   "prompt": "Same system?",
+   "lead": null,
+   "reveal": "One helps define who is punishable. The other helps define who is considered deserving of protection or sympathy.",
+   "choices": [
+    "Yes",
+    "Not exactly"
+   ],
+   "correct": "Not exactly",
+   "stage": [
+    "CRIMINALIZATION",
+    "Who gets marked dangerous?",
+    "↓",
+    "RESPECTABILITY",
+    "Who gets marked worthy?"
+   ],
+   "verdict": "Not exactly. One helps define who is punishable. The other, who is deserving."
+  },
+  "E059": {
+   "prompt": "Is that the whole idea?",
+   "lead": null,
+   "reveal": "Abolition also asks what institutions, resources, or relationships must be built so the ending produces durable freedom.",
+   "choices": [
+    "Yes",
+    "No—what gets built?"
+   ],
+   "correct": "No—what gets built?",
+   "stage": [
+    "ABOLITION",
+    "= ending something"
+   ],
+   "verdict": "No. Building is half of it."
+  },
+  "E060": {
+   "prompt": "Both agree it causes harm. What do they disagree about?",
+   "lead": null,
+   "reveal": "They disagree about whether the institution’s failures are repairable or structural enough to require replacement.",
+   "choices": [
+    "Whether harm exists",
+    "Whether repair can work"
+   ],
+   "correct": "Whether repair can work",
+   "stage": [
+    "FIX IT.",
+    "vs.",
+    "END IT AND BUILD SOMETHING ELSE."
+   ],
+   "verdict": "Whether repair can work."
+  },
+  "E061": {
+   "prompt": "Same job?",
+   "lead": null,
+   "reveal": "Ending slavery did not itself determine citizenship, schools, land, labor, voting, or political power. Abolition raises the constructive question of what freedom requires afterward.",
+   "choices": [
+    "Yes",
+    "No"
+   ],
+   "correct": "No",
+   "stage": [
+    "SLAVERY ENDED.",
+    "↓",
+    "FREEDOM BUILT."
+   ],
+   "verdict": "No. Two different jobs."
+  },
+  "E062": {
+   "prompt": "One program, or many?",
+   "lead": null,
+   "reveal": "A varied tradition of Black self-determination whose advocates have emphasized different combinations of political power, economic control, culture, territory, and independent institutions.",
+   "choices": [
+    "One fixed doctrine",
+    "A family of strategies"
+   ],
+   "correct": "A family of strategies",
+   "stage": [
+    "BLACK NATIONALISM"
+   ],
+   "verdict": "Many."
+  },
+  "E063": {
+   "prompt": "Same thing?",
+   "lead": null,
+   "reveal": "Representation asks who is present. Self-determination asks who can set priorities, control resources, and make decisions.",
+   "choices": [
+    "Yes",
+    "No"
+   ],
+   "correct": "No",
+   "stage": [
+    "BLACK FACES IN THE ROOM",
+    "vs.",
+    "BLACK CONTROL OF THE ROOM"
+   ],
+   "verdict": "No. Representation asks who is present. Self-determination asks who can decide."
+  },
+  "E064": {
+   "prompt": "WHO IS “WE”? What is this question trying to catch?",
+   "lead": null,
+   "reveal": "It asks whether collective language about 'Black people' actually includes the different people, interests, and experiences inside the group."
+  },
+  "E065": {
+   "prompt": "Is that Pan-Africanism yet?",
+   "lead": null,
+   "reveal": "Pan-Africanism deliberately tries to organize political, cultural, economic, or institutional solidarity across national borders.",
+   "choices": [
+    "Yes",
+    "Not yet"
+   ],
+   "correct": "Not yet",
+   "stage": [
+    "BLACK POPULATIONS IN MANY COUNTRIES"
+   ],
+   "verdict": "Not yet. It has to be organized."
+  },
+  "E066": {
+   "prompt": "Two words that are easy to blur.",
+   "lead": null,
+   "reveal": "Diaspora describes connection across distance. Pan-Africanism tries to organize that connection.",
+   "items": [
+    {
+     "text": "Describes connection",
+     "bin": "Diaspora"
+    },
+    {
+     "text": "Tries to organize it",
+     "bin": "Pan-Africanism"
+    }
+   ],
+   "bins": [
+    "Diaspora",
+    "Pan-Africanism"
+   ]
+  },
+  "E067": {
+   "prompt": "Does solidarity follow automatically?",
+   "lead": null,
+   "reveal": "It raises a real question about whether solidarity follows identity automatically or depends on political principles, institutions, and concrete relationships.",
+   "choices": [
+    "Yes",
+    "Not necessarily"
+   ],
+   "correct": "Not necessarily",
+   "stage": [
+    "SHARED ANCESTRY.",
+    "SHARP DISAGREEMENT."
+   ],
+   "verdict": "A real question."
+  },
+  "E068": {
+   "prompt": "What does it study?",
+   "lead": null,
+   "reveal": "Defining particular people, behaviors, or communities as dangerous and therefore more legitimately punishable or controllable.",
+   "choices": [
+    "Whether crime is real",
+    "How danger gets assigned"
+   ],
+   "correct": "How danger gets assigned",
+   "stage": [
+    "CRIMINALIZATION"
+   ],
+   "verdict": "How danger gets assigned."
+  },
+  "E069": {
+   "prompt": "Two close ideas. Keep them apart.",
+   "lead": null,
+   "reveal": "The first asks how law helped make racial categories. The second asks how people or behavior are made legible as dangerous and punishable.",
+   "items": [
+    {
+     "text": "Category-making",
+     "bin": "Law helped construct race"
+    },
+    {
+     "text": "Danger-making",
+     "bin": "Criminalization"
+    },
+    {
+     "text": "Who counts as Black, free, or enslaved",
+     "bin": "Law helped construct race"
+    },
+    {
+     "text": "Vagrancy laws and Black Codes",
+     "bin": "Criminalization"
+    }
+   ],
+   "bins": [
+    "Law helped construct race",
+    "Criminalization"
+   ]
+  },
+  "E070": {
+   "prompt": "Investigate first:",
+   "lead": null,
+   "reveal": "Ask who applied the label, what institutions repeat it, what evidence supports it, and what consequences follow.",
+   "choices": [
+    "Who applied the label",
+    "Who has better public relations"
+   ],
+   "correct": "Who applied the label",
+   "stage": [
+    "SAME BEHAVIOR.",
+    "“TROUBLED”",
+    "vs.",
+    "“DANGEROUS”"
+   ],
+   "verdict": "Who applied the label."
+  },
+  "E071": {
+   "prompt": "Progress?",
+   "lead": null,
+   "reveal": "It is access granted to people previously excluded, but on unequal or exploitative terms that can reproduce extraction instead of equal power.",
+   "choices": [
+    "Yes",
+    "Not that simple"
+   ],
+   "correct": "Not that simple",
+   "stage": [
+    "THE DOOR OPENS.",
+    "You can buy the house.",
+    "PRICE ↑ · QUALITY ↓ · LOAN COST ↑"
+   ],
+   "verdict": "Predatory inclusion. Getting in matters. So do the terms of entry."
+  },
+  "E072": {
+   "prompt": "What does Predatory Inclusion add?",
+   "lead": null,
+   "reveal": "It names one mechanism that can produce the gap: the door opens, but access itself can be structured on unequal terms.",
+   "choices": [
+    "One mechanism behind the gap",
+    "Proof legal victories never matter",
+    "That inclusion equals exclusion"
+   ],
+   "correct": "One mechanism behind the gap",
+   "stage": [
+    "LEGAL VICTORY · LIVED REALITY",
+    "names a gap."
+   ],
+   "verdict": null
+  },
+  "E073": {
+   "prompt": "Best fit?",
+   "lead": null,
+   "reveal": "The family has been included, but on terms structured to extract from them. That is the point of predatory inclusion.",
+   "choices": [
+    "Predatory inclusion",
+    "Marronage",
+    "Double consciousness"
+   ],
+   "correct": "Predatory inclusion",
+   "stage": [
+    "A HOUSING PROGRAM LETS YOU IN.",
+    "INFLATED PRICE · POOR PROPERTY · COSTLY LOAN"
+   ],
+   "verdict": null
+  },
+  "E074": {
+   "prompt": "What do you look for?",
+   "lead": null,
+   "reveal": "Find both the connection and the break: shared histories or racial formations can connect people without making nationality, culture, or politics identical.",
+   "choices": [
+    "One shared culture",
+    "The connection—and the break"
+   ],
+   "correct": "The connection—and the break",
+   "stage": [
+    "A NIGERIAN AMERICAN",
+    "A JAMAICAN LONDONER",
+    "AN AFRO-BRAZILIAN"
+   ],
+   "verdict": "Both."
+  },
+  "E075": {
+   "prompt": "Which thread appears?",
+   "lead": null,
+   "reveal": "This is a Respectability ↔ Refusal question: who sets the standard for an “acceptable” image of Black life—and what happens to art that refuses it?",
+   "choices": [
+    "Respectability ↔ Refusal",
+    "Evidence as resistance",
+    "Blackness across borders"
+   ],
+   "correct": "Respectability ↔ Refusal",
+   "stage": [
+    "AN ARTIST IS TOLD:",
+    "SHOW AN “UPLIFTING” IMAGE OF BLACK LIFE."
+   ],
+   "verdict": null
+  },
+  "E076": {
+   "prompt": "When BLACK FOLK asks WHO IS “WE”?, what should your next question be?",
+   "lead": null,
+   "reveal": "Ask whose experience is being treated as representative of the whole group—and who may be outside that definition."
+  },
+  "E077": {
+   "prompt": "Match each example to a strategy.",
+   "lead": "Match each strategy to the best example:",
+   "reveal": "Marronage → LEAVE. Brown/legal reform → REFORM. Black-controlled institutions → BUILD. Abolition → END-AND-BUILD. The categories can overlap; the match teaches the strategic questions.",
+   "pairs": [
+    {
+     "left": "Marronage",
+     "right": "LEAVE"
+    },
+    {
+     "left": "Brown/legal reform",
+     "right": "REFORM"
+    },
+    {
+     "left": "Black-controlled institutions",
+     "right": "BUILD"
+    },
+    {
+     "left": "Abolition",
+     "right": "END-AND-BUILD"
+    }
+   ]
+  },
+  "E078": {
+   "prompt": "Best fit?",
+   "lead": null,
+   "reveal": "This is operational unity: a coalition method in which groups cooperate around a concrete shared problem without requiring total ideological agreement.",
+   "choices": [
+    "Operational unity",
+    "Double consciousness",
+    "Respectability"
+   ],
+   "correct": "Operational unity",
+   "stage": [
+    "THREE GROUPS DISAGREE ON IDEOLOGY.",
+    "THEY AGREE ON ONE CONCRETE GOAL."
+   ],
+   "verdict": null
+  },
+  "E079": {
+   "prompt": "Which thread does this deepen?",
+   "lead": null,
+   "reveal": "Fugitive pedagogy deepens WHAT IS EDUCATION FOR? by showing education as a site where people can preserve knowledge, develop agency, and work around hostile institutions.",
+   "choices": [
+    "What is education for?",
+    "Leverage",
+    "Blackness across borders"
+   ],
+   "correct": "What is education for?",
+   "stage": [
+    "BLACK EDUCATORS TEACH",
+    "AROUND A HOSTILE SCHOOL SYSTEM."
+   ],
+   "verdict": null
+  },
+  "E080": {
+   "prompt": "Match the six new core ideas to their sharpest question.",
+   "lead": null,
+   "reveal": "Respectability → Who has to prove they deserve protection? Abolition → Repair or replace, and what comes next? Black Nationalism → Who can decide for ourselves? Pan-Africanism → How do connections become organized solidarity? Criminalization → Who gets made dangerous? Predatory Inclusion → What are the terms of entry?",
+   "pairs": [
+    {
+     "left": "Respectability",
+     "right": "Who has to prove they deserve protection?"
+    },
+    {
+     "left": "Abolition",
+     "right": "Repair or replace, and what comes next?"
+    },
+    {
+     "left": "Black Nationalism",
+     "right": "Who can decide for ourselves?"
+    },
+    {
+     "left": "Pan-Africanism",
+     "right": "How do connections become organized solidarity?"
+    },
+    {
+     "left": "Criminalization",
+     "right": "Who gets made dangerous?"
+    },
+    {
+     "left": "Predatory Inclusion",
+     "right": "What are the terms of entry?"
+    }
+   ]
+  },
+  "D001": {
+   "statement": "Black history doesn’t start in 1619. It starts in Africa.",
+   "reveal": "Enslavement is a rupture in a longer African history—not the beginning of Black existence."
+  },
+  "D002": {
+   "statement": "You can know yourself—and still feel yourself being measured through somebody else’s eyes.",
+   "reveal": "Du Bois called this tension double consciousness."
+  },
+  "D003": {
+   "statement": "Strong leadership should leave more people capable of leading.",
+   "reveal": "Baker favored participatory leadership over a movement dependent on one public figure."
+  },
+  "D004": {
+   "statement": "Owning the platform can be part of owning the story.",
+   "reveal": "Black-controlled media gave Black communities a way to define themselves publicly."
+  },
+  "D005": {
+   "statement": "Ending slavery answered one question. Freedom created several more.",
+   "reveal": "Citizenship, voting, education, land, labor, and political power still had to be fought over."
+  },
+  "D006": {
+   "statement": "Before accepting the story used to justify violence, check the evidence.",
+   "reveal": "Wells used reporting and statistics to challenge the myths used to defend lynching."
+  },
+  "D007": {
+   "statement": "Black life did not need to become a protest message before it could become art.",
+   "reveal": "Hurston treated vernacular, folklore, humor, and ordinary life as worthy subjects themselves."
+  },
+  "D008": {
+   "statement": "A struggle for citizenship can also be framed as a struggle for human rights.",
+   "reveal": "Malcolm increasingly placed Black freedom inside a global story of self-determination and anticolonial struggle."
+  },
+  "D009": {
+   "statement": "Racist law didn’t just enforce race. It helped define what race meant.",
+   "reveal": "Colonial law did not merely reflect racial categories; it helped harden them by assigning unequal status, rights, and inheritance."
+  },
+  "D010": {
+   "statement": "Race and class can divide people who share material problems.",
+   "reveal": "Colonial elites had incentives to sharpen racial divisions among laboring people who could otherwise share economic grievances."
+  },
+  "D011": {
+   "statement": "Sometimes freedom meant escaping the system and building somewhere else.",
+   "reveal": "Some enslaved people pursued freedom by leaving slave society and building alternative communities such as maroon settlements and Fort Mose."
+  },
+  "D012": {
+   "statement": "A song can carry history, faith, and strategy at the same time.",
+   "reveal": "Spirituals could carry theology, memory, coded meaning, endurance, and visions of freedom simultaneously."
+  },
+  "D013": {
+   "statement": "The Black church became both a sanctuary and an organizing institution.",
+   "reveal": "Independent Black religious life became a place where faith, collective organization, mutual aid, and claims for freedom could meet."
+  },
+  "D014": {
+   "statement": "Wheatley had to write poems—and prove Black people could think.",
+   "reveal": "Black literary achievement challenged claims of Black intellectual inferiority while exposing the burden of having to prove humanity to a hostile public."
+  },
+  "D015": {
+   "statement": "America preached universal liberty while deciding who counted as universal.",
+   "reveal": "Enlightenment and Revolutionary language about universal liberty coexisted with racial hierarchy and slavery, giving Black people both a contradiction to expose and a language to claim."
+  },
+  "D016": {
+   "statement": "Rebellion required organization long before it required action.",
+   "reveal": "Black resistance could require secret networks, trust, planning, and a willingness to pursue collective freedom under severe repression."
+  },
+  "D017": {
+   "statement": "Stewart argued that Black freedom could not leave Black women behind.",
+   "reveal": "Stewart connected Black advancement to education, public voice, economic ambition, and the political agency of Black women."
+  },
+  "D018": {
+   "statement": "Movements need places to argue about strategy, not only places to protest.",
+   "reveal": "Black political thought developed through institutions where people debated abolition, education, migration, and strategy together."
+  },
+  "D019": {
+   "statement": "McCune Smith fought racist 'science' with evidence and expertise.",
+   "reveal": "Black intellectuals used scholarship and professional expertise to challenge racial pseudoscience and supposedly objective claims of inferiority."
+  },
+  "D020": {
+   "statement": "Douglass escaped slavery, then spent his life attacking the system itself.",
+   "reveal": "Douglass linked literacy, abolition, citizenship, political action, and the destruction of slavery; personal escape was not enough while the system remained."
+  },
+  "D021": {
+   "statement": "Black washerwomen turned private labor into collective bargaining power.",
+   "reveal": "Black washerwomen used labor autonomy, common rates, mutual-aid traditions, and collective organization to increase control over their work."
+  },
+  "D022": {
+   "statement": "Plessy was a defeat in court—and the product of organized resistance.",
+   "reveal": "Plessy v. Ferguson legalized 'separate but equal,' but the case itself grew from organized Black resistance to segregation."
+  },
+  "D023": {
+   "statement": "Washington’s bet: build skills and wealth while navigating a hostile system.",
+   "reveal": "Washington emphasized industrial education, economic strength, and pragmatic advancement as a route toward Black progress in a hostile political environment."
+  },
+  "D024": {
+   "statement": "Du Bois made enslaved people actors in emancipation, not spectators to it.",
+   "reveal": "Du Bois reframed Reconstruction and emancipation around Black agency, arguing that enslaved people helped destroy slavery by withdrawing labor and joining the freedom struggle."
+  },
+  "D025": {
+   "statement": "Wells paired truth-telling with economic pressure and self-protection.",
+   "reveal": "Wells treated migration, boycotts, public exposure, and self-defense as forms of leverage when authorities would not protect Black communities."
+  },
+  "D026": {
+   "statement": "Terrell turned education and status into tools for public action.",
+   "reveal": "Terrell used education, writing, club work, anti-lynching advocacy, women’s rights, and direct challenges to segregation as mutually reinforcing forms of public action."
+  },
+  "D027": {
+   "statement": "The reparations movement had mass organizers more than a century ago.",
+   "reveal": "House helped build a mass reparations movement among formerly enslaved people through local chapters, churches, agents, and membership organization."
+  },
+  "D028": {
+   "statement": "Millions moved because geography itself could shape freedom.",
+   "reveal": "Migration became a strategy for pursuing safety, wages, political possibility, and autonomy, not simply a change of address."
+  },
+  "D029": {
+   "statement": "The Harlem Renaissance was also a debate about who Black art was for.",
+   "reveal": "The Harlem Renaissance became an argument about who could define Black life and what Black art owed to politics, audiences, and white patronage."
+  },
+  "D030": {
+   "statement": "Baldwin refused narrow stories about what Black life was allowed to be.",
+   "reveal": "Baldwin pushed against narrow depictions of Black life and used autobiography, criticism, and global perspective to insist on fuller Black humanity."
+  },
+  "D031": {
+   "statement": "The Black Left tied race to who owned, worked, and profited.",
+   "reveal": "Black radicals linked racial hierarchy to labor, capitalism, imperialism, and class instead of treating racism only as prejudice."
+  },
+  "D032": {
+   "statement": "Bethune built institutions outside government and leverage inside it.",
+   "reveal": "Bethune combined Black institution-building with access to federal decision-makers to pursue jobs, education, and policy opportunities."
+  },
+  "D033": {
+   "statement": "Randolph’s leverage came from people organized behind the threat.",
+   "reveal": "Randolph used the credible threat of mass protest to increase pressure on federal officials over employment discrimination."
+  },
+  "D034": {
+   "statement": "Brown changed the rule before it changed the reality.",
+   "reveal": "Brown overturned the constitutional basis for school segregation, while demonstrating that changing the legal rule and changing institutions are separate tasks."
+  },
+  "D035": {
+   "statement": "Parks became the symbol because organizers were already prepared to move.",
+   "reveal": "Claudette Colvin, Rosa Parks, Jo Ann Robinson, the Women’s Political Council, lawyers, and local networks show that the person who acts, the person who organizes, and the person who becomes the symbol may be different people."
+  },
+  "D036": {
+   "statement": "King’s nonviolence was a method of resistance, not passive acceptance.",
+   "reveal": "King treated disciplined nonviolent resistance as an organizing strategy for confronting injustice publicly, mobilizing broad participation, and applying moral and political pressure."
+  },
+  "D037": {
+   "statement": "Carmichael shifted the question from inclusion to political control.",
+   "reveal": "Carmichael/Ture emphasized Black political self-determination and evolved from civil-rights organizing toward Black Power and Pan-Africanism."
+  },
+  "D038": {
+   "statement": "Hampton built coalition around concrete needs, not vague solidarity.",
+   "reveal": "Hampton linked political education, community programs, and coalition across racial and ethnic groups around shared material interests."
+  },
+  "D039": {
+   "statement": "Combahee asked politics to see Black women whole, not one category at a time.",
+   "reveal": "Combahee argued that race, gender, class, and sexuality could operate simultaneously; Black women could build politics from their own position while still forming coalitions."
+  },
+  "D040": {
+   "statement": "Hip-hop became a political language without needing to look like a political meeting.",
+   "reveal": "Hip-hop became a space where a new generation narrated Black urban life, politics, creativity, alienation, and identity outside older movement forms."
+  },
+  "D041": {
+   "statement": "Anita Hill exposed what happens when race and gender demand different loyalties.",
+   "reveal": "The Anita Hill hearings forced public debate over race, gender, sexual harassment, credibility, and whether Black women’s experiences could be subordinated to other political loyalties."
+  },
+  "D042": {
+   "statement": "Black identity can unite people without erasing where they came from.",
+   "reveal": "Blackness in the United States includes immigrants whose national, ethnic, and racial identities interact with a U.S. racial system that may read them simply as Black."
+  },
+  "D043": {
+   "statement": "Voting rights can expand, contract, and require protection again.",
+   "reveal": "The history of voting rights shows that legal protections can be weakened or reinterpreted after major victories, making political rights an ongoing institutional question."
+  },
+  "D044": {
+   "statement": "Modern movements inherited old questions about leadership, power, and whose lives count.",
+   "reveal": "Black Lives Matter drew on Black feminist and grassroots traditions while using decentralized networks to organize in a media environment very different from mid-century movements."
+  },
+  "D045": {
+   "statement": "Before people care, they ask whether you were proper, safe, moral.",
+   "reveal": "Respectability is the pressure—or strategy—of meeting dominant standards in hopes of being treated as worthy of protection or sympathy. Those standards are set by people with more power.",
+   "ask": "Who has to prove they deserve protection?"
+  },
+  "D046": {
+   "statement": "Ending something is only half the question.",
+   "reveal": "Abolition asks what must end—and what must be built in its place.",
+   "ask": "What replaces it?"
+  },
+  "D047": {
+   "statement": "Representation asks who is present. Self-determination asks who can decide.",
+   "reveal": "Black nationalism is a varied tradition of self-determination: territory, political unity, economic control, culture, independent institutions—or combinations of these."
+  },
+  "D048": {
+   "statement": "Diaspora describes connection.",
+   "reveal": "Pan-Africanism tries to turn global Black connection into organized solidarity across borders.",
+   "ask": "What turns it into organized solidarity?"
+  },
+  "D049": {
+   "statement": "Before punishment comes a decision about who looks punishable.",
+   "reveal": "Criminalization is how laws, institutions, media, and stories define some people as dangerous—and so more punishable."
+  },
+  "D050": {
+   "statement": "The door opens. On whose terms?",
+   "reveal": "Predatory inclusion is access granted on unequal or exploitative terms. Getting in matters. So do the terms of entry."
+  }
+ },
+ "deepening": {
+  "CARD-01": "Diaspora asks what connects dispersed African-descended populations and where those connections break.",
+  "CARD-02": null,
+  "CARD-03": "Black educators creating counter-curricula and teaching around oppressive systems.",
+  "CARD-04": "Coalition is working across meaningful differences around a shared goal without pretending those differences disappear.",
+  "CARD-05": "Cooperate on concrete shared goals without requiring total ideological agreement.",
+  "CARD-06": null,
+  "CARD-07": "Where the law failed to protect them, some Black women defended themselves—and disrepute could be the price. Their survival did not fit the respectable public story.",
+  "CARD-08": "Poor, unlettered, criminalized, and queer Black people—often recorded by the archive only as problems—can be sources of political thought too."
+ }
+}

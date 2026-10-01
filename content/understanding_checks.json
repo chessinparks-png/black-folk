@@ -1,0 +1,112 @@
+{
+  "_about": "Check your understanding (YOUR WORDS). Editorial layer: classifies every YOUR WORDS prompt and holds the pilot must-haves and mix-ups. No new explanation text: every check is grounded in the curriculum wording quoted in docs/understanding_check_pilot.md. Typed text is never scored; the player's own chip taps are the only verdict.",
+  "prompt_types": {
+    "_rule": "explain = asks the player to explain an idea that has one model explanation shown at the reveal. reflective = an open question with no single right answer (never gets must-haves, mix-ups or a verdict). Anything not listed here is treated as reflective.",
+    "encounters": {
+      "E010": "explain",
+      "E020": "explain",
+      "E024": "explain",
+      "E027": "explain",
+      "E029": "explain",
+      "E031": "explain",
+      "E032": "explain",
+      "E038": "explain",
+      "E039": "explain",
+      "E045": "explain",
+      "E047": "explain",
+      "E054": "explain",
+      "E064": "explain",
+      "E076": "explain"
+    },
+    "derived": {
+      "_note": "Cards the app builds from curriculum text. X-R = RECALL (\"What is the core idea worth remembering?\"), X-S = SHARE (\"Explain this line\"), X-WR = WORDS recall (\"What was the core idea? Then read it in their own words.\"). All three reveal the idea's core idea.",
+      "X-R": "explain",
+      "X-S": "explain",
+      "X-WR": "explain"
+    },
+    "idea_pages": {
+      "_note": "The YOUR WORDS prompt on each idea page. Ideas with an authored your_words_prompt are open questions. Ideas without one get the app's default prompt, \"How would you explain [idea] to someone new?\", which is explain-type.",
+      "V1-045": "reflective",
+      "V1-046": "reflective",
+      "V1-047": "reflective",
+      "V1-048": "reflective",
+      "V1-049": "reflective",
+      "V1-050": "reflective",
+      "_default": "explain"
+    }
+  },
+  "checks": {
+    "V1-050": {
+      "idea": "Predatory Inclusion",
+      "applies_to": ["X-R-V1-050", "X-S-V1-050"],
+      "ask": "How would you explain predatory inclusion to someone new?",
+      "must_haves": [
+        { "id": "access", "text": "Access is granted, not refused" },
+        { "id": "terms", "text": "On unequal or exploitative terms" },
+        { "id": "extraction", "text": "Can reproduce extraction" }
+      ],
+      "misreadings": [
+        {
+          "id": "exclusion",
+          "relates_to": ["access"],
+          "title": "Reading it as exclusion",
+          "text": "It is easy to hear “predatory inclusion” as being kept out—refused entry, as with redlining. But predatory inclusion is what happens after the door opens: formal exclusion can end without ending the power imbalance underneath it. The door opens, but someone else can still dictate unequal terms."
+        },
+        {
+          "id": "all-inclusion",
+          "relates_to": ["terms", "extraction"],
+          "title": "Treating all inclusion as predatory",
+          "text": "It is easy to take the idea further than it goes. It does not say that all inclusion is predatory. It asks what access changes, what terms remain unequal, and who has the power to refuse or renegotiate them."
+        }
+      ]
+    },
+    "V1-048": {
+      "idea": "Pan-Africanism",
+      "applies_to": ["X-R-V1-048", "X-S-V1-048"],
+      "ask": "How would you explain Pan-Africanism to someone new?",
+      "must_haves": [
+        { "id": "borders", "text": "Connections across national borders" },
+        { "id": "organized", "text": "Turned into organized solidarity" },
+        { "id": "family", "text": "A family of different projects" }
+      ],
+      "misreadings": [
+        {
+          "id": "nationalism",
+          "relates_to": ["borders", "organized"],
+          "title": "Treating it as Black Nationalism",
+          "text": "It is easy to use Pan-Africanism and Black Nationalism as if they meant the same thing. They overlap, but they ask different questions. Black nationalism asks what Black self-determination requires in power, institutions, culture, and resources. Pan-Africanism tries to turn global Black connection into organized solidarity across borders. Du Bois is the case that splits them: a lifelong Pan-Africanist who was not a Black nationalist for most of his career."
+        },
+        {
+          "id": "automatic",
+          "relates_to": ["organized", "family"],
+          "title": "Treating connection as automatic agreement",
+          "text": "It is easy to assume that shared ancestry already is Pan-Africanism. Diaspora describes connection; Pan-Africanism tries to organize it. And global Blackness is not automatic agreement: Pan-African projects have disagreed over who belongs, what solidarity requires, and whether unity should be cultural, political, economic, or state-based."
+        }
+      ]
+    },
+    "V1-045": {
+      "idea": "Respectability",
+      "applies_to": ["X-R-V1-045", "X-S-V1-045"],
+      "ask": "How would you explain respectability to someone new?",
+      "must_haves": [
+        { "id": "pressure", "text": "A pressure, or a strategy" },
+        { "id": "standards", "text": "Meeting dominant standards" },
+        { "id": "worthy", "text": "To be treated as worthy" }
+      ],
+      "misreadings": [
+        {
+          "id": "criminalization",
+          "relates_to": ["worthy"],
+          "title": "Blurring it with criminalization",
+          "text": "It is easy to fold respectability into criminalization. They are connected, but not the same system. Criminalization asks who gets marked dangerous; respectability asks who gets marked worthy. One helps define who is punishable. The other helps define who is considered deserving of protection or sympathy."
+        },
+        {
+          "id": "manners",
+          "relates_to": ["pressure", "standards"],
+          "title": "Hearing it as good manners or a lifestyle",
+          "text": "It is easy to hear respectability as simple good manners or a personal lifestyle. Here it names standards set under unequal power. Many poor, criminalized, unlettered, queer, or otherwise ‘non-respectable’ Black people could not meet them, or would not."
+        }
+      ]
+    }
+  }
+}

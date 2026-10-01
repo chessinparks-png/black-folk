@@ -36,7 +36,7 @@
   }
 
   // ---- Player ---------------------------------------------------------------
-  const PLAYER_VERSION = 4;
+  const PLAYER_VERSION = 5;
   function newPlayer() {
     return {
       version: PLAYER_VERSION,
@@ -52,7 +52,8 @@
       history: [], // finished session summaries
       map: { nodes: {}, edges: {}, lastViewed: 0 }, // Knowledge Map: discovered nodes / revealed links
       words: {}, // WORDS found: quoteId -> { at, encounterId }
-      yourWords: [], // YOUR WORDS: the player's own dated explanations (see notes.js)
+      yourWords: [], // YOUR WORDS: the player's dated answer history, append-only (see notes.js)
+      checks: [], // understanding-check verdicts: { node_id, covered, verdict, at, … } (see notes.js)
       bridgesCompleted: [], // V1.5 bridge sessions played (S04–S08)
     };
   }
@@ -113,6 +114,19 @@
       p.migratedFrom = p.migratedFrom || [];
       p.migratedFrom.push({ version: p.version, at: Date.now() });
       p.version = 4;
+    }
+    if (p.version < 5) {
+      // Check your understanding: verdicts get their own list, and every existing
+      // YOUR WORDS answer becomes a dated entry in its idea's history. The date is
+      // the best available: when the current text was written (edit, else
+      // creation), else when the save was started. Nothing else changes.
+      p.checks = p.checks || [];
+      for (const r of p.yourWords || []) {
+        if (!r.answered_at) r.answered_at = r.updated_at || r.created_at || p.createdAt || Date.now();
+      }
+      p.migratedFrom = p.migratedFrom || [];
+      p.migratedFrom.push({ version: p.version, at: Date.now() });
+      p.version = 5;
     }
     const fresh = newPlayer();
     for (const k of Object.keys(fresh)) if (p[k] === undefined) p[k] = fresh[k];

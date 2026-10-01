@@ -330,6 +330,72 @@
     return a;
   }
 
+
+  // ---- writing rhythm -----------------------------------------------------------
+  // Cards that offer YOUR WORDS (RECALL / SHARE) are "writing cards". Rules:
+  // never two in a row, at least two tap cards right before each one, and a
+  // session never ends on one. This runs after a session is built and only
+  // reorders it (keeping DISCOVER-before-test and the choice-run limit). If a
+  // session holds more writing cards than the rhythm allows, the extras are
+  // still played in full but without the writing option (item.noWrite), so they
+  // count as tap cards. Cards with an understanding check keep writing first.
+  const offersWriting = (it) => (it.enc.kind === 'recall' || it.enc.kind === 'share') && it.enc.nodeIds.length > 0;
+  function isWritingItem(it) {
+    return offersWriting(it) && !it.noWrite;
+  }
+  function rhythmOk(order, writing) {
+    for (let i = 0; i < order.length; i++) {
+      if (!writing.has(order[i])) continue;
+      if (i < 2 || i === order.length - 1) return false;
+      if (writing.has(order[i - 1]) || writing.has(order[i - 2])) return false;
+    }
+    return true;
+  }
+  function introOk(order) {
+    const at = {};
+    order.forEach((it, i) => {
+      if (it.enc.kind === 'discover') for (const id of it.enc.nodeIds) if (at[id] == null) at[id] = i;
+    });
+    return order.every((it, i) => it.enc.kind === 'discover' || it.enc.nodeIds.every((id) => at[id] == null || at[id] < i));
+  }
+  function maxRun(order) {
+    let run = 0, max = 0;
+    for (const it of order) { run = isChoice(it.enc) ? run + 1 : 0; max = Math.max(max, run); }
+    return max;
+  }
+  function subsets(arr, k) {
+    if (k === 0) return [[]];
+    if (arr.length < k) return [];
+    const [x, ...rest] = arr;
+    return subsets(rest, k - 1).map((s) => [x].concat(s)).concat(subsets(rest, k));
+  }
+  function applyRhythm(C, items) {
+    const cands = items.filter(offersWriting);
+    if (!cands.length) return items;
+    const runLimit = Math.max(2, maxRun(items));
+    const pos = new Map(items.map((it, i) => [it, i]));
+    const hasCheck = (it) => !!(BF.content && BF.content.checkFor && BF.content.checkFor(C, it.enc));
+    const orders = items.length <= 8 ? permutations(items) : [items];
+    for (let k = cands.length; k >= 0; k--) {
+      let best = null;
+      for (const keep of subsets(cands, k)) {
+        const writing = new Set(keep);
+        const bonus = keep.filter(hasCheck).length * 1000;
+        for (const o of orders) {
+          if (!rhythmOk(o, writing) || !introOk(o) || maxRun(o) > runLimit) continue;
+          const moved = o.reduce((sum, it, i) => sum + Math.abs(i - pos.get(it)), 0);
+          const cost = moved - bonus;
+          if (!best || cost < best.cost) best = { cost, order: o, writing };
+        }
+      }
+      if (best) {
+        for (const it of cands) if (!best.writing.has(it)) it.noWrite = true;
+        return best.order;
+      }
+    }
+    return items;
+  }
+
   // ---- session construction ---------------------------------------------------
   function prepareItem(enc, rng) {
     const item = { enc };
@@ -373,7 +439,7 @@
     const s = C.starters[index];
     const rng = makeRng(seed || Date.now());
     const encs = repairPacing(s.encounterIds.map((id) => C.byId[id]));
-    return newSessionShell('starter', s.title, attachWords(C, player, encs.map((e) => prepareItem(e, rng))), {
+    return newSessionShell('starter', s.title, applyRhythm(C, attachWords(C, player, encs.map((e) => prepareItem(e, rng)))), {
       starterIndex: index,
       starterId: s.id,
       keepThis: s.keepThis,
@@ -391,7 +457,7 @@
   function buildBridge(C, player, bridge, seed) {
     const rng = makeRng(seed || Date.now());
     const encs = repairPacing(bridge.encounterIds.map((id) => C.byId[id]));
-    return newSessionShell('bridge', bridge.title, attachWords(C, player, encs.map((e) => prepareItem(e, rng))), {
+    return newSessionShell('bridge', bridge.title, applyRhythm(C, attachWords(C, player, encs.map((e) => prepareItem(e, rng)))), {
       bridgeId: bridge.id,
       keepThis: bridge.keepThis,
       levelBefore: player.level,
@@ -562,7 +628,7 @@
     const topWorld = Object.keys(worldCount).sort((a, b) => worldCount[b] - worldCount[a])[0];
     const world = C.worlds.find((w) => w.id === topWorld);
 
-    const items = attachWords(C, player, order.map((e) => prepareItem(e, rng)));
+    const items = applyRhythm(C, attachWords(C, player, order.map((e) => prepareItem(e, rng))));
     return newSessionShell('adaptive', world ? world.question.toUpperCase() : 'SESSION', items, {
       world: topWorld,
       levelBefore: player.level,
@@ -657,7 +723,7 @@
     const recall = C.encounters.find((e) => e.kind === 'recall' && e.nodeIds.length === 1 && e.nodeIds[0] === anchorId && !used.has(e.id));
     push(recall || derive.recall(anchor));
 
-    const items = attachWords(C, player, repairPacing(out.slice(0, SESSION_LENGTH)).map((e) => prepareItem(e, rng)));
+    const items = applyRhythm(C, attachWords(C, player, repairPacing(out.slice(0, SESSION_LENGTH)).map((e) => prepareItem(e, rng))));
     return newSessionShell('anchored', anchor.name.toUpperCase(), items, {
       anchorId,
       keepThis: anchor.keepThis || anchor.share,
@@ -847,6 +913,8 @@
     buildStarter,
     buildBridge,
     buildAnchored,
+    applyRhythm,
+    isWritingItem,
     pendingBridges,
     buildAdaptive,
     buildNext,

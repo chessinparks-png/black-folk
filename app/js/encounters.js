@@ -281,7 +281,7 @@
     let actions = h('div', { class: 'actions' });
     const revealBtn = h('button', { class: 'btn btn--primary', onclick: doReveal }, isShare ? 'Reveal model' : 'Reveal');
     // YOUR WORDS: optional. Writing never changes the score; the self-rating does.
-    const writeBtn = ctx.canWrite && ctx.canWrite(enc) ? h('button', { class: 'btn btn--quiet', onclick: openWriting }, 'Write yours') : null;
+    const writeBtn = ctx.canWrite && ctx.canWrite(enc, item) ? h('button', { class: 'btn btn--quiet', onclick: openWriting }, 'Write yours') : null;
     put(actions, revealBtn, writeBtn);
     put(root, 
       lensTag(enc),
@@ -299,7 +299,7 @@
         class: 'yw-input',
         rows: '4',
         'aria-label': 'Your words',
-        placeholder: 'In your own words, in 1–3 sentences…',
+        placeholder: 'In your own words…',
       });
       const pad = h(
         'div',
@@ -371,6 +371,157 @@
     };
     focusFirst(root, 'h1');
     return root;
+  }
+
+
+  // ---- CHECK YOUR UNDERSTANDING (explain-type RECALL / SHARE with a pilot check) ----
+  // Think → Type it (saved, dated) or Say it in your head → then one beat per
+  // screen: your answer (+ "Last time you said") → the full explanation → tap
+  // the must-haves you covered (that tap IS the verdict) → a common mix-up if
+  // anything was left out. Typed text is never scored; nothing is shortened.
+
+  // Split off the first sentence (ignores initials such as "W.E.B.").
+  function firstSentence(text) {
+    const re = /([.!?][”"’)]?)\s+(?=[“"‘(]?[A-Z])/g;
+    let m;
+    while ((m = re.exec(text))) {
+      const before = text.slice(0, m.index);
+      const word = (/(\S+)$/.exec(before) || [''])[0];
+      if (/^[A-Z](\.[A-Z])*$/.test(word.replace(/[“"‘(]/g, '')) || /^(Mr|Mrs|Ms|Dr|Jr|Sr|St|U\.S)$/.test(word)) continue;
+      const cut = m.index + m[1].length;
+      return [text.slice(0, cut), text.slice(cut).trim()];
+    }
+    return [text, ''];
+  }
+  function explanationBlock(text) {
+    return String(text)
+      .split(/\n\n+/)
+      .map((para, i) => {
+        if (i > 0) return h('p', {}, para);
+        const [first, rest] = firstSentence(para);
+        return h('p', {}, h('strong', { class: 'first-sentence' }, first), rest ? ' ' + rest : null);
+      });
+  }
+
+  function checkCard(item, ctx) {
+    const enc = item.enc;
+    const check = ctx.checkFor(item);
+    const isShare = enc.kind === 'share';
+    const nodeId = check.nodeId;
+    const root = h('section', { class: 'card card--check' });
+    let stage = 'think';
+    let saved = null; // this attempt's typed answer, if any
+
+    const header = () => h('div', { class: 'check-head' }, eyebrow(enc), enc.subject ? h('p', { class: 'subject' }, enc.subject) : null);
+    // One beat = one clean world-tinted panel and its action.
+    function beat(name, label, body, actions) {
+      stage = name;
+      root.replaceChildren(
+        header(),
+        h('div', { class: 'beat beat--' + name, 'data-beat': name, role: 'group', 'aria-label': label },
+          h('p', { class: 'beat-label', tabindex: '-1' }, label), body),
+        h('div', { class: 'actions actions--beat' }, actions)
+      );
+      focusFirst(root, '.beat-label');
+    }
+    const btn = (label, onclick, cls) => h('button', { class: 'btn ' + (cls || 'btn--primary'), onclick }, label);
+
+    // 0) Think: the card's own question, then type it or say it in your head.
+    const actions = h('div', { class: 'actions actions--choice' },
+      btn('Type it', openTyping),
+      btn('Say it in your head', () => afterInput(null), 'btn'));
+    put(root, lensTag(enc), eyebrow(enc), promptBlock(enc),
+      h('p', { class: 'check-ask' }, check.ask),
+      isShare ? h('div', { class: 'timer', 'aria-hidden': 'true' }, h('span')) : null,
+      hint(ctx.hint('CHECK')), actions);
+
+    function openTyping() {
+      if (stage !== 'think') return;
+      stage = 'typing';
+      const area = h('textarea', { class: 'yw-input', rows: '4', 'aria-label': 'Your answer', placeholder: 'In your own words…' });
+      const pad = h('div', { class: 'yw-pad' },
+        h('p', { class: 'yw-label' }, 'Your words'),
+        h('p', { class: 'yw-ask' }, check.ask),
+        area,
+        h('div', { class: 'actions actions--choice', style: 'padding-top:1.25rem' },
+          btn('Save', () => afterInput(area.value)),
+          btn('Say it in your head instead', () => afterInput(null), 'btn btn--quiet')));
+      actions.replaceWith(pad);
+      requestAnimationFrame(() => area.focus());
+    }
+
+    // a) Your answer — and only now, what you said last time.
+    function afterInput(text) {
+      if (stage !== 'think' && stage !== 'typing') return;
+      const timer = root.querySelector('.timer');
+      if (timer) timer.remove();
+      saved = text && text.trim() ? ctx.saveAnswer(enc, text, { promptType: 'explain', prompt: check.ask }) : null;
+      if (!saved) return showExplanation();
+      const prev = ctx.previousAnswer(nodeId, saved);
+      beat('yours', 'Your answer',
+        [h('p', { class: 'yw-text beat-yours' }, saved.text),
+          prev ? h('div', { class: 'beat-last' }, h('p', { class: 'beat-last-label' }, 'Last time you said · ' + ctx.fmtDate(BF.notes.dateOf(prev))), h('p', { class: 'yw-text' }, prev.text)) : null],
+        btn('Continue', showExplanation));
+    }
+
+    // b) The full explanation, unchanged. First sentence bold.
+    function showExplanation() {
+      const qw = enc.quoteId && ctx.word(enc.quoteId);
+      beat('explain', 'The explanation',
+        [h('div', { class: 'explanation' }, explanationBlock(enc.reveal)),
+          qw ? h('div', { class: 'words-wrap' }, h('p', { class: 'words-found' }, 'In their words'), quoteBlock(qw)) : null],
+        btn('Continue', showChips));
+    }
+
+    // c) Tap what you covered. The taps are the verdict; there is no other step.
+    function showChips() {
+      const covered = new Set();
+      const chips = check.mustHaves.map((m) =>
+        h('button', {
+          class: 'check-chip', 'aria-pressed': 'false', 'data-id': m.id,
+          onclick: (ev) => {
+            const b = ev.currentTarget;
+            if (covered.has(m.id)) covered.delete(m.id); else covered.add(m.id);
+            b.setAttribute('aria-pressed', covered.has(m.id) ? 'true' : 'false');
+          },
+        }, h('span', { class: 'check-mark', 'aria-hidden': 'true' }), m.text));
+      beat('chips', 'Which of these did you cover?',
+        [h('p', { class: 'beat-note' }, 'Tap each one you included.'), h('div', { class: 'check-chips' }, chips)],
+        btn('Continue', () => settle([...covered])));
+    }
+
+    function settle(coveredIds) {
+      if (stage !== 'chips') return;
+      const verdict = BF.notes.verdictFor(check, coveredIds);
+      ctx.recordCheck({ nodeId, encounterId: enc.id, responseId: saved && saved.response_id, covered: coveredIds, offered: check.mustHaves.map((m) => m.id), verdict });
+      ctx.answer({ rating: BF.notes.ratingFor(enc.kind, verdict) }, { quiet: true });
+      if (verdict === 'got') return ctx.next();
+      const list = BF.notes.misreadingsFor(check, coveredIds);
+      showMixup(list, 0);
+    }
+
+    // d) Partly / Missed: the most relevant common mix-up, then optionally another.
+    function showMixup(list, i) {
+      const m = list[i];
+      const more = list[i + 1] ? btn('See another mix-up', () => showMixup(list, i + 1), 'btn btn--quiet') : null;
+      beat('mixup', 'A common mix-up',
+        [h('h2', { class: 'mixup-title' }, m.title), h('p', {}, m.text)],
+        [btn('Continue', () => ctx.next()), more]);
+      root.querySelector('.beat').setAttribute('data-mixup', m.id);
+    }
+
+    root._onKey = (e) => {
+      if (stage === 'think' && (e.key === 'Enter' || e.key === ' ') && !['BUTTON', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        afterInput(null);
+        return true;
+      }
+      return false;
+    };
+    focusFirst(root, 'h1');
+    return root;
+  }
+  function recallOrCheck(item, ctx) {
+    return ctx.checkFor && ctx.checkFor(item) ? checkCard(item, ctx) : selfRated(item, ctx);
   }
 
   // ---- drag helpers (mouse); tap/keyboard is always available ------------------
@@ -758,7 +909,7 @@
     return root;
   }
 
-  const RENDERERS = { discover, choice, binary, sort, recall: selfRated, share: selfRated, timeline, match, quote: quoteCard };
+  const RENDERERS = { discover, choice, binary, sort, recall: recallOrCheck, share: recallOrCheck, timeline, match, quote: quoteCard };
 
   function render(item, ctx) {
     const fn = RENDERERS[item.enc.kind];
@@ -766,5 +917,5 @@
     return fn(item, ctx);
   }
 
-  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock };
+  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock, firstSentence };
 })((globalThis.BF = globalThis.BF || {}));

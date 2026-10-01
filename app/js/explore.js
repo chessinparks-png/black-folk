@@ -198,18 +198,19 @@
   const fmtDate = (t) =>
     new Date(t).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 
+  // Typed answers are permanent: no edit, no delete (only a full reset clears them).
+  // Older answers are reached through "Your answers over time", collapsed by default.
   function yourWords(ctx, n) {
     const wrap = h('section', { class: 'block yw' });
-    const ask = n.yourWordsPrompt || 'Explain ' + n.name + ' in your own words.';
-    let showAll = false;
+    const ask = BF.content.ideaPrompt(ctx.C, n);
+    let open = false;
 
-    const editor = (initial, onSave, onCancel, ask) => {
-      const area = h('textarea', { class: 'yw-input', rows: '4', 'aria-label': 'Your words' });
-      area.value = initial || '';
+    const editor = (onSave, onCancel) => {
+      const area = h('textarea', { class: 'yw-input', rows: '4', 'aria-label': 'Your answer', placeholder: 'In your own words…' });
       const el = h(
         'div',
         { class: 'yw-pad' },
-        ask ? h('p', { class: 'yw-ask' }, ask) : null,
+        h('p', { class: 'yw-ask' }, ask.text),
         area,
         h(
           'div',
@@ -222,80 +223,47 @@
       return el;
     };
 
-    const entry = (rec) => {
-      const li = h('li', { class: 'yw-entry' });
-      const view = () => {
-        li.replaceChildren(
-          h('p', { class: 'yw-date' }, fmtDate(rec.created_at), rec.encounter_id ? h('span', { class: 'muted' }, ' · IN PLAY') : null, rec.updated_at ? h('span', { class: 'muted' }, ' · EDITED') : null),
-          h('p', { class: 'yw-text' }, rec.text),
-          h(
-            'div',
-            { class: 'yw-actions' },
-            h('button', { class: 'textlink', onclick: edit, 'aria-label': 'Edit note from ' + fmtDate(rec.created_at) }, 'Edit'),
-            h('button', { class: 'textlink', onclick: confirmDelete, 'aria-label': 'Delete note from ' + fmtDate(rec.created_at) }, 'Delete')
-          )
-        );
-      };
-      const edit = () =>
-        li.replaceChildren(
-          h('p', { class: 'yw-date' }, fmtDate(rec.created_at)),
-          editor(rec.text, (t) => {
-            if (BF.notes.update(ctx.player, rec.response_id, t)) ctx.save();
-            view();
-          }, view)
-        );
-      const confirmDelete = () =>
-        li.replaceChildren(
-          h('p', { class: 'yw-date' }, fmtDate(rec.created_at)),
-          h('p', { class: 'yw-text muted' }, rec.text),
-          h(
-            'div',
-            { class: 'yw-actions', role: 'alertdialog', 'aria-label': 'Confirm delete' },
-            h('span', { class: 'yw-confirm' }, 'Delete this note?'),
-            h('button', {
-              class: 'textlink yw-strong',
-              onclick: () => {
-                BF.notes.remove(ctx.player, rec.response_id);
-                ctx.save();
-                draw();
-              },
-            }, 'Delete'),
-            h('button', { class: 'textlink', onclick: view }, 'Keep')
-          )
-        );
-      view();
-      return li;
-    };
+    const entry = (rec) =>
+      h(
+        'li',
+        { class: 'yw-entry' },
+        h('p', { class: 'yw-date' }, fmtDate(BF.notes.dateOf(rec)), rec.encounter_id ? h('span', { class: 'muted' }, ' · IN PLAY') : null),
+        rec.prompt ? h('p', { class: 'yw-prompt' }, rec.prompt) : null,
+        h('p', { class: 'yw-text' }, rec.text)
+      );
 
     const draw = () => {
       const recs = BF.notes.forNode(ctx.player, n.id);
-      const shown = showAll ? recs : recs.slice(0, 1);
-      const addArea = h('div');
+      const addArea = h('div', { class: 'yw-add' });
       const addBtn = h('button', {
         class: 'textlink',
         onclick: () =>
           addArea.replaceChildren(
-            editor('', (t) => {
-              if (BF.notes.add(ctx.player, { nodeIds: [n.id], text: t, prompt: ask })) ctx.save();
+            editor((t) => {
+              if (BF.notes.add(ctx.player, { nodeIds: [n.id], text: t, prompt: ask.text, promptType: ask.type })) ctx.save();
               draw();
-            }, draw, ask)
+            }, draw)
           ),
-      }, 'Add a new note +');
-      addArea.append(addBtn);
+      }, 'Write an answer +');
+      addArea.append(h('p', { class: 'yw-ask yw-ask--quiet' }, ask.text), addBtn);
       wrap.replaceChildren(
-        h('h2', {}, recs.length ? 'Your words · ' + recs.length : 'Your words'),
-        recs.length ? h('ol', { class: 'yw-list' }, shown.map(entry)) : h('p', { class: 'lede-note', style: 'margin-top:0' }, 'No notes yet.'),
-        recs.length > 1
-          ? h('button', {
-              class: 'textlink',
-              'aria-expanded': showAll ? 'true' : 'false',
-              onclick: () => {
-                showAll = !showAll;
-                draw();
-              },
-            }, showAll ? 'Show latest only −' : 'Show ' + (recs.length - 1) + ' earlier +')
-          : null,
-        addArea
+        h('h2', {}, 'Your words'),
+        addArea,
+        recs.length
+          ? h(
+              'div',
+              { class: 'yw-history' },
+              h('button', {
+                class: 'textlink yw-toggle',
+                'aria-expanded': open ? 'true' : 'false',
+                onclick: () => {
+                  open = !open;
+                  draw();
+                },
+              }, 'Your answers over time · ' + recs.length + (open ? ' −' : ' +')),
+              open ? h('ol', { class: 'yw-list' }, recs.map(entry)) : null
+            )
+          : h('p', { class: 'lede-note', style: 'margin-top:0.75rem' }, 'No answers yet.')
       );
     };
     draw();

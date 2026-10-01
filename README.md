@@ -181,21 +181,56 @@ curly quote marks are typography only.
 
 ## YOUR WORDS
 
-YOUR WORDS is an optional, private notebook for explaining ideas in your own words.
+YOUR WORDS is an optional, private record of the player's own explanations.
 
-- **In PLAY:** RECALL and SHARE cards offer **Write yours**. Save & reveal puts your note
-  beside the model answer so you can compare for yourself. Skip reveals the model as
-  usual.
-- **Scoring:** there is no grading and no AI. Knowledge still comes only from your
-  self-rating; a note earns 0.
-- **In EXPLORE:** every idea page has a quiet YOUR WORDS section.
-  - Notes are dated, newest first, and older ones are folded away.
-  - You can edit a note, delete it (with confirmation), or add a new one.
-  - With no notes, it reads "No notes yet."
-- **Stored fields:** each note is kept in `player.yourWords` with `response_id`,
-  `node_id`/`node_ids`, `encounter_id`, `text`, `created_at`, `updated_at`, `prompt` and
-  `model_answer_snapshot`.
-- **Privacy:** notes live only on this device. Nothing is sent anywhere.
+- **In PLAY:** RECALL and SHARE cards offer **Write yours**, which saves the answer and
+  shows it beside the model answer. Knowledge still comes only from the self-rating; an
+  answer earns 0.
+- **On idea pages:**
+  - Each idea page shows its YOUR WORDS prompt and **Write an answer +**.
+  - Below it is **Your answers over time**: every dated answer for that idea, newest
+    first, collapsed by default. Answers to reflective prompts are included.
+- **Answers are permanent.** There is no edit or delete; only Reset progress clears
+  them.
+- **Stored fields:** each answer is kept in `player.yourWords`:
+  - `response_id`, `node_id` / `node_ids`, `encounter_id`, `text`;
+  - `created_at`, `answered_at`;
+  - `prompt`, `prompt_type`, `model_answer_snapshot`.
+- **Privacy:** answers live only on this device. Nothing is sent anywhere.
+
+### Check your understanding (pilot)
+
+`content/understanding_checks.json` marks every YOUR WORDS prompt as **explain** (one
+model explanation) or **reflective** (open question; never checked). Unlisted prompts
+are reflective. It also holds the pilot checks for Predatory Inclusion, Pan-Africanism
+and Respectability. The reasoning, grounding and full lists are in
+`docs/understanding_check_pilot.md`.
+
+On a pilot card the player chooses **Type it** (saved, dated) or **Say it in your
+head**. The reveal then unfolds one beat per screen:
+
+1. **Your answer.** From the second attempt on, "Last time you said · date" appears,
+   only after saving.
+2. **The full explanation, unchanged,** with the first sentence in bold.
+3. **Tap the must-haves you covered.** That tap is the verdict: all = Got it,
+   some = Partly, none = Missed.
+4. **Partly / Missed only:** a common mix-up, with "See another mix-up".
+
+Verdicts map onto the card's existing self-rating, so review uses the existing scheduler:
+- Got it = KNEW IT, with nothing extra and no animation;
+- Partly = ALMOST;
+- Missed = MISSED IT.
+
+Typed text is never scored. Verdicts are stored in `player.checks`.
+
+**Writing rhythm:** in every session,
+- writing cards (RECALL / SHARE) are never back to back;
+- each writing card has at least two tap cards right before it;
+- no session ends on one.
+
+Sessions are only reordered to meet these rules. Where a 6-card session has more writing
+cards than the rules allow, the extras are played in full without the writing option.
+Pilot check cards keep the writing slot first.
 
 ## Map visibility and LEARN FROM HERE
 
@@ -209,7 +244,7 @@ YOUR WORDS is an optional, private notebook for explaining ideas in your own wor
   history or YOUR WORDS. WORDS stay found-only.
 - **Switching back** hides undiscovered content again. Nothing is lost.
 - **Where it is stored:** the setting is display-only and lives in localStorage
-  (`black-folk:settings`), not in the player save, so the **save schema stays v4**. Reset
+  (`black-folk:settings`), not in the player save. Reset
   progress clears it.
 
 **Learn from here** is a quiet button on every idea page, including not-yet-learned ones
@@ -251,13 +286,17 @@ There are no gradients, neon, mascots or confetti.
 ## Saved progress and migration
 
 Progress is stored in IndexedDB (`black-folk` → `state` → `player`). The current schema is
-**v4**.
+**v5**.
 
 - Schema v2 adds `map.nodes`, `map.edges` and `words`.
 - Schema v3 adds `yourWords`.
 - Schema v4 (V1.5) remaps found WORDS ids from `W-01…` to the knowledge map's `W001…`
   (the wording is identical) and adds `bridgesCompleted`. `yourWords` and every other field
   are carried over untouched. A saved in-progress session is remapped too.
+- Schema v5 adds `checks` (understanding-check verdicts). Every existing YOUR WORDS answer
+  becomes a dated entry in its idea's history. It gains `answered_at`, set to the best
+  available date: the edit date, else the creation date, else the save's start date.
+  Every other field is kept exactly.
 
 Older saves are upgraded in place when the app loads:
 - every existing field is kept;
