@@ -1,0 +1,723 @@
+{
+  "version": "V1.0",
+  "status": "approved contemporary layer (partial: FREEDOM complete; all other worlds SOURCE BLOCKED pending verification)",
+  "triage": {
+    "approved": "final",
+    "counts": {
+      "LEAD": 18,
+      "CODA": 30,
+      "NONE": 20
+    }
+  },
+  "rules": {
+    "lead": "appears before history",
+    "coda": "appears after history",
+    "none": "no modern hook"
+  },
+  "hooks": [
+    {
+      "id": "V1-025",
+      "item": "The Great Migration",
+      "type": "CORE",
+      "world": "FREEDOM",
+      "placement": "LEAD",
+      "text": "For decades, Black Americans have been moving back to the South, reversing the old Great Migration—with younger and college-educated people especially prominent. From 2015 to 2020, Texas, Georgia, and North Carolina were major destinations, and Atlanta gained more Black migrants than anywhere else.",
+      "bridge": "A century ago, millions left the South because place decided their safety, wages, and political possibility; today Brookings points to family, jobs, and Black middle-class communities as reasons many are choosing the South again.",
+      "sourceTitle": "A 'New Great Migration' is bringing Black Americans back to the South",
+      "sourcePublisher": "Brookings Institution (William H. Frey)",
+      "sourceURL": "https://www.brookings.edu/articles/a-new-great-migration-is-bringing-black-americans-back-to-the-south/",
+      "sourceDate": "2022-09-12",
+      "refreshBy": "2027-09",
+      "verification": "Facts verified externally by the project owner; source could not be opened from the build environment."
+    },
+    {
+      "id": "V1-036",
+      "item": "Malcolm X",
+      "type": "CORE",
+      "world": "FREEDOM",
+      "placement": "CODA",
+      "text": "In 2021, the UN High Commissioner for Human Rights presented a report and four-point agenda for racial justice, addressing systemic racism and law-enforcement abuses against Africans and people of African descent. It drew on international human-rights mechanisms and consultation with people of African descent.",
+      "bridge": "Malcolm X insisted that Black freedom could not be confined to U.S. citizenship; this report handles the same injustices as an international human-rights question.",
+      "sourceTitle": "A/HRC/47/CRP.1 — report on systemic racism, law enforcement, and Africans and people of African descent (conference room paper)",
+      "sourcePublisher": "United Nations, Office of the High Commissioner for Human Rights (OHCHR)",
+      "sourceURL": "https://www.ohchr.org/sites/default/files/Documents/Issues/Racism/A_HRC_47_CRP_1.pdf",
+      "sourceDate": "2021",
+      "refreshBy": "2027-10",
+      "additionalSources": [
+        {
+          "sourceTitle": "OHCHR Report 2021",
+          "sourcePublisher": "United Nations, OHCHR",
+          "sourceURL": "https://www.ohchr.org/sites/default/files/2022-06/OHCHR_Report_2021.pdf",
+          "sourceDate": "2022"
+        }
+      ],
+      "verification": "Facts verified externally by the project owner; source could not be opened from the build environment."
+    },
+    {
+      "id": "V1-046",
+      "item": "Abolition",
+      "type": "CORE",
+      "world": "FREEDOM",
+      "placement": "CODA",
+      "text": "In 2022, voters in Oregon, Tennessee, and Vermont removed constitutional language allowing slavery or involuntary servitude as punishment, and Alabama's recompiled constitution dropped its own exception. Louisiana voters rejected a related measure—its own original sponsor had urged a no vote because he found the final wording confusing.",
+      "bridge": "Deleting the exception ended a legal permission, but it did not decide what should happen to prison labor—the second half of abolition's question: what replaces it?",
+      "sourceTitle": "State Elections 2022",
+      "sourcePublisher": "National Conference of State Legislatures",
+      "sourceURL": "https://www.ncsl.org/elections/state-elections-2022",
+      "sourceDate": "2022",
+      "refreshBy": "2027-10",
+      "additionalSources": [
+        {
+          "sourceTitle": "Top Trends in Criminal Justice Reform, 2022",
+          "sourcePublisher": "The Sentencing Project",
+          "sourceURL": "https://www.sentencingproject.org/fact-sheet/top-trends-in-criminal-justice-reform-2022/",
+          "sourceDate": "2022"
+        }
+      ],
+      "verification": "Facts verified externally by the project owner; source could not be opened from the build environment."
+    }
+  ],
+  "sourceBlocked": [
+    {
+      "id": "V1-002",
+      "item": "Law helped construct race",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2024 federal revision of race and ethnicity standards (combined question, MENA category)",
+      "candidateSourcesUnopened": [
+        "https://www.federalregister.gov/documents/2024/03/29/2024-06469/revisions-to-ombs-statistical-policy-directive-no-15-standards-for-maintaining-collecting-and"
+      ]
+    },
+    {
+      "id": "V1-017",
+      "item": "Plessy and the Citizens’ Committee",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2022 posthumous pardon of Homer Plessy",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/2022/01/05/1070700642/homer-plessy-has-been-pardoned-for-arrest-that-led-to-separate-but-equal-ruling",
+        "https://blogs.loc.gov/law/2022/01/the-posthumous-pardon-of-homer-plessy/"
+      ]
+    },
+    {
+      "id": "V1-020",
+      "item": "W.E.B. Du Bois — Black Reconstruction",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Florida's 2023 African American history standards dispute over enslaved people's agency",
+      "candidateSourcesUnopened": [
+        "https://time.com/6296413/florida-board-of-education-black-history/"
+      ]
+    },
+    {
+      "id": "V1-021",
+      "item": "Ida B. Wells — evidence against racial mythology",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Emmett Till Antilynching Act (2022) after 200+ failed bills",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/2022/03/08/1085094040/senate-passes-anti-lynching-bill-and-sends-federal-hate-crimes-legislation-to-bi"
+      ]
+    },
+    {
+      "id": "V1-030",
+      "item": "Mary McLeod Bethune",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "FUTURE Act (2019) permanent HBCU / MSI funding; credit claims disputed",
+      "candidateSourcesUnopened": [
+        "https://www.jones.senate.gov/newsroom/press-releases/senator-doug-jones-future-act-signed-into-law-by-president-trump",
+        "https://politifact.com/factchecks/2020/oct/27/donald-trump/trumps-exaggerated-claim-he-saved-hbcus-2019-fundi/"
+      ]
+    },
+    {
+      "id": "V1-032",
+      "item": "Brown v. Board",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "GAO-22-104737 (2022) on schools divided by race and income; district secession",
+      "candidateSourcesUnopened": [
+        "https://www.gao.gov/products/gao-22-104737"
+      ]
+    },
+    {
+      "id": "V1-043",
+      "item": "Voting rights after Shelby",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Louisiana v. Callais (2026) after Allen v. Milligan (2023)",
+      "candidateSourcesUnopened": [
+        "https://supreme.justia.com/cases/federal/us/608/24-109/"
+      ]
+    },
+    {
+      "id": "V1-047",
+      "item": "Black Nationalism",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Freedom Georgia Initiative (2020) land purchase; outcome unproven",
+      "candidateSourcesUnopened": [
+        "https://www.cnn.com/2020/09/12/us/freedom-black-cooperative-toomsboro",
+        "https://modernfarmer.com/2022/02/19-families-freedom-georgia-initiative/"
+      ]
+    },
+    {
+      "id": "V1-049",
+      "item": "Criminalization",
+      "type": "CORE",
+      "world": "POWER",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Detroit facial-recognition wrongful arrests (2020, 2023); 2024 settlement",
+      "candidateSourcesUnopened": [
+        "https://www.aclu.org/cases/williams-v-city-of-detroit-face-recognition-false-arrest",
+        "https://www.michiganpublic.org/criminal-justice-legal-system/2024-06-28/it-didnt-make-sense-at-all-wrongful-facial-recognition-arrest-leads-to-landmark-settlement"
+      ]
+    },
+    {
+      "id": "V1-013",
+      "item": "James McCune Smith",
+      "type": "CORE",
+      "world": "EDUCATION",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2021 NKF–ASN recommendation removing race from eGFR",
+      "candidateSourcesUnopened": [
+        "https://www.ajkd.org/article/S0272-6386(22)00859-9/fulltext",
+        "https://www.kidneyfund.org/all-about-kidneys/tests/egfr/egfr-test-change-removal-race-calculation"
+      ]
+    },
+    {
+      "id": "V1-003",
+      "item": "Bacon’s Rebellion and divided interests",
+      "type": "CORE",
+      "world": "ECONOMICS",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Heather McGhee, The Sum of Us (2021), 'drained-pool politics'",
+      "candidateSourcesUnopened": [
+        "https://www.cnn.com/2021/03/05/us/heather-mcghee-racism-white-people-blake/index.html"
+      ]
+    },
+    {
+      "id": "V1-016",
+      "item": "Atlanta washerwomen",
+      "type": "CORE",
+      "world": "ECONOMICS",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Common-rate refusal by dispersed workers (#DeclineNow); Virginia domestic workers' bill of rights (2021)",
+      "candidateSourcesUnopened": [
+        "https://www.whsv.com/2021/03/02/virginia-10th-state-to-pass-domestic-worker-protections/",
+        "https://www.vice.com/en/article/no-dasher-no-deliveries-doordash-drivers-strike-for-tip-transparency/"
+      ]
+    },
+    {
+      "id": "V1-024",
+      "item": "Callie House",
+      "type": "CORE",
+      "world": "ECONOMICS",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Evanston reparations program (2021); ongoing lawsuit with federal involvement",
+      "candidateSourcesUnopened": [
+        "https://www.nbcnews.com/news/nbcblk/conservative-group-sues-evanston-reparations-racial-discrimination-rcna155634",
+        "https://abc7chicago.com/post/donald-trump-administration-department-justice-seeks-halt-evanston-reparations-program/19312433/"
+      ]
+    },
+    {
+      "id": "V1-029",
+      "item": "The Black Left",
+      "type": "CORE",
+      "world": "ECONOMICS",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Amazon Bessemer union drive (2021), framed as civil rights + labor; failed",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/2021/01/28/960869795/for-amazon-and-alabama-warehouse-union-vote-would-shake-up-history"
+      ]
+    },
+    {
+      "id": "V1-050",
+      "item": "Predatory Inclusion",
+      "type": "CORE",
+      "world": "ECONOMICS",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Return of contract-for-deed sales marketed to Black buyers (2016–2019)",
+      "candidateSourcesUnopened": [
+        "https://www.consumerfinance.gov/data-research/research-reports/report-on-contract-for-deed-lending/",
+        "https://fedcommunities.org/built-fail-contracts-for-deeds-often-sell-homeownership-illusion/"
+      ]
+    },
+    {
+      "id": "V1-019",
+      "item": "W.E.B. Du Bois — double consciousness",
+      "type": "CORE",
+      "world": "IDENTITY",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "HBR (2019) 'The Costs of Code-Switching'",
+      "candidateSourcesUnopened": [
+        "https://hbr.org/2019/11/the-costs-of-codeswitching"
+      ]
+    },
+    {
+      "id": "V1-039",
+      "item": "Combahee River Collective",
+      "type": "CORE",
+      "world": "IDENTITY",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Barbara Smith on misuse of Combahee's term 'identity politics'",
+      "candidateSourcesUnopened": [
+        "https://msmagazine.com/2019/12/16/the-ms-qa-barbara-smith-looks-back-on-a-lifetime-of-black-feminist-struggle/"
+      ]
+    },
+    {
+      "id": "V1-041",
+      "item": "Anita Hill and Black women’s public voice",
+      "type": "CORE",
+      "world": "IDENTITY",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Megan Thee Stallion, 'Why I Speak Up for Black Women' (NYT, 2020)",
+      "candidateSourcesUnopened": [
+        "https://www.cnn.com/2020/10/13/entertainment/megan-stallion-opinion-piece/index.html"
+      ]
+    },
+    {
+      "id": "V1-042",
+      "item": "Black immigrant identity",
+      "type": "CORE",
+      "world": "IDENTITY",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Pew (2022): one in ten Black people in the U.S. is an immigrant",
+      "candidateSourcesUnopened": [
+        "https://www.pewresearch.org/race-ethnicity/wp-content/uploads/sites/18/2022/01/RE_2022.01.20_Black-Immigrants_FINAL.pdf"
+      ]
+    },
+    {
+      "id": "V1-045",
+      "item": "Respectability",
+      "type": "CORE",
+      "world": "IDENTITY",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "CROWN Act laws; Texas student suspended over locs (2023; court sided with district)",
+      "candidateSourcesUnopened": [
+        "https://www.texastribune.org/2024/02/22/texas-crown-act-judge-barbers-hill/"
+      ]
+    },
+    {
+      "id": "V1-012",
+      "item": "National Negro Conventions",
+      "type": "CORE",
+      "world": "ORGANIZING",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2020 Black National Convention modeled on Gary (1972)",
+      "candidateSourcesUnopened": [
+        "https://www.csmonitor.com/USA/Politics/2020/0828/First-Black-National-Convention-puts-reform-on-the-agenda"
+      ]
+    },
+    {
+      "id": "V1-022",
+      "item": "Ida B. Wells — leverage and self-protection",
+      "type": "CORE",
+      "world": "ORGANIZING",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2020 surge in Black gun ownership / NAAGA growth",
+      "candidateSourcesUnopened": [
+        "https://www.thetrace.org/2020/12/black-gunowners-self-protection-shooting-club-naaga-member/"
+      ]
+    },
+    {
+      "id": "V1-031",
+      "item": "A. Philip Randolph",
+      "type": "CORE",
+      "world": "ORGANIZING",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Milwaukee Bucks walkout (2020) → NBA arenas as polling places",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/sections/live-updates-protests-for-racial-justice/2020/08/28/907101601/nba-agrees-to-use-arenas-as-polling-places-in-deal-to-resume-playoffs"
+      ]
+    },
+    {
+      "id": "V1-033",
+      "item": "Montgomery 1955 — organizer, action, symbol",
+      "type": "CORE",
+      "world": "ORGANIZING",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Claudette Colvin's record expunged (2021); she died in 2026",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/2021/12/16/1064890661/claudette-colvin-rosa-parks-arrest-record-expunged"
+      ]
+    },
+    {
+      "id": "V1-044",
+      "item": "Black Lives Matter — organizational form",
+      "type": "CORE",
+      "world": "ORGANIZING",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "BLM Global Network Foundation finance and chapter disputes (2022); allegations disputed",
+      "candidateSourcesUnopened": [
+        "https://www.charitywatch.org/charity-donating-articles/legal-battle-ensues-over-control-of-black-lives-matter-global-network-foundation-funds"
+      ]
+    },
+    {
+      "id": "V1-048",
+      "item": "Pan-Africanism",
+      "type": "CORE",
+      "world": "ORGANIZING",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Ghana's Year of Return (2019) and 2024 diaspora citizenship grants",
+      "candidateSourcesUnopened": [
+        "https://www.voanews.com/a/ghana-s-citizenship-offer-attracts-some-black-americans/7924102.html"
+      ]
+    },
+    {
+      "id": "V1-006",
+      "item": "Freedom church",
+      "type": "CORE",
+      "world": "CULTURE",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Black churches as COVID-19 vaccination sites (2021)",
+      "candidateSourcesUnopened": [
+        "https://religionnews.com/2021/01/29/black-clergy-offer-churches-as-covid-19-vaccination-sites-roll-up-their-sleeves/"
+      ]
+    },
+    {
+      "id": "V1-010",
+      "item": "Freedom’s Journal",
+      "type": "CORE",
+      "world": "CULTURE",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Capital B (2022) Black-led nonprofit newsroom; Word In Black",
+      "candidateSourcesUnopened": [
+        "https://www.niemanlab.org/2022/02/capital-b-written-for-and-by-black-people-launches-as-a-nonprofit-newsroom/"
+      ]
+    },
+    {
+      "id": "V1-026",
+      "item": "Harlem Renaissance",
+      "type": "CORE",
+      "world": "CULTURE",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Speculators flipping young Black artists' work (2021)",
+      "candidateSourcesUnopened": [
+        "https://glasstire.com/2022/06/05/art-dirt-on-speculation-art-flipping-and-the-market/"
+      ]
+    },
+    {
+      "id": "V1-040",
+      "item": "Hip-hop generation",
+      "type": "CORE",
+      "world": "CULTURE",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Kendrick Lamar's 2025 Super Bowl halftime show as political narration",
+      "candidateSourcesUnopened": [
+        "https://www.theroot.com/the-complete-breakdown-of-the-symbolism-references-in-1851760266"
+      ]
+    },
+    {
+      "id": "T-01",
+      "item": "LEAVE · REFORM · BUILD",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Black homeschooling rise in 2020 (Census Household Pulse; measurement caveat)",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/2021/12/13/1061787233/more-black-families-are-homeschooling-their-children-citing-the-pandemic-and-rac"
+      ]
+    },
+    {
+      "id": "T-02",
+      "item": "LEVERAGE",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Church-led Target boycott (2025–26); contested results",
+      "candidateSourcesUnopened": [
+        "https://wordinblack.com/2026/03/jamal-bryant-target-fast-boycott/"
+      ]
+    },
+    {
+      "id": "T-03",
+      "item": "EVIDENCE AS RESISTANCE",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Gender Shades (2018) → 2020 face-recognition pullbacks",
+      "candidateSourcesUnopened": [
+        "https://news.mit.edu/2018/study-finds-gender-skin-type-bias-artificial-intelligence-systems-0212",
+        "https://www.technologyreview.com/2020/06/12/1003482/amazon-stopped-selling-police-face-recognition-fight/"
+      ]
+    },
+    {
+      "id": "T-04",
+      "item": "WHAT IS EDUCATION FOR?",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "AP African American Studies revisions (2023)",
+      "candidateSourcesUnopened": [
+        "https://www.edweek.org/teaching-learning/the-revised-ap-african-american-studies-whats-been-changed-and-why/2023/12"
+      ]
+    },
+    {
+      "id": "T-05",
+      "item": "WHO BUILT IT?",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "New Georgia Project voter-registration infrastructure; later turmoil",
+      "candidateSourcesUnopened": [
+        "https://www.ajc.com/politics/once-a-powerhouse-abrams-founded-new-georgia-project-roiled-by-turmoil-and-layoffs/ZIKVS5ZDONHUDCRAP7NH2VK7WE/"
+      ]
+    },
+    {
+      "id": "T-06",
+      "item": "WHO DEFINES BLACKNESS?",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "ADOS lineage debate over who counts for reparations",
+      "candidateSourcesUnopened": [
+        "https://abcnews.com/US/controversial-group-ados-divides-black-americans-fight-economic/story?id=66832680"
+      ]
+    },
+    {
+      "id": "T-07",
+      "item": "LEGAL VICTORY · LIVED REALITY",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Baltimore home appraised 59% higher after being 'whitewashed' (2021); PAVE action plan (2022)",
+      "candidateSourcesUnopened": [
+        "https://archives.hud.gov/news/2022/pr22-050-factsheet.cfm",
+        "https://www.cbsnews.com/baltimore/news/homeowning-while-black-baltimore-couple-alleges-bias-in-appraisal/"
+      ]
+    },
+    {
+      "id": "T-08",
+      "item": "BLACKNESS ACROSS BORDERS",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Benin's 2024 citizenship law for descendants of the enslaved (ancestry proof; limits)",
+      "candidateSourcesUnopened": [
+        "https://www.france24.com/en/video/20250730-new-benin-law-offers-citizenship-to-descendants-of-african-slaves",
+        "https://allafrica.com/stories/202410020022.html"
+      ]
+    },
+    {
+      "id": "T-09",
+      "item": "RESPECTABILITY ↔ REFUSAL",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Serena Williams's 2018 French Open catsuit and the new dress code; WTA rule change (2019)",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/2018/08/24/641549735/one-must-respect-the-game-french-open-bans-serena-williams-catsuit",
+        "https://www.aljazeera.com/features/2019/2/20/after-catsuit-controversy-womens-tennis-modernises-dress-code"
+      ]
+    },
+    {
+      "id": "T-10",
+      "item": "WHO DESIGNS THE WORLD?",
+      "type": "THREAD",
+      "world": "CROSS-WORLD",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Black TikTok creators' strike over uncredited dances (2021)",
+      "candidateSourcesUnopened": [
+        "https://www.npr.org/2021/07/01/1011899328/black-tiktok-creators-are-on-strike-to-protest-a-lack-of-credit-for-their-work"
+      ]
+    },
+    {
+      "id": "D-03",
+      "item": "Baker ↔ King",
+      "type": "DEBATE",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2020-era 'leaderful' vs. centralized movement leadership debates",
+      "candidateSourcesUnopened": []
+    },
+    {
+      "id": "D-05",
+      "item": "Integration ↔ Black Power",
+      "type": "DEBATE",
+      "world": "CROSS-WORLD",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2020 corporate racial-justice pledges (mostly loans/investments) vs. deposits in Black-owned banks",
+      "candidateSourcesUnopened": [
+        "https://www.washingtonpost.com/business/interactive/2021/george-floyd-corporate-america-racial-justice/"
+      ]
+    },
+    {
+      "id": "D-06",
+      "item": "Hurston ↔ protest-art tradition",
+      "type": "DEBATE",
+      "world": "CROSS-WORLD",
+      "placement": "LEAD",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "2021 'trauma porn' vs. 'Black joy' debate over Black screen stories (Them)",
+      "candidateSourcesUnopened": [
+        "https://edition.cnn.com/2021/04/22/opinions/them-two-distant-strangers-black-trauma-porn-hobson/index.html"
+      ]
+    },
+    {
+      "id": "D-07",
+      "item": "Combahee ↔ male-centered liberation politics",
+      "type": "DEBATE",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "#SayHerName (African American Policy Forum)",
+      "candidateSourcesUnopened": [
+        "https://www.forbes.com/sites/marianneschnall/2023/12/15/begin-with-the-story-kimberl-crenshaw-on-sayhername-her-new-book-and-working-toward-gender-inclusive-racial-justice/"
+      ]
+    },
+    {
+      "id": "D-08",
+      "item": "FIX IT OR END IT?",
+      "type": "DEBATE",
+      "world": "CROSS-WORLD",
+      "placement": "CODA",
+      "status": "SOURCE BLOCKED",
+      "text": "",
+      "bridge": "",
+      "candidateExample": "Minneapolis Question 2 (2021) to replace the police department; defeated",
+      "candidateSourcesUnopened": [
+        "https://ballotpedia.org/Minneapolis,_Minnesota,_Question_2,_Replace_Police_Department_with_Department_of_Public_Safety_Initiative_(November_2021)"
+      ]
+    }
+  ],
+  "_note": "Only `hooks` is approved content. `sourceBlocked` lists approved LEAD/CODA items whose sources could not be opened from the build environment; their text and bridge are intentionally blank. candidateExample/candidateSourcesUnopened come from the approved triage research and are leads for verification only, not verified facts. NONE items are not listed. Not wired into the app."
+}
