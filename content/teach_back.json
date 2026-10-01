@@ -1,0 +1,23 @@
+{
+  "_about": "Teach-back (Feynman technique). Audiences and lengths rotate so explaining an idea never feels like the same exercise twice. Interface wording only: no historical claims live here. Typed answers are saved with their date and are never scored; the player self-rates, and that rating only moves the idea's next review.",
+  "audiences": [
+    { "id": "kid", "label": "a 12-year-old", "text": "to a 12-year-old" },
+    { "id": "elder", "label": "an elder in your family", "text": "to an elder in your family" },
+    { "id": "skeptic", "label": "a skeptical friend", "text": "to a skeptical friend who isn’t sure it still matters" },
+    { "id": "text", "label": "a text to a friend", "text": "in a text message to a friend" }
+  ],
+  "lengths": [
+    { "id": "one", "label": "one sentence", "text": "in one sentence" },
+    { "id": "three", "label": "three sentences", "text": "in three sentences" },
+    { "id": "minute", "label": "a minute out loud", "text": "in about a minute, out loud", "spoken": true }
+  ],
+  "_exclude_note": "Pairs that make no sense together. A text message is never a minute out loud.",
+  "exclude": [["text", "minute"]],
+  "debate": {
+    "ask": "Explain both sides as fairly as you can before saying where you lean.",
+    "lean": "Where do you lean, and why?"
+  },
+  "thread": {
+    "ask": "Explain how these moments answer one question"
+  }
+}

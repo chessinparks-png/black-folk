@@ -12,6 +12,7 @@
 //   links.json               thread steps / debate sides wiring onto node ids
 //   v1_5_interactions.json   HOW each encounter is played (binary, sort, pick, recall…)
 //   understanding_checks.json YOUR WORDS prompt types (explain / reflective) + pilot checks
+//   teach_back.json          teach-back audiences and lengths (interface wording only)
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,6 +29,7 @@ const bundle = {
   interactions: read('v1_5_interactions.json'),
   artDesign: read('v1_6_art_design_encounters.json'),
   nowHooks: read('black_folk_now_hooks.json'),
+  teachBack: read('teach_back.json'),
   understanding: read('understanding_checks.json'),
   wordsSource: 'black_folk_v1_6_knowledge_map_art_design.json',
 };

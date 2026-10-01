@@ -19,7 +19,8 @@
     return rec.answered_at || rec.updated_at || rec.created_at || 0;
   }
 
-  // { nodeIds, encounterId?, text, prompt?, model?, promptType? } → saved record
+  // { nodeIds, encounterId?, text, prompt?, model?, promptType?, frame?, context?,
+  //   debateId?, threadId?, sides? } → saved record
   function add(player, entry, now) {
     const text = String(entry.text || '').trim();
     if (!text) return null;
@@ -38,6 +39,12 @@
       prompt_type: entry.promptType || null, // 'explain' | 'reflective'
       model_answer_snapshot: entry.model || null,
     };
+    // Teach-back extras (additive; older records simply lack them).
+    if (entry.frame) rec.frame = { audience: entry.frame.audience, length: entry.frame.length };
+    if (entry.context) rec.context = entry.context; // 'card' | 'teach-back' | 'debate' | 'lean' | 'thread'
+    if (entry.debateId) rec.debate_id = entry.debateId;
+    if (entry.threadId) rec.thread_id = entry.threadId;
+    if (entry.sides) rec.sides = entry.sides.map((x) => ({ label: x.label, text: String(x.text || '').trim() }));
     list(player).push(rec);
     return rec;
   }
@@ -65,6 +72,58 @@
   function previousExplain(C, player, nodeId, rec) {
     const cutoff = rec ? dateOf(rec) : Infinity;
     return forNode(player, nodeId).find((r) => r !== rec && (!rec || r.response_id !== rec.response_id) && dateOf(r) <= cutoff && typeOf(C, r) === 'explain') || null;
+  }
+
+  // ---- teach-back: rotating audience × length ---------------------------------------
+  // key: an idea id, a debate id or a thread id.
+  function keyOf(rec) {
+    return rec.debate_id || rec.thread_id || null;
+  }
+  function forKey(player, key) {
+    return list(player)
+      .filter((r) => keyOf(r) === key || (!keyOf(r) && (r.node_id === key || (r.node_ids || []).includes(key))))
+      .sort((a, b) => dateOf(b) - dateOf(a));
+  }
+  const sameFrame = (a, b) => !!(a && b && a.audience === b.audience && a.length === b.length);
+  function hash(str) {
+    let x = 0;
+    for (const ch of String(str)) x = (x * 31 + ch.charCodeAt(0)) >>> 0;
+    return x;
+  }
+  // Deterministic, so a screen that re-renders asks the same thing. Never repeats
+  // the last pairing used for this key, and avoids the last pairing used anywhere.
+  // opts.spoken === false leaves out spoken lengths (a typing-only pad).
+  function pickFrame(C, player, key, opts) {
+    const tb = C.teachBack;
+    if (!tb || !tb.frames.length) return null;
+    const pool = tb.frames.filter((f) => !(opts && opts.spoken === false && tb.lengths[f.length].spoken));
+    const framed = list(player).filter((r) => r.frame).sort((a, b) => dateOf(b) - dateOf(a));
+    const lastHere = (forKey(player, key).find((r) => r.frame) || {}).frame;
+    const lastAny = (framed[0] || {}).frame;
+    const start = (hash(key) + framed.length) % pool.length;
+    const order = pool.map((_, i) => pool[(start + i) % pool.length]);
+    return order.find((f) => !sameFrame(f, lastHere) && !sameFrame(f, lastAny)) || order.find((f) => !sameFrame(f, lastHere)) || order[0];
+  }
+  function frameInfo(C, frame) {
+    const tb = C.teachBack;
+    const a = tb.audiences[frame.audience];
+    const l = tb.lengths[frame.length];
+    return { audience: a.text, length: l.text, spoken: !!l.spoken, label: a.label + ' · ' + l.label };
+  }
+  // "Explain Pan-Africanism to a 12-year-old, in one sentence."
+  function explainAsk(C, n, frame) {
+    const f = frameInfo(C, frame);
+    const what = n.isCard ? 'the idea behind “' + n.name + '”' : n.name;
+    return 'Explain ' + what + ' ' + f.audience + ', ' + f.length + '.';
+  }
+  // The latest earlier explanation for a debate or thread (ideas use previousExplain).
+  function previousFor(player, key, rec, context) {
+    const cutoff = rec ? dateOf(rec) : Infinity;
+    return forKey(player, key).find((r) => r !== rec && (!rec || r.response_id !== rec.response_id) && dateOf(r) <= cutoff && (!context || r.context === context)) || null;
+  }
+  // Explain-type answers for an idea, oldest first (for "Compare first and latest").
+  function explainHistory(C, player, nodeId) {
+    return forNode(player, nodeId).filter((r) => typeOf(C, r) === 'explain').reverse();
   }
 
   // ---- understanding checks -----------------------------------------------------
@@ -115,5 +174,5 @@
     return rec;
   }
 
-  BF.notes = { list, add, forNode, dateOf, typeOf, previousExplain, verdictFor, ratingFor, misreadingsFor, checks, recordCheck };
+  BF.notes = { list, add, forNode, forKey, dateOf, typeOf, previousExplain, previousFor, explainHistory, pickFrame, frameInfo, explainAsk, verdictFor, ratingFor, misreadingsFor, checks, recordCheck };
 })((globalThis.BF = globalThis.BF || {}));

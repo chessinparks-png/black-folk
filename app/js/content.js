@@ -391,6 +391,7 @@
       sessionDesign: play.session_design,
       pointsScale: play.session_design.points,
       nowHooks: loadNowHooks(raw.nowHooks, nodesById, threads, debates),
+      teachBack: loadTeachBack(raw.teachBack),
       cardNodes,
       cardsById: Object.fromEntries(cardNodes.map((c) => [c.id, c])),
       // Card → threads / debates it deepens (from the V1.6 card connections).
@@ -421,6 +422,23 @@
       };
     }
     return out;
+  }
+
+  // ---- Teach-back: rotating audiences and lengths (interface wording only) ----------
+  function loadTeachBack(raw) {
+    if (!raw) return null;
+    const audiences = raw.audiences || [];
+    const lengths = raw.lengths || [];
+    const excluded = new Set((raw.exclude || []).map((p) => p.join('|')));
+    const frames = [];
+    for (const l of lengths) for (const a of audiences) if (!excluded.has(a.id + '|' + l.id)) frames.push({ audience: a.id, length: l.id });
+    return {
+      audiences: Object.fromEntries(audiences.map((a) => [a.id, a])),
+      lengths: Object.fromEntries(lengths.map((l) => [l.id, l])),
+      frames,
+      debate: raw.debate || {},
+      thread: raw.thread || {},
+    };
   }
 
   // ---- NOW layer: sourced contemporary hooks attached to ideas, threads, debates ----

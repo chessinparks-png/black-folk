@@ -275,6 +275,16 @@
         h('p', { class: 'yw-text' }, rec.text)
       );
 
+    // Compare first and latest: your earliest explanation beside your newest one.
+    let comparing = false;
+    const growth = () => {
+      const hist = BF.notes.explainHistory(ctx.C, ctx.player, n.id);
+      if (hist.length < 2) return null;
+      return h('div', { class: 'yw-growth' },
+        h('button', { class: 'textlink yw-growth-toggle', 'aria-expanded': comparing ? 'true' : 'false', onclick: () => { comparing = !comparing; draw(); } }, 'Compare first and latest' + (comparing ? ' −' : ' +')),
+        comparing ? BF.ui.growthBlock(hist[0], hist[hist.length - 1], { fmtDate, frameLabel: ctx.frameLabel }) : null);
+    };
+
     const draw = () => {
       const recs = BF.notes.forNode(ctx.player, n.id);
       const addArea = h('div', { class: 'yw-add' });
@@ -304,7 +314,8 @@
                   draw();
                 },
               }, 'Your answers over time · ' + recs.length + (open ? ' −' : ' +')),
-              open ? h('ol', { class: 'yw-list' }, recs.map(entry)) : null
+              open ? h('ol', { class: 'yw-list' }, recs.map(entry)) : null,
+              growth()
             )
           : h('p', { class: 'lede-note', style: 'margin-top:0.75rem' }, 'No answers yet.')
       );
@@ -334,6 +345,71 @@
     const sub = h('span', { class: 'learn-sub' }, 'A short session that starts with this ' + (n.isCard ? 'card' : 'idea') + ' and moves through its neighbours.');
     area.append(btn, sub);
     return area;
+  }
+
+  // ---- EXPLORE NEXT: 1–2 connected ideas, each with why, plus Surprise me -----------
+  // Reasons come from the map's existing structure (thread order, debate sides,
+  // shared context, eras, cards played together), never new claims. In Discover
+  // gradually only discovered ideas are suggested.
+  function exploreNext(ctx, id) {
+    const { C, G } = ctx;
+    const n = C.nodesById[id];
+    const ok = (x) => x && x !== id && C.nodesById[x] && canSee(ctx, x);
+    const picks = [];
+    const add = (x, why, kind) => {
+      if (!ok(x) || picks.some((p) => p.id === x)) return;
+      picks.push({ id: x, why, kind });
+    };
+    // 1) The next step of a thread this idea is on (else the step before it).
+    for (const t of threadsShown(ctx)) {
+      const steps = t.steps.filter((st) => st.nodeIds.length);
+      const i = steps.findIndex((st) => st.nodeIds.includes(id));
+      if (i < 0) continue;
+      const after = steps.slice(i + 1).map((st) => st.nodeIds.find(ok)).find(Boolean);
+      if (after) add(after, 'Next on ' + t.title, 'thread');
+      else {
+        const before = steps.slice(0, i).reverse().map((st) => st.nodeIds.find(ok)).find(Boolean);
+        if (before) add(before, 'Comes before it on ' + t.title, 'thread');
+      }
+    }
+    // 2) The other side of a debate it is in.
+    for (const d of debatesShown(ctx)) {
+      const side = d.sides.findIndex((sd) => sd.nodeIds.includes(id));
+      if (side < 0) continue;
+      const other = d.sides[1 - side];
+      if (other) add(other.nodeIds.find(ok), 'The other side of ' + d.title, 'debate');
+    }
+    // 3) Related: shared historical context, a card that asked about both, the same era.
+    for (const c of G.contextByNode[id] || []) for (const x of c.nodeIds) add(x, 'Same context: ' + c.title, 'context');
+    for (const e of G.byNode[id] || []) if (e.kinds.has('encounter')) add(e.a === id ? e.b : e.a, 'Asked about together in play', 'together');
+    if (n && n.era) for (const o of C.nodes) if (o.era === n.era) add(o.id, 'Also from ' + n.era, 'era');
+    // At most two, and from different reasons when possible.
+    const out = [];
+    for (const p of picks) if (out.length < 2 && !out.some((o) => o.kind === p.kind)) out.push(p);
+    for (const p of picks) if (out.length < 2 && !out.includes(p)) out.push(p);
+    return out;
+  }
+
+  function exploreNextPanel(ctx, id) {
+    const { C } = ctx;
+    const next = exploreNext(ctx, id);
+    const pool = C.nodes.filter((x) => x.id !== id && canSee(ctx, x.id));
+    const surprise = () => ctx.go('#/idea/' + pool[Math.floor(Math.random() * pool.length)].id);
+    return h(
+      'section',
+      { class: 'panel panel--next', 'aria-label': 'Explore next' },
+      h('h2', { class: 'panel-title' }, 'Explore next'),
+      next.length
+        ? h('ul', { class: 'next-list' }, next.map((p) => {
+            const m = C.nodesById[p.id];
+            return h('li', {}, h('button', { class: 'next-card', 'data-world': m.world, onclick: () => ctx.go('#/idea/' + p.id) },
+              h('span', { class: 'next-ring', 'aria-hidden': 'true' }),
+              h('span', { class: 'next-body' }, h('span', { class: 'next-name' }, displayName(ctx, m)), h('span', { class: 'next-why' }, p.why)),
+              h('span', { class: 'next-go', 'aria-hidden': 'true' }, '→')));
+          }))
+        : h('p', { class: 'lede-note' }, 'Connected ideas appear here as you discover them.'),
+      pool.length ? h('button', { class: 'btn btn--surprise', onclick: surprise }, 'Surprise me') : null
+    );
   }
 
   // ---- an idea / thinker -----------------------------------------------------------
@@ -416,7 +492,8 @@
         debates.length ? block('Debates', h('div', { class: 'links' }, debates.map((d) => h('a', { href: '#/debate/' + d.id, class: player.debatesUnlocked[d.id] ? null : 'is-dim' }, d.title)))) : null
       ),
       panel('panel--notes', yourWords(ctx, n)),
-      more
+      more,
+      exploreNextPanel(ctx, id)
     );
   }
 
@@ -538,8 +615,33 @@
             )
           : null;
       })(),
+      debateTeach(ctx, d),
       h('p', { class: 'lede-note' }, 'Mastering a debate means understanding both answers, not choosing one.')
     );
+  }
+
+  // Explain both sides (then, optionally, where you lean). Saved, dated, never scored.
+  function debateTeach(ctx, d) {
+    if (!ctx.C.teachBack || !ctx.debatePad) return null;
+    const wrap = h('section', { class: 'panel panel--notes panel--teach' });
+    const draw = () => {
+      const recs = BF.notes.forKey(ctx.player, d.id);
+      wrap.replaceChildren(
+        h('h2', { class: 'panel-title' }, 'Explain both sides'),
+        h('p', { class: 'yw-ask' }, ctx.C.teachBack.debate.ask),
+        h('div', { class: 'actions' }, h('button', { class: 'btn', onclick: () => {
+          const pad = ctx.debatePad(d.id, () => draw());
+          wrap.replaceChildren(pad);
+        } }, recs.length ? 'Explain them again' : 'Explain both sides')),
+        recs.length
+          ? h('ol', { class: 'yw-list' }, recs.map((r) => h('li', { class: 'yw-entry' },
+              h('p', { class: 'yw-date' }, fmtDate(BF.notes.dateOf(r)), r.context === 'lean' ? h('span', { class: 'muted' }, ' · WHERE YOU LEAN') : null),
+              r.sides ? r.sides.map((x) => h('p', { class: 'yw-text' }, h('strong', {}, x.label + ': '), x.text || '—')) : h('p', { class: 'yw-text' }, r.text))))
+          : null
+      );
+    };
+    draw();
+    return wrap;
   }
 
   // ---- WORDS collection -----------------------------------------------------------

@@ -55,6 +55,7 @@
       yourWords: [], // YOUR WORDS: the player's dated answer history, append-only (see notes.js)
       checks: [], // understanding-check verdicts: { node_id, covered, verdict, at, … } (see notes.js)
       bridgesCompleted: [], // V1.5 bridge sessions played (S04–S08)
+      threadsCompleted: {}, // id -> timestamp: every step of an opened thread's path lit
     };
   }
 
@@ -274,6 +275,20 @@
     }
   }
 
+  // Teach-back self-rating: moves the idea's next review only. No Knowledge, no
+  // mastery dimensions, no label change. CLEAR leaves the schedule alone; ALMOST
+  // and NEEDS WORK bring the idea back sooner (never later than already planned).
+  function teachBackReview(player, id, rating, now) {
+    now = now || Date.now();
+    const n = player.nodes[id];
+    if (!n) return null;
+    let due = null;
+    if (rating === 'almost') due = now + CONFIG.almostDays * DAY;
+    if (rating === 'needs') due = now + CONFIG.missReturnMinutes * MINUTE;
+    if (due != null && (n.nextReview == null || due < n.nextReview)) n.nextReview = due;
+    return n.nextReview;
+  }
+
   function addKnowledge(player, pts) {
     player.knowledge += pts;
     player.level = levelFor(player.knowledge);
@@ -345,6 +360,22 @@
     return { threads, debates };
   }
 
+  // A thread is complete the first time every step of its path is lit (and it has
+  // been opened). Returns the ids completed now; each is reported only once.
+  function updateThreadsCompleted(C, player, now) {
+    now = now || Date.now();
+    player.threadsCompleted = player.threadsCompleted || {};
+    const out = [];
+    for (const t of C.threads) {
+      if (player.threadsCompleted[t.id] || !player.threadsUnlocked[t.id]) continue;
+      if (threadProgress(C, player, t).every(Boolean)) {
+        player.threadsCompleted[t.id] = now;
+        out.push(t.id);
+      }
+    }
+    return out;
+  }
+
   BF.mastery = {
     CONFIG,
     DAY,
@@ -365,5 +396,7 @@
     isSeen,
     threadProgress,
     updateUnlocks,
+    updateThreadsCompleted,
+    teachBackReview,
   };
 })((globalThis.BF = globalThis.BF || {}));

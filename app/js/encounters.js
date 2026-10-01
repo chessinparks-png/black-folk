@@ -128,9 +128,9 @@
     return text ? h('p', { class: 'hint' }, text) : null;
   }
 
-  function continueBtn(ctx, label) {
+  function continueBtn(ctx, label, item) {
     const b = h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, label || 'Continue');
-    return h('div', { class: 'actions' }, b);
+    return h('div', { class: 'actions' }, b, item ? teachLink(ctx, item) : null);
   }
 
   function revealBlock(label, text) {
@@ -243,10 +243,11 @@
       actions.before(r);
       const after = nowAfter(ctx, item);
       if (after) actions.before(after);
-      actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'));
+      actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'), teachLink(ctx, item));
       focusFirst(actions, 'button');
     }
     root._onKey = (e) => {
+      if (!root.isConnected) return false; // replaced by a teach-back pad
       if (e.key === 'Enter' || e.key === ' ') {
         if (document.activeElement && document.activeElement.tagName === 'BUTTON') return false;
         revealed ? ctx.next() : doReveal();
@@ -313,7 +314,7 @@
         const f = wordsFoundLine(res, w.id);
         if (f) rb.prepend(f);
       }
-      put(root, rb, nowAfter(ctx, item), continueBtn(ctx));
+      put(root, rb, nowAfter(ctx, item), continueBtn(ctx, null, item));
       focusFirst(root, '.actions button');
     }
     root._onKey = (e) => {
@@ -395,7 +396,8 @@
       if (timer) timer.remove();
       const r = revealBlock(isShare ? 'Model' : 'Answer', enc.reveal);
       // Your note sits beside the model so you can compare for yourself. No grading.
-      if (yours) r.prepend(h('div', { class: 'yw-compare' }, h('span', { class: 'label' }, 'Your words · saved'), h('p', { class: 'yw-text' }, yours.text)));
+      // …and beside your previous explanation of the same idea, so you can see it grow.
+      if (yours) r.prepend(growthBlock(ctx.previousAnswer ? ctx.previousAnswer(enc.nodeIds[0], yours) : null, yours, ctx));
       const qw = enc.quoteId && ctx.word(enc.quoteId);
       if (qw) r.append(h('div', { class: 'words-wrap' }, h('p', { class: 'words-found' }, 'In their words'), quoteBlock(qw)));
       const ratings = h(
@@ -876,7 +878,7 @@
         const f = wordsFoundLine(res, w.id);
         if (f) rb.prepend(f);
       }
-      put(root, rb, nowAfter(ctx, item), continueBtn(ctx));
+      put(root, rb, nowAfter(ctx, item), continueBtn(ctx, null, item));
       focusFirst(root, '.actions button');
     }
     root._onKey = (e) => {
@@ -938,7 +940,7 @@
       actions.before(h('div', { class: 'reveal', role: 'status' }, res.correct ? h('span', { class: 'label' }, 'All placed') : null, paras(enc.reveal)));
       const after = nowAfter(ctx, item);
       if (after) actions.before(after);
-      actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'));
+      actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'), teachLink(ctx, item));
       focusFirst(actions, 'button');
     }
     draw();
@@ -971,6 +973,124 @@
     return root;
   }
 
+  // ---- TEACH-BACK (Feynman): explain it to someone, then compare -------------------
+  // One pad for every teach-back moment. Think first (the explanation stays hidden),
+  // then Type it (saved, dated) / Say it out loud / Not now. After saving, your new
+  // explanation sits beside your previous one. Typed text is never scored: a rated
+  // pad asks for the existing self-rating, which only moves the next review.
+  function recText(rec) {
+    if (rec.sides && rec.sides.length) return rec.sides.map((x) => h('p', { class: 'yw-text' }, h('strong', {}, x.label + ': '), x.text || '—'));
+    return h('p', { class: 'yw-text' }, rec.text);
+  }
+  function growthBlock(prev, rec, o) {
+    const col = (cls, label, r) =>
+      h('div', { class: 'grow-col ' + cls },
+        h('p', { class: 'grow-label' }, label + ' · ' + o.fmtDate(BF.notes.dateOf(r))),
+        r.frame && o.frameLabel ? h('p', { class: 'grow-frame' }, o.frameLabel(r.frame)) : null,
+        recText(r));
+    if (!prev) return h('div', { class: 'yw-compare' }, h('span', { class: 'label' }, 'Your words · saved'), recText(rec));
+    return h('div', { class: 'grow', 'aria-label': 'Your previous explanation and your new one' }, col('grow-col--then', 'Before', prev), col('grow-col--now', 'Now', rec));
+  }
+  function teachBack(o) {
+    const root = h('section', { class: 'card card--teach', 'data-teach': o.kind || 'idea' });
+    const fields = o.fields || [{ label: null }];
+    let stage = 'think';
+    let rec = null;
+    const actions = h('div', { class: 'actions' });
+    const typeBtn = h('button', { class: o.spoken ? 'btn' : 'btn btn--primary', onclick: openTyping }, o.spoken ? 'Type it instead' : 'Type it');
+    const talkBtn = h('button', { class: o.spoken ? 'btn btn--primary' : 'btn', onclick: startTalking }, o.spoken ? 'Say it out loud' : 'Say it in your head');
+    const notNow = h('button', { class: 'btn btn--quiet', onclick: () => o.done(false) }, 'Not now');
+    put(actions, ...(o.spoken ? [talkBtn, typeBtn] : [typeBtn, talkBtn]), notNow);
+    put(root,
+      h('p', { class: 'eyebrow teach-eyebrow' }, h('span', { class: 'teach-dot', 'aria-hidden': 'true' }), o.eyebrow || 'Teach it back'),
+      o.sub ? h('p', { class: 'subject' }, o.sub) : null,
+      h('h1', { class: 'display display--md teach-ask', tabindex: '-1' }, o.ask),
+      o.context ? h('p', { class: 'lead teach-context' }, o.context) : null,
+      o.frameLabel && o.frame ? h('p', { class: 'teach-frame' }, o.frameLabel(o.frame)) : null,
+      h('p', { class: 'hint' }, 'Answer first. The explanation stays hidden until you do.'),
+      actions);
+
+    function openTyping() {
+      if (stage !== 'think') return;
+      stage = 'typing';
+      const areas = fields.map((f) => h('textarea', { class: 'yw-input', rows: fields.length > 1 ? '3' : '4', 'aria-label': f.label || 'Your explanation', placeholder: f.label ? f.label + '…' : 'In your own words…' }));
+      const pad = h('div', { class: 'yw-pad' },
+        fields.map((f, i) => [f.label ? h('p', { class: 'yw-label' }, f.label) : null, areas[i]]),
+        h('div', { class: 'actions', style: 'padding-top:1.25rem' },
+          h('button', { class: 'btn btn--primary', onclick: () => {
+            const texts = areas.map((a) => a.value);
+            if (texts.some((t) => t.trim())) rec = o.save(texts);
+            reveal();
+          } }, 'Save & compare'),
+          h('button', { class: 'btn btn--quiet', onclick: reveal }, 'Skip')));
+      actions.replaceWith(pad);
+      pad.classList.add('teach-pad');
+      requestAnimationFrame(() => areas[0].focus());
+    }
+    function startTalking() {
+      if (stage !== 'think') return;
+      stage = 'talking';
+      const bar = o.spoken ? h('div', { class: 'timer timer--minute', 'aria-hidden': 'true' }, h('span')) : null;
+      const box = h('div', { class: 'teach-talk' },
+        bar,
+        h('p', { class: 'lede-note' }, o.spoken ? 'Talk it through, out loud if you can. About a minute. Nothing is recorded.' : 'Say it to yourself. Nothing is recorded.'),
+        h('div', { class: 'actions' }, h('button', { class: 'btn btn--primary', onclick: reveal }, 'Done')));
+      actions.replaceWith(box);
+      focusFirst(box, 'button');
+    }
+    function reveal() {
+      if (stage === 'revealed') return;
+      stage = 'revealed';
+      const holder = root.querySelector('.yw-pad, .teach-talk, .actions');
+      const prev = rec && o.previous ? o.previous(rec) : null;
+      const out = h('div', { class: 'teach-reveal' },
+        rec ? growthBlock(prev, rec, o) : null,
+        h('div', { class: 'reveal', role: 'status' }, h('span', { class: 'label' }, o.modelLabel || 'The explanation'), o.model()));
+      const next = h('div', { class: 'teach-next' });
+      out.append(next);
+      holder.replaceWith(out);
+      if (o.lean) leanStep(next);
+      else finishStep(next);
+    }
+    function leanStep(next) {
+      const area = h('textarea', { class: 'yw-input', rows: '3', 'aria-label': o.lean.ask, placeholder: 'Optional. Saved, never scored.' });
+      const box = h('div', { class: 'yw-pad teach-lean' },
+        h('p', { class: 'yw-ask' }, o.lean.ask),
+        area,
+        h('div', { class: 'actions', style: 'padding-top:1.25rem' },
+          h('button', { class: 'btn btn--primary', onclick: () => { if (area.value.trim()) o.lean.save(area.value); box.remove(); finishStep(next); } }, 'Save'),
+          h('button', { class: 'btn btn--quiet', onclick: () => { box.remove(); finishStep(next); } }, 'Skip')));
+      next.append(box);
+    }
+    function finishStep(next) {
+      if (!o.rated) {
+        next.append(h('div', { class: 'actions' }, h('button', { class: 'btn btn--primary', onclick: () => o.done(true) }, o.doneLabel || 'Continue')));
+        focusFirst(next, 'button');
+        return;
+      }
+      const ratings = h('div', { class: 'ratings', role: 'group', 'aria-label': 'How clear was your explanation?' },
+        [['clear', 'Clear'], ['almost', 'Almost'], ['needs', 'Needs work']].map(([key, label]) =>
+          h('button', { class: 'btn', 'data-rating': key, onclick: (ev) => {
+            ratings.querySelectorAll('button').forEach((b) => (b.disabled = b !== ev.currentTarget));
+            ev.currentTarget.classList.add('is-picked');
+            o.rate(key);
+            setTimeout(() => o.done(true), 500);
+          } }, label)));
+      next.append(h('p', { class: 'hint' }, 'How clear was your explanation? This only decides when the idea comes back.'), ratings);
+      focusFirst(next, '.ratings button');
+    }
+    root._onKey = () => false;
+    focusFirst(root, 'h1');
+    return root;
+  }
+
+  // A quiet "Teach it back" / "Explain both sides" link beside Continue, when offered.
+  function teachLink(ctx, item) {
+    const offer = ctx.teachOffer && ctx.teachOffer(item);
+    if (!offer) return null;
+    return h('button', { class: 'btn btn--quiet teach-link', onclick: (ev) => offer.open(ev.currentTarget.closest('.card')) }, offer.label);
+  }
+
   const RENDERERS = { discover, choice, binary, sort, recall: recallOrCheck, share: recallOrCheck, timeline, match, quote: quoteCard };
 
   function render(item, ctx) {
@@ -979,5 +1099,5 @@
     return fn(item, ctx);
   }
 
-  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock, firstSentence, nowBlock };
+  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock, firstSentence, nowBlock, teachBack, growthBlock };
 })((globalThis.BF = globalThis.BF || {}));

@@ -37,6 +37,7 @@ const btn = (text) => page.getByRole('button', { name: text, exact: true });
 const has = async (sel) => (await page.locator(sel).count()) > 0;
 // Writing rhythm, checked on every session the test starts.
 const rhythmSeen = [];
+const threadDoneSeen = [];
 async function noteRhythm() {
   const r = await page.evaluate(() => {
     const s = BF.app.state.session;
@@ -126,7 +127,11 @@ async function playSession({ tag, missFirstChoice = false, reloadAt = -1, writeO
   await noteRhythm();
   const modes = [];
   for (let i = 0; i < 6; i++) {
-    while (await has('text=Thread revealed')) { await snap(tag + '-thread'); await btn('Continue').click(); }
+    for (;;) {
+      if (await has('text=Thread revealed')) { await snap(tag + '-thread'); await btn('Continue').click(); continue; }
+      if (await has('.thread-done')) { threadDoneSeen.push(await page.textContent('.thread-done .title-caps')); await snap(tag + '-thread-done'); await btn('Not now').click(); continue; }
+      break;
+    }
     if (i === reloadAt) {
       const before = await st();
       // Close the browser tab mid-session, reopen at home: PLAY becomes CONTINUE.

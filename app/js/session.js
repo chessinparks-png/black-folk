@@ -869,6 +869,12 @@
     session.newThreads.push(...unlocks.threads);
     session.newDebates.push(...unlocks.debates);
     session.pending.push(...unlocks.threads.map((id) => ({ type: 'thread', id })));
+    // Thread complete: one reflective teach-back screen per session at most.
+    for (const id of M.updateThreadsCompleted(C, player, now)) {
+      if (session.threadDoneShown) continue;
+      session.threadDoneShown = true;
+      session.pending.push({ type: 'thread-done', id });
+    }
 
     session.results[session.index] = {
       encounterId: enc.id,
@@ -889,6 +895,15 @@
     return id ? C.nodesById[id].keepThis || C.nodesById[id].share : null;
   }
 
+  // The idea offered for "Teach one back" at the end: the anchor of a LEARN FROM
+  // HERE session, else an idea met this session, else one strengthened.
+  function teachIdFor(C, session) {
+    if (session.anchorId && C.nodesById[session.anchorId]) return session.anchorId;
+    const singles = new Set(session.items.filter((i) => i.enc.nodeIds.length === 1).map((i) => i.enc.nodeIds[0]));
+    const pick = session.discovered.find((x) => singles.has(x)) || session.strengthened.find((x) => singles.has(x)) || session.discovered[0] || session.strengthened[0];
+    return pick && C.nodesById[pick] ? pick : null;
+  }
+
   function finish(C, player, session, now) {
     now = now || Date.now();
     const keepThis = keepThisFor(C, session);
@@ -905,6 +920,7 @@
       threads: session.newThreads.slice(),
       debates: session.newDebates.slice(),
       keepThis,
+      teachId: teachIdFor(C, session),
       levelBefore: session.levelBefore,
       levelAfter: player.level,
       encounterIds: session.items.map((i) => i.enc.id),
