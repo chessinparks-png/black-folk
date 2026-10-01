@@ -307,6 +307,26 @@ in Show everything. It builds a short session (up to 6 cards) anchored on that i
 Progress comes only from the answers you give. If a session is in progress, the button asks
 before replacing it. Normal PLAY (starters, bridges, adaptive review) is unchanged.
 
+## NOW layer (contemporary connections)
+
+`content/black_folk_now_hooks.json` holds 48 short, sourced present-day hooks (18 LEAD, 30
+CODA). The other 20 items have none, and nothing is drawn for them, not even an empty
+container. Hooks are editorial moments inside the existing lesson, not a separate section.
+
+- **LEAD (label "Now"):**
+  - appears above the historical content of the item's card or page;
+  - in PLAY, its bridge line appears only after the reveal, handing back to the history.
+- **CODA (label "Still here today"):** appears after the reveal or lesson.
+- **Where hooks appear:**
+  - **PLAY:** an idea's hook rides its DISCOVER card. A debate's hook rides its linked encounter (D-03 → E014, D-05 → E022, D-08 → E060). A thread's hook appears on the thread-revealed screen.
+  - **EXPLORE:** on idea, thread and debate pages, LEAD sits before the core content and CODA sits after it.
+- **Source:** a closed **Source** control shows the publisher, title and date, plus an "Open source" link that opens in a new tab. The lesson never shows a raw URL.
+- **Hooks are never questions.** They award no Knowledge or mastery, leave no progress records, and do not change LEARN FROM HERE routing or the knowledge graph.
+- **`refreshBy`:** read for maintenance only and never shown. On boot, stale hooks are logged to the console (`[NOW] hooks past refreshBy`). They are never hidden or removed. The app makes no network calls.
+- **Settings → Contemporary connections:** On (default) or Off.
+  - Off hides every hook in PLAY and EXPLORE.
+  - The setting is stored with the other display settings in localStorage (`black-folk:settings`, key `contemporary`). There is no save-schema change.
+
 ## Respectability (revised)
 
 Respectability is framed as a pressure set under unequal power: *who has to prove they

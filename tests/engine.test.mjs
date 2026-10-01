@@ -775,12 +775,82 @@ for (const [id, label] of [['V1-026', 'Harlem Renaissance'], ['V1-027', 'Hurston
     }
     console.log('    ' + s.items.map((i) => i.enc.nodeIds.map((x) => C.nodesById[x].name).join('+')).join(' → '));
   });
-test('V1.6 keeps the Respectability revision and adds no NOW hooks', () => {
+test('V1.6 keeps the Respectability revision; NOW hooks stay out of the historical content', () => {
   const bundle = require('node:fs').readFileSync(new URL('../app/data/content.js', import.meta.url), 'utf8');
   assert.ok(!/strategically useful|real historical uses/i.test(bundle));
   assert.equal(C.nodesById['V1-045'].keepThis, 'Who has to prove they deserve protection?');
-  assert.ok(!/"refreshBy"|"now_hook"|"lead_hook"|"coda_hook"/i.test(bundle), 'no NOW hook fields');
+  const hist = JSON.stringify([BF_CONTENT.curriculum, BF_CONTENT.playtest, BF_CONTENT.knowledgeMap, BF_CONTENT.interactions, BF_CONTENT.artDesign]);
+  assert.ok(!/"refreshBy"|"now_hook"|"lead_hook"|"coda_hook"/i.test(hist), 'no NOW fields inside historical content');
   assert.equal(BF_CONTENT.curriculum.version, 'V1.6 — arts/design expansion');
+});
+
+console.log('NOW layer');
+const NOW_RAW = BF_CONTENT.nowHooks;
+const NONE_IDS = ['V1-004', 'V1-008', 'V1-014', 'V1-015', 'V1-035', 'V1-037', 'V1-007', 'V1-011', 'V1-018', 'V1-023', 'V1-001', 'V1-028', 'V1-009', 'V1-034', 'V1-038', 'V1-005', 'V1-027', 'D-01', 'D-02', 'D-04'];
+test('48 hooks: 18 LEAD, 30 CODA; no NONE item has one; every id is a real idea/thread/debate', () => {
+  const hooks = Object.values(C.nowHooks);
+  assert.equal(hooks.length, 48);
+  assert.equal(hooks.filter((x) => x.placement === 'LEAD').length, 18);
+  assert.equal(hooks.filter((x) => x.placement === 'CODA').length, 30);
+  for (const id of NONE_IDS) assert.ok(!C.nowHooks[id], id + ' is NONE');
+  assert.equal(NONE_IDS.length, 20);
+  for (const x of hooks) {
+    if (x.type === 'CORE') assert.ok(C.nodes.some((n) => n.id === x.id), x.id);
+    if (x.type === 'THREAD') assert.ok(C.threadsById[x.id], x.id);
+    if (x.type === 'DEBATE') assert.ok(C.debatesById[x.id], x.id);
+  }
+  assert.equal(C.nodes.length + C.threads.length + C.debates.length - 20, 48, 'every non-NONE item has exactly one hook');
+});
+test('every hook has text, one bridge and full source metadata', () => {
+  for (const x of Object.values(C.nowHooks)) {
+    assert.ok(x.text && x.bridge && x.refreshBy && /^\d{4}-\d{2}$/.test(x.refreshBy), x.id);
+    for (const s of x.sources) assert.ok(s.title && s.publisher && /^https:\/\//.test(s.url) && s.date, x.id + ' source');
+  }
+  for (const r of NOW_RAW.hooks) for (const k of ['item', 'type', 'world', 'placement', 'text', 'bridge', 'sourceTitle', 'sourcePublisher', 'sourceURL', 'sourceDate', 'refreshBy']) assert.ok(r[k], r.id + ' ' + k);
+});
+test('Part 1 wording: T-03 names each company action; V1-025 is source-faithful; V1-044 has no 2025 investigation', () => {
+  const t03 = C.nowHooks['T-03'].text;
+  assert.ok(/IBM stopped offering general-purpose facial-recognition software/.test(t03));
+  assert.ok(/Amazon announced a one-year moratorium on police use of Rekognition/.test(t03));
+  assert.ok(/Microsoft said it would not sell the technology to U\.S\. police until federal regulation existed/.test(t03));
+  assert.ok(!/each limited/.test(t03));
+  assert.ok(/Atlanta was the largest net Black migration gainer/.test(C.nowHooks['V1-025'].text));
+  assert.ok(!/2025|Justice Department|investigat/i.test(C.nowHooks['V1-044'].text + C.nowHooks['V1-044'].bridge));
+  assert.ok(!/died|death|2026/i.test(C.nowHooks['V1-033'].text));
+  assert.ok(!/shooting|shot|trial|convict/i.test(C.nowHooks['V1-041'].text));
+});
+test('in PLAY a hook travels with its item: DISCOVER card for ideas, the debate\'s own encounter for debates', () => {
+  assert.equal(BF.content.nowHookFor(C, C.byId.D028).id, 'V1-025');
+  assert.equal(BF.content.nowHookFor(C, C.byId.D028).placement, 'LEAD');
+  assert.equal(BF.content.nowHookFor(C, C.byId.D008).placement, 'CODA');
+  assert.equal(BF.content.nowHookFor(C, C.byId.D020), null, 'Douglass is NONE');
+  assert.equal(BF.content.nowHookFor(C, C.byId.D023), null, 'Washington is NONE');
+  assert.equal(BF.content.nowHookFor(C, C.byId.D007), null, 'Hurston is NONE');
+  assert.equal(BF.content.nowHookFor(C, C.byId.E022).id, 'D-05');
+  assert.equal(BF.content.nowHookFor(C, C.byId.E060).id, 'D-08');
+  assert.equal(BF.content.nowHookFor(C, C.byId.E028), null, 'ordinary encounters carry no hook');
+  assert.equal(BF.content.nowHookFor(C, C.byId.D051), null, 'deepening cards carry no hook');
+});
+test('hooks never become questions, items, Knowledge or graph routes', () => {
+  const ids = new Set([...C.encounters, ...C.discovery].map((e) => e.id));
+  for (const id of Object.keys(C.nowHooks)) assert.ok(!ids.has(id) && !ids.has('NOW-' + id));
+  // Same session and the same graph with or without the NOW layer.
+  const bare = Object.assign({}, C, { nowHooks: {} });
+  for (const a of ['V1-025', 'V1-036', 'V1-050', 'CARD-11']) {
+    const x = S.buildAnchored(C, M.newPlayer(), a, { seed: 9 }).items.map((i) => i.enc.id).join();
+    const y = S.buildAnchored(bare, M.newPlayer(), a, { seed: 9 }).items.map((i) => i.enc.id).join();
+    assert.equal(x, y, a + ': Learn from here routing unchanged');
+  }
+  assert.equal(GR.build(C).edges.size, GR.build(bare).edges.size);
+  const p = M.newPlayer();
+  const r = S.evaluate(C.byId.D028, {}, p);
+  assert.equal(r.points, M.CONFIG.discoverPoints, 'a LEAD DISCOVER pays exactly the usual DISCOVER points');
+});
+test('refreshBy is maintenance-only: stale hooks are reported, never removed', () => {
+  assert.equal(BF.content.staleNowHooks(C, Date.UTC(2026, 9, 2)).length, 0);
+  const later = BF.content.staleNowHooks(C, Date.UTC(2030, 0, 1));
+  assert.equal(later.length, 48);
+  assert.equal(Object.keys(C.nowHooks).length, 48);
 });
 
 console.log(failures ? `\n${failures} failing` : '\nall passing');

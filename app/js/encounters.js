@@ -144,6 +144,63 @@
     });
   }
 
+
+  // ---- NOW: a sourced contemporary hook attached to an idea, thread, or debate ----
+  // Quiet editorial moment, never stronger than the history. The source sits behind
+  // a small SOURCE control (publisher · title · date · link); no raw URLs in the lesson.
+  function fmtSourceDate(d) {
+    const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?$/.exec(String(d || ''));
+    if (!m) return d || '';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    if (!m[2]) return m[1];
+    return (m[3] ? months[+m[2] - 1] + ' ' + +m[3] + ', ' : months[+m[2] - 1] + ' ') + m[1];
+  }
+  function nowSource(hook) {
+    return h(
+      'details',
+      { class: 'now-source' },
+      h('summary', {}, 'Source'),
+      h(
+        'ul',
+        { class: 'now-source-list' },
+        hook.sources.map((src) =>
+          h(
+            'li',
+            {},
+            h('span', { class: 'now-pub' }, src.publisher),
+            h('span', { class: 'now-title' }, src.title),
+            src.date ? h('span', { class: 'now-date' }, fmtSourceDate(src.date)) : null,
+            h('a', { class: 'now-link', href: src.url, target: '_blank', rel: 'noopener noreferrer' }, 'Open source')
+          )
+        )
+      )
+    );
+  }
+  // phase 'lead' → NOW (before the history); 'coda' → STILL HERE TODAY (after it).
+  function nowBlock(hook, opts) {
+    if (!hook) return null;
+    opts = opts || {};
+    const lead = hook.placement === 'LEAD';
+    return h(
+      'aside',
+      { class: 'now now--' + (lead ? 'lead' : 'coda'), 'data-now': hook.id, 'aria-label': 'Contemporary connection' },
+      h('p', { class: 'now-label' }, lead ? 'Now' : 'Still here today'),
+      h('p', { class: 'now-text' }, hook.text),
+      opts.bridge === false ? null : h('p', { class: 'now-bridge' }, hook.bridge),
+      nowSource(hook)
+    );
+  }
+  // After a LEAD card's reveal, its bridge hands the player back to the history.
+  function nowBridge(hook) {
+    return hook ? h('p', { class: 'now-bridge now-bridge--after', 'data-now-bridge': hook.id }, hook.bridge) : null;
+  }
+  // What follows the reveal: a CODA block, or a LEAD's bridge line.
+  function nowAfter(ctx, item) {
+    const hk = ctx.nowHook && ctx.nowHook(item);
+    if (!hk) return null;
+    return hk.placement === 'CODA' ? nowBlock(hk) : nowBridge(hk);
+  }
+
   // ---- DISCOVER ---------------------------------------------------------------
   function discover(item, ctx) {
     const enc = item.enc;
@@ -184,6 +241,8 @@
         r.append(lensWrap);
       }
       actions.before(r);
+      const after = nowAfter(ctx, item);
+      if (after) actions.before(after);
       actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'));
       focusFirst(actions, 'button');
     }
@@ -254,7 +313,7 @@
         const f = wordsFoundLine(res, w.id);
         if (f) rb.prepend(f);
       }
-      put(root, rb, continueBtn(ctx));
+      put(root, rb, nowAfter(ctx, item), continueBtn(ctx));
       focusFirst(root, '.actions button');
     }
     root._onKey = (e) => {
@@ -817,7 +876,7 @@
         const f = wordsFoundLine(res, w.id);
         if (f) rb.prepend(f);
       }
-      put(root, rb, continueBtn(ctx));
+      put(root, rb, nowAfter(ctx, item), continueBtn(ctx));
       focusFirst(root, '.actions button');
     }
     root._onKey = (e) => {
@@ -877,6 +936,8 @@
       const res = ctx.answer({ bins: placed });
       draw();
       actions.before(h('div', { class: 'reveal', role: 'status' }, res.correct ? h('span', { class: 'label' }, 'All placed') : null, paras(enc.reveal)));
+      const after = nowAfter(ctx, item);
+      if (after) actions.before(after);
       actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'));
       focusFirst(actions, 'button');
     }
@@ -918,5 +979,5 @@
     return fn(item, ctx);
   }
 
-  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock, firstSentence };
+  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock, firstSentence, nowBlock };
 })((globalThis.BF = globalThis.BF || {}));

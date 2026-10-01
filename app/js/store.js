@@ -95,7 +95,8 @@
   const settings = {
     get() {
       // mapVisibility: 'gradual' (default) | 'all'. Display only; never touches progress.
-      return Object.assign({ theme: 'dark', mapVisibility: 'gradual' }, lsGet('settings') || {});
+      // contemporary: 'on' (default) | 'off' — NOW hooks. Display only.
+      return Object.assign({ theme: 'dark', mapVisibility: 'gradual', contemporary: 'on' }, lsGet('settings') || {});
     },
     set(s) {
       lsSet('settings', s);

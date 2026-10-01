@@ -771,6 +771,89 @@ await page.waitForSelector('.screen');
 const kept = await page.evaluate(() => ({ c: !!(BF.app.state.player.nodes['CARD-11'] || {}).introduced, vis: BF.store.settings.get().mapVisibility }));
 check(kept.c && kept.vis === 'all', 'card progress and settings survive reload');
 
+// NOW LAYER
+console.log('NOW layer');
+const external = [];
+page.on('request', (r) => { const u = new URL(r.url()); if (!['localhost', '127.0.0.1'].includes(u.hostname) && /^https?:$/.test(u.protocol)) external.push(u.href); });
+const before = (a, b) => page.evaluate(([x, y]) => { const A = document.querySelector(x), B = document.querySelector(y); return !!(A && B && (A.compareDocumentPosition(B) & Node.DOCUMENT_POSITION_FOLLOWING)); }, [a, b]);
+await page.goto(APP_URL + '#/settings');
+check(await page.evaluate(() => BF.store.settings.get().contemporary) === 'on' && await page.getByRole('group', { name: 'Contemporary connections' }).getByRole('button', { name: 'On' }).getAttribute('aria-pressed') === 'true', 'Contemporary connections defaults to On');
+if (await btn('Show everything').getAttribute('aria-pressed') !== 'true') await btn('Show everything').click();
+// LEAD: Great Migration
+lf = await learnFrom('V1-025');
+await btn('Begin').click();
+check(lf.session.ids[0] === 'D028' && await has('.card .now--lead[data-now="V1-025"]'), 'LEAD: NOW block on the Great Migration card');
+check(await before('.now--lead', '.concept'), 'LEAD appears before the historical content');
+check(await page.locator('aside.now button').count() === 0 && await page.locator('aside.now input').count() === 0, 'a hook is never a question (no answer controls)');
+check(!(await has('.now-bridge--after')), 'LEAD bridge waits until after the reveal');
+const kNow0 = (await st()).knowledge;
+await btn('Reveal').click();
+await page.waitForTimeout(300);
+const nowRes = await page.evaluate(() => { const s = BF.app.state.session; return { pts: s.results[0].points + (s.results[0].wordsPoints || 0), keys: Object.keys(BF.app.state.player.encounters) }; });
+check((await st()).knowledge - kNow0 === nowRes.pts && !nowRes.keys.some((k) => /^(V1-|T-|D-0)/.test(k)), 'NOW awards no Knowledge and leaves no progress record of its own');
+check(await has('.now-bridge--after') && await before('.reveal', '.now-bridge--after'), 'after the reveal, the LEAD bridge hands back to the history');
+await snap('now-lead-play');
+// CODA: Malcolm X
+lf = await learnFrom('V1-036');
+await btn('Begin').click();
+check(lf.session.ids[0] === 'D008' && !(await has('aside.now')), 'CODA: nothing before the history');
+await btn('Reveal').click();
+check(await has('.now--coda[data-now="V1-036"]') && await before('.reveal', '.now--coda'), 'CODA: STILL HERE TODAY appears after the reveal');
+check((await page.textContent('.now--coda')).toLowerCase().includes('still here today'), 'CODA label reads Still here today');
+// NONE: Douglass
+lf = await learnFrom('V1-014');
+await btn('Begin').click();
+check(!(await has('aside.now')), 'NONE: no NOW container before');
+await btn('Reveal').click();
+check(!(await has('aside.now')) && !(await has('.now-bridge')), 'NONE: no NOW container after');
+// EXPLORE
+await page.goto(APP_URL + '#/idea/V1-025');
+await page.waitForSelector('.hero');
+check(await has('.now--lead') && await before('.now--lead', '.panel--understand'), 'EXPLORE: LEAD section before the core idea');
+check(!(await page.locator('.now-source[open]').count()), 'source panel starts closed');
+await page.locator('.now-source summary').click();
+const srcInfo = await page.evaluate(() => { const d = document.querySelector('.now-source'); const a = d.querySelector('a'); return { open: d.open, txt: d.textContent, href: a && a.getAttribute('href'), target: a && a.target }; });
+check(srcInfo.open && srcInfo.txt.includes('Brookings') && srcInfo.txt.includes('Sep 12, 2022') && /^https:\/\/www\.brookings\.edu\//.test(srcInfo.href) && srcInfo.target === '_blank', 'source panel shows publisher, title, date and an external link');
+check(!(await page.textContent('main')).includes('https://'), 'no raw URL in the lesson');
+await page.goto(APP_URL + '#/idea/V1-032');
+check(await has('.now--coda') && await before('.panel--keep', '.now--coda'), 'EXPLORE: CODA after the history (Brown v. Board)');
+for (const id of ['V1-014', 'V1-018', 'V1-027']) { await page.goto(APP_URL + '#/idea/' + id); await page.waitForSelector('.hero'); if (await has('aside.now')) check(false, id + ' NONE shows a NOW block'); }
+check(true, 'NONE idea pages (Douglass, Washington, Hurston) unchanged: no NOW container');
+await page.goto(APP_URL + '#/thread/T-03');
+check(await has('.now--lead[data-now="T-03"]') && await before('.now--lead', '.thread-steps'), 'thread page: LEAD before the steps');
+await page.goto(APP_URL + '#/debate/D-08');
+check(await has('.now--coda[data-now="D-08"]') && await before('.sides', '.now--coda'), 'debate page: CODA after the sides');
+const t03 = await page.evaluate(() => BF.app.state.C.nowHooks['T-03'].text);
+check(/IBM stopped offering general-purpose/.test(t03) && /one-year moratorium/.test(t03), 'T-03 wording is precise');
+// Settings OFF hides everything, persists
+await page.goto(APP_URL + '#/settings');
+await page.getByRole('group', { name: 'Contemporary connections' }).getByRole('button', { name: 'Off' }).click();
+await page.goto(APP_URL + '#/idea/V1-025');
+await page.waitForSelector('.hero');
+check(!(await has('aside.now')), 'OFF: no hook on the idea page');
+lf = await learnFrom('V1-046');
+await btn('Begin').click();
+check(lf.session.ids[0] === 'D046' && !(await has('aside.now')), 'OFF: no hook before the history');
+await btn('Reveal').click();
+check(!(await has('aside.now')) && !(await has('.now-bridge')), 'OFF: no hook after the reveal in PLAY');
+await page.reload();
+await page.goto(APP_URL + '#/settings');
+check(await page.getByRole('group', { name: 'Contemporary connections' }).getByRole('button', { name: 'Off' }).getAttribute('aria-pressed') === 'true', 'Contemporary connections setting persists after reload');
+await page.getByRole('group', { name: 'Contemporary connections' }).getByRole('button', { name: 'On' }).click();
+// Mobile
+await page.setViewportSize({ width: 390, height: 844 });
+await page.goto(APP_URL + '#/idea/V1-050');
+await page.waitForSelector('aside.now');
+await page.locator('.now-source summary').click();
+const mob = await page.evaluate(() => ({ ov: document.documentElement.scrollWidth > window.innerWidth, w: document.querySelector('aside.now').getBoundingClientRect().right <= window.innerWidth + 1 }));
+check(!mob.ov && mob.w, 'phone: NOW block and open source panel fit the width');
+await snap('now-mobile-idea');
+lf = await learnFrom('V1-048');
+await btn('Begin').click();
+check(await has('.now--lead') && !(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)), 'phone: LEAD card fits');
+await page.setViewportSize({ width: 1280, height: 820 });
+check(external.length === 0, 'no network calls outside the app' + (external.length ? ': ' + external.join(' ') : ''));
+
 check(badText.length === 0, 'no stray null/undefined text' + (badText.length ? ': ' + badText.join(' | ') : ''));
 check(errors.length === 0, 'no page errors' + (errors.length ? ': ' + errors.join(' | ') : ''));
 await browser.close();

@@ -6,6 +6,7 @@
 //   black_folk_v1_5_encounter_pack.json                50 DISCOVER + 80 encounters, starter + bridge sessions
 //   black_folk_v1_6_knowledge_map_art_design.json      graph edges + the verified WORDS quote bank
 //   v1_6_art_design_encounters.json                    DISCOVER + one interaction per new art/design card
+//   black_folk_now_hooks.json                          NOW layer: 48 sourced contemporary hooks (LEAD / CODA)
 // (V1.5 curriculum and map are kept in content/archive/ for reference only.)
 // Editorial layers (no new claims):
 //   links.json               thread steps / debate sides wiring onto node ids
@@ -26,6 +27,7 @@ const bundle = {
   links: read('links.json'),
   interactions: read('v1_5_interactions.json'),
   artDesign: read('v1_6_art_design_encounters.json'),
+  nowHooks: read('black_folk_now_hooks.json'),
   understanding: read('understanding_checks.json'),
   wordsSource: 'black_folk_v1_6_knowledge_map_art_design.json',
 };

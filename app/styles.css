@@ -2680,3 +2680,112 @@ a.world-tag:hover {
   font-size: 0.7em;
   vertical-align: 0.15em;
 }
+
+/* =====================================================================
+   NOW LAYER — small editorial moments inside the lesson.
+   Never stronger than the history: no fill, no badge, a thin world rule.
+   ===================================================================== */
+aside.now {
+  margin: 0 0 1.5rem;
+  padding: 0.15rem 0 0.15rem 1rem;
+  border-left: 2px solid var(--w-line, var(--line-strong));
+  max-width: 38rem;
+}
+
+aside.now--coda,
+.reveal + aside.now,
+.now-wrap aside.now {
+  margin: 1.5rem 0 0;
+}
+
+.now-label {
+  margin: 0 0 0.4rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.now-text {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  line-height: 1.5;
+  color: var(--fg-soft);
+}
+
+.now-bridge {
+  margin: 0.6rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.now-bridge--after {
+  margin-top: 1.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--w-line, var(--line-strong));
+  max-width: 38rem;
+}
+
+.now-source {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.now-source summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.now-source summary::-webkit-details-marker {
+  display: none;
+}
+
+.now-source summary::after {
+  content: ' +';
+}
+
+.now-source[open] summary::after {
+  content: ' −';
+}
+
+.now-source-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.now-source-list li {
+  display: grid;
+  gap: 0.1rem;
+  overflow-wrap: anywhere;
+}
+
+.now-pub {
+  font-weight: 600;
+  color: var(--fg-soft);
+}
+
+.now-title {
+  color: var(--fg-soft);
+}
+
+.now-link {
+  color: var(--fg-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.now-wrap {
+  max-width: 44rem;
+}

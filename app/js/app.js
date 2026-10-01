@@ -44,6 +44,11 @@
     return HINTS[key] || null;
   }
 
+  // ---- NOW layer ------------------------------------------------------------------
+  // Contemporary Connections (Settings) is on by default; off hides every hook.
+  const nowOn = () => store.settings.get().contemporary !== 'off';
+  const nowHookForItem = (item) => (nowOn() ? BF.content.nowHookFor(state.C, item.enc) : null);
+
   // ---- floating +KNOWLEDGE ------------------------------------------------------
   function floatPoints(points) {
     const layer = document.getElementById('floats');
@@ -107,6 +112,7 @@
       save,
       render,
       showAll: store.settings.get().mapVisibility === 'all',
+      nowOn: nowOn(),
       sessionInProgress: () => !!(state.session && state.session.begun && state.session.index > 0),
       learnFrom,
     };
@@ -292,12 +298,16 @@
       },
       fmtDate: (t) => new Date(t).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase(),
       worldOf: worldOfEnc,
+      nowHook: nowHookForItem,
       lensFor(enc) {
         const n = state.C.nodesById[enc.nodeIds[0]];
         return enc.kind === 'discover' && n ? n.lens : null;
       },
     };
     const body = BF.ui.render(item, ctx);
+    // LEAD: the contemporary hook opens the card, before the history.
+    const lead = nowHookForItem(item);
+    if (lead && lead.placement === 'LEAD') body.prepend(BF.ui.nowBlock(lead, { bridge: false }));
     const screen = sessionFrame(s, body);
     screen._onKey = body._onKey;
     return screen;
@@ -311,14 +321,17 @@
       save();
       renderPlay();
     };
+    const hook = nowOn() ? state.C.nowHooks[t.id] : null;
     const body = h(
       'section',
       { class: 'card' },
+      hook && hook.placement === 'LEAD' ? BF.ui.nowBlock(hook) : null,
       h('p', { class: 'eyebrow' }, 'Thread revealed'),
       h('p', { class: 'title-caps' }, t.title),
       h('p', { class: 'lead', style: 'margin-bottom:1rem' }, 'Different moments. Same question:'),
       h('h1', { class: 'display', tabindex: '-1' }, t.question),
       h('ul', { class: 'path', 'aria-label': 'Thread path' }, t.steps.map((st, i) => h('li', { class: progress[i] ? 'on' : '' }, st.label))),
+      hook && hook.placement === 'CODA' ? BF.ui.nowBlock(hook) : null,
       h('div', { class: 'actions' }, h('button', { class: 'btn btn--primary', onclick: cont }, 'Continue'))
     );
     const screen = sessionFrame(s, body);
@@ -416,6 +429,20 @@
         },
         label
       );
+    // Contemporary Connections: display only; progress is unaffected either way.
+    const nowBtn = (value, label) =>
+      h(
+        'button',
+        {
+          'aria-pressed': (settings.contemporary || 'on') === value ? 'true' : 'false',
+          onclick: () => {
+            settings.contemporary = value;
+            store.settings.set(settings);
+            render();
+          },
+        },
+        label
+      );
     const resetArea = h('div');
     const askReset = () => {
       resetArea.replaceChildren(
@@ -452,6 +479,19 @@
           settings.mapVisibility === 'all'
             ? 'Every idea, thread, and debate is browsable, and you can learn from any idea. Visible is not the same as learned: your progress only changes through play.'
             : 'The map reveals itself as you play. Switch to Show everything to browse the whole map and learn from any idea.'
+        )
+      ),
+      h(
+        'div',
+        { class: 'block' },
+        h('h2', {}, 'Contemporary connections'),
+        h('div', { class: 'seg', role: 'group', 'aria-label': 'Contemporary connections' }, nowBtn('on', 'On'), nowBtn('off', 'Off')),
+        h(
+          'p',
+          { class: 'muted', style: 'margin-top:.9rem;max-width:34rem' },
+          (settings.contemporary || 'on') === 'on'
+            ? 'Some ideas open with a short, sourced example from today (Now) or close with one (Still here today). The history stays the same.'
+            : 'Purely historical: no contemporary examples are shown. Your progress is unaffected.'
         )
       ),
       h('div', { class: 'block' }, h('h2', {}, 'Progress'), h('p', { class: 'muted', style: 'margin-bottom:1rem' }, 'Progress is stored only on this device. Nothing is sent anywhere.'), resetArea),
@@ -498,6 +538,9 @@
     try {
       state.C = BF.content.load();
       state.C.version = globalThis.BF_CONTENT.playtest.version;
+      // Maintenance only: hooks past refreshBy stay in place; developers get a quiet note.
+      const stale = BF.content.staleNowHooks(state.C);
+      if (stale.length && typeof console !== 'undefined') console.info('[NOW] hooks past refreshBy:', stale.map((x) => x.id + ' (' + x.refreshBy + ')').join(', '));
     } catch (err) {
       main().replaceChildren(h('main', { class: 'screen screen--center' }, h('p', { class: 'eyebrow' }, 'Content error'), h('p', {}, String(err.message))));
       throw err;

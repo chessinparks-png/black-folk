@@ -390,6 +390,7 @@
       bridges,
       sessionDesign: play.session_design,
       pointsScale: play.session_design.points,
+      nowHooks: loadNowHooks(raw.nowHooks, nodesById, threads, debates),
       cardNodes,
       cardsById: Object.fromEntries(cardNodes.map((c) => [c.id, c])),
       // Card → threads / debates it deepens (from the V1.6 card connections).
@@ -420,6 +421,53 @@
       };
     }
     return out;
+  }
+
+  // ---- NOW layer: sourced contemporary hooks attached to ideas, threads, debates ----
+  // LEAD appears before the item's history, CODA after it. Display only: hooks
+  // never award Knowledge, never become questions, never touch the graph.
+  function loadNowHooks(raw, nodesById, threads, debates) {
+    const out = {};
+    if (!raw) return out;
+    const threadIds = new Set(threads.map((t) => t.id));
+    const debateIds = new Set(debates.map((d) => d.id));
+    for (const h of raw.hooks || []) {
+      const ok =
+        (h.type === 'CORE' && nodesById[h.id] && !nodesById[h.id].isCard) ||
+        (h.type === 'THREAD' && threadIds.has(h.id)) ||
+        (h.type === 'DEBATE' && debateIds.has(h.id));
+      if (!ok) throw new Error('NOW hook for unknown ' + h.type + ' ' + h.id);
+      if (h.placement !== 'LEAD' && h.placement !== 'CODA') throw new Error('NOW hook ' + h.id + ': bad placement ' + h.placement);
+      if (out[h.id]) throw new Error('duplicate NOW hook ' + h.id);
+      out[h.id] = {
+        id: h.id,
+        type: h.type,
+        placement: h.placement,
+        text: h.text,
+        bridge: h.bridge,
+        sources: [{ title: h.sourceTitle, publisher: h.sourcePublisher, url: h.sourceURL, date: h.sourceDate }].concat(
+          (h.additionalSources || []).map((x) => ({ title: x.sourceTitle, publisher: x.sourcePublisher, url: x.sourceURL, date: x.sourceDate }))
+        ),
+        refreshBy: h.refreshBy, // maintenance only; never shown to the player
+      };
+    }
+    return out;
+  }
+
+  // The hook (if any) that travels with an encounter in PLAY: an idea's DISCOVER
+  // card carries the idea's hook; a debate's own encounter carries the debate's.
+  function nowHookFor(C, enc) {
+    if (!enc || !C.nowHooks) return null;
+    if (enc.kind === 'discover') return C.nowHooks[enc.nodeIds[0]] || null;
+    if (enc.debateId) return C.nowHooks[enc.debateId] || null;
+    return null;
+  }
+
+  // Hooks past their refreshBy month (for maintenance warnings only).
+  function staleNowHooks(C, now) {
+    const d = new Date(now || Date.now());
+    const ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    return Object.values(C.nowHooks || {}).filter((h) => h.refreshBy && h.refreshBy < ym);
   }
 
   // 'explain' | 'reflective' for a card that offers writing.
@@ -453,5 +501,5 @@
     return null;
   }
 
-  BF.content = { load, writeTypeOf, ideaPrompt, explainPrompt, checkFor, CHOICE_MODES, SELF_RATED_MODES, cleanReveal, splitPrompt };
+  BF.content = { load, nowHookFor, staleNowHooks, writeTypeOf, ideaPrompt, explainPrompt, checkFor, CHOICE_MODES, SELF_RATED_MODES, cleanReveal, splitPrompt };
 })((globalThis.BF = globalThis.BF || {}));

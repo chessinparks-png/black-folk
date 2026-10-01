@@ -97,6 +97,13 @@
     return h('header', { class: 'hero', 'data-world': world || null }, ...kids);
   }
 
+  // NOW layer: an item's contemporary hook. LEAD sits before the history,
+  // CODA after it; items without a hook (NONE) get nothing at all.
+  function nowSection(ctx, id, placement) {
+    const hk = ctx.nowOn ? ctx.C.nowHooks[id] : null;
+    return hk && hk.placement === placement ? h('div', { class: 'now-wrap' }, BF.ui.nowBlock(hk)) : null;
+  }
+
   function modeNote(ctx) {
     return ctx.showAll ? h('p', { class: 'mode-note' }, 'Showing the whole map. Visible is not the same as learned.') : null;
   }
@@ -387,8 +394,10 @@
         h('h1', { class: 'display display--md', tabindex: '-1' }, n.subject),
         h('div', { class: 'hero-row' }, h('span', { class: 'pill pill--' + st, 'data-world': n.world }, STATE_LABEL[st]), learnFromHere(ctx, n))
       ),
+      nowSection(ctx, id, 'LEAD'),
       panel('panel--understand', block('Core idea', h('p', {}, n.coreIdea)), why ? block('Why then', h('p', {}, why)) : null),
       panel('panel--keep', block('Keep this', h('p', { class: 'quote' }, n.keepThis || n.share))),
+      nowSection(ctx, id, 'CODA'),
       words.length || unfound
         ? panel(
             'panel--words',
@@ -431,6 +440,7 @@
         h('p', { class: 'lede-note' }, 'Different moments. Same question.'),
         player.threadsUnlocked[id] ? null : modeNote(ctx)
       ),
+      nowSection(ctx, id, 'LEAD'),
       responses.length ? panel('panel--group', block('Historical responses', h('div', { class: 'links links--plain' }, responses.map((r) => h('span', {}, r))))) : null,
       h(
         'ol',
@@ -460,6 +470,7 @@
           );
         })
       ),
+      nowSection(ctx, id, 'CODA'),
       extraCards.length || t.notes.length ? panel('panel--group', block('Deepen', extraCards.map(deepCard), t.notes.map((x) => deepCard({ title: x.title, text: x.text })))) : null,
       deepenedBy.length || crossLinks.length
         ? panel(
@@ -496,6 +507,7 @@
         h('p', { class: 'title-caps', style: 'margin:1rem 0 0' }, d.title),
         player.debatesUnlocked[id] ? null : modeNote(ctx)
       ),
+      nowSection(ctx, id, 'LEAD'),
       h(
         'div',
         { class: 'sides' },
@@ -514,6 +526,7 @@
         )
       ),
       contrasts.length ? panel('panel--keep', block('The contrast', contrasts.map((e) => paras(e.reveal)))) : null,
+      nowSection(ctx, id, 'CODA'),
       (() => {
         const deepenedBy = cardsFor(ctx, id);
         const crossLinks = threadLinksFor(ctx, id);

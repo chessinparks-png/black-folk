@@ -84,14 +84,27 @@
 
 **Sensitive people**
 - **V1-045:** a minor; kept factual.
-- **V1-041:** celebrity with a criminal-case context; kept to her essay and what she said happened.
+- **V1-041:** kept to her October 2020 essay and the public scrutiny around it. There's no criminal-case detail beyond "an incident in which she said she had been harmed."
 - **V1-033:** Colvin. The packet doesn't verify her death, so the hook doesn't mention it.
 
 **Paraphrase checks**
 - **V1-002:** the bridge contrasts official categories with colonial law ("the stakes were far higher") so the two aren't treated as equivalent.
-- **T-03:** the companies "each limited their facial-recognition offerings, especially to police" compresses three different 2020 actions. Confirm this reads fairly.
+- **T-03:** names the three 2020 actions separately:
+  - IBM stopped offering general-purpose facial recognition;
+  - Amazon announced a one-year moratorium on police use of Rekognition;
+  - Microsoft said it would not sell to U.S. police until federal regulation existed.
+
+  They are framed as happening "amid that research and broader public pressure", so Gender Shades is not credited as the sole cause.
 - **V1-026:** the packet doesn't say who the "collectors" were beyond "works bought relatively cheaply… resold."
 - **D-03:** the source is a book-chapter abstract (Oxford Academic). The claim is kept general.
+
+**Wording cleanup (after review)**
+- **V1-025:** now ends "Atlanta was the largest net Black migration gainer."
+- **V1-036:** uses the 2021 OHCHR report only. There's no 2020 UN action.
+- **V1-044:** keeps the 2020 chapter-accountability focus. The 2025 Justice Department investigation stays out.
+- **V1-033:** makes no claim about Colvin's death.
+- **Attribution kept as written:** V1-020, V1-024, T-02, T-04 and T-06.
+- **Counts and placements are unchanged:** 48 hooks (18 LEAD / 30 CODA), and 20 items stay NONE.
 
 **Packet constraints**
 - **V1-029:** doesn't call the warehouse majority-Black, because that's unverified in the packet.
