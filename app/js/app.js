@@ -73,33 +73,36 @@
     return { name: parts[0] || 'home', arg: parts[1] };
   }
 
-  // Scroll memory: going back (to the page you just came from) returns you to where
-  // you were on it; moving forward to a new page starts at its top.
-  const scrollPos = {};
-  const navStack = [];
-  let shownHash = null;
+  // Scroll memory, keyed to the browser's own history entries: Back (or Forward)
+  // to an entry returns you to where you were on it; a new entry starts at the
+  // top; a page re-rendered in place stays put (except PLAY, which starts fresh).
+  const scrollByKey = {};
+  let shownKey = null;
+  let nextKey = Date.now();
   window.addEventListener('scroll', () => {
-    if (shownHash != null) scrollPos[shownHash] = window.scrollY;
+    if (shownKey != null) scrollByKey[shownKey] = window.scrollY;
   }, { passive: true });
 
   function mount(screen) {
     const app = main();
     const hash = location.hash || '#/';
+    const st = history.state;
+    let key = st && st.bfKey != null ? st.bfKey : null;
     let restore = 0;
-    if (hash !== shownHash) {
-      if (navStack.length > 1 && navStack[navStack.length - 2] === hash) {
-        navStack.pop();
-        restore = scrollPos[hash] || 0;
-      } else {
-        navStack.push(hash);
-        if (navStack.length > 50) navStack.shift();
-      }
-    } else if (!/^#\/(play|summary)/.test(hash)) restore = window.scrollY; // same page re-rendered in place: stay put
-    shownHash = null; // ignore the scroll events the swap itself causes
+    if (key == null) {
+      key = nextKey++;
+      try { history.replaceState({ bfKey: key }, '', location.href); } catch (e) { /* file:// may refuse */ }
+    } else if (!/^#\/(play|summary)/.test(hash)) restore = scrollByKey[key] || 0;
+    shownKey = null; // ignore the scroll events the swap itself causes
+    const r = route();
+    const withNav = ['home', 'explore', 'world', 'idea', 'thread', 'debate', 'words', 'settings'].includes(r.name);
     app.replaceChildren(screen);
+    if (withNav) app.append(navBar(r.name));
+    document.body.classList.toggle('has-nav', withNav);
     window.scrollTo(0, restore);
     if (restore) requestAnimationFrame(() => window.scrollTo(0, restore));
-    shownHash = hash;
+    if (screen._afterMount) screen._afterMount(restore > 0);
+    shownKey = key;
     currentScreen = screen;
   }
   let currentScreen = null;
@@ -153,29 +156,139 @@
     go('#/play');
   }
 
-  // ---- HOME ---------------------------------------------------------------------
-  function homeScreen() {
-    const p = state.player;
-    const resuming = !!state.session;
+  // ---- HOME: your path ------------------------------------------------------------
+  // The ideas you have met, in the order you met them, each a ring that fills as
+  // your understanding grows (discovered → connected → familiar → strong). Threads
+  // and debates sit on the path where they opened. Play continues from the next
+  // node. No streaks, no goals, no timers.
+  const RING = { locked: 0, discovered: 0.25, connected: 0.5, familiar: 0.75, strong: 1 };
+  const STATE_WORD = { discovered: 'Discovered', connected: 'Connected', familiar: 'Familiar', strong: 'Strong' };
+  function initials(name) {
+    const words = name.replace(/[“”"'’()]/g, '').split(/[\s\-–—/]+/).filter((w) => /^[A-Za-z]/.test(w) && !/^(the|of|and|a|an|to|in|on|for|as|is)$/i.test(w));
+    return (words.length > 1 ? words[0][0] + words[1][0] : (words[0] || name).slice(0, 2)).toUpperCase();
+  }
+  function ringNode(n, st, opts) {
+    const fill = RING[st] || 0;
     return h(
-      'main',
-      { class: 'screen home' },
-      h('h1', { class: 'wordmark' }, 'BLACK FOLK'),
-      h('div', { class: 'spectrum', 'aria-hidden': 'true' }, state.C.worlds.map((w) => h('span', { 'data-world': w.id }))),
-      h(
-        'div',
-        { class: 'stats' },
-        h('span', { class: 'k' }, fmt(p.knowledge) + ' KNOWLEDGE'),
-        h('span', { class: 'lvl' }, 'LVL ' + p.level)
-      ),
-      h(
-        'div',
-        { class: 'actions actions--stack' },
-        h('button', { class: 'btn btn--primary', onclick: () => go('#/play'), autofocus: true }, resuming ? 'Continue' : 'Play'),
-        h('button', { class: 'btn', onclick: () => go('#/explore') }, 'Explore')
-      ),
-      h('div', { class: 'home-foot' }, h('button', { class: 'textlink', onclick: () => go('#/settings') }, 'Settings'))
+      'span',
+      { class: 'ring ring--' + st + (opts && opts.big ? ' ring--big' : ''), 'data-world': n ? n.world : null, style: '--fill:' + fill, 'aria-hidden': 'true' },
+      h('span', { class: 'ring-face' }, st === 'locked' ? lockIcon() : st === 'strong' ? h('span', { class: 'ring-check' }, '✓') : h('span', { class: 'ring-txt' }, initials(n.name)))
     );
+  }
+  function lockIcon() {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('class', 'ico');
+    svg.innerHTML = '<rect x="5" y="11" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>';
+    return svg;
+  }
+  function checkIcon(kind) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('class', 'ico');
+    svg.innerHTML = kind === 'debate'
+      ? '<path d="M4 6h9a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" fill="currentColor"/><path d="M17 9h3a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-1v3l-4-3h-3a2 2 0 0 1-2-1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>'
+      : '<circle cx="5" cy="17" r="2.6" fill="currentColor"/><circle cx="12" cy="8" r="2.6" fill="currentColor"/><circle cx="19" cy="15" r="2.6" fill="currentColor"/><path d="M5 17 12 8l7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>';
+    return svg;
+  }
+
+  function journey() {
+    const C = state.C;
+    const p = state.player;
+    const met = C.nodes
+      .filter((n) => p.nodes[n.id] && p.nodes[n.id].introduced)
+      .map((n) => ({ type: 'idea', n, at: p.nodes[n.id].firstSeen || 0 }));
+    const checks = [
+      ...Object.entries(p.threadsUnlocked).filter(([id]) => C.threadsById[id]).map(([id, at]) => ({ type: 'thread', t: C.threadsById[id], at })),
+      ...Object.entries(p.debatesUnlocked).filter(([id]) => C.debatesById[id]).map(([id, at]) => ({ type: 'debate', d: C.debatesById[id], at })),
+    ];
+    return met.concat(checks).sort((a, b) => a.at - b.at || (a.type === 'idea' ? -1 : 1));
+  }
+
+  function nextLabel() {
+    const s = state.session;
+    if (s) return s.title;
+    const C = state.C;
+    const p = state.player;
+    if (p.startersCompleted < C.starters.length) return C.starters[p.startersCompleted].title;
+    return 'Your next session';
+  }
+
+  function homeScreen() {
+    const C = state.C;
+    const p = state.player;
+    const resuming = !!(state.session && state.session.begun);
+    const steps = journey();
+    const metCount = steps.filter((x) => x.type === 'idea').length;
+    const remaining = C.nodes.length - metCount;
+    const WAVE = [0, 1, 2, 1, 0, -1, -2, -1];
+    let i = 0;
+    const offset = () => '--x:' + WAVE[i++ % WAVE.length];
+
+    const items = steps.map((x) => {
+      if (x.type === 'idea') {
+        const st = BF.graph.nodeState(state.G, p, x.n.id);
+        return h('li', { class: 'path-step', style: offset() },
+          h('button', { class: 'path-node', 'data-world': x.n.world, 'aria-label': x.n.name + ' · ' + (STATE_WORD[st] || ''), onclick: () => go('#/idea/' + x.n.id) },
+            ringNode(x.n, st),
+            h('span', { class: 'path-name' }, x.n.name)));
+      }
+      const isT = x.type === 'thread';
+      const title = isT ? x.t.title : x.d.title;
+      return h('li', { class: 'path-step path-step--check', style: offset() },
+        h('button', { class: 'path-check path-check--' + x.type, 'aria-label': (isT ? 'Thread · ' : 'Debate · ') + title, onclick: () => go((isT ? '#/thread/' : '#/debate/') + (isT ? x.t.id : x.d.id)) },
+          h('span', { class: 'check-face', 'aria-hidden': 'true' }, checkIcon(x.type)),
+          h('span', { class: 'path-name' }, h('small', {}, isT ? 'Thread' : 'Debate'), title)));
+    });
+    const s = state.session;
+    const sessFill = s && s.begun ? s.index / s.items.length : 0;
+    const startBtn = h('button', { class: 'path-start', onclick: () => go('#/play'), autofocus: true }, resuming ? 'Continue' : 'Play');
+    items.push(
+      h('li', { class: 'path-step path-step--next', style: offset() },
+        startBtn,
+        h('button', { class: 'path-node path-node--next', 'aria-hidden': 'true', tabindex: '-1', onclick: () => go('#/play') },
+          h('span', { class: 'ring ring--next', style: '--fill:' + sessFill }, h('span', { class: 'ring-face' }, h('span', { class: 'ring-star' }, '★')))),
+        h('span', { class: 'path-name path-name--next' }, nextLabel()))
+    );
+    for (let k = 0; k < Math.min(3, remaining); k++) {
+      items.push(h('li', { class: 'path-step path-step--ahead', style: offset(), 'aria-hidden': 'true' }, h('span', { class: 'path-node' }, ringNode(null, 'locked'))));
+    }
+
+    const screen = h(
+      'main',
+      { class: 'screen home home--path' },
+      h('header', { class: 'topbar' },
+        h('h1', { class: 'wordmark' }, 'BLACK FOLK'),
+        h('div', { class: 'stats' },
+          h('span', { class: 'k' }, h('span', { class: 'stat-ico', 'aria-hidden': 'true' }, '◆'), fmt(p.knowledge) + ' KNOWLEDGE'),
+          h('span', { class: 'lvl' }, 'LVL ' + p.level))),
+      h('div', { class: 'spectrum', 'aria-hidden': 'true' }, C.worlds.map((w) => h('span', { 'data-world': w.id }))),
+      h('section', { class: 'path-banner' },
+        h('p', { class: 'eyebrow' }, 'Your path'),
+        h('p', { class: 'path-banner-title' }, metCount ? metCount + ' of ' + C.nodes.length + ' ideas met' : 'Fifty ideas. Seven worlds.'),
+        h('p', { class: 'lede-note' }, metCount ? 'Rings fill as your understanding grows.' : 'Your path starts with one short session.')),
+      h('ol', { class: 'journey', 'aria-label': 'Your path' }, items),
+      remaining > 0 ? h('p', { class: 'lede-note path-more' }, remaining === 1 ? 'One more idea to discover.' : remaining + ' more ideas to discover.') : h('p', { class: 'lede-note path-more' }, 'Every idea met. Keep deepening them.')
+    );
+    screen._afterMount = (restored) => {
+      if (restored) return;
+      const nx = screen.querySelector('.path-step--next');
+      if (nx && steps.length > 4) nx.scrollIntoView({ block: 'center' });
+    };
+    return screen;
+  }
+
+  // Bottom navigation on Home, EXPLORE and Settings (never inside a session).
+  function navBar(route) {
+    const item = (hash, label, active, icon) =>
+      h('button', { class: 'nav-item' + (active ? ' is-active' : ''), 'aria-current': active ? 'page' : null, onclick: () => go(hash) },
+        h('span', { class: 'nav-ico', 'aria-hidden': 'true' }, icon), h('span', { class: 'nav-label' }, label));
+    const exploreRoutes = ['explore', 'world', 'idea', 'thread', 'debate'];
+    return h('nav', { class: 'navbar', 'aria-label': 'Main' },
+      item('#/', 'Path', route === 'home', '●'),
+      item('#/explore', 'Explore', exploreRoutes.includes(route), '◎'),
+      item('#/words', 'Words', route === 'words', '❝'),
+      item('#/settings', 'Settings', route === 'settings', '⚙'));
   }
 
   // ---- PLAY -----------------------------------------------------------------------
@@ -377,7 +490,7 @@
     });
     if (enc.kind === 'discover' && enc.nodeIds.length === 1) {
       const id = enc.nodeIds[0];
-      const writtenLater = s.items.some((it) => (it.enc.kind === 'recall' || it.enc.kind === 'share') && it.enc.nodeIds.includes(id));
+      const writtenLater = s.items.some((it) => S.isWritingItem(it) && it.enc.nodeIds.includes(id));
       if (writtenLater || !C.nodesById[id]) return null;
       return open('Teach it back', (done) => ideaPad(id, done));
     }
@@ -553,8 +666,12 @@
       hook && hook.placement === 'CODA' ? BF.ui.nowBlock(hook) : null,
       h('div', { class: 'actions' }, h('button', { class: 'btn btn--primary', onclick: cont }, 'Continue'))
     );
+    body.classList.add('card--celebrate');
     const screen = sessionFrame(s, body);
-    requestAnimationFrame(() => screen.querySelector('.btn--primary').focus({ preventScroll: true }));
+    requestAnimationFrame(() => {
+      screen.querySelector('.btn--primary').focus({ preventScroll: true });
+      BF.ui.burst(screen.querySelector('.path'), { count: 12 });
+    });
     return screen;
   }
 
@@ -612,11 +729,24 @@
       state.summary = null;
       go('#/', true);
     };
+    // Rings for the ideas this session touched, filled to where they stand now.
+    const ids = (sum.strengthenedIds || []).filter((id) => C.nodesById[id]).slice(0, 6);
+    const rings = ids.length
+      ? h('ul', { class: 'sum-rings', 'aria-label': 'Ideas this session' }, ids.map((id) => {
+          const n = C.nodesById[id];
+          const st = BF.graph.nodeState(state.G, state.player, id);
+          return h('li', { class: st === 'strong' ? 'is-strong' : null }, ringNode(n, st), h('span', { class: 'sum-ring-name' }, n.name), h('span', { class: 'sum-ring-state' }, STATE_WORD[st] || ''));
+        }))
+      : null;
+    const total = h('p', { class: 'total' }, h('span', { class: 'total-n' }, '+' + fmt(sum.knowledge)), h('small', {}, 'KNOWLEDGE'));
     const screen = h(
       'main',
       { class: 'screen summary' },
-      h('p', { class: 'eyebrow' }, 'Session complete'),
-      h('p', { class: 'total' }, '+' + fmt(sum.knowledge), h('small', {}, 'KNOWLEDGE')),
+      h('div', { class: 'sum-hero' },
+        h('span', { class: 'sum-badge', 'aria-hidden': 'true' }, '★'),
+        h('p', { class: 'eyebrow' }, 'Session complete'),
+        total),
+      rings,
       h('ul', { class: 'facts' }, facts.map((f) => h('li', {}, f))),
       sum.keepThis
         ? h('div', { class: 'keep' }, h('p', { class: 'eyebrow' }, 'Keep this'), h('p', { class: 'quote', tabindex: '-1' }, '“' + sum.keepThis + '”'))
@@ -632,7 +762,23 @@
         h('button', { class: 'btn', onclick: more }, 'Keep playing')
       )
     );
-    requestAnimationFrame(() => screen.querySelector('.btn--primary').focus({ preventScroll: true }));
+    requestAnimationFrame(() => {
+      screen.querySelector('.btn--primary').focus({ preventScroll: true });
+      BF.ui.burst(screen.querySelector('.sum-badge'), { count: 14 });
+      screen.querySelectorAll('.sum-rings .is-strong .ring').forEach((r) => BF.ui.burst(r));
+      // Count the Knowledge up once; the final number is already in the DOM text.
+      const el = screen.querySelector('.total-n');
+      const target = sum.knowledge;
+      if (target > 0 && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+        const t0 = performance.now();
+        const tick = (t) => {
+          const k = Math.min(1, (t - t0) / 700);
+          el.textContent = '+' + fmt(Math.round(target * (1 - Math.pow(1 - k, 3))));
+          if (k < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    });
     return screen;
   }
 
@@ -808,6 +954,6 @@
     }
   }
 
-  BF.app = { state, boot, render };
+  BF.app = { state, boot, render, save };
   boot();
 })((globalThis.BF = globalThis.BF || {}));

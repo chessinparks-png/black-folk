@@ -853,5 +853,78 @@ test('refreshBy is maintenance-only: stale hooks are reported, never removed', (
   assert.equal(Object.keys(C.nowHooks).length, 48);
 });
 
+// ---- TEACH-BACK -----------------------------------------------------------------
+console.log('Teach-back');
+const TB = globalThis.BF.notes;
+test('frames: 4 audiences × 3 lengths minus "text message × a minute out loud" = 11', () => {
+  const tb = C.teachBack;
+  assert.deepEqual(Object.keys(tb.audiences).sort(), ['elder', 'kid', 'skeptic', 'text']);
+  assert.deepEqual(Object.keys(tb.lengths).sort(), ['minute', 'one', 'three']);
+  assert.equal(tb.frames.length, 11);
+  assert.ok(!tb.frames.some((f) => f.audience === 'text' && f.length === 'minute'));
+  assert.equal(tb.debate.ask, 'Explain both sides as fairly as you can before saying where you lean.');
+});
+test('pickFrame never repeats the last pairing for an idea, is stable, and typing pads skip spoken lengths', () => {
+  const p = M.newPlayer();
+  let last = null;
+  for (let k = 0; k < 12; k++) {
+    const f = TB.pickFrame(C, p, 'V1-048');
+    assert.deepEqual(TB.pickFrame(C, p, 'V1-048'), f, 'same state, same prompt');
+    if (last) assert.ok(!(f.audience === last.audience && f.length === last.length), 'no repeat at step ' + k);
+    TB.add(p, { nodeIds: ['V1-048'], text: 'try ' + k, frame: f, promptType: 'explain', context: 'teach-back' }, 1000 + k);
+    last = f;
+  }
+  for (let k = 0; k < 11; k++) assert.ok(!C.teachBack.lengths[TB.pickFrame(C, M.newPlayer(), 'V1-0' + (10 + k), { spoken: false }).length].spoken);
+});
+test('explainAsk wording: audience then length, existing idea name unchanged', () => {
+  const n = C.nodesById['V1-048'];
+  assert.equal(TB.explainAsk(C, n, { audience: 'kid', length: 'one' }), 'Explain ' + n.name + ' to a 12-year-old, in one sentence.');
+  assert.equal(TB.explainAsk(C, n, { audience: 'text', length: 'three' }), 'Explain ' + n.name + ' in a text message to a friend, in three sentences.');
+});
+test('a teach-back rating only moves review timing: no Knowledge, no mastery, no label change', () => {
+  const p = M.newPlayer();
+  answerAll(p, S.buildNext(C, p, { seed: 3 }), 'good', () => 0.5, 1e12);
+  const id = Object.keys(p.nodes).find((x) => p.nodes[x].introduced);
+  const before = JSON.stringify({ k: p.knowledge, n: Object.assign({}, p.nodes[id], { nextReview: 0 }), l: M.label(p, id) });
+  const due0 = p.nodes[id].nextReview;
+  M.teachBackReview(p, id, 'clear', 1e12 + 1);
+  assert.equal(p.nodes[id].nextReview, due0, 'Clear leaves the schedule alone');
+  M.teachBackReview(p, id, 'needs', 1e12 + 1);
+  assert.ok(p.nodes[id].nextReview <= 1e12 + 1 + M.CONFIG.missReturnMinutes * M.MINUTE, 'Needs work brings it back soon');
+  assert.equal(JSON.stringify({ k: p.knowledge, n: Object.assign({}, p.nodes[id], { nextReview: 0 }), l: M.label(p, id) }), before);
+});
+test('previous explanation: ideas use the latest earlier explain answer; debates and threads keep their own history', () => {
+  const p = M.newPlayer();
+  const a = TB.add(p, { nodeIds: ['V1-001'], text: 'first', promptType: 'explain' }, 100);
+  const b = TB.add(p, { nodeIds: ['V1-001'], text: 'second', promptType: 'explain', context: 'teach-back' }, 200);
+  assert.equal(TB.previousExplain(C, p, 'V1-001', b).text, 'first');
+  assert.deepEqual(TB.explainHistory(C, p, 'V1-001').map((r) => r.text), ['first', 'second']);
+  const d1 = TB.add(p, { nodeIds: [], debateId: 'D-01', sides: [{ label: 'Washington', text: 'x' }, { label: 'Du Bois', text: 'y' }], text: 'x y', context: 'debate', promptType: 'reflective' }, 300);
+  const d2 = TB.add(p, { nodeIds: [], debateId: 'D-01', sides: [{ label: 'Washington', text: 'x2' }, { label: 'Du Bois', text: 'y2' }], text: 'x2 y2', context: 'debate', promptType: 'reflective' }, 400);
+  assert.equal(TB.previousFor(p, 'D-01', d2, 'debate'), d1);
+  assert.equal(TB.forNode(p, 'V1-001').length, 2, 'debate answers stay off idea histories');
+  assert.ok(a);
+});
+test('thread completion is reported once, only for opened threads, and queues one reflective screen per session', () => {
+  const p = M.newPlayer();
+  const t = C.threads[0];
+  for (const st of t.steps) for (const id of st.nodeIds) { p.nodes[id] = M.newNodeState(); p.nodes[id].seen = 1; p.nodes[id].introduced = true; }
+  assert.deepEqual(M.updateThreadsCompleted(C, p, 5), [], 'not before the thread is opened');
+  p.threadsUnlocked[t.id] = 1;
+  assert.deepEqual(M.updateThreadsCompleted(C, p, 6), [t.id]);
+  assert.deepEqual(M.updateThreadsCompleted(C, p, 7), [], 'only once');
+  assert.ok(M.newPlayer().threadsCompleted && M.migrate(JSON.parse(JSON.stringify(Object.assign(M.newPlayer(), { threadsCompleted: undefined })))).player.threadsCompleted, 'old saves gain the field without a version bump');
+  assert.equal(M.PLAYER_VERSION, 5);
+});
+test('the end-of-session teach-back idea is the LEARN FROM HERE anchor, else an idea met this session', () => {
+  const p = M.newPlayer();
+  const a = S.buildAnchored(C, p, 'V1-025', { seed: 4 });
+  assert.equal(answerAll(p, a, 'good', () => 0.5, 1e12).teachId, 'V1-025');
+  const q = M.newPlayer();
+  const sum = answerAll(q, S.buildNext(C, q, { seed: 2 }), 'good', () => 0.5, 1e12);
+  assert.ok(C.nodesById[sum.teachId] && q.nodes[sum.teachId].introduced);
+  assert.ok(Array.isArray(sum.strengthenedIds) && sum.strengthenedIds.length === sum.strengthened);
+});
+
 console.log(failures ? `\n${failures} failing` : '\nall passing');
 process.exit(failures ? 1 : 0);

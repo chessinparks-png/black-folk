@@ -327,6 +327,98 @@ container. Hooks are editorial moments inside the existing lesson, not a separat
   - Off hides every hook in PLAY and EXPLORE.
   - The setting is stored with the other display settings in localStorage (`black-folk:settings`, key `contemporary`). There is no save-schema change.
 
+## Teach-back (explain it to someone)
+
+Teach-back uses the Feynman technique. You explain an idea in your own words first, and
+the explanation stays hidden until you do. Every moment is optional.
+
+**The pad:**
+- **The prompt names an audience and a length.** Audiences: a 12-year-old, an elder in your
+  family, a skeptical friend, or a text message to a friend. Lengths: one sentence, three
+  sentences, or about a minute out loud.
+  - The pairings live in `content/teach_back.json` (interface wording only; no historical
+    claims).
+  - A text message is never paired with a minute out loud.
+  - The pick never repeats the last pairing used for that idea.
+- **Input:** Type it (saved with its date), Say it out loud / in your head (nothing is
+  recorded), or Not now.
+- **Reveal:** the existing explanation, unchanged. When you saved an answer, your previous
+  explanation of the same idea sits beside the new one (Before / Now).
+
+**When it appears:**
+- **After a DISCOVER reveal:** a quiet "Teach it back" link.
+  - At most once per session.
+  - Never right before another writing card.
+  - Never for an idea whose RECALL or SHARE writing card is already in the session.
+- **At the end of a session:** "Teach one back". In LEARN FROM HERE it uses the anchor idea;
+  otherwise an idea met this session.
+- **When a thread's path is complete for the first time:** a closing screen. It is
+  reflective and unrated, with at most one per session.
+- **Debates:** "Explain both sides as fairly as you can before saying where you lean."
+  - One box per side. The reveal shows each side's existing core ideas (and D-08's side
+    summaries).
+  - Then an optional "Where do you lean, and why?".
+  - Never rated, never a winner.
+  - Available on every debate page, and after the cards linked to a debate in PLAY (sharing
+    the once-per-session limit).
+
+**Scoring:**
+- Typed text is never read by anything that scores.
+- For an idea, you rate yourself Clear / Almost / Needs work. That rating only moves the
+  idea's next review: Almost and Needs work bring it back sooner, and Clear leaves the
+  schedule alone. It earns no Knowledge and changes no mastery or label.
+
+**Your history:**
+- On RECALL / SHARE cards, the "Write yours" prompt rotates the same way (written lengths
+  only).
+- Idea pages add "Compare first and latest".
+- Records gain optional fields (`frame`, `context`, `debate_id`, `thread_id`, `sides`), and
+  the player gains `threadsCompleted`. Both are additive, so there is no save-schema bump.
+
+## Explore next and scroll memory
+
+**Explore next:** every idea page ends with 1–2 connected ideas, each with a one-line reason
+taken from the map's own structure, never new claims. Candidates, in order:
+1. the next step on a thread it belongs to;
+2. the other side of a debate it is in;
+3. shared historical context;
+4. a card that asked about both;
+5. the same era.
+
+**Surprise me** jumps to a random idea. In Discover gradually, both use discovered ideas only.
+
+**Scroll memory:** going Back (or Forward) returns you to the exact place on that page. It is
+keyed to the browser's own history entries. A newly opened page starts at its top.
+
+## Look (V2): alive, not loud
+
+The look is Duolingo-inspired without the pressure. Curriculum text is unchanged; only
+interface labels and styling changed.
+
+**Home is your path:**
+- The ideas you have met, in the order you met them.
+- Each idea is a ring in its world colour that fills as understanding grows: discovered,
+  connected, familiar, strong.
+- Threads and debates sit on the path as checkpoints where they opened.
+- Play continues from the next node. Locked nodes hint at what is ahead.
+
+**Everywhere:**
+- Rounded buttons that press down, and rounded answer tiles.
+- A filling progress bar in play.
+- After an answer, a feedback bar slides up with Continue:
+  - "Nicely done" in green;
+  - "Not quite" in a warm neutral, always labelled, never red, no X.
+- The session end has a count-up, rings for the ideas you touched, and a small burst when
+  one reaches Strong.
+- Small celebrations also mark WORDS found and threads revealed. All motion respects
+  "reduce motion".
+- Bottom navigation: Path, Explore, Words, Settings.
+
+**Skipped on purpose:** streaks, guilt notifications, leaderboards, points races, daily goals
+and hearts.
+
+**Unchanged:** dark stays the default; the light theme is refreshed too.
+
 ## Respectability (revised)
 
 Respectability is framed as a pressure set under unequal power: *who has to prove they

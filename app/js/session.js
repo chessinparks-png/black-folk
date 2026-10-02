@@ -915,6 +915,7 @@
       endedAt: now,
       knowledge: session.knowledge,
       strengthened: session.strengthened.length,
+      strengthenedIds: session.strengthened.slice(),
       connections: session.connections,
       words: (session.wordsFound || []).slice(),
       threads: session.newThreads.slice(),

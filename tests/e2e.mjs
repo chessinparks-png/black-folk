@@ -838,6 +838,7 @@ await page.waitForSelector('.hero');
 check(!(await has('aside.now')), 'OFF: no hook on the idea page');
 lf = await learnFrom('V1-046');
 await btn('Begin').click();
+await page.waitForSelector('.screen--play .card');
 check(lf.session.ids[0] === 'D046' && !(await has('aside.now')), 'OFF: no hook before the history');
 await btn('Reveal').click();
 check(!(await has('aside.now')) && !(await has('.now-bridge')), 'OFF: no hook after the reveal in PLAY');
@@ -857,6 +858,210 @@ lf = await learnFrom('V1-048');
 await btn('Begin').click();
 check(await has('.now--lead') && !(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)), 'phone: LEAD card fits');
 await page.setViewportSize({ width: 1280, height: 820 });
+// TEACH-BACK · EXPLORE NEXT · V2 LOOK
+console.log('Teach-back, Explore next, path');
+await page.goto(APP_URL + '#/');
+await page.waitForSelector('.journey');
+const pathInfo = await page.evaluate(() => ({
+  rings: document.querySelectorAll('.journey .path-node:not(.path-node--next) .ring:not(.ring--locked)').length,
+  met: BF.app.state.C.nodes.filter((n) => (BF.app.state.player.nodes[n.id] || {}).introduced).length,
+  checkpoints: document.querySelectorAll('.journey .path-check').length,
+  opened: Object.keys(BF.app.state.player.threadsUnlocked).length + Object.keys(BF.app.state.player.debatesUnlocked).length,
+  nav: [...document.querySelectorAll('.navbar .nav-label')].map((x) => x.textContent).join(','),
+  text: document.body.textContent.toLowerCase(),
+}));
+check(pathInfo.rings === pathInfo.met && pathInfo.met > 0, `Home path: one filling ring per idea met (${pathInfo.rings})`);
+check(pathInfo.checkpoints === pathInfo.opened, 'threads and debates sit on the path as checkpoints');
+check(await has('.path-step--next .path-start'), 'Play continues from the next node');
+check(pathInfo.nav === 'Path,Explore,Words,Settings', 'bottom navigation: Path, Explore, Words, Settings');
+check(!/streak|leaderboard|in a row|daily goal|hearts/.test(pathInfo.text), 'no streaks, leaderboards, goals or hearts');
+await snap('v2-home-path');
+await page.locator('.journey .path-node').first().click();
+await page.waitForSelector('.hero');
+check(/#\/idea\//.test(page.url()), 'tapping a ring opens its idea');
+
+// Feedback: a miss is always labelled "Not quite"; a right answer "Nicely done".
+const fb = { miss: null, good: null };
+for (const a of ['V1-049', 'V1-030', 'V1-005', 'V1-012']) {
+  if (fb.miss && fb.good) break;
+  await learnFrom(a);
+  await btn('Begin').click();
+  for (let i = 0; i < 6 && await has('.screen--play'); i++) {
+    if (await has('.thread-done')) { await btn('Not now').click(); continue; }
+    if (await has('text=Thread revealed')) { await btn('Continue').click(); continue; }
+    const enc = await page.evaluate(() => { const s = BF.app.state.session; return s && s.items[s.index] && s.items[s.index].enc; });
+    if (!enc) break;
+    if ((enc.kind === 'choice' || enc.kind === 'binary') && !(fb.miss && fb.good)) {
+      const wrong = !fb.miss;
+      const target = wrong ? enc.choices.find((c) => c !== enc.correct) : enc.correct;
+      await page.locator(enc.kind === 'choice' ? '.choice' : '.bin-opt', { hasText: target }).first().click();
+      const t = await page.textContent('.feedback .feedback-status');
+      if (wrong) { fb.miss = t; await snap('v2-feedback-miss'); } else { fb.good = t; await snap('v2-feedback-good'); }
+      check(await has(wrong ? '.feedback.is-miss' : '.feedback.is-good'), (wrong ? 'miss' : 'right answer') + ' slides up a feedback bar with Continue');
+      await btn('Continue').click();
+    } else await playEncounter();
+  }
+}
+check(fb.miss && fb.miss.includes('Not quite'), 'a miss is clearly labelled: "' + fb.miss + '"');
+check(fb.good && fb.good.includes('Nicely done'), 'a right answer reads "' + fb.good + '"');
+
+// Teach-back after DISCOVER: offered at most once per session, never right before
+// another writing card, and not for an idea whose RECALL/SHARE is already coming.
+let offered = null;
+for (let k = 0; k < 6 && !offered; k++) {
+  await page.goto(APP_URL + '#/play');
+  if (await has('text=Begin')) await btn('Begin').click();
+  for (let i = 0; i < 8 && await has('.screen--play'); i++) {
+    if (await has('.thread-done')) { await btn('Not now').click(); continue; }
+    if (await has('text=Thread revealed')) { await btn('Continue').click(); continue; }
+    const enc = await page.evaluate(() => { const s = BF.app.state.session; return s && s.items[s.index] && s.items[s.index].enc; });
+    if (!enc) break;
+    if (enc.kind === 'discover') {
+      await btn('Reveal').click();
+      if (await btn('Teach it back').count()) { offered = enc.nodeIds[0]; break; }
+      await btn('Continue').click();
+    } else await playEncounter();
+  }
+  if (!offered && await has('.summary')) await btn('Keep playing').click();
+}
+check(!!offered, 'after a DISCOVER reveal, "Teach it back" is offered (' + offered + ')');
+if (offered) {
+  const rule = await page.evaluate(() => { const s = BF.app.state.session; const nx = s.items[s.index + 1]; const id = s.items[s.index].enc.nodeIds[0]; return { nextWriting: !!(nx && BF.session.isWritingItem(nx)), later: s.items.some((it) => BF.session.isWritingItem(it) && it.enc.nodeIds.includes(id)) }; });
+  check(!rule.nextWriting && !rule.later, 'offered only where the writing rhythm allows it');
+  const idx0 = (await st()).session.index;
+  const k0 = (await st()).knowledge;
+  await btn('Teach it back').click();
+  check(await has('.card--teach') && !(await has('.card--teach .reveal')), 'the pad opens with the explanation hidden');
+  const ask = await page.textContent('.teach-ask');
+  check(/^Explain .+ (to a 12-year-old|to an elder in your family|to a skeptical friend who isn’t sure it still matters|in a text message to a friend), (in one sentence|in three sentences|in about a minute, out loud)\.$/.test(ask), 'audience and length vary: "' + ask + '"');
+  await snap('v2-teach-discover');
+  await btn('Not now').click();
+  await page.waitForTimeout(300);
+  const after = await st();
+  check(after.session && after.session.index === idx0 + 1 && after.knowledge === k0, 'Not now moves on; nothing is scored');
+  check(await page.evaluate(() => BF.app.state.session.teachUsed === true), 'at most one in-session teach-back');
+}
+
+// End of session: Teach one back, typed, saved, compared, self-rated (review timing only).
+const teachAt = async (id, text) => {
+  await learnFrom(id);
+  await btn('Begin').click();
+  for (let i = 0; i < 16 && !(await has('.summary')); i++) {
+    if (await has('.thread-done')) { await btn('Not now').click(); continue; }
+    if (await has('text=Thread revealed')) { await btn('Continue').click(); continue; }
+    if (await has('.card--teach')) { await btn('Not now').click(); continue; }
+    await playEncounter();
+  }
+  if (!(await has('.summary'))) console.log('    (teachAt state: ' + JSON.stringify(await st()) + ' ' + (await page.textContent('main')).slice(0, 120) + ')');
+  await page.waitForSelector('.summary');
+  check((await page.textContent('.teach-offer-name')).length > 0, 'session end offers "Teach one back"');
+  await btn('Teach it back').click();
+  const before = await st();
+  if (await btn('Type it').count()) await btn('Type it').click(); else await btn('Type it instead').click();
+  await page.locator('.card--teach .yw-input').fill(text);
+  await btn('Save & compare').click();
+  await page.waitForSelector('.teach-reveal');
+  const tr = await page.evaluate(() => ({ grow: !!document.querySelector('.grow'), saved: document.querySelector('.teach-reveal').textContent, model: document.querySelector('.teach-reveal .reveal').textContent }));
+  await btn('Almost').click();
+  await page.waitForTimeout(700);
+  const after = await st();
+  check(after.knowledge === before.knowledge, 'a teach-back rating earns no Knowledge');
+  return tr;
+};
+const tbId = 'V1-050';
+const r1 = await teachAt(tbId, 'First pass: access was granted but on unfair terms.');
+check(r1.saved.includes('First pass') && r1.model.includes(await page.evaluate((id) => BF.app.state.C.nodesById[id].coreIdea, tbId)), 'saved answer shown beside the full, unchanged explanation');
+check(await has('.teach-saved'), 'after rating, the summary notes the idea was taught back');
+const r2 = await teachAt(tbId, 'Second pass: the door opens, but someone else still sets the terms.');
+check(r2.grow && r2.saved.includes('First pass') && r2.saved.includes('Second pass'), 'growth: the previous explanation sits next to the new one');
+await snap('v2-teach-growth');
+const frames = await page.evaluate((id) => BF.notes.forNode(BF.app.state.player, id).filter((r) => r.frame).map((r) => r.frame.audience + '/' + r.frame.length), tbId);
+check(frames.length >= 2 && frames[0] !== frames[1], 'the pairing changes between teach-backs (' + frames.join(', ') + ')');
+const reviewOnly = await page.evaluate((id) => { const n = BF.app.state.player.nodes[id]; return n.nextReview <= Date.now() + BF.mastery.CONFIG.almostDays * BF.mastery.DAY + 5000; }, tbId);
+check(reviewOnly, 'Almost brings the idea back sooner');
+await btn('Done').click();
+
+// Idea page: Compare first and latest.
+await page.goto(APP_URL + '#/idea/' + tbId);
+await page.waitForSelector('.hero');
+await page.locator('.yw-toggle').click();
+await page.locator('.yw-growth-toggle').click();
+const growTxt = await page.textContent('.yw-growth');
+check(growTxt.includes('Before') && growTxt.includes('Now') && growTxt.includes('First pass') && growTxt.includes('Second pass'), 'idea page: Compare first and latest');
+
+// Explore next + Surprise me.
+const nx = await page.evaluate(() => [...document.querySelectorAll('.next-card')].map((b) => ({ name: b.querySelector('.next-name').textContent, why: b.querySelector('.next-why').textContent })));
+check(nx.length >= 1 && nx.length <= 2 && nx.every((x) => x.why.length > 5), 'Explore next: 1–2 connected ideas, each with why (' + nx.map((x) => x.name + ' — ' + x.why).join(' | ') + ')');
+await page.locator('.next-card').first().click();
+await page.waitForSelector('.hero');
+check(/#\/idea\//.test(page.url()) && !page.url().endsWith(tbId), 'Explore next opens the connected idea');
+const here = page.url();
+await page.locator('.btn--surprise').click();
+await page.waitForTimeout(300);
+check(/#\/idea\//.test(page.url()) && page.url() !== here, 'Surprise me jumps to another idea');
+const debateNext = await page.evaluate(() => {
+  const C = BF.app.state.C; const d = C.debates.find((x) => x.sides.every((s) => s.nodeIds.length)); return { id: d.sides[0].nodeIds[0], title: d.title };
+});
+await page.goto(APP_URL + '#/idea/' + debateNext.id);
+await page.waitForSelector('.panel--next');
+check((await page.textContent('.panel--next')).includes('The other side of ' + debateNext.title) || (await page.textContent('.panel--next')).includes('Next on '), 'Explore next names a thread step or the other side of a debate');
+
+// Back returns to where you were in the list, not the top.
+await page.setViewportSize({ width: 390, height: 700 });
+await page.goto(APP_URL + '#/world/POWER');
+await page.waitForSelector('.panel--list .row');
+const rows = page.locator('.panel--list .row');
+const lastRow = rows.nth((await rows.count()) - 1);
+await lastRow.scrollIntoViewIfNeeded();
+await page.evaluate(() => window.scrollBy(0, 120));
+await page.waitForTimeout(150);
+const y0 = await page.evaluate(() => window.scrollY);
+await lastRow.click();
+await page.waitForFunction(() => /#\/idea\//.test(location.hash));
+await page.waitForSelector('.hero');
+await page.waitForTimeout(150);
+check(await page.evaluate(() => window.scrollY) < 50, 'a new page starts at its top');
+await page.locator('.back').click();
+await page.waitForFunction(() => /#\/world\//.test(location.hash));
+await page.waitForSelector('.panel--list');
+await page.waitForTimeout(250);
+const y1 = await page.evaluate(() => window.scrollY);
+check(y0 > 200 && Math.abs(y1 - y0) < 30, `Back returns to the same place in the list (${y0} → ${y1})`);
+await page.setViewportSize({ width: 1280, height: 820 });
+
+// Debate: explain both sides, then where you lean. Never rated.
+const dOpen = await page.evaluate(() => Object.keys(BF.app.state.player.debatesUnlocked)[0]);
+await page.goto(APP_URL + '#/debate/' + dOpen);
+await page.waitForSelector('.panel--teach');
+await page.locator('.panel--teach .btn').click();
+check((await page.textContent('.teach-ask')) === 'Explain both sides as fairly as you can before saying where you lean.', 'debate prompt wording');
+await btn('Type it').click();
+const areas = page.locator('.card--teach .yw-input');
+check(await areas.count() === 2, 'one box per side');
+await areas.nth(0).fill('Side one, as fairly as I can.');
+await areas.nth(1).fill('Side two, as fairly as I can.');
+await btn('Save & compare').click();
+check(await has('.teach-sides') && !(await has('.card--teach .ratings')), 'both sides revealed; no rating, no winner');
+await page.locator('.teach-lean .yw-input').fill('I lean toward combining them.');
+await btn('Save').click();
+await btn('Continue').click();
+const dl = await page.textContent('.panel--teach');
+check(dl.includes('Side one') && dl.includes('WHERE YOU LEAN'), 'both sides and where you lean are saved and dated');
+await snap('v2-debate-teach');
+
+// Thread complete screens met while playing (if any) were reflective and skippable.
+check(threadDoneSeen.every((t) => t && t.length), 'thread-complete screens: ' + (threadDoneSeen.length ? threadDoneSeen.join(', ') : 'none reached in this run'));
+
+// Phone: the new screens fit.
+await page.setViewportSize({ width: 390, height: 844 });
+for (const h of ['#/', '#/idea/' + tbId, '#/debate/' + dOpen, '#/explore', '#/settings']) {
+  await page.goto(APP_URL + h);
+  await page.waitForTimeout(250);
+  const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth ? [...document.querySelectorAll('body *')].filter((e) => e.getBoundingClientRect().right > window.innerWidth + 1).slice(0, 4).map((e) => e.tagName + '.' + e.className + ':' + (e.textContent || '').slice(0, 30)).join(' | ') || 'scrollWidth ' + document.documentElement.scrollWidth : '');
+  check(!wide, 'phone fits: ' + h + (wide ? ' — ' + wide : ''));
+}
+await page.setViewportSize({ width: 1280, height: 820 });
+
 check(external.length === 0, 'no network calls outside the app' + (external.length ? ': ' + external.join(' ') : ''));
 
 check(badText.length === 0, 'no stray null/undefined text' + (badText.length ? ': ' + badText.join(' | ') : ''));

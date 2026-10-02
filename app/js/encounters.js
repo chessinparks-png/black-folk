@@ -128,6 +128,33 @@
     return text ? h('p', { class: 'hint' }, text) : null;
   }
 
+  // ---- answer feedback: a bar that slides up with Continue --------------------------
+  // Right: "Nicely done". Wrong (or only partly right): a warm, neutral "Not quite",
+  // always labelled so a miss is never ambiguous. No red, no X.
+  function markOutcome(actions, ok) {
+    actions.classList.add('feedback', ok ? 'is-good' : 'is-miss');
+    actions.prepend(h('p', { class: 'feedback-status', role: 'status' }, h('span', { class: 'feedback-icon', 'aria-hidden': 'true' }, ok ? '✓' : '↺'), ok ? 'Nicely done' : 'Not quite'));
+    if (ok) burst(actions.querySelector('.feedback-icon'));
+    return actions;
+  }
+  function feedbackBar(ctx, item, ok) {
+    return markOutcome(continueBtn(ctx, null, item), ok);
+  }
+
+  // A small celebration: a few sparks from an element. Skipped for reduced motion.
+  function burst(el, opts) {
+    if (!el || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    const host = h('span', { class: 'burst', 'aria-hidden': 'true' });
+    const n = (opts && opts.count) || 10;
+    for (let i = 0; i < n; i++) {
+      const a = (360 / n) * i + Math.random() * 20;
+      host.append(h('i', { style: '--a:' + a + 'deg;--d:' + (26 + Math.random() * 22) + 'px;--h:' + (i % 4) }));
+    }
+    el.style.position = el.style.position || 'relative';
+    el.append(host);
+    setTimeout(() => host.remove(), 1000);
+  }
+
   function continueBtn(ctx, label, item) {
     const b = h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, label || 'Continue');
     return h('div', { class: 'actions' }, b, item ? teachLink(ctx, item) : null);
@@ -314,7 +341,7 @@
         const f = wordsFoundLine(res, w.id);
         if (f) rb.prepend(f);
       }
-      put(root, rb, nowAfter(ctx, item), continueBtn(ctx, null, item));
+      put(root, rb, nowAfter(ctx, item), feedbackBar(ctx, item, !!res.correct));
       focusFirst(root, '.actions button');
     }
     root._onKey = (e) => {
@@ -702,6 +729,7 @@
       const label = res.correct ? 'In order' : 'Chronological order';
       actions.before(revealBlock(label, enc.reveal));
       actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'));
+      markOutcome(actions, !!res.correct);
       focusFirst(actions, 'button');
     }
     root._onKey = (e) => {
@@ -823,6 +851,7 @@
       root.querySelector('.hint').remove();
       actions.before(revealBlock(res.correct ? 'All matched' : null, enc.reveal));
       actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'));
+      markOutcome(actions, !!res.correct);
       focusFirst(actions, 'button');
     }
     selected = 0;
@@ -878,7 +907,7 @@
         const f = wordsFoundLine(res, w.id);
         if (f) rb.prepend(f);
       }
-      put(root, rb, nowAfter(ctx, item), continueBtn(ctx, null, item));
+      put(root, rb, nowAfter(ctx, item), feedbackBar(ctx, item, !!res.correct));
       focusFirst(root, '.actions button');
     }
     root._onKey = (e) => {
@@ -941,6 +970,7 @@
       const after = nowAfter(ctx, item);
       if (after) actions.before(after);
       actions.replaceChildren(h('button', { class: 'btn btn--primary', onclick: () => ctx.next() }, 'Continue'), teachLink(ctx, item));
+      markOutcome(actions, !!res.correct);
       focusFirst(actions, 'button');
     }
     draw();
@@ -1099,5 +1129,5 @@
     return fn(item, ctx);
   }
 
-  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock, firstSentence, nowBlock, teachBack, growthBlock };
+  BF.ui = { h, paras, render, MODE_LABEL, quoteBlock, firstSentence, nowBlock, teachBack, growthBlock, burst };
 })((globalThis.BF = globalThis.BF || {}));
